@@ -52,14 +52,14 @@ function usc_localist_fwp_events_shortcode( $params ) {
 	);
 
 	// get the matching api options by get type_url_form_file()
-	$parameters_string = parameters_as_string($api_attr, $api_type);
+	$parameters_string = usc_localist_fwp_parameters_as_string($api_attr, $api_type);
 
 	if ( !empty( $parameters_string ) ) {
 		$json_url['options'] = $parameters_string;
 	}
 
 	// get the json data
-	$json_data = get_json($json_url);
+	$json_data = usc_localist_fwp_get_json($json_url);
 
 	// check if we have json data
 	if ( $json_data ) {
@@ -71,15 +71,15 @@ function usc_localist_fwp_events_shortcode( $params ) {
 
 			// TODO: function for looping through json data
 
-		} else if ( $json_data != null || $json_data != '' ) {
+		} else if ( is_string( $json_data ) && '' != $json_data ) {
 
 			// output any error messages
-			echo $json_data;
+			return __( $json_data, 'usc-localist-for-wordpress');
 
 		} else {
 
 			// output message that something needs to be addressed
-			_e('Ninja wildebeests have sprung into action. Please contact plugin development team.','textdomain');
+			return __('Ninja wildebeests have sprung into action. Please contact plugin development team.','textdomain');
 		}
 	}
 }

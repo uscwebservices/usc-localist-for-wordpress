@@ -19,7 +19,7 @@
  * @param 	timeout number 	the timeout (in seconds) for waiting for the return
  * @return 	json 	array 	the json results 	
  */
-function get_json( $params ) {
+function usc_localist_fwp_get_json( $params ) {
 
 	global $wp_version, $localist_config;
 	
@@ -138,7 +138,7 @@ function get_json( $params ) {
  * @param 	array 	params 		The array of parameters to return
  * @return 	string 				Parameters constructed in 
  */
-function parameters_as_string( $params, $api_type = 'all' ) {
+function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 
 	// get the global config settings
 	global $localist_config;
@@ -148,9 +148,6 @@ function parameters_as_string( $params, $api_type = 'all' ) {
 
 	// get the allowed array types
 	$allowed = $localist_config['api_options'][$api_type]['allowed_array'];
-
-	var_dump($api_type);
-	var_dump($allowed);
 
 	// set the default string constructor
 	$string = array();
