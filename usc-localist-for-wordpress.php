@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) or die( 'sorry, no tampering' );
 define( 'USC_LOCALIST_FWP__VERSION', '0.2.2' );
 define( 'USC_LOCALIST_FWP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
+require_once( USC_LOCALIST_FWP__PLUGIN_DIR . 'inc/config.php' );
 require_once( USC_LOCALIST_FWP__PLUGIN_DIR . 'inc/functions.php' );
 require_once( USC_LOCALIST_FWP__PLUGIN_DIR . 'admin/admin.php' );
 require_once( USC_LOCALIST_FWP__PLUGIN_DIR . 'widgets/widget.localist.php' );
