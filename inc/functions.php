@@ -17,7 +17,7 @@
  * @param 	string 	type 	the type of data to get [events]
  * @param 	string 	options the options to attach to narrow results
  * @param 	timeout number 	the timeout (in seconds) for waiting for the return
- * @return 	json 	object 	the json results 	
+ * @return 	json 	array 	the json results 	
  */
 function get_json( $params ) {
 
@@ -73,6 +73,8 @@ function get_json( $params ) {
 		
 		// encode the json data and set to TRUE for array
 		$json_data = json_decode($response['body'], TRUE);
+
+		// function to get the json data from the server - store as transient
 
 		return $json_data;
 
