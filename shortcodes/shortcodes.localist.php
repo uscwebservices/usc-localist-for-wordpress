@@ -58,20 +58,18 @@ function usc_localist_fwp_events_shortcode( $params ) {
 		$json_url['options'] = $parameters_string;
 	}
 
-	//var_dump( $parameters_string );
-
-	// return values as $p['name']
-
-	// function to get the json data from the server - store as transient
-
-	//var_dump($json_url);
+	// get the json data
 	$json_data = get_json($json_url);
 
+	// check if we have json data
 	if ( $json_data ) {
 		
-		
-		// TODO: function for looping through json data
+		// check if we have an array
 		if ( is_array( $json_data ) ) {
+
+			// we have json array data
+
+			// TODO: function for looping through json data
 
 		} else if ( $json_data != null || $json_data != '' ) {
 
