@@ -124,6 +124,38 @@ function usc_localist_fwp_get_json( $params ) {
  */
 
 
+
+/**
+ * Is Allowed Array
+ * ================
+ * 
+ * Check if the [value] passed matches one of the allowed items in the [params].
+ * 
+ * @param 	string 	value 	Value to check against the array of [params]
+ * @param 	array 	params 	Array of allowed values
+ * @return 	boolean
+ */
+function usc_localist_fwp_is_allowed_array( $keyword, $params ) {
+
+	// set the default test to false
+	$is_allowed = false;
+
+	foreach ( $params as $key => $value ) {
+
+		// if the value matches the keyword, pass
+		if ( $value == $keyword ) {
+			
+			$is_allowed = true;
+
+		}
+	}
+
+	return $is_allowed;
+
+}
+
+
+
 /**
  * Parameters as String
  * ====================
