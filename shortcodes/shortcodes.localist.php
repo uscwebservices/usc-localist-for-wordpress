@@ -25,11 +25,11 @@ function usc_localist_fwp_events_shortcode( $params ) {
 		$pagination_name = $localist_config['url']['variables']['pagination'];
 
 		// get pagination from url
-		$page = filter_input(INPUT_GET, $pagination_name, FILTER_SANITIZE_NUMBER_INT);
+		$page = filter_input( INPUT_GET, $pagination_name, FILTER_SANITIZE_NUMBER_INT );
 
 	
 	// get all api options
-	$attr_all = shortcode_atts($localist_config['api_options']['all']['allowed'], $params, 'localist-calendar');
+	$attr_all = shortcode_atts( $localist_config['api_options']['all']['allowed'], $params, 'localist-calendar' );
 
 	// store the api type as a variable
 	$api_type = $attr_all['get'];
@@ -52,14 +52,14 @@ function usc_localist_fwp_events_shortcode( $params ) {
 	);
 
 	// get the matching api options by get type_url_form_file()
-	$parameters_string = usc_localist_fwp_parameters_as_string($api_attr, $api_type);
+	$parameters_string = usc_localist_fwp_parameters_as_string( $api_attr, $api_type );
 
 	if ( !empty( $parameters_string ) ) {
 		$json_url['options'] = $parameters_string;
 	}
 
 	// get the json data
-	$json_data = usc_localist_fwp_get_json($json_url);
+	$json_data = usc_localist_fwp_get_json( $json_url );
 
 	// check if we have json data
 	if ( $json_data ) {
@@ -79,7 +79,7 @@ function usc_localist_fwp_events_shortcode( $params ) {
 		} else {
 
 			// output message that something needs to be addressed
-			return __('Ninja wildebeests have sprung into action. Please contact plugin development team.','textdomain');
+			return __( 'Ninja wildebeests have sprung into action. Please contact plugin development team.','textdomain' );
 		}
 	}
 }

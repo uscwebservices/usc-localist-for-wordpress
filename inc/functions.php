@@ -24,11 +24,11 @@ function usc_localist_fwp_get_json( $params ) {
 	global $wp_version, $localist_config;
 	
 	// default parameters
-	$api_base_url 		= isset($params['url']) ? $params['url'] : $localist_config['url']['base'];
-	$api_type 			= isset($params['type']) ? $params['type'] : '';
-	$api_options 		= isset($params['options']) ? '?' . $params['options'] : '';
-	$api_page_number	= isset($params['page_number']) ? '?' . $params['page_number'] : '';
-	$timeout			= isset($params['timeout']) ? $params['timeout'] : 5;
+	$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $localist_config['url']['base'];
+	$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
+	$api_options 		= isset ( $params['options'] ) ? '?' . $params['options'] : '';
+	$api_page_number	= isset ( $params['page_number'] ) ? '?' . $params['page_number'] : '';
+	$timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : 5;
 	
 	// set the default arguments
 	$args = array(
@@ -72,7 +72,7 @@ function usc_localist_fwp_get_json( $params ) {
 		// no errors so let's return the data!
 		
 		// encode the json data and set to TRUE for array
-		$json_data = json_decode($response['body'], TRUE);
+		$json_data = json_decode( $response['body'], TRUE );
 
 		// function to get the json data from the server - store as transient
 
@@ -154,7 +154,7 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 
 
 	// if we do not have an array, end the process
-	if ( !is_array($params) ) {
+	if ( !is_array ( $params ) ) {
 
 		return false;
 
@@ -164,26 +164,26 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 		foreach ( $params as $key => $value ) {
 				
 			// check that we have a valid value that isn't null, blank, or empty array
-			if ( $value !== null && $value !== '' &! empty($value) ) {
+			if ( $value !== null && $value !== '' &! empty( $value ) ) {
 				
 				// convert comma delimited values to array
-				$value = explode(',',$value);
+				$value = explode( ',', $value );
 
 				// if the $value is an array
-				if( is_array( $value ) ) {
+				if ( is_array( $value ) ) {
 					
 					// loop through sub values
-					foreach($value as $sub_value) {
+					foreach ( $value as $sub_value ) {
 						
 						// add the key values as multiple array items
-						$string[] .= urlencode($key) . '[]=' . urlencode($sub_value);
+						$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
 
 					}
 
 				} else {
 					
 					// add single key values
-					$string[] .= urlencode($key) . '=' . urlencode($value);
+					$string[] .= urlencode( $key ) . '=' . urlencode( $value );
 
 				}
 
@@ -194,7 +194,7 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 		if ( !empty( $string ) ) {
 
 			// if not, build the query string
-			return join('&', $string);
+			return join( '&', $string );
 
 		} else {
 			
