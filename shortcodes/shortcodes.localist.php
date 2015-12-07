@@ -24,7 +24,7 @@ function usc_localist_fwp_events_shortcode( $params ) {
 	// default setting for error checking
 	$errors = $json_data = false;
 
-	// get api type
+	// get api type from shortcode attribute
 
 		// get all api options
 		$attr_all = shortcode_atts( $localist_config['api_options']['all']['allowed'], $params, 'localist-calendar' );
@@ -54,14 +54,13 @@ function usc_localist_fwp_events_shortcode( $params ) {
 
 		// get the matching api options by get type_url_form_file()
 		$parameters_string = usc_localist_fwp_parameters_as_string( $api_attr, $api_type );
-	
-	// error processing
 
 		// if we have any error messages
-		if ( !empty($parameters_string['message']) ) {
+		if ( !empty($parameters_string['errors']) ) {
 			
+			// there are errors
 			$errors = true;
-			return __($parameters_string['message'], 'usc-localist-for-wordpress');
+			return __($parameters_string['errors'], 'usc-localist-for-wordpress');
 
 		} else {
 
@@ -70,35 +69,32 @@ function usc_localist_fwp_events_shortcode( $params ) {
 
 		}
 
-		// get the json data if no errors are present
-		if ( !$errors ) {
+	// get the json data if no errors are present
+	if ( !$errors ) {
 
-			$json_data = usc_localist_fwp_get_json( $json_url );
+		$json_data = usc_localist_fwp_get_json( $json_url );
 
-		}
+	}
 
 	// perform the api call
 
 		// check if we have json data
-		if ( !empty( $json_data ) ) {
+		if ( !$json_data['errors'] ) {
 			
 			// check if we have an array
-			if ( is_array( $json_data ) ) {
+			if ( $json_data['results'] ) {
 				
 				// we have json array data
 
 				// TODO: function for looping through json data
 
-			} else if ( is_string( $json_data ) && '' != $json_data ) {
 
-				// output any error messages
-				return __( $json_data, 'usc-localist-for-wordpress');
+			} 
 
-			} else {
+		} else {
 
-				// output message that something was untested and needs to be addressed
-				return __( 'Ninja wildebeests have sprung into action. Please contact plugin development team.','textdomain' );
-			}
+			return $json_data['errors'];
+
 		}
 }
 
