@@ -59,10 +59,10 @@ $localist_config = array(
 				'include_attendees' => ''
 			),
 			'allowed_array' => array(
-				'type' => '',
-				'keyword' => '',
-				'group_id' => '',
-				'exclude_type' => '',
+				'type',
+				'keyword',
+				'group_id',
+				'exclude_type'
 			)
 		),
 		'organization' => array(
@@ -116,10 +116,10 @@ $localist_config = array(
 				'sort' => ''
 			),
 			'allowed_array' => array(
-				'type' => '',
-				'keyword' => '',
-				'group_id' => '',
-				'exclude_type' => '',
+				'type',
+				'keyword',
+				'group_id',
+				'exclude_type'
 			)
 		),
 		'event' => array(
