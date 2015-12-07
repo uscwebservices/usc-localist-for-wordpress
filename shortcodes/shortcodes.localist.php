@@ -96,7 +96,7 @@ function usc_localist_fwp_events_shortcode( $params ) {
 
 			} else {
 
-				// output message that something needs to be addressed
+				// output message that something was untested and needs to be addressed
 				return __( 'Ninja wildebeests have sprung into action. Please contact plugin development team.','textdomain' );
 			}
 		}

@@ -126,6 +126,7 @@ function usc_localist_fwp_get_json( $params ) {
 
 
 
+
 /**
  * Parameters as String
  * ====================
@@ -174,7 +175,7 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 					if ( !in_array( $key, $allowed_array ) ) {
 
 						// let the user know they are attempting an array where one is not allowed
-						$message[] = 'The "'. $key . '" parameter does not allow multiple values.';
+						$message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
 
 					} else {
 
