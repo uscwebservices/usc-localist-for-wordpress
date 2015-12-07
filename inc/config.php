@@ -63,7 +63,28 @@ $localist_config = array(
 				'keyword' => '',
 				'group_id' => '',
 				'exclude_type' => '',
-			)
+			),
+			'validation' => array(
+				'numbers' => array(
+					'page' => '',
+					'pp' => '',
+					'campus_id' => '',
+					'group_id' => '',
+					'venue_id' => '',
+					'within' => '',
+					'days' => '',
+					'exclude_type' => '',
+					'type' => '',
+					'event_instances_id' => ''
+				),
+				'dates' => array(
+					'end' => '',
+					'start' => '',
+					'created_after' => '',
+					'created_before' => '',
+					'dates' => ''
+				),
+			),
 		),
 		'organization' => array(
 			'allowed' => array(
