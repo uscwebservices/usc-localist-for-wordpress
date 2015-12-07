@@ -30,8 +30,8 @@ function usc_localist_fwp_get_json( $params ) {
 	// default parameters
 	$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $localist_config['url']['base'];
 	$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
-	$api_options 		= isset ( $params['options'] ) ? '?' . $params['options'] : '';
-	$api_page_number	= isset ( $params['page_number'] ) ? '?' . $params['page_number'] : '';
+	$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
+	$api_page_number	= isset ( $params['page_number'] ) ? $params['page_number'] : '';
 	$timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : 5;
 	
 	// set the default arguments
@@ -50,9 +50,9 @@ function usc_localist_fwp_get_json( $params ) {
 	    'stream'		=> false,
 	    'filename'		=> null
     );
-
+	
 	// set var for constructed api url
-	$api_url = $api_base_url . $api_type . $api_options;
+	$api_url = $api_base_url . $api_type . $api_options . $api_page_number;
 
 	var_dump($api_url);
 
