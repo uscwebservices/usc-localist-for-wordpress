@@ -24,6 +24,9 @@ function usc_localist_fwp_get_json( $params ) {
 
 	global $wp_version, $localist_config;
 	
+	// default variables
+	$output = $error_message = array();
+
 	// default parameters
 	$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $localist_config['url']['base'];
 	$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
@@ -51,6 +54,8 @@ function usc_localist_fwp_get_json( $params ) {
 	// set var for constructed api url
 	$api_url = $api_base_url . $api_type . $api_options;
 
+	var_dump($api_url);
+
 	// get the remote data
 	$response = wp_safe_remote_get( $api_url, $args );
 
@@ -58,7 +63,7 @@ function usc_localist_fwp_get_json( $params ) {
 	if ( is_wp_error( $response ) ) {
 
 		// return WP error messages
-		return '<div class="error-code">' . __('WP Error: ', 'textdomain') . $response->get_error_message() . '</div>';
+		$error_message[] = __('WP Error: ', 'textdomain') . $response->get_error_message();
 
 	}
 
@@ -66,63 +71,26 @@ function usc_localist_fwp_get_json( $params ) {
 	if ( $response['response']['code'] >= 400 ) {
 
 		// return the error response code and message
-		return '<div class="error-code"><p>' . __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'] . '</p></div>';
+		$error_message[] = __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'];
 
 	} else {
 
 		// no errors so let's return the data!
 		
 		// encode the json data and set to TRUE for array
-		$json_data = json_decode( $response['body'], TRUE );
+		$output['results'] = json_decode( $response['body'], TRUE );
 
 		// function to get the json data from the server - store as transient
 
-		return $json_data;
-
 	}
 
+	// combine any errors and set a message value
+	$output['errors'] = join( '<br>', $error_message );
+
+
+	return $output;
+
 }
-
-
-
-/**
- * API Get Type
- * ============
- * 
- * /organizations
- * /organizations/ORGANIZATION_ID
- * /organizations/ORGANIZATION_ID/communities
- * /organizations/ORGANIZATION_ID/communities/COMMUNITY_ID
- * /events
- * /events/search
- * /events/EVENT_ID
- * /events/EVENT_ID/activity
- * /events/EVENT_ID/attendees
- * /events/EVENT_ID/attendance
- * /events/filters
- * /events/labels
- * /places
- * /places/search
- * /places/PLACE_ID
- * /places/filters
- * /places/labels
- * /groups
- * /groups/GROUP_ID
- * /groups/filters
- * /groups/labels
- * /departments
- * /departments/DEPARTMENT_ID
- * /departments/filters
- * /departments/labels
- * /photos
- * /photo/PHOTO_ID
- * 
- * Returns they url parameters for the GET type.
- * 
- * @param 	string 	type 		Type of API data to retrieve [events,search,organization,communities]
- * @param 	int 	id 			Pass the ID of the specific item
- * @param 	int 	parent_id 	Pass the ID of the parent item. Valid only for [organization,communities]
- */
 
 
 
@@ -150,7 +118,7 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 	$allowed_array = $localist_config['api_options'][$api_type]['allowed_array'];
 
 	// set the default output, message and string constructor
-	$output = $string = $message = array();
+	$output = $string = $error_message = array();
 
 	// if we do not have an array, end the process
 	if ( !is_array ( $params ) ) {
@@ -175,7 +143,7 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 					if ( !in_array( $key, $allowed_array ) ) {
 
 						// let the user know they are attempting an array where one is not allowed
-						$message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
+						$error_message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
 
 					} else {
 
@@ -199,7 +167,7 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 		}
 		
 		// combine any errors and set a message value
-		$output['message'] = join( '<br>', $message );
+		$output['errors'] = join( '<br>', $error_message );
 
 		// combine any strings and set a url string value
 		$output['parameters'] = join( '&', $string );
