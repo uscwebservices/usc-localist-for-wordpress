@@ -145,8 +145,6 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 	// get the global config settings
 	global $localist_config;
 
-	var_dump($api_type);
-
 	// get the allowed array values for the api type
 	$allowed_array = $localist_config['api_options'][$api_type]['allowed_array'];
 
@@ -203,7 +201,7 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 		$output['message'] = join( '<br>', $message );
 
 		// combine any strings and set a url string value
-		$output['url_string'] = join( '&', $string );
+		$output['parameters'] = join( '&', $string );
 		
 
 		// return the output
