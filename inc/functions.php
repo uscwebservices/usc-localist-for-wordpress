@@ -14,6 +14,7 @@
  * 
  * @since 1.0.0
  * 
+ * @param 	array 	params 	the options for the function [url, type, options, page_number, timeout]
  * @param 	string 	type 	the type of data to get [events]
  * @param 	string 	options the options to attach to narrow results
  * @param 	timeout number 	the timeout (in seconds) for waiting for the return
@@ -126,37 +127,6 @@ function usc_localist_fwp_get_json( $params ) {
 
 
 /**
- * Is Allowed Array
- * ================
- * 
- * Check if the [value] passed matches one of the allowed items in the [params].
- * 
- * @param 	string 	value 	Value to check against the array of [params]
- * @param 	array 	params 	Array of allowed values
- * @return 	boolean
- */
-function usc_localist_fwp_is_allowed_array( $keyword, $params ) {
-
-	// set the default test to false
-	$is_allowed = false;
-
-	foreach ( $params as $key => $value ) {
-
-		// if the value matches the keyword, pass
-		if ( $value == $keyword ) {
-			
-			$is_allowed = true;
-
-		}
-	}
-
-	return $is_allowed;
-
-}
-
-
-
-/**
  * Parameters as String
  * ====================
  * 
@@ -168,72 +138,76 @@ function usc_localist_fwp_is_allowed_array( $keyword, $params ) {
  * 								[organizations, communities, events, places, departments, photos] 
  * 								[default: events]
  * @param 	array 	params 		The array of parameters to return
- * @return 	string 				Parameters constructed in 
+ * @return 	array 				
  */
 function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 
 	// get the global config settings
 	global $localist_config;
 
-	// get the base url of the api
-	$base = $localist_config['url']['base'];
+	var_dump($api_type);
 
-	// get the allowed array types
-	$allowed = $localist_config['api_options'][$api_type]['allowed_array'];
+	// get the allowed array values for the api type
+	$allowed_array = $localist_config['api_options'][$api_type]['allowed_array'];
 
-	// set the default string constructor
-	$string = array();
-
+	// set the default output, message and string constructor
+	$output = $string = $message = array();
 
 	// if we do not have an array, end the process
 	if ( !is_array ( $params ) ) {
-
+		
 		return false;
 
 	} else {
 		
 		// loop through the parameters
 		foreach ( $params as $key => $value ) {
-				
+			
 			// check that we have a valid value that isn't null, blank, or empty array
 			if ( $value !== null && $value !== '' &! empty( $value ) ) {
 				
-				// convert comma delimited values to array
+				// convert any comma delimited $value to an array
 				$value = explode( ',', $value );
 
 				// if the $value is an array
 				if ( is_array( $value ) ) {
 					
-					// loop through sub values
-					foreach ( $value as $sub_value ) {
-						
-						// add the key values as multiple array items
-						$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
+					// check that the $value is allowed as an array
+					if ( !in_array( $key, $allowed_array ) ) {
 
+						// let the user know they are attempting an array where one is not allowed
+						$message[] = 'The "'. $key . '" parameter does not allow multiple values.';
+
+					} else {
+
+						// loop through sub values
+						foreach ( $value as $sub_value ) {
+							
+							// add multiple values as 'key[]=sub_value'
+							$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
+
+						}
 					}
 
 				} else {
 					
-					// add single key values
+					// add single key values as 'key=value'
 					$string[] .= urlencode( $key ) . '=' . urlencode( $value );
 
 				}
 
 			}
 		}
+		
+		// combine any errors and set a message value
+		$output['message'] = join( '<br>', $message );
 
-		// check if the $string array is not empty
-		if ( !empty( $string ) ) {
+		// combine any strings and set a url string value
+		$output['url_string'] = join( '&', $string );
+		
 
-			// if not, build the query string
-			return join( '&', $string );
-
-		} else {
-			
-			// else just return the $base
-			return false;
-
-		}
+		// return the output
+		return $output;
 
 	}
 
