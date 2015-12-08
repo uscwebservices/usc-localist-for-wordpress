@@ -16,7 +16,7 @@ class USC_Localist_for_WordPress extends WP_Widget {
 	 */
 	function __construct() {
 		parent::__construct(
-			'usc_localist_fwp_widget', // Base ID
+			'usc_lfwp_widget', // Base ID
 			__( 'USC Localist for WordPress', 'usc-localist-for-wordpress' ), // Name
 			array( 'description' => __( 'USC Localist for WordPress', 'usc-localist-for-wordpress' ), ) // Args
 		);
@@ -37,12 +37,12 @@ class USC_Localist_for_WordPress extends WP_Widget {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
 		}
 		
-		if ( ! empty( $instance['usc_localist_fwp_view_more_checkbox'] )  ) {
-			if ( ! empty( $instance['usc_localist_fwp_view_more_url'] ) ) {
-				echo '<a class="view-more-events" href="' . $instance['usc_localist_fwp_view_more_url'] . '">';
+		if ( ! empty( $instance['usc_lfwp_view_more_checkbox'] )  ) {
+			if ( ! empty( $instance['usc_lfwp_view_more_url'] ) ) {
+				echo '<a class="view-more-events" href="' . $instance['usc_lfwp_view_more_url'] . '">';
 				
-				if ( ! empty( $instance['usc_localist_fwp_view_more_label'] ) ) {
-					echo $instance['usc_localist_fwp_view_more_label'];
+				if ( ! empty( $instance['usc_lfwp_view_more_label'] ) ) {
+					echo $instance['usc_lfwp_view_more_label'];
 				} else {
 					echo __('View More', 'usc-localist-for-wordpress');
 				}
@@ -104,9 +104,9 @@ class USC_Localist_for_WordPress extends WP_Widget {
 			 */
 			
 			$view_more_checkbox_label = 'Display View More Link?';
-			$view_more_checkbox_value = ! empty( $instance['usc_localist_fwp_view_more_checkbox'] ) ? $instance['usc_localist_fwp_view_more_checkbox'] : '';
-			$view_more_checkbox_id = $this->get_field_id( 'usc_localist_fwp_view_more_checkbox' );
-			$view_more_checkbox_name = $this->get_field_name( 'usc_localist_fwp_view_more_checkbox' );
+			$view_more_checkbox_value = ! empty( $instance['usc_lfwp_view_more_checkbox'] ) ? $instance['usc_lfwp_view_more_checkbox'] : '';
+			$view_more_checkbox_id = $this->get_field_id( 'usc_lfwp_view_more_checkbox' );
+			$view_more_checkbox_name = $this->get_field_name( 'usc_lfwp_view_more_checkbox' );
 		?>
 			<p>
 				<input class="checkbox" type="checkbox" <?php checked( '1', $view_more_checkbox_value ); ?> id="<?php echo $view_more_checkbox_id ?>" name="<?php echo $view_more_checkbox_name; ?>" value="1" /> 
@@ -121,9 +121,9 @@ class USC_Localist_for_WordPress extends WP_Widget {
 			 */
 			
 			$view_more_text_label = 'View More Text:';
-			$view_more_text_value = ! empty( $instance['usc_localist_fwp_view_more_label'] ) ? $instance['usc_localist_fwp_view_more_label'] : __( 'View More Events', 'usc-localist-for-wordpress' );
-			$view_more_text_id = $this->get_field_id( 'usc_localist_fwp_view_more_label' );
-			$view_more_text_name = $this->get_field_name( 'usc_localist_fwp_view_more_label' );
+			$view_more_text_value = ! empty( $instance['usc_lfwp_view_more_label'] ) ? $instance['usc_lfwp_view_more_label'] : __( 'View More Events', 'usc-localist-for-wordpress' );
+			$view_more_text_id = $this->get_field_id( 'usc_lfwp_view_more_label' );
+			$view_more_text_name = $this->get_field_name( 'usc_lfwp_view_more_label' );
 		?>
 			<p>
 				<label for="<?php echo $view_more_text_id ?>"><?php _e( $view_more_text_label ); ?></label>
@@ -138,9 +138,9 @@ class USC_Localist_for_WordPress extends WP_Widget {
 			 */
 			
 			$view_more_link_label = 'View More URL:';
-			$view_more_link_value = ! empty( $instance['usc_localist_fwp_view_more_url'] ) ? $instance['usc_localist_fwp_view_more_url'] : __( '', 'usc-localist-for-wordpress' );
-			$view_more_link_id = $this->get_field_id( 'usc_localist_fwp_view_more_url' );
-			$view_more_link_name = $this->get_field_name( 'usc_localist_fwp_view_more_url' );
+			$view_more_link_value = ! empty( $instance['usc_lfwp_view_more_url'] ) ? $instance['usc_lfwp_view_more_url'] : __( '', 'usc-localist-for-wordpress' );
+			$view_more_link_id = $this->get_field_id( 'usc_lfwp_view_more_url' );
+			$view_more_link_name = $this->get_field_name( 'usc_lfwp_view_more_url' );
 		?>
 			<p>
 				<label for="<?php echo $view_more_link_id ?>"><?php _e( $view_more_link_label ); ?></label>
@@ -168,10 +168,10 @@ class USC_Localist_for_WordPress extends WP_Widget {
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
 		
 		// link
-		$instance['usc_localist_fwp_view_more_checkbox'] = strip_tags($new_instance['usc_localist_fwp_view_more_checkbox']);
+		$instance['usc_lfwp_view_more_checkbox'] = strip_tags($new_instance['usc_lfwp_view_more_checkbox']);
 		
-		$instance['usc_localist_fwp_view_more_label'] = ( ! empty( $new_instance['usc_localist_fwp_view_more_label'] ) ) ? strip_tags( $new_instance['usc_localist_fwp_view_more_label'] ) : '';
-		$instance['usc_localist_fwp_view_more_url'] = ( ! empty( $new_instance['usc_localist_fwp_view_more_url'] ) ) ? strip_tags( esc_url( $new_instance['usc_localist_fwp_view_more_url'] ) ) : '';
+		$instance['usc_lfwp_view_more_label'] = ( ! empty( $new_instance['usc_lfwp_view_more_label'] ) ) ? strip_tags( $new_instance['usc_lfwp_view_more_label'] ) : '';
+		$instance['usc_lfwp_view_more_url'] = ( ! empty( $new_instance['usc_lfwp_view_more_url'] ) ) ? strip_tags( esc_url( $new_instance['usc_lfwp_view_more_url'] ) ) : '';
 
 		return $instance;
 	}

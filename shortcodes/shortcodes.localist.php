@@ -16,7 +16,7 @@
  * 
  * usage: [localist-events {option=value}]
  */
-function usc_localist_fwp_events_shortcode( $params ) {
+function usc_lfwp_events_shortcode( $params ) {
 	
 	// get the global configuration
 	global $localist_config;
@@ -53,7 +53,7 @@ function usc_localist_fwp_events_shortcode( $params ) {
 	// build the api url string for any options
 
 		// get the matching api options by get type_url_form_file()
-		$parameters_string = usc_localist_fwp_parameters_as_string( $api_attr, $api_type );
+		$parameters_string = usc_lfwp_parameters_as_string( $api_attr, $api_type );
 
 		// if we have any error messages
 		if ( !empty($parameters_string['errors']) ) {
@@ -72,7 +72,7 @@ function usc_localist_fwp_events_shortcode( $params ) {
 	// get the json data if no errors are present
 	if ( !$errors ) {
 
-		$json_data = usc_localist_fwp_get_json( $json_url );
+		$json_data = usc_lfwp_get_json( $json_url );
 
 	}
 
@@ -99,6 +99,6 @@ function usc_localist_fwp_events_shortcode( $params ) {
 }
 
 // add the shortcode function
-add_shortcode( 'localist-calendar', 'usc_localist_fwp_events_shortcode' );
+add_shortcode( 'localist-calendar', 'usc_lfwp_events_shortcode' );
 
 ?>

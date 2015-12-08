@@ -20,7 +20,7 @@
  * @param 	timeout number 	the timeout (in seconds) for waiting for the return
  * @return 	json 	array 	the json results 	
  */
-function usc_localist_fwp_get_json( $params ) {
+function usc_lfwp_get_json( $params ) {
 
 	global $wp_version, $localist_config;
 	
@@ -97,7 +97,7 @@ function usc_localist_fwp_get_json( $params ) {
 /**
  * Is Date
  */
-function usc_localist_fwp_validate_date($date, $format = 'Y-m-d') {
+function usc_lfwp_validate_date($date, $format = 'Y-m-d') {
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) == $date;
 }
@@ -106,7 +106,7 @@ function usc_localist_fwp_validate_date($date, $format = 'Y-m-d') {
 /**
  * Fix Date
  */
-function usc_localist_fwp_fix_date($date) {
+function usc_lfwp_fix_date( $date ) {
 	$d = date('Y-m-d',strtotime($date));
 	return $d;
 }
@@ -116,7 +116,7 @@ function usc_localist_fwp_fix_date($date) {
 /**
  * Validate Value
  */
-function usc_localist_fwp_validate_key( $key ) {
+function usc_lfwp_validate_key( $key ) {
 
 	global $localist_config;
 
@@ -127,20 +127,30 @@ function usc_localist_fwp_validate_key( $key ) {
 
 	if ( in_array( $key, $date_array ) ) {
 
-		if ( usc_localist_fwp_validate_date( $key ) ) {
+		if ( usc_lfwp_validate_date( $key ) ) {
+			
 			return $key;
+		
 		} else {
-			return usc_localist_fwp_fix_date( $date );
+			
+			return usc_lfwp_fix_date( $date );
 		}
-	}
 
-	if ( in_array( $key, $number_array ) ) {
+	} else if ( in_array( $key, $number_array ) ) {
 
 		if ( is_numeric( $key ) ) {
+			
 			return $key;
+		
 		} else {
-			$error_message[] = $key . ' must be in numeric format.';
+			
+			return false;
 		}
+
+	} else {
+		
+		return $key;
+	
 	}
 
 }
@@ -162,7 +172,7 @@ function usc_localist_fwp_validate_key( $key ) {
  * @param 	array 	params 		The array of parameters to return
  * @return 	array 				
  */
-function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
+function usc_lfwp_parameters_as_string( $params, $api_type = 'all' ) {
 
 	// get the global config settings
 	global $localist_config;
@@ -183,6 +193,7 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 		// loop through the parameters
 		foreach ( $params as $key => $value ) {
 			
+			//echo 'key: ' . $key . ' value: ' . $value . '<br>';
 			// check that we have a valid value that isn't null, blank, or empty array
 			if ( $value !== null && $value !== '' &! empty( $value ) ) {
 				
@@ -190,16 +201,17 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 				$value = explode( ',', $value );
 
 				// if the $value is an array
-				if ( is_array( $value ) ) {
+				if ( count( $value ) > 1 ) {
 					
 					// check that the $value is allowed as an array
 					if ( !in_array( $key, $allowed_array ) ) {
-
+						
 						// let the user know they are attempting an array where one is not allowed
 						$error_message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
 
 					} else {
 
+						echo 'key: ' . $key . '<br>';
 						// loop through sub values
 						foreach ( $value as $sub_value ) {
 							
@@ -212,7 +224,7 @@ function usc_localist_fwp_parameters_as_string( $params, $api_type = 'all' ) {
 				} else {
 					
 					// add single key values as 'key=value'
-					$string[] .= urlencode( $key ) . '=' . urlencode( $value );
+					$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
 
 				}
 
