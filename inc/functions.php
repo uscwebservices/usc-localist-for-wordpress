@@ -88,8 +88,6 @@ function usc_localist_fwp_get_json( $params ) {
 	// combine any errors and set a message value
 	$output['errors'] = join( '<br>', $error_message );
 
-	var_dump($output);
-
 	return $output;
 
 }
@@ -109,13 +107,43 @@ function usc_localist_fwp_validate_date($date, $format = 'Y-m-d') {
  * Fix Date
  */
 function usc_localist_fwp_fix_date($date) {
-	$dt = date('Y-m-d',strtotime($date));
-	return $dt;
+	$d = date('Y-m-d',strtotime($date));
+	return $d;
 }
 
 
 
+/**
+ * Validate Value
+ */
+function usc_localist_fwp_validate_key( $key ) {
 
+	global $localist_config;
+
+	$error_message = array();
+
+	$date_array = $localist_config['api_options']['validation']['dates'];
+	$number_array = $localist_config['api_options']['validation']['numbers'];
+
+	if ( in_array( $key, $date_array ) ) {
+
+		if ( usc_localist_fwp_validate_date( $key ) ) {
+			return $key;
+		} else {
+			return usc_localist_fwp_fix_date( $date );
+		}
+	}
+
+	if ( in_array( $key, $number_array ) ) {
+
+		if ( is_numeric( $key ) ) {
+			return $key;
+		} else {
+			$error_message[] = $key . ' must be in numeric format.';
+		}
+	}
+
+}
 
 
 
