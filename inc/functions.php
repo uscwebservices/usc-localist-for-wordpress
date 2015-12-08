@@ -50,11 +50,12 @@ function usc_localist_fwp_get_json( $params ) {
 	    'stream'		=> false,
 	    'filename'		=> null
     );
-	
+
 	// set var for constructed api url
 	$api_url = $api_base_url . $api_type . $api_options . $api_page_number;
 
-	var_dump($api_url);
+	// local testing only
+	$api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
 
 	// get the remote data
 	$response = wp_safe_remote_get( $api_url, $args );
@@ -87,10 +88,34 @@ function usc_localist_fwp_get_json( $params ) {
 	// combine any errors and set a message value
 	$output['errors'] = join( '<br>', $error_message );
 
+	var_dump($output);
 
 	return $output;
 
 }
+
+
+
+/**
+ * Is Date
+ */
+function usc_localist_fwp_validate_date($date, $format = 'Y-m-d') {
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
+
+
+/**
+ * Fix Date
+ */
+function usc_localist_fwp_fix_date($date) {
+	$dt = date('Y-m-d',strtotime($date));
+	return $dt;
+}
+
+
+
+
 
 
 
