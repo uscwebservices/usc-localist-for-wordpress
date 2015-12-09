@@ -59,30 +59,30 @@ $localist_config = array(
 				'include_attendees' => ''
 			),
 			'allowed_array' => array(
-				'type' => '',
-				'keyword' => '',
-				'group_id' => '',
-				'exclude_type' => '',
+				'type',
+				'keyword',
+				'group_id',
+				'exclude_type',
 			),
 			'validation' => array(
 				'numbers' => array(
-					'page' => '',
-					'pp' => '',
-					'campus_id' => '',
-					'group_id' => '',
-					'venue_id' => '',
-					'within' => '',
-					'days' => '',
-					'exclude_type' => '',
-					'type' => '',
-					'event_instances_id' => ''
+					'page',
+					'pp',
+					'campus_id',
+					'group_id',
+					'venue_id',
+					'within',
+					'days',
+					'exclude_type',
+					'type',
+					'event_instances_id'
 				),
 				'dates' => array(
-					'end' => '',
-					'start' => '',
-					'created_after' => '',
-					'created_before' => '',
-					'dates' => ''
+					'end',
+					'start',
+					'created_after',
+					'created_before',
+					'dates'
 				),
 			),
 		),
@@ -137,10 +137,10 @@ $localist_config = array(
 				'sort' => ''
 			),
 			'allowed_array' => array(
-				'type' => '',
-				'keyword' => '',
-				'group_id' => '',
-				'exclude_type' => '',
+				'type',
+				'keyword',
+				'group_id',
+				'exclude_type'
 			)
 		),
 		'event' => array(
