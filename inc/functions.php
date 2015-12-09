@@ -126,79 +126,92 @@ function usc_lfwp_validate_key( $key, $value ) {
 	$date_array = $localist_config['api_options']['all']['validation']['dates'];
 	$number_array = $localist_config['api_options']['all']['validation']['numbers'];
 
-	// check if the value of the key is supposed to be in a date format
-	if ( in_array( $key, $date_array ) ) {
+	// check that we don't have an empty value
+	if ( !empty( $value ) ) {
 
-		var_dump(usc_lfwp_validate_date( $value ));
-		if ( usc_lfwp_validate_date( $value ) ) {
+		// check if the value of the key is supposed to be in a date format
+		if ( in_array( $key, $date_array ) ) {
+
+			// check if we have a valide date
+			if ( usc_lfwp_validate_date( $value ) ) {
+				
+				// good date format, so return it
+				return $value;
 			
-			return $value;
-		
-		} else {
+			} else {
+				
+				// fix the date format
+				return usc_lfwp_fix_date( $value );
+			}
+
+		} 
+
+		// check if the key is supposed to be in a number format
+		else if ( in_array( $key, $number_array ) ) {
+
+			// if we have a number
+			if ( is_numeric( $value ) ) {
+				
+				return $value;
 			
-			return usc_lfwp_fix_date( $value );
-		}
+			} 
 
-	} 
+			// else do we have a string
+			else if ( is_string( $value ) ) {
 
-	// check if the key is supposed to be in a number format
-	else if ( in_array( $key, $number_array ) ) {
+				// set default to re-attach valid numbers
+				$number_string = array();
 
-		if ( is_numeric( $value ) ) {
-			
-			return $value;
-		
-		} else if ( is_string( $value ) ) {
+				// if we have a string of numbers (array), check each one
+				$value_string = explode( ',', $value );
 
-			// set default to re-attach valid numbers
-			$number_string = array();
+				// if we have more than one in the exploded array
+				if ( count( $value_string ) > 1 ) {
 
-			// if we have a string of numbers (array), check each one
-			$value_string = explode( ',', $value );
+					// loop through the values
+					foreach ( $value_string as $number ) {
 
-			// if we have more than one in the exploded array
-			if ( count( $value_string ) > 1 ) {
+						// check that we have an integer and not something else
+						if ( is_int( intval( $number ) ) ) {
 
-				// loop through the values
-				foreach ( $value_string as $number ) {
+							// convert any non-whole integer values
+							$number_string[] = intval( $number );
 
-					// check that we have an integer and not something else
-					if ( is_int( intval( $number ) ) ) {
+						} else {
 
-						// convert any non-whole integer values
-						$number_string[] = intval( $number );
+							return false;
+						}
 
-					} else {
 
-						return false;
 					}
 
+					// combine $number_string array back to a string format
+					return join( ',', $number_string );
+
+				} else {
+
+					return false;
 
 				}
 
-				// combine $number_string array back to a string format
-				return join( ',', $number_string );
+			} 
 
-			} else {
-
+			// we dont have a valide number, so let's not return bad options
+			else {
+				
 				return false;
-
 			}
 
-		} else {
+		}
+
+		// if the value doesn't need valiation, just return the value
+		else {
 			
-			return 'false: ' . $value;
+			return $value;
+		
 		}
 
 	}
-
-	// if none of the above, just return the value
-	else {
-		
-		return $value;
-	
-	}
-
 }
 
 
@@ -238,8 +251,15 @@ function usc_lfwp_parameters_as_string( $params, $api_type = 'all' ) {
 		
 		// loop through the parameters
 		foreach ( $params as $key => $value ) {
+			
+			// check 
+			$valid_value = usc_lfwp_validate_key($key,$value);
 
-			echo 'key: ' . $key . ' value: ' . $value . ' valid: ' . $valid_value . '<br>';
+
+			echo '<br>key: [' . $key . '] value: [' . $value . '] valid: [' . $valid_value . ']<br>';
+
+			// check for validation
+			$value = $valid_value;
 
 			// check that we have a valid value that isn't null, blank, or empty array
 			if ( $value !== null && $value !== '' &! empty( $value ) ) {
