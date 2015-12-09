@@ -95,20 +95,41 @@ function usc_lfwp_get_json( $params ) {
 
 
 /**
- * Is Date
+ * Validate Date
+ * =============
+ * 
+ * Check if the date passed matches the intended format.
+ * 
+ * @param 	string 	$date 		date to pass for checking
+ * @param 	string 	$format 	format to check against date
+ * @return 	boolean	
  */
-function usc_lfwp_validate_date($date, $format = 'Y-m-d') {
+function usc_lfwp_validate_date( $date, $format = 'Y-m-d' ) {
+    
+    // returns new DateTime object formatted according to the specified format
     $d = DateTime::createFromFormat($format, $date);
+
+    // return boolean
     return $d && $d->format($format) == $date;
 }
 
 
 /**
  * Fix Date
+ * ========
+ * 
+ * Change a valid date format to a specified format.
+ * 
+ * @param 	string 	$date 		valid date
+ * @param 	string 	$format 	format which to change the date
+ * @return 	string 				date in specified $format
  */
-function usc_lfwp_fix_date( $date ) {
-	$d = date('Y-m-d',strtotime($date));
+function usc_lfwp_fix_date( $date, $format = 'Y-m-d' ) {
+	
+	// change the $date to $format and return
+	$d = date($format,strtotime($date));
 	return $d;
+	
 }
 
 
