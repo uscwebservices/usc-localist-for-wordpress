@@ -115,41 +115,87 @@ function usc_lfwp_fix_date( $date ) {
 
 /**
  * Validate Value
+ * ==============
  */
-function usc_lfwp_validate_key( $key ) {
+function usc_lfwp_validate_key( $key, $value ) {
 
 	global $localist_config;
 
 	$error_message = array();
 
-	$date_array = $localist_config['api_options']['validation']['dates'];
-	$number_array = $localist_config['api_options']['validation']['numbers'];
+	$date_array = $localist_config['api_options']['all']['validation']['dates'];
+	$number_array = $localist_config['api_options']['all']['validation']['numbers'];
 
+	// check if the value of the key is supposed to be in a date format
 	if ( in_array( $key, $date_array ) ) {
 
-		if ( usc_lfwp_validate_date( $key ) ) {
+		var_dump(usc_lfwp_validate_date( $value ));
+		if ( usc_lfwp_validate_date( $value ) ) {
 			
-			return $key;
+			return $value;
 		
 		} else {
 			
-			return usc_lfwp_fix_date( $date );
+			return usc_lfwp_fix_date( $value );
 		}
 
-	} else if ( in_array( $key, $number_array ) ) {
+	} 
 
-		if ( is_numeric( $key ) ) {
+	// check if the key is supposed to be in a number format
+	else if ( in_array( $key, $number_array ) ) {
+
+		if ( is_numeric( $value ) ) {
 			
-			return $key;
+			return $value;
 		
+		} else if ( is_string( $value ) ) {
+
+			// set default to re-attach valid numbers
+			$number_string = array();
+
+			// if we have a string of numbers (array), check each one
+			$value_string = explode( ',', $value );
+
+			// if we have more than one in the exploded array
+			if ( count( $value_string ) > 1 ) {
+
+				// loop through the values
+				foreach ( $value_string as $number ) {
+
+					// check that we have an integer and not something else
+					if ( is_int( intval( $number ) ) ) {
+
+						// convert any non-whole integer values
+						$number_string[] = intval( $number );
+
+					} else {
+
+						return false;
+					}
+
+
+				}
+
+				// combine $number_string array back to a string format
+				return join( ',', $number_string );
+
+			} else {
+
+				return false;
+
+			}
+
 		} else {
 			
-			return false;
+			return 'false: ' . $value;
 		}
 
-	} else {
+	}
+
+	// if none of the above, just return the value
+	else {
 		
-		return $key;
+		return $value;
 	
 	}
 
@@ -192,11 +238,12 @@ function usc_lfwp_parameters_as_string( $params, $api_type = 'all' ) {
 		
 		// loop through the parameters
 		foreach ( $params as $key => $value ) {
-			
-			//echo 'key: ' . $key . ' value: ' . $value . '<br>';
+
+			echo 'key: ' . $key . ' value: ' . $value . ' valid: ' . $valid_value . '<br>';
+
 			// check that we have a valid value that isn't null, blank, or empty array
 			if ( $value !== null && $value !== '' &! empty( $value ) ) {
-				
+
 				// convert any comma delimited $value to an array
 				$value = explode( ',', $value );
 
@@ -211,7 +258,6 @@ function usc_lfwp_parameters_as_string( $params, $api_type = 'all' ) {
 
 					} else {
 
-						echo 'key: ' . $key . '<br>';
 						// loop through sub values
 						foreach ( $value as $sub_value ) {
 							
@@ -222,7 +268,7 @@ function usc_lfwp_parameters_as_string( $params, $api_type = 'all' ) {
 					}
 
 				} else {
-					
+
 					// add single key values as 'key=value'
 					$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
 
@@ -239,7 +285,7 @@ function usc_lfwp_parameters_as_string( $params, $api_type = 'all' ) {
 		
 
 		// return the output
-		return $output;
+		var_dump($output);
 
 	}
 
