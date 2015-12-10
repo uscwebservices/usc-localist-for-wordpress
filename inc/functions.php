@@ -129,7 +129,7 @@ function usc_lfwp_fix_date( $date, $format = 'Y-m-d' ) {
 	// change the $date to $format and return
 	$d = date($format,strtotime($date));
 	return $d;
-	
+
 }
 
 
@@ -137,6 +137,19 @@ function usc_lfwp_fix_date( $date, $format = 'Y-m-d' ) {
 /**
  * Validate Value
  * ==============
+ * 
+ * Validate keys and associative values against specified dates and 
+ * numbers keys from $localist_config settings.  The $key is matched
+ * against supported keys in api_options.all.validation.dates and 
+ * api_options.all.validation.numbers - if they key matches, it will
+ * check the value to be a date or integer and return a validated value.
+ * If the value does not match one of the associated keys, it just 
+ * returns the original value.
+ * 
+ * @param 	string 	$key 		key to check against date/number options
+ * @param 	string 	$value 		value to check if date or number
+ * @return 	string 		 		returns validated value if date/number or
+ * 								original value
  */
 function usc_lfwp_validate_key( $key, $value ) {
 
