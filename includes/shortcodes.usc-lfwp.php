@@ -1,7 +1,7 @@
 <?php
 /**
  * USC Localist for WordPress: Shortcodes
- * @package usc-usc-localist-for-wordpress
+ * @package usc-localist-for-wordpress
  */
 
 
