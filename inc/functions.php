@@ -22,13 +22,15 @@
  */
 function usc_lfwp_get_json( $params ) {
 
-	global $wp_version, $localist_config;
+	global $wp_version;
+
+	$config = usc_lfwp_config();
 	
 	// default variables
 	$output = $error_message = array();
 
 	// default parameters
-	$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $localist_config['url']['base'];
+	$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
 	$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
 	$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
 	$api_page_number	= isset ( $params['page_number'] ) ? $params['page_number'] : '';
@@ -139,7 +141,7 @@ function usc_lfwp_fix_date( $date, $format = 'Y-m-d' ) {
  * ==============
  * 
  * Validate keys and associative values against specified dates and 
- * numbers keys from $localist_config settings.  The $key is matched
+ * numbers keys from usc_lfwp_config() settings.  The $key is matched
  * against supported keys in api_options.all.validation.dates and 
  * api_options.all.validation.numbers - if they key matches, it will
  * check the value to be a date or integer and return a validated value.
@@ -153,12 +155,12 @@ function usc_lfwp_fix_date( $date, $format = 'Y-m-d' ) {
  */
 function usc_lfwp_validate_key( $key, $value ) {
 
-	global $localist_config;
+	$config = usc_lfwp_config();
 
 	$error_message = array();
 
-	$date_array = $localist_config['api_options']['all']['validation']['dates'];
-	$number_array = $localist_config['api_options']['all']['validation']['numbers'];
+	$date_array = $config['api_options']['all']['validation']['dates'];
+	$number_array = $config['api_options']['all']['validation']['numbers'];
 
 	// check that we don't have an empty value
 	if ( !empty( $value ) ) {
@@ -268,10 +270,10 @@ function usc_lfwp_validate_key( $key, $value ) {
 function usc_lfwp_parameters_as_string( $params, $api_type = 'all' ) {
 
 	// get the global config settings
-	global $localist_config;
+	$config = usc_lfwp_config();
 
 	// get the allowed array values for the api type
-	$allowed_array = $localist_config['api_options'][$api_type]['allowed_array'];
+	$allowed_array = $config['api_options'][$api_type]['allowed_array'];
 
 	// set the default output, message and string constructor
 	$output = $string = $error_message = array();

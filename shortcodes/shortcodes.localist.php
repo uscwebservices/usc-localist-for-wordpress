@@ -10,7 +10,7 @@
  * 
  * @since 1.0.0
  * 
- * @require $localist_config array
+ * @require usc_lfwp_get_json()
  * @param 	string 	params 	shortcode api options
  * @return 	html 			events list
  * 
@@ -19,7 +19,7 @@
 function usc_lfwp_events_shortcode( $params ) {
 	
 	// get the global configuration
-	global $localist_config;
+	$config = usc_lfwp_config();
 
 	// default setting for error checking
 	$errors = $json_data = false;
@@ -27,7 +27,7 @@ function usc_lfwp_events_shortcode( $params ) {
 	// get api type from shortcode attribute
 
 		// get all api options
-		$attr_all = shortcode_atts( $localist_config['api_options']['all']['allowed'], $params, 'localist-calendar' );
+		$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, 'localist-calendar' );
 
 		// store the api type as a variable
 		$api_type = $attr_all['get'];
@@ -43,7 +43,7 @@ function usc_lfwp_events_shortcode( $params ) {
 	// get allowed api attributes
 
 		// get the available api options (based on type) from the shortcode
-		$api_attr = shortcode_atts( $localist_config['api_options'][$api_type]['allowed'], $params, 'localist-calendar' );
+		$api_attr = shortcode_atts( $config['api_options'][$api_type]['allowed'], $params, 'localist-calendar' );
 
 		// build the api string
 		$json_url = array(
