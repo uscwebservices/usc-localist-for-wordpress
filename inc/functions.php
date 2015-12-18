@@ -57,7 +57,7 @@ function usc_lfwp_get_json( $params ) {
 	$api_url = $api_base_url . $api_type . $api_options . $api_page_number;
 
 	// local testing only
-	$api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
+	// $api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
 
 	// get the remote data
 	$response = wp_safe_remote_get( $api_url, $args );
@@ -292,7 +292,7 @@ function usc_lfwp_parameters_as_string( $params, $api_type = 'all' ) {
 			$valid_value = usc_lfwp_validate_key($key,$value);
 
 
-			echo '<br>key: [' . $key . '] value: [' . $value . '] valid: [' . $valid_value . ']<br>';
+			// echo '<br>key: [' . $key . '] value: [' . $value . '] valid: [' . $valid_value . ']<br>';
 
 			// check for validation
 			$value = $valid_value;
@@ -341,7 +341,7 @@ function usc_lfwp_parameters_as_string( $params, $api_type = 'all' ) {
 		
 
 		// return the output
-		var_dump($output);
+		return $output;
 
 	}
 
