@@ -53,7 +53,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		 * Current version of the plugin.  Set in plugin root @ usc-localist-for-wordpress.php
 		 * @var string
 		 */
-		protected $version = _VERSION;
+		protected $version = USC_LFWP__VERSION;
 
 		/**
 		 * Define the core functionality of the plugin.
@@ -252,7 +252,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				if ( in_array( $key, $date_array ) ) {
 
 					// check if we have a valide date
-					if ( validate_date( $value ) ) {
+					if ( $this->validate_date( $value ) ) {
 						
 						// good date format, so return it
 						return $value;
@@ -260,7 +260,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					} else {
 						
 						// fix the date format
-						return fix_date( $value );
+						return $this->fix_date( $value );
 					}
 
 				} 
@@ -349,83 +349,77 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		 */
 		public function parameters_as_string( $params, $api_type = 'all' ) {
 
-			// var_dump($params);
-			// // get the default config file
-			// $config = $this->config;
-			// var_dump($config);
-			// // get the allowed array values for the api type
-			// $allowed_array = $config['api_options'][$api_type]['allowed_array'];
+			//get the default config file
+			$config = $this->config;
+			
+			// get the allowed array values for the api type
+			$allowed_array = $config['api_options'][$api_type]['allowed_array'];
 
-			// // set the default output, message and string constructor
-			// $output = $string = $error_message = array();
+			// set the default output, message and string constructor
+			$output = $string = $error_message = array();
 
-			// // if we do not have an array, end the process
-			// if ( !is_array ( $params ) ) {
+			// if we do not have an array, end the process
+			if ( !is_array ( $params ) ) {
 				
-			// 	return false;
+				return false;
 
-			// } else {
+			} else {
 				
-			// 	// loop through the parameters
-			// 	foreach ( $params as $key => $value ) {
+				// loop through the parameters
+				foreach ( $params as $key => $value ) {
 					
-			// 		// check 
-			// 		$valid_value = validate_key($key,$value);
+					// check that we have a valid value that isn't null, blank, or empty array
+					if ( $value !== null && $value !== '' &! empty( $value ) ) {
 
+						// check 
+						$valid_value = $this->validate_key($key,$value);
 
-			// 		echo '<br>key: [' . $key . '] value: [' . $value . '] valid: [' . $valid_value . ']<br>';
+						// check for validation
+						$value = $valid_value;
 
-			// 		// check for validation
-			// 		$value = $valid_value;
+						// convert any comma delimited $value to an array
+						$value = explode( ',', $value );
 
-			// 		// check that we have a valid value that isn't null, blank, or empty array
-			// 		if ( $value !== null && $value !== '' &! empty( $value ) ) {
-
-			// 			// convert any comma delimited $value to an array
-			// 			$value = explode( ',', $value );
-
-			// 			// if the $value is an array
-			// 			if ( count( $value ) > 1 ) {
-							
-			// 				// check that the $value is allowed as an array
-			// 				if ( !in_array( $key, $allowed_array ) ) {
+						// if the $value is an array
+						if ( count( $value ) > 1 ) {
+						
+							// check that the $value is allowed as an array
+							if ( !in_array( $key, $allowed_array ) ) {
 								
-			// 					// let the user know they are attempting an array where one is not allowed
-			// 					$error_message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
+								// let the user know they are attempting an array where one is not allowed
+								$error_message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
 
-			// 				} else {
+							} else {
 
-			// 					// loop through sub values
-			// 					foreach ( $value as $sub_value ) {
+								// loop through sub values
+								foreach ( $value as $sub_value ) {
 									
-			// 						// add multiple values as 'key[]=sub_value'
-			// 						$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
+									// add multiple values as 'key[]=sub_value'
+									$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
 
-			// 					}
-			// 				}
+								}
+							}
 
-			// 			} else {
+						} else {
 
-			// 				// add single key values as 'key=value'
-			// 				$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
+							// add single key values as 'key=value'
+							$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
 
-			// 			}
+						}
+					}
+				}
 
-			// 		}
-			// 	}
+				// combine any errors and set a message value
+				$output['errors'] = join( '<br>', $error_message );
+
+				// combine any strings and set a url string value
+				$output['parameters'] = join( '&', $string );
 				
-			// 	// combine any errors and set a message value
-			// 	$output['errors'] = join( '<br>', $error_message );
 
-			// 	// combine any strings and set a url string value
-			// 	$output['parameters'] = join( '&', $string );
-				
+				// return the output
+				return $output;
 
-			// 	// return the output
-			// 	var_dump($output);
-
-			// }
-			return 'hi';
+			}
 
 		}
 
@@ -477,12 +471,11 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				$json_url = array(
 					'type' => $api_type
 				);
-
 			// build the api url string for any options
 
 				// get the matching api options by get type
-				$parameters_string = parameters_as_string( $api_attr, $api_type );
-
+				$parameters_string = $this->parameters_as_string( $api_attr, $api_type );
+				
 				// if we have any error messages
 				if ( empty($parameters_string) ) {
 					return __('Something went wrong.', $this->tag);
@@ -502,32 +495,34 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 			// get the json data if no errors are present
 				
-				if ( !$errors ) {
+				if ( ! $errors ) {
 
-					$json_data = get_json( $json_url );
+					// perform the api call
+					$json_data = $this->get_json( $json_url );
 
-				}
-
-			// perform the api call
-
-				// check if we have json data
-				if ( !$json_data['errors'] ) {
-					
-					// check if we have an array
-					if ( $json_data['results'] ) {
+					// check if we have no errors in returned json data
+					if ( !$json_data['errors'] ) {
 						
-						// we have json array data
+						// check if we have results
+						if ( $json_data['results'] ) {
+							
+							// we have json array data
 
-						// TODO: function for looping through json data
+							// TODO: function for looping through json data
+							
+							return 'API Results Successful: ' . $json_data['results'];  // replace this with loop
 
 
-					} 
+						} 
 
-				} else {
+					} else {
 
-					return $json_data['errors'];
+						return $json_data['errors'];
+
+					}
 
 				}
+
 		}
 
 	}
