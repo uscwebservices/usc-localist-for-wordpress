@@ -83,7 +83,7 @@ function usc_lfwp_get_json( $params ) {
 		// encode the json data and set to TRUE for array
 		$output['results'] = json_decode( $response['body'], TRUE );
 
-		// function to get the json data from the server - store as transient
+		// TODO: function to get the json data from the server - store as transient
 
 	}
 
