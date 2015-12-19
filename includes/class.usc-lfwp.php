@@ -116,6 +116,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// default parameters
 			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
 			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
+			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : '';
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number	= isset ( $params['page_number'] ) ? $params['page_number'] : '';
 			$timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : 5;
@@ -172,6 +173,12 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					$output['results'] = json_decode( $response['body'], TRUE );
 
 					// function to get the json data from the server - store as transient
+					
+					if ( '' != $api_cache ) {
+
+						// TODO: set transient function
+						
+					}
 					
 				}
 
@@ -460,6 +467,9 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// default setting for error checking
 			$errors = $json_data = false;
 
+			// default for json url build
+			$json_url = array();
+
 			// get api type from shortcode attribute
 
 				// get all api options
@@ -476,15 +486,30 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 				}
 
+				// set transient cache timeout
+				$api_cache = $attr_all['cache'];
+
+				// check that we have a valid 'cache' value
+				if ( '' != $api_cache ) {
+
+					// validate the cache value
+					$valid_api_cache = $this->validate_key( 'cache', $api_cache );
+
+					// store the cache number as part of the url array
+					$json_url['cache'] = $valid_api_cache;
+
+				}
+				
+				
+
 			// get allowed api attributes
 
 				// get the available api options (based on type) from the shortcode
 				$api_attr = shortcode_atts( $config['api_options'][$api_type]['allowed'], $params, 'localist-calendar' );
 
 				// build the api string
-				$json_url = array(
-					'type' => $api_type
-				);
+				$json_url['type'] = $api_type;
+
 			// build the api url string for any options
 
 				// get the matching api options by get type
