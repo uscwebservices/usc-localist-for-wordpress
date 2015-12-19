@@ -48,6 +48,7 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 				'all' => array(
 					'allowed' => array(
 						'get' => '', // API GET type: [events,organizations,groups,search]
+						'cache' => '', // Transient cache timeout setting
 						'organization_id' => '',
 						'communities_id' => '',
 						'bounds' => '',
@@ -97,6 +98,7 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 						
 						// API parameters that need to be numbers
 						'numbers' => array(
+							'cache',
 							'page',
 							'pp',
 							'campus_id',
