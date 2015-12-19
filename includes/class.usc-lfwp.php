@@ -141,7 +141,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$api_url = $api_base_url . $api_type . $api_options . $api_page_number;
 
 			// local testing only
-			$api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
+			// $api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
 
 			// get the remote data
 			$response = wp_safe_remote_get( $api_url, $args );
@@ -152,10 +152,9 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				// return WP error messages
 				$error_message[] = __('WP Error: ', 'textdomain') . $response->get_error_message();
 
-			}
+			} else if ( $response['response']['code'] >= 400 ) {
 
-			// check if there is an HTTP error 400 and above
-			if ( $response['response']['code'] >= 400 ) {
+				// check if there is an HTTP error 400 and above
 
 				// return the error response code and message
 				$error_message[] = __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'];
