@@ -152,21 +152,36 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				// return WP error messages
 				$error_message[] = __('WP Error: ', 'textdomain') . $response->get_error_message();
 
-			} else if ( $response['response']['code'] >= 400 ) {
+			} 
 
-				// check if there is an HTTP error 400 and above
+			// check if there is an HTTP error 400 and above
+			else if ( $response['response']['code'] >= 400 ) {
 
 				// return the error response code and message
 				$error_message[] = __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'];
 
-			} else {
+			} 
 
-				// no errors so let's return the data!
+			// let's assume no wp errors and no 400+ errors so we must have data
+			else {
 				
-				// encode the json data and set to TRUE for array
-				$output['results'] = json_decode( $response['body'], TRUE );
+				// but just in case, let's make sure we have actual data
+				if ( '' != $response['body'] ) {
 
-				// function to get the json data from the server - store as transient
+					// encode the json data and set to TRUE for array
+					$output['results'] = json_decode( $response['body'], TRUE );
+
+					// function to get the json data from the server - store as transient
+					
+				}
+
+				// we still don't have valid data so let's let the user know
+				
+				else {
+
+					$error_message[] = __('Hmm... The API Call was successful but no data was returned.  Here is the API call for verification: <a href="' . $api_url . '">' . $api_url . '</a>');
+
+				}
 
 			}
 
