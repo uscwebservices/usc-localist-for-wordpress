@@ -78,7 +78,16 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			add_shortcode( $this->shortcode, array( &$this, 'events_shortcode' ) );
 			
 		}
-		
+
+		/**
+		 * Run the code
+		 * @return [type]
+		 */
+		public function run() {
+			
+			// do something if we want
+
+		}
 
 		/**
 		 * Get JSON
