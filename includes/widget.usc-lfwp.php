@@ -2,7 +2,7 @@
 	
 /**
  * USC Localist for WordPress: Widget
- * @package usc-usc-localist-for-wordpress
+ * @package usc-localist-for-wordpress
  */
 
 

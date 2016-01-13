@@ -1,7 +1,7 @@
 <?php
 /**
  * USC Localist for WordPress: Shortcodes
- * @package usc-usc-localist-for-wordpress
+ * @package usc-localist-for-wordpress
  */
 
 
@@ -52,7 +52,7 @@ function usc_lfwp_events_shortcode( $params ) {
 
 	// build the api url string for any options
 
-		// get the matching api options by get type_url_form_file()
+		// get the matching api options by get type
 		$parameters_string = usc_lfwp_parameters_as_string( $api_attr, $api_type );
 
 		// if we have any error messages
