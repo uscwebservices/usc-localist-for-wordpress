@@ -203,6 +203,12 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					// return the error response code and message
 					$error_message[] = __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'];
 
+					// convert response message to json data as an array
+					$localist_error = json_decode( $response['body'], true );
+
+					// return localist error response
+					$error_message[] = __('Localist Error: ' . $localist_error['error'] );
+
 				} 
 
 				// let's assume no wp errors and no 400+ errors so we must have data
