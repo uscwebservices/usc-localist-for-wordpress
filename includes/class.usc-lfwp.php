@@ -203,11 +203,16 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					// return the error response code and message
 					$error_message[] = __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'];
 
-					// convert response message to json data as an array
-					$localist_error = json_decode( $response['body'], true );
+					// if we have a response from localist, let's provide if for better troubleshooting
+					if ( '' != $response['body'] ) {
+						
+						// convert response message to json data as an array
+						$localist_error = json_decode( $response['body'], true );
 
-					// return localist error response
-					$error_message[] = __('Localist Error: ' . $localist_error['error'] );
+						// return localist error response
+						$error_message[] = __('Localist Error: ' . $localist_error['error'] );
+
+					}
 
 				} 
 
