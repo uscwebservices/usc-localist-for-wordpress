@@ -97,7 +97,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		 * 
 		 * @since 1.0.0
 		 * 
-		 * @param 	array 	params 	the options for the function [url, type, options, page_number, timeout]
+		 * @param 	array 	params 	the options for the function [url, type, options, page, timeout]
 		 * @param 	string 	type 	the type of data to get [events]
 		 * @param 	string 	options the options to attach to narrow results
 		 * @param 	number 	timeout the timeout (in seconds) for waiting for the return
@@ -116,9 +116,9 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// default parameters
 			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
 			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
-			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : '';
+			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS;
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
-			$api_page_number	= isset ( $params['page_number'] ) ? $params['page_number'] : '';
+			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
 			$timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : 5;
 			
 			// set the default arguments
@@ -139,62 +139,107 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		    );
 
 			// set var for constructed api url
-			$api_url = $api_base_url . $api_type . $api_options . $api_page_number;
+			$api_url = $api_base_url . $api_type;
 
-			// local testing only
-			// $api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
+			// add query string initiator
+			if ( '' != $api_options || '' != $api_page_number ) {
 
-			// get the remote data
-			$response = wp_safe_remote_get( $api_url, $args );
-
-			// check if there is a wordpress error
-			if ( is_wp_error( $response ) ) {
-
-				// return WP error messages
-				$error_message[] = __('WP Error: ', 'textdomain') . $response->get_error_message();
-
-			} 
-
-			// check if there is an HTTP error 400 and above
-			else if ( $response['response']['code'] >= 400 ) {
-
-				// return the error response code and message
-				$error_message[] = __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'];
-
-			} 
-
-			// let's assume no wp errors and no 400+ errors so we must have data
-			else {
-				
-				// but just in case, let's make sure we have actual data
-				if ( '' != $response['body'] ) {
-
-					// encode the json data and set to TRUE for array
-					$output['results'] = json_decode( $response['body'], TRUE );
-
-					// function to get the json data from the server - store as transient
-					
-					if ( '' != $api_cache ) {
-
-						// TODO: set transient function
-						
-					}
-					
-				}
-
-				// we still don't have valid data so let's let the user know
-				
-				else {
-
-					$error_message[] = __('Hmm... The API Call was successful but no data was returned.  Here is the API call for verification: <a href="' . $api_url . '">' . $api_url . '</a>');
-
-				}
+				$api_url .= '?';
 
 			}
 
-			// combine any errors and set a message value
-			$output['errors'] = join( '<br>', $error_message );
+			// add api options
+			if ( '' != $api_options ) {
 
+				$api_url .= $api_options;
+
+			}
+
+			// add page number
+			if ( '' != $api_page_number ) {
+
+				$api_url .= $api_page_number;
+
+			}
+
+
+			// REMOVE: local testing only
+			// $api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
+			
+			
+			// First let's check if we have a transient for this API call
+			
+			// transient name using constructed api url
+			$transient_name = 'localist_' . urlencode($api_url);
+
+			// get the transient by name
+			$transient = get_transient( $transient_name );
+
+			if ( ! empty( $transient ) ) {
+
+				// We have a transient, no need to make an API call
+				$output['results'] = $transient;
+				
+			} else {
+
+				// We do not have a transient stored - let's get the API
+
+				// get the remote data
+				$response = wp_safe_remote_get( $api_url, $args );
+
+				//var_dump($response);
+
+				// check if there is a wordpress error
+				if ( is_wp_error( $response ) ) {
+
+					// return WP error messages
+					$error_message[] = __('WP Error: ', 'textdomain') . $response->get_error_message();
+
+				}
+
+				// check if there is an HTTP error 400 and above
+				else if ( $response['response']['code'] >= 400 ) {
+
+					// return the error response code and message
+					$error_message[] = __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'];
+
+				} 
+
+				// let's assume no wp errors and no 400+ errors so we must have data
+				else {
+					
+					// but just in case, let's make sure we have actual data
+					if ( '' != $response['body'] ) {
+
+						// encode the json data and set to TRUE for array
+						$output['results'] = json_decode( $response['body'], TRUE );
+
+						// let's store the data as a transient using the cache attribute
+						if ( '' != $api_cache ) {
+
+							// let's set a transient for the API call
+							set_transient( $transient_name, $output['results'], $api_cache );
+							
+						}
+						
+					}
+
+					// we still don't have valid data so let's let the user know
+					
+					else {
+
+						$error_message[] = __('Hmm... The API Call was successful but no data was returned.  Here is the API call for verification: <a href="' . $api_url . '">' . $api_url . '</a>');
+
+					}
+
+				}
+
+				// combine any errors and set a message value
+				$output['errors'] = join( '<br>', $error_message );
+
+			}
+
+			// return the output data
 			return $output;
 
 		}
@@ -517,13 +562,16 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				
 				// if we have any error messages
 				if ( empty($parameters_string) ) {
+					
 					return __('Something went wrong.', $this->tag);
+
 				}
-				if ( !empty($parameters_string['errors']) ) {
+
+				if ( ! empty( $parameters_string['errors'] ) ) {
 					
 					// there are errors
 					$errors = true;
-					return __($parameters_string['errors'], 'usc-localist-for-wordpress');
+					return __( $parameters_string['errors'], 'usc-localist-for-wordpress' );
 
 				} else {
 
@@ -540,7 +588,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					$json_data = $this->get_json( $json_url );
 
 					// check if we have no errors in returned json data
-					if ( !$json_data['errors'] ) {
+					if ( ! $json_data['errors'] ) {
 						
 						// check if we have results
 						if ( $json_data['results'] ) {
