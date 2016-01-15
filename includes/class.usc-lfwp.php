@@ -187,8 +187,6 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				// get the remote data
 				$response = wp_safe_remote_get( $api_url, $args );
 
-				//var_dump($response);
-
 				// check if there is a wordpress error
 				if ( is_wp_error( $response ) ) {
 
