@@ -74,8 +74,10 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$this->config = USC_Localist_for_WordPress_Config::$config;
 
 			// add the shortcode function
-			// add_shortcode( 'localist-calendar', 'events_shortcode' );
 			add_shortcode( $this->shortcode, array( &$this, 'events_shortcode' ) );
+
+			// add url parameter support
+			add_filter( 'query_vars', array( $this, 'add_query_variables_filter') );
 			
 		}
 
@@ -86,6 +88,33 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		public function run() {
 			
 			// do something if we want
+
+		}
+
+		/**
+		 * Add Query Variables Filter
+		 * ==========================
+		 *
+		 * Set custom query variables.  Safer methods for 
+		 * using $_GET.
+		 *
+		 * @since 1.0.0
+		 */
+		public function add_query_variables_filter( $vars ){
+			
+			// get the default config file
+			$config = $this->config;
+
+			// get the url parameters that are accepted
+			$parameters = $config['url']['parameters'];
+
+			// loop throught the available parameters and add them
+			foreach ( $parameters as $value ) {
+				$vars[] = $value;
+			}
+
+			// return the $vars added
+			return $vars;
 
 		}
 
