@@ -102,13 +102,9 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		 */
 		public function add_query_variables_filter( $vars ){
 			
-			// get the default config file
-			$config = $this->config;
+			$parameters = $this->config['url']['parameters'];
 
-			// get the url parameters that are accepted
-			$parameters = $config['url']['parameters'];
-
-			// loop throught the available parameters and add them
+			// loop throught the available parameters from the config and add them
 			foreach ( $parameters as $value ) {
 				$vars[] = $value;
 			}
@@ -116,6 +112,37 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// return the $vars added
 			return $vars;
 
+		}
+
+		/**
+		 * Get Query Variables
+		 * ===================
+		 *
+		 * Get the custom query parameters and return as an array.
+		 *
+		 * @since 1.0.0
+		 * 
+		 * @return array 			associative array of keys and values
+		 */
+		public function get_custom_query_variables() {
+
+			// set a default vaule to capture url values
+			$values = array();
+
+			// get the default config file
+			$parameters = $this->config['url']['parameters'];
+
+			foreach ( $parameters as $key ) {
+				
+				// get the value of the paramter
+				$parameter_value = get_query_var( $key, false );
+				
+				// add the value as an associative array item
+				$values[$key] = $parameter_value;
+
+			}
+			
+			return $values;
 		}
 
 		/**
@@ -552,6 +579,9 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 			// default for json url build
 			$json_url = array();
+
+			// get url parameters
+			$params = $this->get_custom_query_variables();
 
 			// get api type from shortcode attribute
 

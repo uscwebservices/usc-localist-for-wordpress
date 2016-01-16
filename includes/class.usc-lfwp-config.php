@@ -38,7 +38,7 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 			'url' => array(
 				'base' => 'https://calendar.usc.edu/api/2/',
 				'parameters' => array(
-					'localist-page',
+					'localist-page-number',
 					'localist-event-id'
 				),
 			),
