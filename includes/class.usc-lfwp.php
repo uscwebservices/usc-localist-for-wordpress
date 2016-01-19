@@ -580,9 +580,6 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// default for json url build
 			$json_url = array();
 
-			// get url parameters
-			$params = $this->get_custom_query_variables();
-
 			// get api type from shortcode attribute
 
 				// get all api options
@@ -612,9 +609,22 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					$json_url['cache'] = $valid_api_cache;
 
 				}
-				
-				
 
+				// get url parameters and attach to the api query
+					
+					// get the url parameters
+					$params = $this->get_custom_query_variables();
+
+					// get the page number if it exists
+					$page_number = $params['localist-page-number'];
+
+					if ( '' != $page_number ) {
+
+						$valid_page_number = $this->validate_key( 'page', $page_number );
+						$json_url['page'] = $valid_page_number;
+
+					}
+				
 			// get allowed api attributes
 
 				// get the available api options (based on type) from the shortcode
