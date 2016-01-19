@@ -109,7 +109,8 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 							'days',
 							'exclude_type',
 							'type',
-							'event_instances_id'
+							'event_instances_id',
+							'event_id'
 						),
 
 						// API parameters that need to be date forma YYYY-MM-DD
