@@ -580,7 +580,26 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// default for json url build
 			$json_url = array();
 
-			// get api type from shortcode attribute
+			// get the url parameters
+			$url_parameters = $this->get_custom_query_variables();
+
+			// if we have an event id, let's set the type right away
+			$event_id = $url_parameters['localist-event-id'];
+
+			if ( '' != $event_id ) {
+
+				// set the api type to 'event'
+				$api_type = 'event';
+				
+				// validate the input key
+				$valid_event_id = $this->validate_key( 'event_id', $event_id );
+
+				// set the event_id value for the api call
+				$json_url['event_id'] = $valid_event_id;
+
+			} else {
+
+				// get api type from shortcode attribute
 
 				// get all api options
 				$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, 'localist-calendar' );
@@ -610,20 +629,8 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 				}
 
-				// get url parameters and attach to the api query
+			}
 					
-					// get the url parameters
-					$params = $this->get_custom_query_variables();
-
-					// get the page number if it exists
-					$page_number = $params['localist-page-number'];
-
-					if ( '' != $page_number ) {
-
-						$valid_page_number = $this->validate_key( 'page', $page_number );
-						$json_url['page'] = $valid_page_number;
-
-					}
 				
 			// get allowed api attributes
 
@@ -632,6 +639,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 				// build the api string
 				$json_url['type'] = $api_type;
+
 
 			// build the api url string for any options
 
