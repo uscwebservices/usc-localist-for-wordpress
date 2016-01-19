@@ -121,6 +121,17 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 							'created_before',
 							'dates'
 						),
+
+						// API parameters that need to be boolean
+						'boolean' => array(
+							'featured',
+							'require_all',
+							'sponsored',
+							'all_custom_fields',
+							'include_attendance',
+							'include_attendees',
+							'include_activity'
+						)
 					),
 				),
 
@@ -193,7 +204,7 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 				'event' => array(
 					'allowed' => array(
 						'event_id' => '',
-						'all_custom_filds' => '',
+						'all_custom_fields' => '',
 						'include_activity' => '',
 						'include_attendance' => '',
 						'include_attendees' => ''
