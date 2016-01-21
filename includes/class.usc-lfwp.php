@@ -172,6 +172,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// default parameters
 			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
 			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
+			$api_event_id		= isset ( $params['event_id'] ) ? $params['event_id'] : '';
 			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS;
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
@@ -197,6 +198,11 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// set var for constructed api url
 			$api_url = $api_base_url . $api_type;
 
+			// set query to event id if exists
+			if ( '' != $api_event_id ) {
+				$api_url .= '/' . $api_event_id;
+			}
+
 			// add query string initiator
 			if ( '' != $api_options || '' != $api_page_number ) {
 
@@ -217,8 +223,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				$api_url .= $api_page_number;
 
 			}
-
-
+			
 			// REMOVE: local testing only
 			// $api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
 			
@@ -256,7 +261,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 					// return the error response code and message
 					$error_message[] = __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'];
-
+					
 					// if we have a response from localist, let's provide if for better troubleshooting
 					if ( '' != $response['body'] ) {
 						
@@ -264,9 +269,20 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 						$localist_error = json_decode( $response['body'], true );
 
 						// return localist error response
-						$error_message[] = __('Localist Error: ' . $localist_error['error'] );
+						if ( isset( $localist_error['error'] ) ) {
+							
+							$error_message[] = __('Localist Error: ' . $localist_error['error'] );
+
+						} else {
+
+							$error_message[] = __('Localist Error: ' . $response['body'] );
+
+						}
 
 					}
+
+					// add a link to the API URL called to help troubleshoot any issues
+					$error_message[] = '<a target="_blank" href="' . $api_url . '">' . __('API URL') . '</a>';
 
 				} 
 
@@ -402,7 +418,8 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					// if we have a number
 					if ( is_numeric( $value ) ) {
 						
-						return $value;
+						// convert any non-whole integer values
+						return intval( $value );
 					
 					} 
 
@@ -422,7 +439,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 							foreach ( $value_string as $number ) {
 
 								// check that we have an integer and not something else
-								if ( is_int( intval( $number ) ) ) {
+								if ( is_numeric( $number ) ) {
 
 									// convert any non-whole integer values
 									$number_string[] = intval( $number );
@@ -597,6 +614,9 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				// set the event_id value for the api call
 				$json_url['event_id'] = $valid_event_id;
 
+				// set the api type
+				$json_url['type'] = 'events';
+
 			} else {
 
 				// get api type from shortcode attribute
@@ -614,6 +634,9 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					$api_type = 'events';
 
 				}
+
+				// set the api type
+				$json_url['type'] = $api_type;
 
 				// set transient cache timeout
 				$api_cache = $attr_all['cache'];
@@ -636,9 +659,6 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 				// get the available api options (based on type) from the shortcode
 				$api_attr = shortcode_atts( $config['api_options'][$api_type]['allowed'], $params, 'localist-calendar' );
-
-				// build the api string
-				$json_url['type'] = $api_type;
 
 
 			// build the api url string for any options
