@@ -37,8 +37,16 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 		public static $config = array(
 			'url' => array(
 				'base' => 'https://calendar.usc.edu/api/2/',
-				'variables' => array(
-					'pagination' => 'events-page'
+				'parameters' => array(
+					// add custom url parameters and map their relationship (will validate against relationship item settings)
+					'page' => array(
+						'name' => 'page', // use wp default of 'page' for nice url
+						'relationship' => 'page'
+					),
+					'event-id' => array(
+						'name' => 'event-id',
+						'relationship' => 'event_id'
+					)
 				),
 			),
 			'api_options' => array(
@@ -108,7 +116,8 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 							'days',
 							'exclude_type',
 							'type',
-							'event_instances_id'
+							'event_instances_id',
+							'event_id'
 						),
 
 						// API parameters that need to be date forma YYYY-MM-DD
@@ -119,6 +128,17 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 							'created_before',
 							'dates'
 						),
+
+						// API parameters that need to be boolean
+						'boolean' => array(
+							'featured',
+							'require_all',
+							'sponsored',
+							'all_custom_fields',
+							'include_attendance',
+							'include_attendees',
+							'include_activity'
+						)
 					),
 				),
 
@@ -191,7 +211,7 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 				'event' => array(
 					'allowed' => array(
 						'event_id' => '',
-						'all_custom_filds' => '',
+						'all_custom_fields' => '',
 						'include_activity' => '',
 						'include_attendance' => '',
 						'include_attendees' => ''

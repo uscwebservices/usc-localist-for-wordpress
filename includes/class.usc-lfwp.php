@@ -74,8 +74,10 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$this->config = USC_Localist_for_WordPress_Config::$config;
 
 			// add the shortcode function
-			// add_shortcode( 'localist-calendar', 'events_shortcode' );
 			add_shortcode( $this->shortcode, array( &$this, 'events_shortcode' ) );
+
+			// add url parameter support
+			add_filter( 'query_vars', array( $this, 'add_query_variables_filter') );
 			
 		}
 
@@ -86,6 +88,73 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		public function run() {
 			
 			// do something if we want
+
+		}
+
+		/**
+		 * Add Query Variables Filter
+		 * ==========================
+		 *
+		 * Set custom query variables.  Safer methods for 
+		 * using $_GET.
+		 *
+		 * @since 1.0.0
+		 */
+		public function add_query_variables_filter( $vars ){
+			
+			$parameters = $this->config['url']['parameters'];
+
+			// loop throught the available parameters from the config and add them
+			foreach ( $parameters as $value ) {
+				
+				// add the 'name' value to the allowed url parameter types
+				$vars[] = $value['name'];
+
+			}
+
+			// return the $vars added
+			return $vars;
+
+		}
+
+		/**
+		 * Get Query Variables
+		 * ===================
+		 *
+		 * Get the custom query parameters and return as an array.
+		 *
+		 * @since 1.0.0
+		 * 
+		 * @return array 			associative array of keys and values
+		 */
+		public function get_custom_query_variables() {
+
+			// set a default vaule to capture url values
+			$values = array();
+
+			// get the default config file
+			$parameters = $this->config['url']['parameters'];
+
+			// loop through the available parameters from the config file
+			foreach ( $parameters as $key ) {
+
+				// get the value of the paramter
+				$parameter_value = get_query_var( $key['name'], false );
+
+				// check if we have a value
+				if ( $parameter_value ) {
+
+					// validate the value
+					$valid_parameter_value = $this->validate_key( $key['relationship'], $parameter_value );
+
+					// add the value as an associative array item
+					$values[$key['name']] = $valid_parameter_value;
+
+				}
+
+			}
+			
+			return $values;
 
 		}
 
@@ -116,6 +185,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// default parameters
 			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
 			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
+			$api_event_id		= isset ( $params['event_id'] ) ? $params['event_id'] : '';
 			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS;
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
@@ -141,6 +211,11 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// set var for constructed api url
 			$api_url = $api_base_url . $api_type;
 
+			// set query to event id if exists
+			if ( '' != $api_event_id ) {
+				$api_url .= '/' . $api_event_id;
+			}
+
 			// add query string initiator
 			if ( '' != $api_options || '' != $api_page_number ) {
 
@@ -161,7 +236,6 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				$api_url .= $api_page_number;
 
 			}
-
 
 			// REMOVE: local testing only
 			// $api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
@@ -200,7 +274,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 					// return the error response code and message
 					$error_message[] = __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'];
-
+					
 					// if we have a response from localist, let's provide if for better troubleshooting
 					if ( '' != $response['body'] ) {
 						
@@ -208,9 +282,20 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 						$localist_error = json_decode( $response['body'], true );
 
 						// return localist error response
-						$error_message[] = __('Localist Error: ' . $localist_error['error'] );
+						if ( isset( $localist_error['error'] ) ) {
+							
+							$error_message[] = __('Localist Error: ' . $localist_error['error'] );
+
+						} else {
+
+							$error_message[] = __('Localist Error: ' . $response['body'] );
+
+						}
 
 					}
+
+					// add a link to the API URL called to help troubleshoot any issues
+					$error_message[] = '<a target="_blank" href="' . $api_url . '">' . __('API URL') . '</a>';
 
 				} 
 
@@ -346,7 +431,8 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					// if we have a number
 					if ( is_numeric( $value ) ) {
 						
-						return $value;
+						// convert any non-whole integer values
+						return intval( $value );
 					
 					} 
 
@@ -366,7 +452,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 							foreach ( $value_string as $number ) {
 
 								// check that we have an integer and not something else
-								if ( is_int( intval( $number ) ) ) {
+								if ( is_numeric( $number ) ) {
 
 									// convert any non-whole integer values
 									$number_string[] = intval( $number );
@@ -524,45 +610,46 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// default for json url build
 			$json_url = array();
 
-			// get api type from shortcode attribute
+			// get url parameters and attach to the api query
+			$url_parameters = $this->get_custom_query_variables();
 
-				// get all api options
-				$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, 'localist-calendar' );
+			// get all api options
+			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, 'localist-calendar' );
 
-				// store the api type as a variable
-				$api_type = $attr_all['get'];
+			// store the api type as a variable
+			$api_type = $attr_all['get'];
 
-				// check that we have a valid 'get' type
-				if ( $api_type == '' || $api_type == null ) {
+			// check that we have a valid 'get' type
+			if ( $api_type == '' || $api_type == null ) {
 
-					// let's default to events
-					$api_type = 'events';
+				// let's default to events
+				$api_type = 'events';
 
-				}
+			}
 
-				// set transient cache timeout
-				$api_cache = $attr_all['cache'];
+			// set the api type
+			$json_url['type'] = $api_type;
 
-				// check that we have a valid 'cache' value
-				if ( '' != $api_cache ) {
+			// set transient cache timeout
+			$api_cache = $attr_all['cache'];
 
-					// validate the cache value
-					$valid_api_cache = $this->validate_key( 'cache', $api_cache );
+			// check that we have a valid 'cache' value
+			if ( '' != $api_cache ) {
 
-					// store the cache number as part of the url array
-					$json_url['cache'] = $valid_api_cache;
+				// validate the cache value
+				$valid_api_cache = $this->validate_key( 'cache', $api_cache );
 
-				}
+				// store the cache number as part of the url array
+				$json_url['cache'] = $valid_api_cache;
+
+			}
+					
 				
-				
-
 			// get allowed api attributes
 
 				// get the available api options (based on type) from the shortcode
 				$api_attr = shortcode_atts( $config['api_options'][$api_type]['allowed'], $params, 'localist-calendar' );
 
-				// build the api string
-				$json_url['type'] = $api_type;
 
 			// build the api url string for any options
 
