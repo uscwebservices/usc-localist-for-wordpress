@@ -38,8 +38,15 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 			'url' => array(
 				'base' => 'https://calendar.usc.edu/api/2/',
 				'parameters' => array(
-					'localist-page-number',
-					'localist-event-id'
+					// add custom url parameters and map their relationship (will validate against relationship item settings)
+					'page' => array(
+						'name' => 'page', // use wp default of 'page' for nice url
+						'relationship' => 'page'
+					),
+					'event-id' => array(
+						'name' => 'event-id',
+						'relationship' => 'event_id'
+					)
 				),
 			),
 			'api_options' => array(
