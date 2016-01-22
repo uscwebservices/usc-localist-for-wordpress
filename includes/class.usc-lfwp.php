@@ -145,10 +145,10 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				if ( $parameter_value ) {
 
 					// validate the value
-					$valid_parameter_value = $this->validate_key( $key['relationship'], $parameter_value );
+					$parameter_value = $this->validate_key( $key['relationship'], $parameter_value );
 
 					// add the value as an associative array item
-					$values[$key['name']] = $valid_parameter_value;
+					$values[$key['name']] = $parameter_value;
 
 				}
 
@@ -170,7 +170,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		 * @param 	string 	type 	the type of data to get [events]
 		 * @param 	string 	options the options to attach to narrow results
 		 * @param 	number 	timeout the timeout (in seconds) for waiting for the return
-		 * @return 	json 	array 	the json results 	
+		 * @return 	json 	array 	the json data 	
 		 */
 		function get_json( $params ) {
 
@@ -252,7 +252,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			if ( ! empty( $transient ) ) {
 
 				// We have a transient, no need to make an API call
-				$output['results'] = $transient;
+				$output['data'] = $transient;
 				
 			} else {
 
@@ -306,13 +306,13 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					if ( '' != $response['body'] ) {
 
 						// encode the json data and set to TRUE for array
-						$output['results'] = json_decode( $response['body'], TRUE );
+						$output['data'] = json_decode( $response['body'], TRUE );
 
 						// let's store the data as a transient using the cache attribute
 						if ( '' != $api_cache ) {
 
 							// let's set a transient for the API call
-							set_transient( $transient_name, $output['results'], $api_cache );
+							set_transient( $transient_name, $output['data'], $api_cache );
 							
 						}
 						
@@ -353,10 +353,10 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		public function validate_date( $date, $format = 'Y-m-d' ) {
 		    
 		    // returns new DateTime object formatted according to the specified format
-		    $d = DateTime::createFromFormat($format, $date);
+		    $d = DateTime::createFromFormat( $format, $date );
 
 		    // return boolean
-		    return $d && $d->format($format) == $date;
+		    return $d && $d->format( $format ) == $date;
 		}
 
 
@@ -373,7 +373,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		public function fix_date( $date, $format = 'Y-m-d' ) {
 			
 			// change the $date to $format and return
-			$d = date($format,strtotime($date));
+			$d = date( $format, strtotime( $date ) );
 			return $d;
 
 		}
@@ -404,12 +404,31 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 			$date_array = $config['api_options']['all']['validation']['dates'];
 			$number_array = $config['api_options']['all']['validation']['numbers'];
+			$boolean_array = $config['api_options']['all']['validation']['boolean'];
 
 			// check that we don't have an empty value
 			if ( !empty( $value ) ) {
 
+				// check if the value of the key supposed to be a boolean
+				if ( in_array( $key, $boolean_array ) ) {
+
+					// check that we have a boolean
+					if ( is_bool( $value ) ) {
+
+						// we have a boolean value - let's return it
+						return $value;
+
+					} else {
+
+						// we don't have one - let's return 'false' by default
+						return false;
+
+					}
+
+				}
+
 				// check if the value of the key is supposed to be in a date format
-				if ( in_array( $key, $date_array ) ) {
+				else if ( in_array( $key, $date_array ) ) {
 
 					// check if we have a valide date
 					if ( $this->validate_date( $value ) ) {
@@ -520,7 +539,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$output = $string = $error_message = array();
 
 			// if we do not have an array, end the process
-			if ( !is_array ( $params ) ) {
+			if ( ! is_array ( $params ) ) {
 				
 				return false;
 
@@ -530,13 +549,10 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				foreach ( $params as $key => $value ) {
 					
 					// check that we have a valid value that isn't null, blank, or empty array
-					if ( $value !== null && $value !== '' &! empty( $value ) ) {
+					if ( null !== $value && '' !== $value &! empty( $value ) ) {
 
-						// check 
-						$valid_value = $this->validate_key($key,$value);
-
-						// check for validation
-						$value = $valid_value;
+						// get valid value for the key value
+						$value = $this->validate_key( $key, $value );
 
 						// convert any comma delimited $value to an array
 						$value = explode( ',', $value );
@@ -545,7 +561,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 						if ( count( $value ) > 1 ) {
 						
 							// check that the $value is allowed as an array
-							if ( !in_array( $key, $allowed_array ) ) {
+							if ( ! in_array( $key, $allowed_array ) ) {
 								
 								// let the user know they are attempting an array where one is not allowed
 								$error_message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
@@ -620,7 +636,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$api_type = $attr_all['get'];
 
 			// check that we have a valid 'get' type
-			if ( $api_type == '' || $api_type == null ) {
+			if ( '' == $api_type || null == $api_type ) {
 
 				// let's default to events
 				$api_type = 'events';
@@ -637,10 +653,10 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			if ( '' != $api_cache ) {
 
 				// validate the cache value
-				$valid_api_cache = $this->validate_key( 'cache', $api_cache );
+				$api_cache = $this->validate_key( 'cache', $api_cache );
 
 				// store the cache number as part of the url array
-				$json_url['cache'] = $valid_api_cache;
+				$json_url['cache'] = $api_cache;
 
 			}
 					
@@ -657,7 +673,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				$parameters_string = $this->parameters_as_string( $api_attr, $api_type );
 				
 				// if we have any error messages
-				if ( empty($parameters_string) ) {
+				if ( empty( $parameters_string ) ) {
 					
 					return __('Something went wrong.', $this->tag);
 
@@ -686,14 +702,14 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					// check if we have no errors in returned json data
 					if ( ! $json_data['errors'] ) {
 						
-						// check if we have results
-						if ( $json_data['results'] ) {
+						// check if we have data
+						if ( $json_data['data'] ) {
 							
 							// we have json array data
 
 							// TODO: function for looping through json data
 							
-							return 'API Results Successful: ' . $json_data['results'];  // replace this with loop
+							return 'API Data Successful: ' . $json_data['data'];  // replace this with loop
 
 
 						} 
