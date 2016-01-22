@@ -353,10 +353,10 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		public function validate_date( $date, $format = 'Y-m-d' ) {
 		    
 		    // returns new DateTime object formatted according to the specified format
-		    $d = DateTime::createFromFormat($format, $date);
+		    $d = DateTime::createFromFormat( $format, $date );
 
 		    // return boolean
-		    return $d && $d->format($format) == $date;
+		    return $d && $d->format( $format ) == $date;
 		}
 
 
@@ -373,7 +373,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		public function fix_date( $date, $format = 'Y-m-d' ) {
 			
 			// change the $date to $format and return
-			$d = date($format,strtotime($date));
+			$d = date( $format, strtotime( $date ) );
 			return $d;
 
 		}
@@ -539,7 +539,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$output = $string = $error_message = array();
 
 			// if we do not have an array, end the process
-			if ( !is_array ( $params ) ) {
+			if ( ! is_array ( $params ) ) {
 				
 				return false;
 
@@ -549,13 +549,10 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				foreach ( $params as $key => $value ) {
 					
 					// check that we have a valid value that isn't null, blank, or empty array
-					if ( $value !== null && $value !== '' &! empty( $value ) ) {
+					if ( null !== $value && '' !== $value &! empty( $value ) ) {
 
-						// check 
-						$valid_value = $this->validate_key($key,$value);
-
-						// check for validation
-						$value = $valid_value;
+						// get valid value for the key value
+						$value = $this->validate_key( $key, $value );
 
 						// convert any comma delimited $value to an array
 						$value = explode( ',', $value );
@@ -564,7 +561,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 						if ( count( $value ) > 1 ) {
 						
 							// check that the $value is allowed as an array
-							if ( !in_array( $key, $allowed_array ) ) {
+							if ( ! in_array( $key, $allowed_array ) ) {
 								
 								// let the user know they are attempting an array where one is not allowed
 								$error_message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
@@ -639,7 +636,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$api_type = $attr_all['get'];
 
 			// check that we have a valid 'get' type
-			if ( $api_type == '' || $api_type == null ) {
+			if ( '' == $api_type || null == $api_type ) {
 
 				// let's default to events
 				$api_type = 'events';
@@ -676,7 +673,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				$parameters_string = $this->parameters_as_string( $api_attr, $api_type );
 				
 				// if we have any error messages
-				if ( empty($parameters_string) ) {
+				if ( empty( $parameters_string ) ) {
 					
 					return __('Something went wrong.', $this->tag);
 
