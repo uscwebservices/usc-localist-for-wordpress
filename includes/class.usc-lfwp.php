@@ -404,12 +404,31 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 			$date_array = $config['api_options']['all']['validation']['dates'];
 			$number_array = $config['api_options']['all']['validation']['numbers'];
+			$boolean_array = $config['api_options']['all']['validation']['boolean'];
 
 			// check that we don't have an empty value
 			if ( !empty( $value ) ) {
 
+				// check if the value of the key supposed to be a boolean
+				if ( in_array( $key, $boolean_array ) ) {
+
+					// check that we have a boolean
+					if ( is_bool( $value ) ) {
+
+						// we have a boolean value - let's return it
+						return $value;
+
+					} else {
+
+						// we don't have one - let's return 'false' by default
+						return false;
+
+					}
+
+				}
+
 				// check if the value of the key is supposed to be in a date format
-				if ( in_array( $key, $date_array ) ) {
+				else if ( in_array( $key, $date_array ) ) {
 
 					// check if we have a valide date
 					if ( $this->validate_date( $value ) ) {
