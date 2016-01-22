@@ -145,10 +145,10 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				if ( $parameter_value ) {
 
 					// validate the value
-					$valid_parameter_value = $this->validate_key( $key['relationship'], $parameter_value );
+					$parameter_value = $this->validate_key( $key['relationship'], $parameter_value );
 
 					// add the value as an associative array item
-					$values[$key['name']] = $valid_parameter_value;
+					$values[$key['name']] = $parameter_value;
 
 				}
 
@@ -170,7 +170,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		 * @param 	string 	type 	the type of data to get [events]
 		 * @param 	string 	options the options to attach to narrow results
 		 * @param 	number 	timeout the timeout (in seconds) for waiting for the return
-		 * @return 	json 	array 	the json results 	
+		 * @return 	json 	array 	the json data 	
 		 */
 		function get_json( $params ) {
 
@@ -252,7 +252,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			if ( ! empty( $transient ) ) {
 
 				// We have a transient, no need to make an API call
-				$output['results'] = $transient;
+				$output['data'] = $transient;
 				
 			} else {
 
@@ -306,13 +306,13 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					if ( '' != $response['body'] ) {
 
 						// encode the json data and set to TRUE for array
-						$output['results'] = json_decode( $response['body'], TRUE );
+						$output['data'] = json_decode( $response['body'], TRUE );
 
 						// let's store the data as a transient using the cache attribute
 						if ( '' != $api_cache ) {
 
 							// let's set a transient for the API call
-							set_transient( $transient_name, $output['results'], $api_cache );
+							set_transient( $transient_name, $output['data'], $api_cache );
 							
 						}
 						
@@ -653,10 +653,10 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			if ( '' != $api_cache ) {
 
 				// validate the cache value
-				$valid_api_cache = $this->validate_key( 'cache', $api_cache );
+				$api_cache = $this->validate_key( 'cache', $api_cache );
 
 				// store the cache number as part of the url array
-				$json_url['cache'] = $valid_api_cache;
+				$json_url['cache'] = $api_cache;
 
 			}
 					
@@ -702,14 +702,14 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					// check if we have no errors in returned json data
 					if ( ! $json_data['errors'] ) {
 						
-						// check if we have results
-						if ( $json_data['results'] ) {
+						// check if we have data
+						if ( $json_data['data'] ) {
 							
 							// we have json array data
 
 							// TODO: function for looping through json data
 							
-							return 'API Results Successful: ' . $json_data['results'];  // replace this with loop
+							return 'API Data Successful: ' . $json_data['data'];  // replace this with loop
 
 
 						} 
