@@ -554,36 +554,48 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 						// get valid value for the key value
 						$value = $this->validate_key( $key, $value );
 
-						// convert any comma delimited $value to an array
-						$value = explode( ',', $value );
+						// check that we don't have a boolean
+						if ( $value ) {
 
-						// if the $value is an array
-						if ( count( $value ) > 1 ) {
-						
-							// check that the $value is allowed as an array
-							if ( ! in_array( $key, $allowed_array ) ) {
-								
-								// let the user know they are attempting an array where one is not allowed
-								$error_message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
+							// convert any comma delimited $value to an array
+							$value = explode( ',', $value );
+
+							// if the $value is an array
+							if ( count( $value ) > 1 ) {
+							
+								// check that the $value is allowed as an array
+								if ( ! in_array( $key, $allowed_array ) ) {
+									
+									// let the user know they are attempting an array where one is not allowed
+									$error_message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
+
+								} else {
+
+									// loop through sub values
+									foreach ( $value as $sub_value ) {
+										
+										// add multiple values as 'key[]=sub_value'
+										$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
+
+									}
+								}
 
 							} else {
 
-								// loop through sub values
-								foreach ( $value as $sub_value ) {
-									
-									// add multiple values as 'key[]=sub_value'
-									$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
+								// add single key values as 'key=value'
+								$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
 
-								}
 							}
 
 						} else {
 
-							// add single key values as 'key=value'
-							$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
-
+							// add single key boolean values as 'key=bool_value'
+							$string[] .= urlencode( $key ) . '=' . var_export($value, true);
+							
 						}
+
 					}
+
 				}
 
 				// combine any errors and set a message value
