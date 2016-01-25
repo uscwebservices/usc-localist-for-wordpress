@@ -59,7 +59,6 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 						// custom values
 						'get' => '', // API GET type: [events,organizations,groups,search]
 						'cache' => '', // Transient cache timeout setting
-						'event-url' => '', // relative url setting for event detail page
 
 						// localist values
 						'organization_id' => '',
