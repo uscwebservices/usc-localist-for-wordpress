@@ -55,8 +55,13 @@ if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 				// note: 'get' is custom to the type of GET API we will perform
 				'all' => array(
 					'allowed' => array(
+						
+						// custom values
 						'get' => '', // API GET type: [events,organizations,groups,search]
 						'cache' => '', // Transient cache timeout setting
+						'event-url' => '', // relative url setting for event detail page
+
+						// localist values
 						'organization_id' => '',
 						'communities_id' => '',
 						'bounds' => '',
