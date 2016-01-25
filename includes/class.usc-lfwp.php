@@ -555,7 +555,12 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 						$value = $this->validate_key( $key, $value );
 
 						// check that we don't have a boolean
-						if ( $value ) {
+						if ( ! $value ) {
+
+							// add single key boolean values as 'key=bool_value'
+							$string[] .= urlencode( $key ) . '=' . var_export($value, true);
+
+						} else {
 
 							// convert any comma delimited $value to an array
 							$value = explode( ',', $value );
@@ -587,11 +592,6 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 							}
 
-						} else {
-
-							// add single key boolean values as 'key=bool_value'
-							$string[] .= urlencode( $key ) . '=' . var_export($value, true);
-							
 						}
 
 					}
