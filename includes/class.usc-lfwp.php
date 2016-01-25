@@ -140,7 +140,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 			// loop through the available parameters from the config file
 			foreach ( $parameters as $key ) {
-				
+
 				// check that the key is allowed per api type
 				if ( array_key_exists( $key['relationship'], $allowed_array_keys ) ) {
 
@@ -217,11 +217,23 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		    );
 
 			// set var for constructed api url
-			$api_url = $api_base_url . $api_type;
+			$api_url = $api_base_url;
 
-			// set query to event id if exists
-			if ( '' != $api_event_id ) {
-				$api_url .= '/' . $api_event_id;
+			// set api type customizations
+			if ( $api_type == 'event' ) {
+				
+				// set the type to events for api structure
+				$api_url .= 'events';
+
+				if ( '' != $api_event_id ) {
+					$api_url .= '/' . $api_event_id;
+				}
+
+			}
+
+			// default api type
+			else {
+				$api_url .= $api_type;
 			}
 
 			// add query string initiator
@@ -660,8 +672,6 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 
 			}
 
-			// TODO: set single event type here
-
 			// set the api type
 			$json_url['type'] = $api_type;
 
@@ -680,16 +690,19 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			}
 
 			// get url parameters and attach to the api query
-			$url_parameters = $this->get_custom_query_variables( $api_type );
+				
+				$url_parameters = $this->get_custom_query_variables( $api_type );
+
+				// loop through the url parameters and attach to the $json_url associative array
+				foreach ( $url_parameters as $key => $value ) {
+					$json_url[$key] = $value;
+				}
 					
 				
 			// get allowed api attributes
 
 				// get the available api options (based on type) from the shortcode
 				$api_attr = shortcode_atts( $config['api_options'][$api_type]['allowed'], $params, 'localist-calendar' );
-
-			// combine url parameters and shortcode parameters
-			$api_attr = array_merge( $api_attr, $url_parameters );
 
 			// build the api url string for any options
 
