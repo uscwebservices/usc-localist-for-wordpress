@@ -82,16 +82,6 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		}
 
 		/**
-		 * Run the code
-		 * @return [type]
-		 */
-		public function run() {
-			
-			// do something if we want
-
-		}
-
-		/**
 		 * Add Query Variables Filter
 		 * ==========================
 		 *
@@ -236,7 +226,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				$api_url .= $api_type;
 			}
 
-			// add query string initiator
+			// add query string initiator for api options or page number
 			if ( '' != $api_options || '' != $api_page_number ) {
 
 				$api_url .= '?';
@@ -675,7 +665,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// set the api type
 			$json_url['type'] = $api_type;
 
-			// set transient cache timeout
+			// set transient cache expiration (in seconds)
 			$api_cache = $attr_all['cache'];
 
 			// check that we have a valid 'cache' value

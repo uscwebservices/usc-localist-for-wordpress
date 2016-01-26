@@ -64,7 +64,6 @@ require plugin_dir_path( __FILE__ ) . 'includes/class.usc-lfwp.php';
 function run_USC_Localist_for_WordPress() {
 
 	$plugin = new USC_Localist_for_WordPress;
-	$plugin->run();
 
 
 }
