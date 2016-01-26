@@ -184,7 +184,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
 			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
 			$api_event_id		= isset ( $params['event_id'] ) ? $params['event_id'] : '';
-			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS;
+			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS; // default cache to 1 hour
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
 			$timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : 5;
@@ -243,7 +243,12 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// add page number
 			if ( '' != $api_page_number ) {
 
-				$api_url .= $api_page_number;
+				// if we have api options, add ampersand joiner
+				if ( '' != $api_options ) {
+					$api_url .= '&';
+				}
+
+				$api_url .= 'page=' . $api_page_number;
 
 			}
 
