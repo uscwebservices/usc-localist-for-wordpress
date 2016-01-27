@@ -20,7 +20,7 @@
  * @subpackage Plugin_Name/includes
  * @author     Your Name <email@example.com>
  */
-class Localist_for_WordPress_Deactivator {
+class USC_Localist_for_WordPress_Deactivator {
 
 	/**
 	 * Short Description. (use period)
