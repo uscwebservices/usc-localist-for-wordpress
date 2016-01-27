@@ -23,6 +23,8 @@ class Plugin_Name_Activator {
 	 */
 	public static function activate() {
 		
+		// TODO: add custom post type addition here
+		// TODO: add any rewrite flushes
 	}
 
 }
