@@ -31,6 +31,11 @@ class Localist_for_WordPress_Deactivator {
 	 */
 	public static function deactivate() {
 
+		// Our post type will be automatically removed, so no need to unregister it
+ 
+	    // Clear the permalinks to remove our post type's rules
+	    flush_rewrite_rules();
+
 	}
 
 }
