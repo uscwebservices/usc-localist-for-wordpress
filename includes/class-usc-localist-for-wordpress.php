@@ -6,7 +6,6 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       https://bitbucket.org/uscwebservices/usc-localist-for-wordpress
  * @since      1.0.0
  *
  * @package    USC_Localist_for_WordPress
@@ -54,7 +53,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		public function __construct() {
 			
 			// requrire the config class for API variables
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class.usc-lfwp-config.php';
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
 			// retrun the API configurations
 			$this->config = USC_Localist_for_WordPress_Config::$config;
@@ -774,7 +773,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					$json_data = $this->get_json( $json_url );
 
 					// check if we have no errors in returned json data
-					if ( ! $json_data['errors'] ) {
+					if ( ! isset($json_data['errors']) ) {
 						
 						// check if we have data
 						if ( $json_data['data'] ) {
