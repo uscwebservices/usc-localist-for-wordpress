@@ -21,25 +21,25 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 		 * Tag identifier used by file includes and selector attributes.
 		 * @var string
 		 */
-		protected $tag = 'usc-localist-for-wordpress';
+		protected $plugin_tag = 'usc-localist-for-wordpress';
 
 		/**
 		 * Shortcode identifier used by file includes and selector attributes.
 		 * @var string
 		 */
-		protected $shortcode = 'localist-calendar';
+		protected $plugin_shortcode = 'localist-calendar';
 
 		/**
 		 * User friendly name used to identify the plugin.
 		 * @var string
 		 */
-		protected $name = 'USC Localist for WordPress';
+		protected $plugin_name = 'USC Localist for WordPress';
 
 		/**
 		 * Current version of the plugin.  Set in plugin root @ usc-localist-for-wordpress.php
 		 * @var string
 		 */
-		protected $version = USC_LFWP__VERSION;
+		protected $plugin_version = USC_LFWP__VERSION;
 
 		/**
 		 * Define the core functionality of the plugin.
@@ -60,7 +60,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$this->config = USC_Localist_for_WordPress_Config::$config;
 
 			// add the shortcode function
-			add_shortcode( $this->shortcode, array( &$this, 'events_shortcode' ) );
+			add_shortcode( $this->plugin_shortcode, array( &$this, 'events_shortcode' ) );
 
 			// add url parameter support
 			add_filter( 'query_vars', array( $this, 'add_query_variables_filter') );
@@ -640,7 +640,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$json_url = array();
 
 			// get all api options
-			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, 'localist-calendar' );
+			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, $this->plugin_shortcode );
 
 			// store the api type as a variable
 			$api_type = $attr_all['get'];
@@ -693,7 +693,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				// if we have any error messages
 				if ( empty( $parameters_string ) ) {
 					
-					return __('Something went wrong.', $this->tag);
+					return __('Something went wrong.', $this->plugin_tag);
 
 				}
 
@@ -701,7 +701,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					
 					// there are errors
 					$errors = true;
-					return __( $parameters_string['errors'], 'usc-localist-for-wordpress' );
+					return __( $parameters_string['errors'], $plugin_tag );
 
 				} else {
 
