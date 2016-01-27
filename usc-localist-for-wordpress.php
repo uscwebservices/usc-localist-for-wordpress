@@ -44,7 +44,6 @@ function deactivate_usc_localist_for_wordpress() {
 	USC_Localist_for_WordPress_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_usc_localist_for_wordpress' );
 register_deactivation_hook( __FILE__, 'deactivate_usc_localist_for_wordpress' );
 
 
