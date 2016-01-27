@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The file that defines the core plugin class
+ * Class: USC Localist for WordPress
  *
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
@@ -13,20 +13,6 @@
  * @subpackage USC_Localist_for_WordPress/includes
  */
 
-/**
- * The core plugin class.
- *
- * This is used to define internationalization, admin-specific hooks, and
- * public-facing site hooks.
- *
- * Also maintains the unique identifier of this plugin as well as the current
- * version of the plugin.
- *
- * @since      1.0.0
- * @package    USC_Localist_for_WordPress
- * @subpackage USC_Localist_for_WordPress/includes
- * @author     Your Name <email@example.com>
- */
 if ( ! class_exists('USC_Localist_for_WordPress') ) {
 	
 	class USC_Localist_for_WordPress {
@@ -79,16 +65,6 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// add url parameter support
 			add_filter( 'query_vars', array( $this, 'add_query_variables_filter') );
 			
-		}
-
-		/**
-		 * Run the code
-		 * @return [type]
-		 */
-		public function run() {
-			
-			// do something if we want
-
 		}
 
 		/**
@@ -194,7 +170,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
 			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
 			$api_event_id		= isset ( $params['event_id'] ) ? $params['event_id'] : '';
-			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS;
+			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS; // default cache to 1 hour
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
 			$timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : 5;
@@ -236,7 +212,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				$api_url .= $api_type;
 			}
 
-			// add query string initiator
+			// add query string initiator for api options or page number
 			if ( '' != $api_options || '' != $api_page_number ) {
 
 				$api_url .= '?';
@@ -253,7 +229,12 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// add page number
 			if ( '' != $api_page_number ) {
 
-				$api_url .= $api_page_number;
+				// if we have api options, add ampersand joiner
+				if ( '' != $api_options ) {
+					$api_url .= '&';
+				}
+
+				$api_url .= 'page=' . $api_page_number;
 
 			}
 
@@ -675,7 +656,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			// set the api type
 			$json_url['type'] = $api_type;
 
-			// set transient cache timeout
+			// set transient cache expiration (in seconds)
 			$api_cache = $attr_all['cache'];
 
 			// check that we have a valid 'cache' value
