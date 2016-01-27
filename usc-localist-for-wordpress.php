@@ -1,18 +1,6 @@
 <?php
 
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
- * @link              http://itservices.usc.edu/webservices/
- * @since             1.0.0
- * @package           Usc_Localist_For_Wordpress
- *
- * @wordpress-plugin
  * Plugin Name:       USC Localist for WordPress
  * Plugin URI:        https://bitbucket.org/uscwebservices/usc-localist-for-wordpress
  * Description:       Localist API Shortcodes for WordPress
