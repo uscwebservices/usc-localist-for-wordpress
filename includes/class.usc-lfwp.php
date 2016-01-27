@@ -718,7 +718,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 					$json_data = $this->get_json( $json_url );
 
 					// check if we have no errors in returned json data
-					if ( ! $json_data['errors'] ) {
+					if ( ! isset($json_data['errors']) ) {
 						
 						// check if we have data
 						if ( $json_data['data'] ) {
