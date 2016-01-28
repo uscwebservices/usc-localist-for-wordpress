@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * Class: USC Localist for WordPress Errors
+ *
+ * Error messaging handling for functions and objects.
+ *
+ * @since      1.0.0
+ *
+ * @package    USC_Localist_for_WordPress
+ * @subpackage USC_Localist_for_WordPress/includes
+ */
+
+if ( ! class_exists( 'USC_Localist_For_WordPress_Errors' ) ) {
+	
+	class USC_Localist_For_WordPress_Errors {
+
+		private $messages;
+
+		public function __construct() {
+			$this->messgaes = array();
+		}
+
+		public function addMessage($message) {
+			$this->messages[] = $message;
+		}
+
+		public function getMessages() {
+			return $this->messages;
+		}
+
+	}
+
+}
