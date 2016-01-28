@@ -1,24 +1,13 @@
 <?php
 
 /**
- * Fired during plugin activation
+ * Class: USC Localist Config Settings
  *
- * @link       http://example.com
- * @since      1.0.0
- *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- */
-
-/**
- * Fired during plugin activation.
- *
- * This class defines all code necessary to run during the plugin's activation.
+ * A class to keep all configuration settings.
  *
  * @since      1.0.0
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- * @author     Your Name <email@example.com>
+ * @package    USC_Localist_for_WordPress
+ * @subpackage USC_Localist_for_WordPress/includes
  */
 if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
 	
