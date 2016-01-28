@@ -8,13 +8,13 @@
  *
  * @since      1.0.0
  *
- * @package    USC_Localist_for_WordPress
- * @subpackage USC_Localist_for_WordPress/includes
+ * @package    USC_Localist_For_Wordpress
+ * @subpackage USC_Localist_For_Wordpress/includes
  */
 
-if ( ! class_exists('USC_Localist_for_WordPress') ) {
+if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 	
-	class USC_Localist_for_WordPress {
+	class USC_Localist_For_Wordpress {
 
 		/**
 		 * Tag identifier used by file includes and selector attributes.
@@ -56,7 +56,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
 			// retrun the API configurations
-			$this->config = USC_Localist_for_WordPress_Config::$config;
+			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 			// add the shortcode function
 			add_shortcode( $this->plugin_shortcode, array( &$this, 'events_shortcode' ) );
@@ -781,7 +781,7 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 							
 							// we have json array data
 
-							// TODO: function for looping through json data
+							// TODO: functio€⁄€n for looping through json data
 							
 							return 'API Data Successful: JSON Data';  // replace this with loop
 

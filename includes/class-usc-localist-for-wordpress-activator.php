@@ -10,7 +10,7 @@
  * @subpackage Plugin_Name/includes
  */
 
-class USC_Localist_for_WordPress_Activator {
+class USC_Localist_For_Wordpress_Activator {
 
 	/**
 	 * Activation Functions

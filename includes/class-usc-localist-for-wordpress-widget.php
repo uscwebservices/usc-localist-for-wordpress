@@ -9,7 +9,7 @@
 /**
  * Adds Localist_for_WordPress
  */
-class USC_Localist_for_WordPress extends WP_Widget {
+class USC_Localist_For_Wordpress extends WP_Widget {
 
 	/**
 	 * Register widget with WordPress.
@@ -179,7 +179,7 @@ class USC_Localist_for_WordPress extends WP_Widget {
 } // class Foo_Widget
 
 add_action( 'widgets_init', function(){
-	register_widget( 'USC_Localist_for_WordPress' );
+	register_widget( 'USC_Localist_For_Wordpress' );
 });
 
 ?>

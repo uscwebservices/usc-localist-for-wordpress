@@ -6,12 +6,12 @@
  * A class to keep all configuration settings.
  *
  * @since      1.0.0
- * @package    USC_Localist_for_WordPress
- * @subpackage USC_Localist_for_WordPress/includes
+ * @package    USC_Localist_For_Wordpress
+ * @subpackage USC_Localist_For_Wordpress/includes
  */
-if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
+if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 	
-	class USC_Localist_for_WordPress_Config {
+	class USC_Localist_For_Wordpress_Config {
 		
 		/**
 		 * Define the core configuration of the Localist API
