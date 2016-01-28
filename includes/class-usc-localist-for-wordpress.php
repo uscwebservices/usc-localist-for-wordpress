@@ -113,10 +113,11 @@ if ( ! class_exists('USC_Localist_for_WordPress') ) {
 				'exclude_from_search' => true,
 				'publicly_queryable'  => true,
 				'capability_type'     => 'page',
-				'rewrite' => array(	'slug' 			=> 'event-template',	
-									'with_front'	=> false,
-									'hierarchical' 	=> false
-								 )
+				'rewrite' => array(	
+					'slug' 			=> 'event-template',	
+					'with_front'	=> false,
+					'hierarchical' 	=> false
+					)
 			);
 
 			register_post_type( 'event-template', $args );
