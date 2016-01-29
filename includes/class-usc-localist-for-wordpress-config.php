@@ -14,14 +14,12 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 	class USC_Localist_For_Wordpress_Config {
 		
 		/**
-		 * Define the core configuration of the Localist API
+		 * Configuration settings for the plugin.
 		 *
-		 * Set the allowable API types and allowed API types that can be passed per
-		 * API type as well as those that can be passed as arrays.  Also check for 
-		 * types that need validation as numbers or dates.
-		 *
-		 * @since    1.0.0
+		 * Defines urls for localist and allowed api attributes by 
+		 * types and validation methods.
 		 */
+
 
 		public static $config = array(
 			'url' => array(
