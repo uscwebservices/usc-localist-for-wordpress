@@ -41,11 +41,10 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		protected $plugin_version = USC_LFWP__VERSION;
 
 		/**
-		 * Define the core functionality of the plugin.
+		 * Construct
+		 * =========
 		 *
-		 * Set the plugin name and the plugin version that can be used throughout the plugin.
-		 * Load the dependencies, define the locale, and set the hooks for the admin area and
-		 * the public-facing side of the site.
+		 * Pass a list of arguments to the class being called.
 		 *
 		 * @since    1.0.0
 		 * @access 	 public
@@ -68,6 +67,22 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			add_action( 'init', array( $this, 'events_template_post_type' ), 0 );
 			
 		}
+
+		/**
+		 * Run
+		 * ===
+		 *
+		 * Functions to perform when running the plugin.
+		 *
+		 * @since 	1.0.0
+		 * @access 	public
+		 */
+		public function run() {
+
+			// do stuff here
+			
+		}
+
 
 		/**
 		 * Register Events Template Post Type
