@@ -66,6 +66,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-usc-localist-for-wordpress
 function run_USC_Localist_For_Wordpress() {
 
 	$plugin = new USC_Localist_For_Wordpress();
+	$plugin->run();
 
 }
 run_USC_Localist_For_Wordpress();
