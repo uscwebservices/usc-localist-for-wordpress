@@ -11,9 +11,9 @@
  * @subpackage USC_Localist_for_WordPress/includes
  */
 
-if ( ! class_exists( 'USC_Localist_For_WordPress_Errors' ) ) {
+if ( ! class_exists( 'USC_Localist_For_Wordpress_Errors' ) ) {
 	
-	class USC_Localist_For_WordPress_Errors {
+	class USC_Localist_For_Wordpress_Errors {
 
 		/**
 		 * Error message array.
