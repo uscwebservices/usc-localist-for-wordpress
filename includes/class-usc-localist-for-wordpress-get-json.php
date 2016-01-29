@@ -46,7 +46,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Get_JSON' ) ) {
 		 * Get JSON
 		 * ========
 		 * 
-		 * Get the JSON content
+		 * Get the JSON content.  Options need to be sanitized prior to being passed.  
+		 * Use the functions available in USC_Localist_For_Wordpress_Validation.
 		 * 
 		 * @since 1.0.0
 		 * 
