@@ -780,7 +780,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 					
 					// there are errors
 					$errors = true;
-					return __( $parameters_string['errors'], $plugin_tag );
+					return __( $parameters_string['errors'], $this->plugin_tag );
 
 				} else {
 
