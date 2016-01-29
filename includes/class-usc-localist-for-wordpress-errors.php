@@ -46,7 +46,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Errors' ) ) {
 		 * @param 	string 	$error_messages 	the error message to be added
 		 */
 		public function add_message( $error_message ) {
-			
 			$this->error_messages[] = $error_message;
 		}
 

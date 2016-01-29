@@ -51,15 +51,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 */
 		public function __construct() {
 			
-			// require the error messaging class
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-errors.php';
-			$this->errors = new USC_Localist_For_WordPress_Errors;
-
-			// require the config class for API variables
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
-
-			// retrun the API configurations
-			$this->config = USC_Localist_For_Wordpress_Config::$config;
+			// load dependencies for this class
+			$this->load_dependencies();
 
 			// add the shortcode function
 			add_shortcode( $this->plugin_shortcode, array( &$this, 'events_shortcode' ) );
@@ -70,6 +63,31 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// add custom post type registration support
 			add_action( 'init', array( $this, 'events_template_post_type' ), 0 );
 			
+		}
+
+		/**
+		 * Load the required dependencies for this plugin.
+		 *
+		 * Include the following files that make up the plugin.
+		 *
+		 * Create an instance of the loader which will be used to register the hooks
+		 * with WordPress.
+		 *
+		 * @since    1.0.0
+		 * @access   private
+		 */
+		private function load_dependencies() {
+
+			// require the error messaging class
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-errors.php';
+			$this->errors = new USC_Localist_For_WordPress_Errors;
+
+			// require the config class for API variables
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
+
+			// retrun the API configurations
+			$this->config = USC_Localist_For_Wordpress_Config::$config;
+
 		}
 
 		/**
