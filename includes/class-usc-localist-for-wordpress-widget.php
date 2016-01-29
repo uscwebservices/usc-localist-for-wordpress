@@ -9,7 +9,7 @@
 /**
  * Adds Localist_for_WordPress
  */
-class USC_Localist_For_Wordpress extends WP_Widget {
+class USC_Localist_For_Wordpress_Widget extends WP_Widget {
 
 	/**
 	 * Register widget with WordPress.
