@@ -51,7 +51,11 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 */
 		public function __construct() {
 			
-			// requrire the config class for API variables
+			// require the error messaging class
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-errors.php';
+			$this->errors = new USC_Localist_For_WordPress_Errors;
+
+			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
 			// retrun the API configurations
@@ -235,7 +239,10 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			$config = $this->config;
 			
 			// default variables
-			$output = $error_message = array();
+			$output = array();
+
+			// set error message object
+			$error_messages = new USC_Localist_For_Wordpress_Errors;
 
 			// default parameters
 			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
@@ -337,7 +344,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 				if ( is_wp_error( $response ) ) {
 
 					// return WP error messages
-					$error_message[] = __('WP Error: ', 'textdomain') . $response->get_error_message();
+					$error_messages->add_message( 'WP Error: ' . $response->get_error_message() );
 
 				}
 
@@ -345,7 +352,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 				else if ( $response['response']['code'] >= 400 ) {
 
 					// return the error response code and message
-					$error_message[] = __('Calendar API Error. The shortcode parameters used have returned: ', 'textdomain') . $response['response']['code'] . ' - ' . $response['response']['message'];
+					$error_messages->add_message( 'Calendar API Error. The shortcode parameters used have returned: ' . $response['response']['code'] . ' - ' . $response['response']['message'] );
 					
 					// if we have a response from localist, let's provide if for better troubleshooting
 					if ( '' != $response['body'] ) {
@@ -356,18 +363,18 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 						// return localist error response
 						if ( isset( $localist_error['error'] ) ) {
 							
-							$error_message[] = __('Localist Error: ' . $localist_error['error'] );
+							$error_messages->add_message( 'Localist Error: ' . $localist_error['error'] );
 
 						} else {
 
-							$error_message[] = __('Localist Error: ' . $response['body'] );
+							$error_messages->add_message( 'Localist Error: ' . $response['body'] );
 
 						}
 
 					}
 
 					// add a link to the API URL called to help troubleshoot any issues
-					$error_message[] = '<a target="_blank" href="' . $api_url . '">' . __('API URL') . '</a>';
+					$error_messages->add_message( '<a target="_blank" href="' . $api_url . '">API URL</a>');
 
 				} 
 
@@ -394,14 +401,14 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 					
 					else {
 
-						$error_message[] = __('Hmm... The API Call was successful but no data was returned.  Here is the API call for verification: <a href="' . $api_url . '">' . $api_url . '</a>');
+						$error_messages->add_message( 'Hmm... The API Call was successful but no data was returned.  Here is the API call for verification: <a href="' . $api_url . '">' . $api_url . '</a>');
 
 					}
 
 				}
 
 				// combine any errors and set a message value
-				$output['errors'] = join( '<br>', $error_message );
+				$output['errors'] = join( '<br>', $error_messages->get_messages() );
 
 			}
 
@@ -471,8 +478,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 			// get the default config file
 			$config = $this->config;
-
-			$error_message = array();
 
 			$date_array = $config['api_options']['all']['validation']['dates'];
 			$number_array = $config['api_options']['all']['validation']['numbers'];
@@ -607,8 +612,11 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// get the allowed array values for the api type
 			$allowed_array = $config['api_options'][$api_type]['allowed_array'];
 
-			// set the default output, message and string constructor
-			$output = $string = $error_message = array();
+			// set the default output and string constructor
+			$output = $string = array();
+
+			// set error message object
+			$error_messages = new USC_Localist_For_Wordpress_Errors;
 
 			// if we do not have an array, end the process
 			if ( ! is_array ( $params ) ) {
@@ -644,7 +652,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 								if ( ! in_array( $key, $allowed_array ) ) {
 									
 									// let the user know they are attempting an array where one is not allowed
-									$error_message[] = 'Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".';
+									$error_messages->add_message('Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".');
 
 								} else {
 
@@ -671,7 +679,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 				}
 
 				// combine any errors and set a message value
-				$output['errors'] = join( '<br>', $error_message );
+				$output['errors'] = join( '<br>', $error_messages->get_messages() );
 
 				// combine any strings and set a url string value
 				$output['parameters'] = join( '&', $string );
