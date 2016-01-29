@@ -15,18 +15,52 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Errors' ) ) {
 	
 	class USC_Localist_For_WordPress_Errors {
 
-		private $messages;
+		/**
+		 * Error message array.
+		 * @var string
+		 */
+		private $error_messages;
 
+		/**
+		 * Construct
+		 * =========
+		 *
+		 * @since 1.0.0
+		 * 
+		 * Constructor to run when the class is called.
+		 */
 		public function __construct() {
-			$this->messgaes = array();
+
+			// set an array for error messages
+			$this->error_messages = array();
+
 		}
 
-		public function addMessage($message) {
-			$this->messages[] = $message;
+		/**
+		 * Add Message
+		 * ===========
+		 *
+		 * Add a message to the array.
+		 *
+		 * @since 1.0.0
+		 * @param 	string 	$error_messages 	the error message to be added
+		 */
+		public function add_message($error_messages) {
+			
+			$this->error_messages[] = $error_messages;
 		}
 
-		public function getMessages() {
-			return $this->messages;
+		/**
+		 * Get Messages
+		 * ============
+		 *
+		 * Get the messages that are stored.
+		 *
+		 * @since 1.0.0
+		 * @return array 	error messages as an array
+		 */
+		public function get_messages() {
+			return $this->error_messages;
 		}
 
 	}
