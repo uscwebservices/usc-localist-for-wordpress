@@ -45,9 +45,9 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Errors' ) ) {
 		 * @since 1.0.0
 		 * @param 	string 	$error_messages 	the error message to be added
 		 */
-		public function add_message($error_messages) {
+		public function add_message( $error_message ) {
 			
-			$this->error_messages[] = $error_messages;
+			$this->error_messages[] = $error_message;
 		}
 
 		/**
