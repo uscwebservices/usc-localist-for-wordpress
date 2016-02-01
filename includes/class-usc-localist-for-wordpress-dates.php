@@ -40,8 +40,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		}
 
 		/**
-		 * Validate Date
-		 * =============
+		 * Valid Date
+		 * ==========
 		 * 
 		 * Check if the date passed matches the intended format.
 		 * 
@@ -49,7 +49,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 * @param 	string 	$format 	format to check against date
 		 * @return 	boolean	
 		 */
-		public static function validate_date( $date, $format = 'Y-m-d' ) {
+		public function valid_date( $date, $format = 'Y-m-d' ) {
 		    
 		    // returns new DateTime object formatted according to the specified format
 		    $d = DateTime::createFromFormat( $format, $date );
@@ -68,7 +68,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 * @param 	string 	$format 	format which to change the date
 		 * @return 	string 				date in specified $format
 		 */
-		public static function fix_date( $date, $format = 'Y-m-d' ) {
+		public function fix_date( $date, $format = 'Y-m-d' ) {
 			
 			// change the $date to $format and return
 			$d = date( $format, strtotime( $date ) );

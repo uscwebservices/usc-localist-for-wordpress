@@ -80,9 +80,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// require the date class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-dates.php';
 
-			// set a date function variable
-			$this->dates = new USC_Localist_For_Wordpress_Dates;
-
 			// add the shortcode function
 			add_shortcode( $this->plugin_shortcode, array( &$this, 'events_shortcode' ) );
 
@@ -289,8 +286,11 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 				// check if the value of the key is supposed to be in a date format
 				else if ( in_array( $key, $date_array ) ) {
 
-					// check if we have a valide date
-					if ( $this->dates->validate_date( $value ) ) {
+					// set a new date object for this $key
+					$date = new USC_Localist_For_Wordpress_Dates;
+
+					// check if we have a valide date (bool)
+					if ( $date->valid_date( $value ) ) {
 						
 						// good date format, so return it
 						return $value;
@@ -298,7 +298,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 					} else {
 						
 						// fix the date format
-						return $this->dates->fix_date( $value );
+						return $date->fix_date( $value );
 					}
 
 				} 
