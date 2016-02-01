@@ -19,7 +19,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Get_JSON' ) ) {
 		 * Configuration variable
 		 * @var string
 		 */
-		protected $cofig;
+		private $cofig;
 
 		/**
 		 * Construct
@@ -141,6 +141,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Get_JSON' ) ) {
 				$api_url .= 'page=' . $api_page_number;
 
 			}
+
+			// set the api url to the output data for any debugging
+			$output['url'] = $api_url;
 
 			// REMOVE: local testing only
 			// $api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
