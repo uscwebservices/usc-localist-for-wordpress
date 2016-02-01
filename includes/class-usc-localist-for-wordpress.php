@@ -59,11 +59,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		/**
 		 * Load the required dependencies for this plugin.
 		 *
-		 * Include the following files that make up the plugin.
-		 *
-		 * Create an instance of the loader which will be used to register the hooks
-		 * with WordPress.
-		 *
 		 * @since    1.0.0
 		 * @access   private
 		 */
@@ -73,14 +68,17 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-errors.php';
 			$this->errors = new USC_Localist_For_WordPress_Errors;
 
-			// require the json class
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-get-json.php';
-
 			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
 			// retrun the API configurations
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
+
+			// require the json class
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-get-json.php';
+
+			// require the date class
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-dates.php';
 
 			// add the shortcode function
 			add_shortcode( $this->plugin_shortcode, array( &$this, 'events_shortcode' ) );
@@ -238,45 +236,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 		}
 
-
-		/**
-		 * Validate Date
-		 * =============
-		 * 
-		 * Check if the date passed matches the intended format.
-		 * 
-		 * @param 	string 	$date 		date to pass for checking
-		 * @param 	string 	$format 	format to check against date
-		 * @return 	boolean	
-		 */
-		public function validate_date( $date, $format = 'Y-m-d' ) {
-		    
-		    // returns new DateTime object formatted according to the specified format
-		    $d = DateTime::createFromFormat( $format, $date );
-
-		    // return boolean
-		    return $d && $d->format( $format ) == $date;
-		}
-
-
-		/**
-		 * Fix Date
-		 * ========
-		 * 
-		 * Change a valid date format to a specified format.
-		 * 
-		 * @param 	string 	$date 		valid date
-		 * @param 	string 	$format 	format which to change the date
-		 * @return 	string 				date in specified $format
-		 */
-		public function fix_date( $date, $format = 'Y-m-d' ) {
-			
-			// change the $date to $format and return
-			$d = date( $format, strtotime( $date ) );
-			return $d;
-
-		}
-
 		/**
 		 * Validate Value
 		 * ==============
@@ -327,8 +286,11 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 				// check if the value of the key is supposed to be in a date format
 				else if ( in_array( $key, $date_array ) ) {
 
-					// check if we have a valide date
-					if ( $this->validate_date( $value ) ) {
+					// set a new date object for this $key
+					$date = new USC_Localist_For_Wordpress_Dates;
+
+					// check if we have a valide date (bool)
+					if ( $date->valid_date( $value ) ) {
 						
 						// good date format, so return it
 						return $value;
@@ -336,7 +298,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 					} else {
 						
 						// fix the date format
-						return $this->fix_date( $value );
+						return $date->fix_date( $value );
 					}
 
 				} 
@@ -346,7 +308,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 					// if we have a number
 					if ( is_numeric( $value ) ) {
-						
+
 						// convert any non-whole integer values
 						return intval( $value );
 					
@@ -367,17 +329,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 							// loop through the values
 							foreach ( $value_string as $number ) {
 
-								// check that we have an integer and not something else
-								if ( is_numeric( $number ) ) {
-
-									// convert any non-whole integer values
-									$number_string[] = intval( $number );
-
-								} else {
-
-									return false;
-								}
-
+								// convert any non-whole integer or string values
+								$number_string[] = intval( $number );
 
 							}
 
@@ -447,7 +400,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 				
 				// loop through the parameters
 				foreach ( $params as $key => $value ) {
-					
+
 					// check that we have a valid value that isn't null, blank, or empty array
 					if ( null !== $value && '' !== $value &! empty( $value ) ) {
 
@@ -455,7 +408,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 						$value = $this->validate_key( $key, $value );
 
 						// check that we don't have a boolean
-						if ( ! $value ) {
+						if ( is_bool( $value ) ) {
 
 							// add single key boolean values as 'key=bool_value'
 							$string[] .= urlencode( $key ) . '=' . var_export($value, true);
@@ -626,9 +579,9 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 							
 							// we have json array data
 
-							// TODO: functio€⁄€n for looping through json data
+							// TODO: function for looping through json data
 							
-							return 'API Data Successful: JSON Data';  // replace this with loop
+							return 'API Data Successful: ' . $json_data['url'];  // replace this with loop
 
 
 						} 
