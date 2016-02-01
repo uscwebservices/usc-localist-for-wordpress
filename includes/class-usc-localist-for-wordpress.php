@@ -17,28 +17,28 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 	class USC_Localist_For_Wordpress {
 
 		/**
-		 * Tag identifier used by file includes and selector attributes.
-		 * @var string
-		 */
-		protected $plugin_tag = 'usc-localist-for-wordpress';
-
-		/**
-		 * Shortcode identifier used by file includes and selector attributes.
-		 * @var string
-		 */
-		protected $plugin_shortcode = 'localist-calendar';
-
-		/**
 		 * User friendly name used to identify the plugin.
 		 * @var string
 		 */
-		protected $plugin_name = 'USC Localist for WordPress';
+		protected $plugin_name;
 
 		/**
 		 * Current version of the plugin.  Set in plugin root @ usc-localist-for-wordpress.php
 		 * @var string
 		 */
-		protected $plugin_version = USC_LFWP__VERSION;
+		protected $plugin_version;
+
+		/**
+		 * Tag identifier used by file includes and selector attributes.
+		 * @var string
+		 */
+		protected $plugin_tag;
+
+		/**
+		 * Shortcode identifier used by file includes and selector attributes.
+		 * @var string
+		 */
+		protected $plugin_shortcode;
 
 		/**
 		 * Construct
@@ -51,6 +51,11 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 */
 		public function __construct() {
 			
+			$this->plugin_name = 'USC Localist for Wordpress';
+			$this->plugin_version = USC_LFWP__VERSION;
+			$this->plugin_tag = 'usc-localist-for-wordpress';
+			$this->plugin_shortcode = 'localist-calendar';
+
 			// load dependencies for this class
 			$this->load_dependencies();
 			
@@ -66,13 +71,9 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 			// require the error messaging class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-errors.php';
-			$this->errors = new USC_Localist_For_WordPress_Errors;
 
 			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
-
-			// retrun the API configurations
-			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 			// require the json class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-get-json.php';
@@ -88,6 +89,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 			// add custom post type registration support
 			add_action( 'init', array( $this, 'events_template_post_type' ), 0 );
+
+			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}
 
