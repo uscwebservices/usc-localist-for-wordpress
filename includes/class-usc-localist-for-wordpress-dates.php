@@ -102,6 +102,32 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 
 		}
 
+		/**
+		 * Is Noon
+		 * ===========
+		 *
+		 * Check if the date passed is Noon
+		 *
+		 * @param 	string 	$timestamp 	the date object to check against
+		 * @return 	boolean
+		 */
+		function is_noon( $timestamp ) {
+			
+			// check if the hour and minute are set to '0'
+			if( date('H',$timestamp) == 12 && date('i',$timestamp) == 0 ) {
+				
+				// it is noon
+				return true;
+			
+			} else {
+
+				// it is not noon
+				return false;
+
+			}
+
+		}
+
 	}
 
 }
