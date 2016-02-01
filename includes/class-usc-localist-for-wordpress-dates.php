@@ -88,7 +88,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		function is_midnight( $timestamp ) {
 			
 			// check if the hour and minute are set to '0'
-			if( date('H',$timestamp) == 0 && date('i',$timestamp) == 0 ) {
+			if( date( 'H', $timestamp ) == 0 && date( 'i', $timestamp ) == 0 ) {
 				
 				// it is midnight
 				return true;
@@ -114,7 +114,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		function is_noon( $timestamp ) {
 			
 			// check if the hour and minute are set to '0'
-			if( date('H',$timestamp) == 12 && date('i',$timestamp) == 0 ) {
+			if( date( 'H', $timestamp ) == 12 && date( 'i', $timestamp ) == 0 ) {
 				
 				// it is noon
 				return true;
