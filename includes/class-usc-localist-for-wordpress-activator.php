@@ -23,13 +23,9 @@ class USC_Localist_For_Wordpress_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-		
-		// TODO: add custom post type addition here
 
+		// flush the permalink structure
 		flush_rewrite_rules();
-		
-		
-		// TODO: add any rewrite flushes
 		
 	}
 
