@@ -44,15 +44,32 @@ class USC_Localist_For_Wordpress_Admin {
 	}
 
 	/**
-	 * Register Events Template Post Type
-	 * ==================================
+	 * Activate
+	 * ========
 	 *
-	 * Registers the Post Type of 'Event Templates' for 
-	 * custom template development with Localist events.
+	 * Activate any functions that should run during the admin setup.
 	 *
 	 * @since 	1.0.0
 	 */
-	public function events_template_post_type() {
+	public function activate() {
+		
+		// register the custom post types
+		$this->custom_post_types();
+
+		// let's get the permalinks to work with any custom post types
+		flush_rewrite_rules();
+		
+	}
+
+	/**
+	 * Register Custom Post Types
+	 * ==========================
+	 *
+	 * Registers the Post Types for the plugin
+	 *
+	 * @since 	1.0.0
+	 */
+	public function custom_post_types() {
 
 		$labels = array(
 			'name'                => _x( 'Event Templates', 'Post Type General Name', '' ),
@@ -74,18 +91,18 @@ class USC_Localist_For_Wordpress_Admin {
 			'labels'              => $labels,
 			'supports' 			  => array('title','editor','page-attributes','revisions'),
 			'hierarchical'        => false,
-			'public'              => true,
+			'public'              => false,
 			'query_var' 		  => true,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
-			'show_in_nav_menus'   => true,
+			'show_in_nav_menus'   => false,
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 40,
 			'menu_icon'           => 'dashicons-calendar-alt',
 			'can_export'          => true,
 			'has_archive'         => false,
 			'exclude_from_search' => true,
-			'publicly_queryable'  => true,
+			'publicly_queryable'  => false,
 			'capability_type'     => 'page',
 			'rewrite' => array(	
 				'slug' 			=> 'event-template',	
