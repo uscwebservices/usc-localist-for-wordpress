@@ -1,13 +1,11 @@
 <?php
 	
 /**
- * USC Localist for WordPress: Widget
- * @package usc-localist-for-wordpress
- */
-
-
-/**
- * Adds Localist_for_WordPress
+ * The widget functionality of the plugin.
+ *
+ * @package    Usc_Localist_For_Wordpress
+ * @subpackage Usc_Localist_For_Wordpress/includes
+ * @author     USC Web Services <webhelp@usc.edu>
  */
 class USC_Localist_For_Wordpress_Widget extends WP_Widget {
 
