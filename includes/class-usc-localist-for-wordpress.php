@@ -20,8 +20,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 * The loader that's responsible for maintaining and registering all hooks that power
 		 * the plugin.
 		 *
-		 * @since    1.0.0
-		 * @access   protected
 		 * @var      Usc_Localist_For_Wordpress_Loader    $loader    Maintains and registers all hooks for the plugin.
 		 */
 		protected $loader;
@@ -69,10 +67,14 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// load dependencies for this class
 			$this->load_dependencies();
 			$this->define_admin_hooks();
+			$this->define_public_hooks();
 			
 		}
 
 		/**
+		 * Load Dependencies
+		 * =================
+		 * 
 		 * Load the required dependencies for this plugin.
 		 *
 		 * @since    1.0.0
@@ -91,6 +93,12 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			 */
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-usc-localist-for-wordpress-admin.php';
 
+			/**
+			 * The class responsible for defining all actions that occur in the public-facing
+			 * side of the site.
+			 */
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-usc-localist-for-wordpress-public.php';
+
 
 			// require the error messaging class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-errors.php';
@@ -107,9 +115,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// add the shortcode function
 			add_shortcode( $this->plugin_shortcode, array( &$this, 'events_shortcode' ) );
 
-			// add url parameter support
-			add_filter( 'query_vars', array( $this, 'add_query_variables_filter') );
-
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 			$this->loader = new USC_Localist_For_Wordpress_Loader();
 
@@ -122,7 +127,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 * Functions to perform when running the plugin.
 		 *
 		 * @since 	1.0.0
-		 * @access 	public
 		 */
 		public function run() {
 
@@ -132,21 +136,26 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		}
 
 		/**
+		 * Get Loader
+		 * ==========
+		 * 
 		 * The reference to the class that orchestrates the hooks with the plugin.
 		 *
 		 * @since     1.0.0
-		 * @return    Usc_Localist_For_Wordpress_Loader    Orchestrates the hooks of the plugin.
+		 * @return    USC_Localist_For_Wordpress_Loader    Orchestrates the hooks of the plugin.
 		 */
 		public function get_loader() {
 			return $this->loader;
 		}
 
 		/**
+		 * Define Admin Hooks
+		 * ==================
+		 * 
 		 * Register all of the hooks related to the admin area functionality
 		 * of the plugin.
 		 *
 		 * @since    1.0.0
-		 * @access   private
 		 */
 		private function define_admin_hooks() {
 
@@ -157,28 +166,17 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		}
 
 		/**
-		 * Add Query Variables Filter
-		 * ==========================
+		 * Register all of the hooks related to the public-facing functionality
+		 * of the plugin.
 		 *
-		 * Set custom query variables.  Safer methods for 
-		 * using $_GET.
-		 *
-		 * @since 1.0.0
+		 * @since    1.0.0
 		 */
-		public function add_query_variables_filter( $vars ){
-			
-			$parameters = $this->config['url']['parameters'];
+		private function define_public_hooks() {
 
-			// loop throught the available parameters from the config and add them
-			foreach ( $parameters as $value ) {
-				
-				// add the 'name' value to the allowed url parameter types
-				$vars[] = $value['name'];
+			$plugin_public = new USC_Localist_For_Wordpress_Public( $this->plugin_name, $this->plugin_version );
 
-			}
-
-			// return the $vars added
-			return $vars;
+			// add url parameter support
+			$this->loader->add_filter( 'query_vars', $plugin_public, 'add_query_variables_filter' );
 
 		}
 
