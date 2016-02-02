@@ -17,6 +17,16 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 	class USC_Localist_For_Wordpress {
 
 		/**
+		 * The loader that's responsible for maintaining and registering all hooks that power
+		 * the plugin.
+		 *
+		 * @since    1.0.0
+		 * @access   protected
+		 * @var      Usc_Localist_For_Wordpress_Loader    $loader    Maintains and registers all hooks for the plugin.
+		 */
+		protected $loader;
+
+		/**
 		 * User friendly name used to identify the plugin.
 		 * @var string
 		 */
@@ -58,6 +68,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 			// load dependencies for this class
 			$this->load_dependencies();
+			$this->define_admin_hooks();
 			
 		}
 
@@ -68,6 +79,18 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 * @access   private
 		 */
 		private function load_dependencies() {
+
+			/**
+			 * The class responsible for orchestrating the actions and filters of the
+			 * core plugin.
+			 */
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-loader.php';
+
+			/**
+			 * The class responsible for defining all actions that occur in the admin area.
+			 */
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-usc-localist-for-wordpress-admin.php';
+
 
 			// require the error messaging class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-errors.php';
@@ -87,10 +110,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// add url parameter support
 			add_filter( 'query_vars', array( $this, 'add_query_variables_filter') );
 
-			// add custom post type registration support
-			add_action( 'init', array( $this, 'events_template_post_type' ), 0 );
-
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
+			$this->loader = new USC_Localist_For_Wordpress_Loader();
 
 		}
 
@@ -105,63 +126,36 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 */
 		public function run() {
 
-			// do stuff here
+			// run the loader
+			$this->loader->run();
 			
 		}
 
+		/**
+		 * The reference to the class that orchestrates the hooks with the plugin.
+		 *
+		 * @since     1.0.0
+		 * @return    Usc_Localist_For_Wordpress_Loader    Orchestrates the hooks of the plugin.
+		 */
+		public function get_loader() {
+			return $this->loader;
+		}
 
 		/**
-		 * Register Events Template Post Type
-		 * ==================================
+		 * Register all of the hooks related to the admin area functionality
+		 * of the plugin.
 		 *
-		 * Registers the Post Type of 'Event Templates' for 
-		 * custom template development with Localist events.
-		 *
-		 * @since 	1.0.0
+		 * @since    1.0.0
+		 * @access   private
 		 */
-		public function events_template_post_type() {
+		private function define_admin_hooks() {
 
-			$labels = array(
-				'name'                => _x( 'Event Templates', 'Post Type General Name', '' ),
-				'singular_name'       => _x( 'Event Template', 'Post Type Singular Name', '' ),
-				'menu_name'           => __( 'Event Templates', '' ),
-				'all_items'           => __( 'All Event Templates', '' ),
-				'view_item'           => __( 'View Event Template', '' ),
-				'add_new_item'        => __( 'Add New Event Template', '' ),
-				'add_new'             => __( 'Add New', '' ),
-				'edit_item'           => __( 'Edit Event Template', '' ),
-				'update_item'         => __( 'Update Event Template', '' ),
-				'search_items'        => __( 'Search Event Templates', '' ),
-				'not_found'           => __( 'Not found', '' ),
-				'not_found_in_trash'  => __( 'Not found in Trash', '' ),
-			);
-			$args = array(
-				'label'               => 'event-template',
-				'description'         => __( 'Template for displaying Localist events', '' ),
-				'labels'              => $labels,
-				'supports' 			  => array('title','editor','page-attributes','revisions'),
-				'hierarchical'        => false,
-				'public'              => true,
-				'query_var' 		  => true,
-				'show_ui'             => true,
-				'show_in_menu'        => true,
-				'show_in_nav_menus'   => true,
-				'show_in_admin_bar'   => true,
-				'menu_position'       => 40,
-				'menu_icon'           => 'dashicons-calendar-alt',
-				'can_export'          => true,
-				'has_archive'         => false,
-				'exclude_from_search' => true,
-				'publicly_queryable'  => true,
-				'capability_type'     => 'page',
-				'rewrite' => array(	
-					'slug' 			=> 'event-template',	
-					'with_front'	=> false,
-					'hierarchical' 	=> false
-					)
-			);
+			$plugin_admin = new USC_Localist_For_Wordpress_Admin( $this->plugin_name, $this->plugin_version );
 
-			register_post_type( 'event-template', $args );
+			$this->loader->add_action( 'init', $plugin_admin, 'events_template_post_type' );
+			// $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+			// $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
 		}
 
 		/**
