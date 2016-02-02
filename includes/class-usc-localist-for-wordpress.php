@@ -122,7 +122,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 * Functions to perform when running the plugin.
 		 *
 		 * @since 	1.0.0
-		 * @access 	public
 		 */
 		public function run() {
 
@@ -132,21 +131,26 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		}
 
 		/**
+		 * Get Loader
+		 * ==========
+		 * 
 		 * The reference to the class that orchestrates the hooks with the plugin.
 		 *
 		 * @since     1.0.0
-		 * @return    Usc_Localist_For_Wordpress_Loader    Orchestrates the hooks of the plugin.
+		 * @return    USC_Localist_For_Wordpress_Loader    Orchestrates the hooks of the plugin.
 		 */
 		public function get_loader() {
 			return $this->loader;
 		}
 
 		/**
+		 * Define Admin Hooks
+		 * ==================
+		 * 
 		 * Register all of the hooks related to the admin area functionality
 		 * of the plugin.
 		 *
 		 * @since    1.0.0
-		 * @access   private
 		 */
 		private function define_admin_hooks() {
 
