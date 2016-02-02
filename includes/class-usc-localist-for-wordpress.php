@@ -214,7 +214,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 					if ( $parameter_value ) {
 
 						// validate the value
-						$parameter_value = $json_api->validate_key( $key['relationship'], $parameter_value );
+						$parameter_value = $json_api->validate_key_value( $key['relationship'], $parameter_value );
 
 						// add the value as an associative array item
 						$values[$key['relationship']] = $parameter_value;
@@ -274,7 +274,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 					if ( null !== $value && '' !== $value &! empty( $value ) ) {
 
 						// get valid value for the key value
-						$value = $json_api->validate_key( $key, $value );
+						$value = $json_api->validate_key_value( $key, $value );
 
 						// check that we don't have a boolean
 						if ( is_bool( $value ) ) {
@@ -386,7 +386,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			if ( '' != $api_cache ) {
 
 				// validate the cache value
-				$api_cache = $json_api->validate_key( 'cache', $api_cache );
+				$api_cache = $json_api->validate_key_value( 'cache', $api_cache );
 
 				// store the cache number as part of the url array
 				$json_url['cache'] = $api_cache;

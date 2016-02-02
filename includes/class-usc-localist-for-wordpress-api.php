@@ -46,8 +46,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		}
 
 		/**
-		 * Validate Value
-		 * ==============
+		 * Validate Key Value
+		 * ==================
 		 * 
 		 * Validate keys and associative values against specified dates and 
 		 * numbers keys from $config settings.  The $key is matched
@@ -62,7 +62,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 * @return 	string 		 		returns validated value if date/number or
 		 * 								original value
 		 */
-		public function validate_key( $key, $value ) {
+		public function validate_key_value( $key, $value ) {
 
 			// get the default config file
 			$config = $this->config;
