@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class: USC Localist for WordPress Get JSON
+ * Class: USC Localist for WordPress API
  *
  * Get JSON from API
  *
@@ -11,9 +11,9 @@
  * @subpackage USC_Localist_for_WordPress/includes
  */
 
-if ( ! class_exists( 'USC_Localist_For_Wordpress_Get_JSON' ) ) {
+if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 	
-	class USC_Localist_For_Wordpress_Get_JSON {
+	class USC_Localist_For_Wordpress_API {
 
 		/**
 		 * Configuration variable

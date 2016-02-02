@@ -107,7 +107,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
 			// require the json class
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-get-json.php';
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-api.php';
 
 			// require the date class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-dates.php';
@@ -484,7 +484,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// default for json url build
 			$json_url = array();
 
-			$json_api = new USC_Localist_For_Wordpress_Get_JSON;
+			$json_api = new USC_Localist_For_Wordpress_API;
 
 			// get all api options
 			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, $this->plugin_shortcode );
