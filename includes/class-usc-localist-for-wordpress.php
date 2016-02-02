@@ -153,8 +153,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			$plugin_admin = new USC_Localist_For_Wordpress_Admin( $this->plugin_name, $this->plugin_version );
 
 			$this->loader->add_action( 'init', $plugin_admin, 'activate' );
-			// $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-			// $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
 		}
 
