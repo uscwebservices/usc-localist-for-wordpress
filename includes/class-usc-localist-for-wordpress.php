@@ -109,9 +109,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// require the json class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-api.php';
 
-			// require the date class
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-dates.php';
-
 			// add the shortcode function
 			add_shortcode( $this->plugin_shortcode, array( &$this, 'events_shortcode' ) );
 
@@ -195,6 +192,9 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// set a default value to capture url values
 			$values = array();
 
+			// set json api for function helpers
+			$json_api = new USC_Localist_For_Wordpress_API;
+
 			// get the allowed values for the api type
 			$allowed_array_keys = $this->config['api_options'][$api_type]['allowed'];
 
@@ -214,7 +214,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 					if ( $parameter_value ) {
 
 						// validate the value
-						$parameter_value = $this->validate_key( $key['relationship'], $parameter_value );
+						$parameter_value = $json_api->validate_key( $key['relationship'], $parameter_value );
 
 						// add the value as an associative array item
 						$values[$key['relationship']] = $parameter_value;
@@ -227,133 +227,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			
 			return $values;
 
-		}
-
-		/**
-		 * Validate Value
-		 * ==============
-		 * 
-		 * Validate keys and associative values against specified dates and 
-		 * numbers keys from $config settings.  The $key is matched
-		 * against supported keys in api_options.all.validation.dates and 
-		 * api_options.all.validation.numbers - if they key matches, it will
-		 * check the value to be a date or integer and return a validated value.
-		 * If the value does not match one of the associated keys, it just 
-		 * returns the original value.
-		 * 
-		 * @param 	string 	$key 		key to check against date/number options
-		 * @param 	string 	$value 		value to check if date or number
-		 * @return 	string 		 		returns validated value if date/number or
-		 * 								original value
-		 */
-		public function validate_key( $key, $value ) {
-
-			// get the default config file
-			$config = $this->config;
-
-			$date_array = $config['api_options']['all']['validation']['dates'];
-			$number_array = $config['api_options']['all']['validation']['numbers'];
-			$boolean_array = $config['api_options']['all']['validation']['boolean'];
-
-			// check that we don't have an empty value
-			if ( !empty( $value ) ) {
-
-				// check if the value of the key supposed to be a boolean
-				if ( in_array( $key, $boolean_array ) ) {
-
-					// check that we have a boolean
-					if ( is_bool( $value ) ) {
-
-						// we have a boolean value - let's return it
-						return $value;
-
-					} else {
-
-						// we don't have one - let's return 'false' by default
-						return false;
-
-					}
-
-				}
-
-				// check if the value of the key is supposed to be in a date format
-				else if ( in_array( $key, $date_array ) ) {
-
-					// set a new date object for this $key
-					$date = new USC_Localist_For_Wordpress_Dates;
-
-					// check if we have a valide date (bool)
-					if ( $date->valid_date( $value ) ) {
-						
-						// good date format, so return it
-						return $value;
-					
-					} else {
-						
-						// fix the date format
-						return $date->fix_date( $value );
-					}
-
-				} 
-
-				// check if the key is supposed to be in a number format
-				else if ( in_array( $key, $number_array ) ) {
-
-					// if we have a number
-					if ( is_numeric( $value ) ) {
-
-						// convert any non-whole integer values
-						return intval( $value );
-					
-					} 
-
-					// else do we have a string
-					else if ( is_string( $value ) ) {
-
-						// set default to re-attach valid numbers
-						$number_string = array();
-
-						// if we have a string of numbers (array), check each one
-						$value_string = explode( ',', $value );
-
-						// if we have more than one in the exploded array
-						if ( count( $value_string ) > 1 ) {
-
-							// loop through the values
-							foreach ( $value_string as $number ) {
-
-								// convert any non-whole integer or string values
-								$number_string[] = intval( $number );
-
-							}
-
-							// combine $number_string array back to a string format
-							return join( ',', $number_string );
-
-						} else {
-
-							return false;
-
-						}
-
-					} 
-
-					// we dont have a valide number, so let's not return bad options
-					else {
-						
-						return false;
-					}
-
-				}
-
-				// if the value doesn't need valiation, just return the value
-				else {
-					
-					return $value;
-				
-				}
-
-			}
 		}
 
 		/**
@@ -384,6 +257,9 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// set error message object
 			$error_messages = new USC_Localist_For_Wordpress_Errors;
 
+			// set json api for function helpers
+			$json_api = new USC_Localist_For_Wordpress_API;
+
 			// if we do not have an array, end the process
 			if ( ! is_array ( $params ) ) {
 				
@@ -398,7 +274,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 					if ( null !== $value && '' !== $value &! empty( $value ) ) {
 
 						// get valid value for the key value
-						$value = $this->validate_key( $key, $value );
+						$value = $json_api->validate_key( $key, $value );
 
 						// check that we don't have a boolean
 						if ( is_bool( $value ) ) {
@@ -510,7 +386,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			if ( '' != $api_cache ) {
 
 				// validate the cache value
-				$api_cache = $this->validate_key( 'cache', $api_cache );
+				$api_cache = $json_api->validate_key( 'cache', $api_cache );
 
 				// store the cache number as part of the url array
 				$json_url['cache'] = $api_cache;
