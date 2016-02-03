@@ -5,25 +5,33 @@
  *
  * A class to keep all configuration settings.
  *
- * @since      1.0.0
- * @package    USC_Localist_for_WordPress
- * @subpackage USC_Localist_for_WordPress/includes
+ * @since 		1.0.0
+ * @package 	Usc_Localist_For_Wordpress
+ * @subpackage 	Usc_Localist_For_Wordpress/includes
+ * @author 		USC Web Services <webhelp@usc.edu>
  */
-if ( ! class_exists('USC_Localist_for_WordPress_Config') ) {
+
+if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 	
-	class USC_Localist_for_WordPress_Config {
+	class USC_Localist_For_Wordpress_Config {
 		
 		/**
-		 * Define the core configuration of the Localist API
+		 * Configuration settings for the plugin.
 		 *
-		 * Set the allowable API types and allowed API types that can be passed per
-		 * API type as well as those that can be passed as arrays.  Also check for 
-		 * types that need validation as numbers or dates.
-		 *
-		 * @since    1.0.0
+		 * Defines urls for localist and allowed api attributes by 
+		 * types and validation methods.
 		 */
 
+
 		public static $config = array(
+			'plugin' => array(
+				'name' => 'USC Localist for Wordpress',
+				'version' => USC_LFWP__VERSION,
+				'tag' => 'usc-localist-for-wordpress',
+				'shortcode' => array(
+					'calendar' => 'localist-calendar'
+				),
+			),
 			'url' => array(
 				'base' => 'https://calendar.usc.edu/api/2/',
 				'parameters' => array(

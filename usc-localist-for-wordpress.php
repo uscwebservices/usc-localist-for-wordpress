@@ -27,24 +27,24 @@ define( 'USC_LFWP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
  * The code that runs during plugin activation.
  * This action is documented in includes/class-usc-localist-for-wordpress-activator.php
  */
-function activate_usc_localist_for_wordpress() {
+function activate_USC_Localist_For_Wordpress() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-usc-localist-for-wordpress-activator.php';
-	USC_Localist_for_WordPress_Activator::activate();
+	USC_Localist_For_Wordpress_Activator::activate();
 }
 
-register_activation_hook( __FILE__, 'activate_usc_localist_for_wordpress' );
+register_activation_hook( __FILE__, 'activate_USC_Localist_For_Wordpress' );
 
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-usc-localist-for-wordpress-deactivator.php
  */
-function deactivate_usc_localist_for_wordpress() {
+function deactivate_USC_Localist_For_Wordpress() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-usc-localist-for-wordpress-deactivator.php';
-	USC_Localist_for_WordPress_Deactivator::deactivate();
+	USC_Localist_For_Wordpress_Deactivator::deactivate();
 }
 
-register_deactivation_hook( __FILE__, 'deactivate_usc_localist_for_wordpress' );
+register_deactivation_hook( __FILE__, 'deactivate_USC_Localist_For_Wordpress' );
 
 
 /**
@@ -63,11 +63,12 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-usc-localist-for-wordpress
  *
  * @since    1.0.0
  */
-function run_usc_localist_for_wordpress() {
+function run_USC_Localist_For_Wordpress() {
 
 	$plugin = new USC_Localist_For_Wordpress();
+	$plugin->run();
 
 }
-run_usc_localist_for_wordpress();
+run_USC_Localist_For_Wordpress();
 
 ?>
