@@ -166,13 +166,17 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 */
 		private function define_public_hooks() {
 
+			// get the public 
 			$plugin_public = new USC_Localist_For_Wordpress_Public( $this->plugin_name, $this->plugin_version );
+			
+			// get the shortcode class
+			$plugin_shortcode = new USC_Localist_For_Wordpress_Shortcode( $this->plugin_name, $this->plugin_version, $this->plugin_tag );
 
 			// add url parameter support
 			$this->loader->add_filter( 'query_vars', $plugin_public, 'add_query_variables_filter' );
 
 			// add shortcodes
-			$this->loader->add_shortcode( 'localist-calendar', $plugin_public, 'events_shortcode' );
+			$this->loader->add_shortcode( $this->config['shortcode']['calendar'], $plugin_shortcode, 'events_shortcode' );
 
 		}
 
