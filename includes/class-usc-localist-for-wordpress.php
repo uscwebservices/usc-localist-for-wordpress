@@ -123,7 +123,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 */
 		public function run() {
 
-			// run the loader
+			// run the loading functions for actions and filters
 			$this->loader->run();
 			
 		}
