@@ -8,254 +8,113 @@
  * @subpackage Usc_Localist_For_Wordpress/public
  * @author     USC Web Services <webhelp@usc.edu>
  */
-class USC_Localist_For_Wordpress_Public {
 
-	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
-	 */
-	private $plugin_name;
+if ( ! class_exists( 'USC_Localist_For_Wordpress_Public' ) ) {
+	class USC_Localist_For_Wordpress_Public {
 
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
-	 */
-	private $version;
-
-	/**
-	 * Initialize the class and set its properties.
-	 *
-	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
-	 */
-	public function __construct( $plugin_name, $version ) {
-
-		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
-		$this->load_dependencies();
-
-	}
-
-	/**
-	 * Load Dependencies
-	 * =================
-	 * 
-	 * Load the required dependencies for this class.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function load_dependencies() {
-
-		// require the config class for API variables
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
-
-		// require the events shortcode Class
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-shortcode.php';
-
-
-			// require the api class
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-api.php';
-
-		$this->config = USC_Localist_For_Wordpress_Config::$config;
-
-	}
-
-
-	/**
-	 * Activate
-	 * ========
-	 *
-	 * Activate any functions that should run during the admin setup.
-	 *
-	 * @since 	1.0.0
-	 */
-	public function activate() {
-		
-		// register the custom post types
-		$this->custom_post_types();
-		
-	}
-
-
-	/**
-	 * Add Query Variables Filter
-	 * ==========================
-	 *
-	 * Set 
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_query_variables_filter( $vars ){
-		
-		$parameters = $this->config['url']['parameters'];
-
-		// loop throught the available parameters from the config and add them
-		foreach ( $parameters as $value ) {
-			
-			// add the 'name' value to the allowed url parameter types
-			$vars[] = $value['name'];
-
-		}
-
-		// return the $vars added
-		return $vars;
-
-	}
-
-	/**
-	 * Get Events Shortcode
-	 * ====================
-	 */
-	public function get_shortcodes() {
-
-		$events_shortcode = new USC_Localist_For_Wordpress_Shortcode;
-
-		$events_shortcode->events_shortcode();
-
-	}
-
-	/**
-		 * Events Shortcode
-		 * ================
-		 * 
-		 * Add the shortcode for Localist Widget
-		 * 
-		 * @since 1.0.0
-		 * @access public
-		 * 
-		 * @require $this-config array
-		 * @param 	string 	params 	shortcode api options
-		 * @return 	html 			events list
-		 * 
-		 * usage: [localist-events {option=value}]
+		/**
+		 * The ID of this plugin.
+		 *
+		 * @since    1.0.0
+		 * @access   private
+		 * @var      string    $plugin_name    The ID of this plugin.
 		 */
-		public function events_shortcode( $params ) {
+		private $plugin_name;
 
-			// get the default config file
-			$config = $this->config;
+		/**
+		 * The version of this plugin.
+		 *
+		 * @since    1.0.0
+		 * @access   private
+		 * @var      string    $version    The current version of this plugin.
+		 */
+		private $version;
 
-			// default setting for error checking
-			$errors = $json_data = false;
+		/**
+		 * Initialize the class and set its properties.
+		 *
+		 * @since    1.0.0
+		 * @param      string    $plugin_name       The name of this plugin.
+		 * @param      string    $version    The version of this plugin.
+		 */
+		public function __construct( $plugin_name, $plugin_version ) {
 
-			// default for json url build
-			$json_url = array();
+			$this->plugin_name = $plugin_name;
+			$this->plugin_version = $plugin_version;
 
-			$json_api = new USC_Localist_For_Wordpress_API;
-
-			// get all api options
-			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, 'localist-calendar' );
-
-			// store the api type as a variable
-			$api_type = $attr_all['get'];
-
-			// check that we have a valid 'get' type
-			if ( '' == $api_type || null == $api_type ) {
-
-				// let's default to events
-				$api_type = 'events';
-
-			}
-
-			// set the api type
-			$json_url['type'] = $api_type;
-
-			// set transient cache expiration (in seconds)
-			$api_cache = $attr_all['cache'];
-
-			// check that we have a valid 'cache' value
-			if ( '' != $api_cache ) {
-
-				// validate the cache value
-				$api_cache = $json_api->validate_key_value( 'cache', $api_cache );
-
-				// store the cache number as part of the url array
-				$json_url['cache'] = $api_cache;
-
-			}
-
-			// get url parameters and attach to the api query
-				
-				$url_parameters = $json_api->get_custom_query_variables( $api_type );
-
-				// loop through the url parameters and attach to the $json_url associative array
-				foreach ( $url_parameters as $key => $value ) {
-					$json_url[$key] = $value;
-				}
-					
-				
-			// get allowed api attributes
-
-				// get the available api options (based on type) from the shortcode
-				$api_attr = shortcode_atts( $config['api_options'][$api_type]['allowed'], $params, 'localist-calendar' );
-
-			// build the api url string for any options
-
-				// get the matching api options by get type
-				$parameters_string = $json_api->parameters_as_string( $api_attr, $api_type );
-				
-				// if we have any error messages
-				if ( empty( $parameters_string ) ) {
-					
-					return __('Something went wrong.', $this->plugin_tag);
-
-				}
-
-				if ( ! empty( $parameters_string['errors'] ) ) {
-					
-					// there are errors
-					$errors = true;
-					return __( $parameters_string['errors'], $this->plugin_tag );
-
-				} else {
-
-					// no errors
-					$json_url['options'] = $parameters_string['parameters'];
-
-				}
-
-			// get the json data if no errors are present
-				
-				if ( ! $errors ) {
-
-					// perform the api call
-					$json_data = $json_api->get_json( $json_url );
-
-					// check if we have no errors in returned json data
-					if ( ! isset( $json_data['errors'] ) || null == $json_data['errors'] ) {
-						
-						// check if we have data
-						if ( $json_data['data'] ) {
-							
-							// we have json array data
-
-							// TODO: function for looping through json data
-							
-							return 'API Data Successful: ' . $json_data['url'];  // replace this with loop
-
-
-						} 
-
-					} else {
-
-						return $json_data['errors'];
-
-					}
-
-				}
+			$this->load_dependencies();
 
 		}
 
-	
+		/**
+		 * Load Dependencies
+		 * =================
+		 * 
+		 * Load the required dependencies for this class.
+		 *
+		 * @since    1.0.0
+		 * @access   private
+		 */
+		private function load_dependencies() {
 
-	
+			// require the config class for API variables
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
+
+			// require the events shortcode Class
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-shortcode.php';
+
+
+				// require the api class
+				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-api.php';
+
+			$this->config = USC_Localist_For_Wordpress_Config::$config;
+
+		}
+
+
+		/**
+		 * Activate
+		 * ========
+		 *
+		 * Activate any functions that should run during the admin setup.
+		 *
+		 * @since 	1.0.0
+		 */
+		public function activate() {
+			
+			// register the custom post types
+			$this->custom_post_types();
+			
+		}
+
+
+		/**
+		 * Add Query Variables Filter
+		 * ==========================
+		 *
+		 * Set 
+		 *
+		 * @since 1.0.0
+		 */
+		public function add_query_variables_filter( $vars ){
+			
+			$parameters = $this->config['url']['parameters'];
+
+			// loop throught the available parameters from the config and add them
+			foreach ( $parameters as $value ) {
+				
+				// add the 'name' value to the allowed url parameter types
+				$vars[] = $value['name'];
+
+			}
+
+			// return the $vars added
+			return $vars;
+
+		}
+
+		
+
+	}
 
 }
