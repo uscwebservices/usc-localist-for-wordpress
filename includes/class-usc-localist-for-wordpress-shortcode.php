@@ -22,6 +22,30 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 		private $config;
 
 		/**
+		 * User friendly name used to identify the plugin.
+		 * @var string
+		 */
+		protected $plugin_name;
+
+		/**
+		 * Current version of the plugin.  Set in plugin root @ usc-localist-for-wordpress.php
+		 * @var string
+		 */
+		protected $plugin_version;
+
+		/**
+		 * Tag identifier used by file includes and selector attributes.
+		 * @var string
+		 */
+		protected $plugin_tag;
+
+		/**
+		 * Tag identifier used by shortcode generator for the calendar.
+		 * @var string
+		 */
+		protected $plugin_shortcode_calendar;
+
+		/**
 		 * Construct
 		 * =========
 		 *
@@ -29,10 +53,26 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 		 * 
 		 * Constructor to run when the class is called.
 		 */
-		public function __construct() {
+		public function __construct( $plugin_name, $plugin_version, $plugin_tag ) {
 
-			// get the version of wordpress
-			global $wp_version;
+			$this->plugin_name = $plugin_name;
+			$this->plugin_version = $plugin_version;
+
+			// load dependencies for this class
+			$this->load_dependencies();
+
+		}
+
+		/**
+		 * Load Dependencies
+		 * =================
+		 * 
+		 * Load the required dependencies for this plugin.
+		 *
+		 * @since    1.0.0
+		 * @access   private
+		 */
+		private function load_dependencies() {
 
 			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
@@ -42,6 +82,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			// retrun the API configurations
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
+
+			$this->plugin_shortcode_calendar = $this->config['shortcode']['calendar'];
 
 		}
 
@@ -74,7 +116,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			$json_api = new USC_Localist_For_Wordpress_API;
 
 			// get all api options
-			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, 'localist-calendar' );
+			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, $this->plugin_shortcode_calendar );
 
 			// store the api type as a variable
 			$api_type = $attr_all['get'];
@@ -117,7 +159,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// get allowed api attributes
 
 				// get the available api options (based on type) from the shortcode
-				$api_attr = shortcode_atts( $config['api_options'][$api_type]['allowed'], $params, 'localist-calendar' );
+				$api_attr = shortcode_atts( $config['api_options'][$api_type]['allowed'], $params, $this->plugin_shortcode_calendar );
 
 			// build the api url string for any options
 
