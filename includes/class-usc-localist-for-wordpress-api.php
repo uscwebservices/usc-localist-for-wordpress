@@ -223,7 +223,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					if ( '' != $response['body'] ) {
 
 						// encode the json data and set to TRUE for array
-						$output['data'] = json_decode( $response['body'], TRUE );
+						$output['data'] = json_decode( $response['body'], true );
 
 						// let's store the data as a transient using the cache attribute
 						if ( '' != $api_cache ) {
