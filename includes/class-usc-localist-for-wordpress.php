@@ -6,10 +6,10 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @since      1.0.0
- *
- * @package    USC_Localist_For_Wordpress
- * @subpackage USC_Localist_For_Wordpress/includes
+ * @since 		1.0.0
+ * @package 	Usc_Localist_For_Wordpress
+ * @subpackage 	Usc_Localist_For_Wordpress/includes
+ * @author 		USC Web Services <webhelp@usc.edu>
  */
 
 if ( ! class_exists('USC_Localist_For_Wordpress') ) {
