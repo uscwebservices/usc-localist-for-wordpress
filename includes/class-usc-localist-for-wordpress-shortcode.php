@@ -1,129 +1,51 @@
 <?php
+
 /**
- * The public-specific functionality of the plugin.
+ * Class: USC Localist for WordPress Shortcode
  *
- * Defines the plugin name, version, and initiates any public facing functions.
+ * Add shortcode(s) for the site to get events.
  *
- * @package    Usc_Localist_For_Wordpress
- * @subpackage Usc_Localist_For_Wordpress/public
- * @author     USC Web Services <webhelp@usc.edu>
+ * @since      1.0.0
+ *
+ * @package    USC_Localist_for_WordPress
+ * @subpackage USC_Localist_for_WordPress/includes
  */
-class USC_Localist_For_Wordpress_Public {
 
-	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
-	 */
-	private $plugin_name;
+if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
+	
+	class USC_Localist_For_Wordpress_Shortcode {
 
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
-	 */
-	private $version;
+		/**
+		 * Configuration variable
+		 * @var string
+		 */
+		private $config;
 
-	/**
-	 * Initialize the class and set its properties.
-	 *
-	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
-	 */
-	public function __construct( $plugin_name, $version ) {
+		/**
+		 * Construct
+		 * =========
+		 *
+		 * @since 1.0.0
+		 * 
+		 * Constructor to run when the class is called.
+		 */
+		public function __construct() {
 
-		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+			// get the version of wordpress
+			global $wp_version;
 
-		$this->load_dependencies();
-
-	}
-
-	/**
-	 * Load Dependencies
-	 * =================
-	 * 
-	 * Load the required dependencies for this class.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function load_dependencies() {
-
-		// require the config class for API variables
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
-
-		// require the events shortcode Class
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-shortcode.php';
-
+			// require the config class for API variables
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
 			// require the api class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-api.php';
 
-		$this->config = USC_Localist_For_Wordpress_Config::$config;
-
-	}
-
-
-	/**
-	 * Activate
-	 * ========
-	 *
-	 * Activate any functions that should run during the admin setup.
-	 *
-	 * @since 	1.0.0
-	 */
-	public function activate() {
-		
-		// register the custom post types
-		$this->custom_post_types();
-		
-	}
-
-
-	/**
-	 * Add Query Variables Filter
-	 * ==========================
-	 *
-	 * Set 
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_query_variables_filter( $vars ){
-		
-		$parameters = $this->config['url']['parameters'];
-
-		// loop throught the available parameters from the config and add them
-		foreach ( $parameters as $value ) {
-			
-			// add the 'name' value to the allowed url parameter types
-			$vars[] = $value['name'];
+			// retrun the API configurations
+			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}
 
-		// return the $vars added
-		return $vars;
-
-	}
-
-	/**
-	 * Get Events Shortcode
-	 * ====================
-	 */
-	public function get_shortcodes() {
-
-		$events_shortcode = new USC_Localist_For_Wordpress_Shortcode;
-
-		$events_shortcode->events_shortcode();
-
-	}
-
-	/**
+		/**
 		 * Events Shortcode
 		 * ================
 		 * 
@@ -254,8 +176,8 @@ class USC_Localist_For_Wordpress_Public {
 
 		}
 
-	
 
-	
+
+	}
 
 }
