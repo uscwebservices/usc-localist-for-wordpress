@@ -174,59 +174,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		}
 
 		/**
-		 * Get Query Variables
-		 * ===================
-		 *
-		 * Get the custom query parameters and return as an array.
-		 *
-		 * @since 1.0.0
-		 * 
-		 * @return array 			associative array of keys and values
-		 */
-		public function get_custom_query_variables( $api_type = 'events' ) {
-
-			// set a default value to capture url values
-			$values = array();
-
-			// set json api for function helpers
-			$json_api = new USC_Localist_For_Wordpress_API;
-
-			// get the allowed values for the api type
-			$allowed_array_keys = $this->config['api_options'][$api_type]['allowed'];
-
-			// get the default config file
-			$parameters = $this->config['url']['parameters'];
-
-			// loop through the available parameters from the config file
-			foreach ( $parameters as $key ) {
-
-				// check that the key is allowed per api type
-				if ( array_key_exists( $key['relationship'], $allowed_array_keys ) ) {
-
-					// get the value of the paramter
-					$parameter_value = get_query_var( $key['name'], false );
-
-					// check if we have a value
-					if ( $parameter_value ) {
-
-						// validate the value
-						$parameter_value = $json_api->validate_key_value( $key['relationship'], $parameter_value );
-
-						// add the value as an associative array item
-						$values[$key['relationship']] = $parameter_value;
-
-					}
-
-				}
-
-			}
-			
-			return $values;
-
-		}
-
-		
-		/**
 		 * Events Shortcode
 		 * ================
 		 * 
@@ -287,7 +234,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 			// get url parameters and attach to the api query
 				
-				$url_parameters = $this->get_custom_query_variables( $api_type );
+				$url_parameters = $json_api->get_custom_query_variables( $api_type );
 
 				// loop through the url parameters and attach to the $json_url associative array
 				foreach ( $url_parameters as $key => $value ) {

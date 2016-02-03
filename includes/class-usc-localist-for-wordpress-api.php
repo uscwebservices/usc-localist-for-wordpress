@@ -49,238 +49,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		}
 
 		/**
-		 * Validate Key Value
-		 * ==================
-		 * 
-		 * Validate keys and associative values against specified dates and 
-		 * numbers keys from $config settings.  The $key is matched
-		 * against supported keys in api_options.all.validation.dates and 
-		 * api_options.all.validation.numbers - if they key matches, it will
-		 * check the value to be a date or integer and return a validated value.
-		 * If the value does not match one of the associated keys, it just 
-		 * returns the original value.
-		 * 
-		 * @param 	string 	$key 		key to check against date/number options
-		 * @param 	string 	$value 		value to check if date or number
-		 * @return 	string 		 		returns validated value if date/number or
-		 * 								original value
-		 */
-		public function validate_key_value( $key, $value ) {
-
-			// get the default config file
-			$config = $this->config;
-
-			$date_array = $config['api_options']['all']['validation']['dates'];
-			$number_array = $config['api_options']['all']['validation']['numbers'];
-			$boolean_array = $config['api_options']['all']['validation']['boolean'];
-
-			// check that we don't have an empty value
-			if ( !empty( $value ) ) {
-
-				// check if the value of the key supposed to be a boolean
-				if ( in_array( $key, $boolean_array ) ) {
-
-					// check that we have a boolean
-					if ( is_bool( $value ) ) {
-
-						// we have a boolean value - let's return it
-						return $value;
-
-					} else {
-
-						// we don't have one - let's return 'false' by default
-						return false;
-
-					}
-
-				}
-
-				// check if the value of the key is supposed to be in a date format
-				else if ( in_array( $key, $date_array ) ) {
-
-					// set a new date object for this $key
-					$date = new USC_Localist_For_Wordpress_Dates;
-
-					// check if we have a valide date (bool)
-					if ( $date->valid_date( $value ) ) {
-						
-						// good date format, so return it
-						return $value;
-					
-					} else {
-						
-						// fix the date format
-						return $date->fix_date( $value );
-					}
-
-				} 
-
-				// check if the key is supposed to be in a number format
-				else if ( in_array( $key, $number_array ) ) {
-
-					// if we have a number
-					if ( is_numeric( $value ) ) {
-
-						// convert any non-whole integer values
-						return intval( $value );
-					
-					} 
-
-					// else do we have a string
-					else if ( is_string( $value ) ) {
-
-						// set default to re-attach valid numbers
-						$number_string = array();
-
-						// if we have a string of numbers (array), check each one
-						$value_string = explode( ',', $value );
-
-						// if we have more than one in the exploded array
-						if ( count( $value_string ) > 1 ) {
-
-							// loop through the values
-							foreach ( $value_string as $number ) {
-
-								// convert any non-whole integer or string values
-								$number_string[] = intval( $number );
-
-							}
-
-							// combine $number_string array back to a string format
-							return join( ',', $number_string );
-
-						} else {
-
-							return false;
-
-						}
-
-					} 
-
-					// we dont have a valide number, so let's not return bad options
-					else {
-						
-						return false;
-					}
-
-				}
-
-				// if the value doesn't need valiation, just return the value
-				else {
-					
-					return $value;
-				
-				}
-
-			}
-		}
-
-		/**
-		 * Parameters as String
-		 * ====================
-		 * 
-		 * Convert Paramaters to URL string for passing to Localist API.
-		 * 
-		 * @since 1.0.0
-		 * 
-		 * @param 	string 	api_type 	The type of API call to get 
-		 * 								[organizations, communities, events, places, departments, photos] 
-		 * 								[default: events]
-		 * @param 	array 	params 		The array of parameters to return
-		 * @return 	array 				
-		 */
-		public function parameters_as_string( $params, $api_type = 'all' ) {
-
-			//get the default config file
-			$config = $this->config;
-			
-			// get the allowed array values for the api type
-			$allowed_array = $config['api_options'][$api_type]['allowed_array'];
-
-			// set the default output and string constructor
-			$output = $string = array();
-
-			// set error message object
-			$error_messages = new USC_Localist_For_Wordpress_Errors;
-
-			// set json api for function helpers
-			$json_api = $this;
-
-			// if we do not have an array, end the process
-			if ( ! is_array ( $params ) ) {
-				
-				return false;
-
-			} else {
-				
-				// loop through the parameters
-				foreach ( $params as $key => $value ) {
-
-					// check that we have a valid value that isn't null, blank, or empty array
-					if ( null !== $value && '' !== $value &! empty( $value ) ) {
-
-						// get valid value for the key value
-						$value = $json_api->validate_key_value( $key, $value );
-
-						// check that we don't have a boolean
-						if ( is_bool( $value ) ) {
-
-							// add single key boolean values as 'key=bool_value'
-							$string[] .= urlencode( $key ) . '=' . var_export($value, true);
-
-						} else {
-
-							// convert any comma delimited $value to an array
-							$value = explode( ',', $value );
-
-							// if the $value is an array
-							if ( count( $value ) > 1 ) {
-							
-								// check that the $value is allowed as an array
-								if ( ! in_array( $key, $allowed_array ) ) {
-									
-									// let the user know they are attempting an array where one is not allowed
-									$error_messages->add_message('Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".');
-
-								} else {
-
-									// loop through sub values
-									foreach ( $value as $sub_value ) {
-										
-										// add multiple values as 'key[]=sub_value'
-										$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
-
-									}
-								}
-
-							} else {
-
-								// add single key values as 'key=value'
-								$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
-
-							}
-
-						}
-
-					}
-
-				}
-
-				// combine any errors and set a message value
-				$output['errors'] = join( '<br>', $error_messages->get_messages() );
-
-				// combine any strings and set a url string value
-				$output['parameters'] = join( '&', $string );
-				
-
-				// return the output
-				return $output;
-
-			}
-
-		}
-
-		/**
 		 * Get JSON
 		 * ========
 		 * 
@@ -486,6 +254,292 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			return $output;
 
 		}
+
+		/**
+		 * Get Query Variables
+		 * ===================
+		 *
+		 * Get the custom query parameters and return as an array.
+		 *
+		 * @since 1.0.0
+		 * 
+		 * @return array 			associative array of keys and values
+		 */
+		public function get_custom_query_variables( $api_type = 'events' ) {
+
+			// set a default value to capture url values
+			$values = array();
+
+			// set json api for function helpers
+			$json_api = $this;
+
+			// get the allowed values for the api type
+			$allowed_array_keys = $this->config['api_options'][$api_type]['allowed'];
+
+			// get the default config file
+			$parameters = $this->config['url']['parameters'];
+
+			// loop through the available parameters from the config file
+			foreach ( $parameters as $key ) {
+
+				// check that the key is allowed per api type
+				if ( array_key_exists( $key['relationship'], $allowed_array_keys ) ) {
+
+					// get the value of the paramter
+					$parameter_value = get_query_var( $key['name'], false );
+
+					// check if we have a value
+					if ( $parameter_value ) {
+
+						// validate the value
+						$parameter_value = $json_api->validate_key_value( $key['relationship'], $parameter_value );
+
+						// add the value as an associative array item
+						$values[$key['relationship']] = $parameter_value;
+
+					}
+
+				}
+
+			}
+			
+			return $values;
+
+		}
+
+		/**
+		 * Parameters as String
+		 * ====================
+		 * 
+		 * Convert Paramaters to URL string for passing to Localist API.
+		 * 
+		 * @since 1.0.0
+		 * 
+		 * @param 	string 	api_type 	The type of API call to get 
+		 * 								[organizations, communities, events, places, departments, photos] 
+		 * 								[default: events]
+		 * @param 	array 	params 		The array of parameters to return
+		 * @return 	array 				
+		 */
+		public function parameters_as_string( $params, $api_type = 'all' ) {
+
+			//get the default config file
+			$config = $this->config;
+			
+			// get the allowed array values for the api type
+			$allowed_array = $config['api_options'][$api_type]['allowed_array'];
+
+			// set the default output and string constructor
+			$output = $string = array();
+
+			// set error message object
+			$error_messages = new USC_Localist_For_Wordpress_Errors;
+
+			// set json api for function helpers
+			$json_api = $this;
+
+			// if we do not have an array, end the process
+			if ( ! is_array ( $params ) ) {
+				
+				return false;
+
+			} else {
+				
+				// loop through the parameters
+				foreach ( $params as $key => $value ) {
+
+					// check that we have a valid value that isn't null, blank, or empty array
+					if ( null !== $value && '' !== $value &! empty( $value ) ) {
+
+						// get valid value for the key value
+						$value = $json_api->validate_key_value( $key, $value );
+
+						// check that we don't have a boolean
+						if ( is_bool( $value ) ) {
+
+							// add single key boolean values as 'key=bool_value'
+							$string[] .= urlencode( $key ) . '=' . var_export($value, true);
+
+						} else {
+
+							// convert any comma delimited $value to an array
+							$value = explode( ',', $value );
+
+							// if the $value is an array
+							if ( count( $value ) > 1 ) {
+							
+								// check that the $value is allowed as an array
+								if ( ! in_array( $key, $allowed_array ) ) {
+									
+									// let the user know they are attempting an array where one is not allowed
+									$error_messages->add_message('Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".');
+
+								} else {
+
+									// loop through sub values
+									foreach ( $value as $sub_value ) {
+										
+										// add multiple values as 'key[]=sub_value'
+										$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
+
+									}
+								}
+
+							} else {
+
+								// add single key values as 'key=value'
+								$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
+
+							}
+
+						}
+
+					}
+
+				}
+
+				// combine any errors and set a message value
+				$output['errors'] = join( '<br>', $error_messages->get_messages() );
+
+				// combine any strings and set a url string value
+				$output['parameters'] = join( '&', $string );
+				
+
+				// return the output
+				return $output;
+
+			}
+
+		}
+
+		/**
+		 * Validate Key Value
+		 * ==================
+		 * 
+		 * Validate keys and associative values against specified dates and 
+		 * numbers keys from $config settings.  The $key is matched
+		 * against supported keys in api_options.all.validation.dates and 
+		 * api_options.all.validation.numbers - if they key matches, it will
+		 * check the value to be a date or integer and return a validated value.
+		 * If the value does not match one of the associated keys, it just 
+		 * returns the original value.
+		 * 
+		 * @param 	string 	$key 		key to check against date/number options
+		 * @param 	string 	$value 		value to check if date or number
+		 * @return 	string 		 		returns validated value if date/number or
+		 * 								original value
+		 */
+		public function validate_key_value( $key, $value ) {
+
+			// get the default config file
+			$config = $this->config;
+
+			$date_array = $config['api_options']['all']['validation']['dates'];
+			$number_array = $config['api_options']['all']['validation']['numbers'];
+			$boolean_array = $config['api_options']['all']['validation']['boolean'];
+
+			// check that we don't have an empty value
+			if ( !empty( $value ) ) {
+
+				// check if the value of the key supposed to be a boolean
+				if ( in_array( $key, $boolean_array ) ) {
+
+					// check that we have a boolean
+					if ( is_bool( $value ) ) {
+
+						// we have a boolean value - let's return it
+						return $value;
+
+					} else {
+
+						// we don't have one - let's return 'false' by default
+						return false;
+
+					}
+
+				}
+
+				// check if the value of the key is supposed to be in a date format
+				else if ( in_array( $key, $date_array ) ) {
+
+					// set a new date object for this $key
+					$date = new USC_Localist_For_Wordpress_Dates;
+
+					// check if we have a valide date (bool)
+					if ( $date->valid_date( $value ) ) {
+						
+						// good date format, so return it
+						return $value;
+					
+					} else {
+						
+						// fix the date format
+						return $date->fix_date( $value );
+					}
+
+				} 
+
+				// check if the key is supposed to be in a number format
+				else if ( in_array( $key, $number_array ) ) {
+
+					// if we have a number
+					if ( is_numeric( $value ) ) {
+
+						// convert any non-whole integer values
+						return intval( $value );
+					
+					} 
+
+					// else do we have a string
+					else if ( is_string( $value ) ) {
+
+						// set default to re-attach valid numbers
+						$number_string = array();
+
+						// if we have a string of numbers (array), check each one
+						$value_string = explode( ',', $value );
+
+						// if we have more than one in the exploded array
+						if ( count( $value_string ) > 1 ) {
+
+							// loop through the values
+							foreach ( $value_string as $number ) {
+
+								// convert any non-whole integer or string values
+								$number_string[] = intval( $number );
+
+							}
+
+							// combine $number_string array back to a string format
+							return join( ',', $number_string );
+
+						} else {
+
+							return false;
+
+						}
+
+					} 
+
+					// we dont have a valide number, so let's not return bad options
+					else {
+						
+						return false;
+					}
+
+				}
+
+				// if the value doesn't need valiation, just return the value
+				else {
+					
+					return $value;
+				
+				}
+
+			}
+		}
+
+		
 
 	}
 
