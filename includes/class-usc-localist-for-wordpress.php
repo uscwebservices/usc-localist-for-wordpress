@@ -58,11 +58,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 * @access 	 public
 		 */
 		public function __construct() {
-			
-			$this->plugin_name = 'USC Localist for Wordpress';
-			$this->plugin_version = USC_LFWP__VERSION;
-			$this->plugin_tag = 'usc-localist-for-wordpress';
-			$this->plugin_shortcode_calendar = 'localist-calendar';
 
 			// load dependencies for this class
 			$this->load_dependencies();
@@ -108,8 +103,14 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// require the shortcode class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-shortcode.php';
 
+			
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 			$this->loader = new USC_Localist_For_Wordpress_Loader();
+
+			$this->plugin_name = $this->config['plugin']['name'];
+			$this->plugin_version = $this->config['plugin']['version'];
+			$this->plugin_tag = $this->config['plugin']['tag'];
+			$this->plugin_shortcode_calendar = $this->config['plugin']['shortcode']['calendar'];
 
 		}
 
@@ -176,7 +177,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			$this->loader->add_filter( 'query_vars', $plugin_public, 'add_query_variables_filter' );
 
 			// add shortcodes
-			$this->loader->add_shortcode( $this->config['shortcode']['calendar'], $plugin_shortcode, 'events_shortcode' );
+			$this->loader->add_shortcode( $this->plugin_shortcode_calendar, $plugin_shortcode, 'events_shortcode' );
 
 		}
 

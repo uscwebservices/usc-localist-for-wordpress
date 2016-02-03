@@ -57,6 +57,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			$this->plugin_name = $plugin_name;
 			$this->plugin_version = $plugin_version;
+			$this->plugin_tag= $plugin_tag;
 
 			// load dependencies for this class
 			$this->load_dependencies();
@@ -83,7 +84,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// retrun the API configurations
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
-			$this->plugin_shortcode_calendar = $this->config['shortcode']['calendar'];
+			$this->plugin_shortcode_calendar = $this->config['plugin']['shortcode']['calendar'];
 
 		}
 
