@@ -99,10 +99,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			 */
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-usc-localist-for-wordpress-public.php';
 
-
-			// require the error messaging class
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-errors.php';
-
 			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
@@ -229,111 +225,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 		}
 
-		/**
-		 * Parameters as String
-		 * ====================
-		 * 
-		 * Convert Paramaters to URL string for passing to Localist API.
-		 * 
-		 * @since 1.0.0
-		 * 
-		 * @param 	string 	api_type 	The type of API call to get 
-		 * 								[organizations, communities, events, places, departments, photos] 
-		 * 								[default: events]
-		 * @param 	array 	params 		The array of parameters to return
-		 * @return 	array 				
-		 */
-		public function parameters_as_string( $params, $api_type = 'all' ) {
-
-			//get the default config file
-			$config = $this->config;
-			
-			// get the allowed array values for the api type
-			$allowed_array = $config['api_options'][$api_type]['allowed_array'];
-
-			// set the default output and string constructor
-			$output = $string = array();
-
-			// set error message object
-			$error_messages = new USC_Localist_For_Wordpress_Errors;
-
-			// set json api for function helpers
-			$json_api = new USC_Localist_For_Wordpress_API;
-
-			// if we do not have an array, end the process
-			if ( ! is_array ( $params ) ) {
-				
-				return false;
-
-			} else {
-				
-				// loop through the parameters
-				foreach ( $params as $key => $value ) {
-
-					// check that we have a valid value that isn't null, blank, or empty array
-					if ( null !== $value && '' !== $value &! empty( $value ) ) {
-
-						// get valid value for the key value
-						$value = $json_api->validate_key_value( $key, $value );
-
-						// check that we don't have a boolean
-						if ( is_bool( $value ) ) {
-
-							// add single key boolean values as 'key=bool_value'
-							$string[] .= urlencode( $key ) . '=' . var_export($value, true);
-
-						} else {
-
-							// convert any comma delimited $value to an array
-							$value = explode( ',', $value );
-
-							// if the $value is an array
-							if ( count( $value ) > 1 ) {
-							
-								// check that the $value is allowed as an array
-								if ( ! in_array( $key, $allowed_array ) ) {
-									
-									// let the user know they are attempting an array where one is not allowed
-									$error_messages->add_message('Multiple values not allowed for "'. $key . '" with get "' . $api_type . '".');
-
-								} else {
-
-									// loop through sub values
-									foreach ( $value as $sub_value ) {
-										
-										// add multiple values as 'key[]=sub_value'
-										$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
-
-									}
-								}
-
-							} else {
-
-								// add single key values as 'key=value'
-								$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
-
-							}
-
-						}
-
-					}
-
-				}
-
-				// combine any errors and set a message value
-				$output['errors'] = join( '<br>', $error_messages->get_messages() );
-
-				// combine any strings and set a url string value
-				$output['parameters'] = join( '&', $string );
-				
-
-				// return the output
-				return $output;
-
-			}
-
-		}
-
+		
 		/**
 		 * Events Shortcode
 		 * ================
@@ -411,7 +303,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// build the api url string for any options
 
 				// get the matching api options by get type
-				$parameters_string = $this->parameters_as_string( $api_attr, $api_type );
+				$parameters_string = $json_api->parameters_as_string( $api_attr, $api_type );
 				
 				// if we have any error messages
 				if ( empty( $parameters_string ) ) {
