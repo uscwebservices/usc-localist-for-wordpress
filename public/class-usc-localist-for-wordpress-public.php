@@ -58,9 +58,13 @@ class USC_Localist_For_Wordpress_Public {
 		// require the config class for API variables
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
+		// require the events shortcode Class
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-shortcode.php';
+
 		$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 	}
+
 
 	/**
 	 * Activate
@@ -76,6 +80,7 @@ class USC_Localist_For_Wordpress_Public {
 		$this->custom_post_types();
 		
 	}
+
 
 	/**
 	 * Add Query Variables Filter
@@ -101,6 +106,19 @@ class USC_Localist_For_Wordpress_Public {
 		return $vars;
 
 	}
+
+	/**
+	 * Get Events Shortcode
+	 * ====================
+	 */
+	public function get_shortcodes() {
+
+		$events_shortcode = new USC_Localist_For_Wordpress_Shortcode;
+
+		$events_shortcode->events_shortcode();
+
+	}
+
 	
 
 }
