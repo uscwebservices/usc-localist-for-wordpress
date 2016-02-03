@@ -22,6 +22,9 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 
 
 		public static $config = array(
+			'shortcode' => array(
+				'calendar' => 'localist-calendar'
+			),
 			'url' => array(
 				'base' => 'https://calendar.usc.edu/api/2/',
 				'parameters' => array(
