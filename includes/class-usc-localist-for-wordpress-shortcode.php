@@ -81,6 +81,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// require the api class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-api.php';
 
+			// require the api class
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-events.php';
+
 			// retrun the API configurations
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
@@ -111,43 +114,67 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// default setting for error checking
 			$errors = $json_data = false;
 
-			// default for json url build
-			$json_url = array();
+			// default for json url and template options build
+			$json_url = $template_options = array();
 
 			$json_api = new USC_Localist_For_Wordpress_API;
 
 			// get all api options
 			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, $this->plugin_shortcode_calendar );
 
-			// store the api type as a variable
-			$api_type = $attr_all['get'];
+			/**
+			 * Get type
+			 */
+				
+				// store the api type as a variable
+				$api_type = $attr_all['get'];
 
-			// check that we have a valid 'get' type
-			if ( '' == $api_type || null == $api_type ) {
+				// check that we have a valid 'get' type
+				if ( '' == $api_type || null == $api_type ) {
 
-				// let's default to events
-				$api_type = 'events';
+					// let's default to events
+					$api_type = 'events';
 
-			}
+				}
 
-			// set the api type
-			$json_url['type'] = $api_type;
+				// set the api type
+				$json_url['type'] = $api_type;
 
-			// set transient cache expiration (in seconds)
-			$api_cache = $attr_all['cache'];
+			/**
+			 * Get cache
+			 */
 
-			// check that we have a valid 'cache' value
-			if ( '' != $api_cache ) {
+				// set transient cache expiration (in seconds)
+				$api_cache = $attr_all['cache'];
 
-				// validate the cache value
-				$api_cache = $json_api->validate_key_value( 'cache', $api_cache );
+				// check that we have a valid 'cache' value
+				if ( '' != $api_cache ) {
 
-				// store the cache number as part of the url array
-				$json_url['cache'] = $api_cache;
+					// validate the cache value
+					$api_cache = $json_api->validate_key_value( 'cache', $api_cache );
 
-			}
+					// store the cache number as part of the url array
+					$json_url['cache'] = $api_cache;
 
-			// get url parameters and attach to the api query
+				}
+
+			/**
+			 * Get template
+			 */
+			
+				// set the template slug
+				$template_options['template'] = $attr_all['template'];
+
+			/**
+			 * Get event details href
+			 */
+			
+				// set the template slug
+				$template_options['href'] = $attr_all['href'];
+
+			/**
+			 * Get url parameters and attach to the api query
+			 */
 				
 				$url_parameters = $json_api->get_custom_query_variables( $api_type );
 
@@ -157,12 +184,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 					
 				
-			// get allowed api attributes
+			/**
+			 * Get allowed api attributes
+			 */
 
 				// get the available api options (based on type) from the shortcode
 				$api_attr = shortcode_atts( $config['api_options'][$api_type]['allowed'], $params, $this->plugin_shortcode_calendar );
 
-			// build the api url string for any options
+			/**
+			 * Build the api url string for any options
+			 */
 
 				// get the matching api options by get type
 				$parameters_string = $json_api->parameters_as_string( $api_attr, $api_type );
@@ -187,7 +218,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 				}
 
-			// get the json data if no errors are present
+			/**
+			 * Get the json data if no errors are present
+			 */
 				
 				if ( ! $errors ) {
 
@@ -203,7 +236,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 							// we have json array data
 
 							// TODO: function for looping through json data
-							
+							switch ( $api_type ) {
+								
+								// add api get types and their respective classes
+								default:
+									$shortcode_output = new USC_Localist_For_Wordpress_Events( $json_data['data'], $template_options );
+									$shortcode_output->run();
+
+							}
+
+
 							return 'API Data Successful: ' . $json_data['url'];  // replace this with loop
 
 
