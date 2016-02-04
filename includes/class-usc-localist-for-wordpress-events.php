@@ -17,6 +17,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 	class USC_Localist_For_Wordpress_Events {
 
 		/**
+		 * The array of events API data.
+		 * @var array
+		 */
+		protected $api_data;
+
+		/**
+		 * The array of events template options.
+		 * @var array
+		 */
+		protected $template_options;
+
+		/**
 		 * Construct
 		 * =========
 		 *
@@ -24,9 +36,28 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 * 
 		 * Constructor to run when the class is called.
 		 */
-		public function __construct() {
+		public function __construct( $api_data, $template_options ) {
 
+			$this->api_data = $api_data;
+			$this->template_options = $template_options;
 
+		}
+
+		/**
+		 * Run
+		 * ===
+		 *
+		 * Functions to perform when running the plugin.
+		 *
+		 * @since 	1.0.0
+		 */
+		public function run() {
+
+			// run the loading functions for actions and filters
+			
+			// TODO: proceess the event(s) output using the api_data, template_options
+			
+			
 		}
 
 	}
