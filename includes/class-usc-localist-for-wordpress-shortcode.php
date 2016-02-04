@@ -159,18 +159,25 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 			/**
-			 * Get template
+			 * Get template option
 			 */
 			
 				// set the template slug
 				$template_options['template'] = $attr_all['template'];
 
 			/**
-			 * Get event details href
+			 * Get event details href option
 			 */
 			
 				// set the template slug
 				$template_options['href'] = $attr_all['href'];
+
+			/**
+			 * Get date range option
+			 */
+				
+				// set the date_range option
+				$template_options['date_range'] = $attr_all['date_range'];
 
 			/**
 			 * Get url parameters and attach to the api query

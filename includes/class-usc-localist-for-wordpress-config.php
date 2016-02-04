@@ -58,6 +58,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'cache' => '', // Transient cache timeout setting
 						'template' => '', // opttional: slug name from templates custom post type
 						'href'=>'', // optional: relative path to event detail
+						'date_ranges' => '', // optional: show date range for multiple date events
 
 						// localist values
 						'organization_id' => '',
