@@ -155,7 +155,11 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 			$plugin_admin = new USC_Localist_For_Wordpress_Admin( $this->plugin_name, $this->plugin_version );
 
+			// run admin activations on init
 			$this->loader->add_action( 'init', $plugin_admin, 'activate' );
+
+			// add customizer registration
+			$this->loader->add_action( 'customize_register', $plugin_admin, 'customize_register_localist' );
 
 		}
 

@@ -62,6 +62,20 @@ class USC_Localist_For_Wordpress_Admin {
 	}
 
 	/**
+	 * Customize Register for Localist
+	 * ===============================
+	 *
+	 * Set up Customizer options to store settings for calendars.
+	 *
+	 * The action hook is set in class USC_Localist_For_Wordpress::define_admin_hooks
+	 *
+	 * @since 1.0.0
+	 */
+	public function customize_register_localist() {
+		
+	}
+
+	/**
 	 * Register Custom Post Types
 	 * ==========================
 	 *
