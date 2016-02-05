@@ -231,14 +231,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 						// encode the json data and set to TRUE for array
 						$output['data'] = json_decode( $response['body'], true );
-
-						// let's store the data as a transient using the cache attribute
-						if ( '' != $api_cache ) {
-
-							// let's set a transient for the API call
-							set_transient( $transient_name, $output['data'], $api_cache );
-							
-						}
 						
 					}
 
@@ -254,6 +246,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 				// combine any errors and set a message value
 				$output['errors'] = join( '<br>', $error_messages->get_messages() );
+
+				// if we don't have any errors, set the transient
+				if ( ! isset( $output['errors'] ) || '' != $output['errors'] ) {
+
+					// let's store the data as a transient using the cache attribute
+					if ( '' != $api_cache ) {
+
+						// let's set a transient for the API call
+						set_transient( $transient_name, $output['data'], $api_cache );
+						
+					}
+
+				}
 
 			}
 
