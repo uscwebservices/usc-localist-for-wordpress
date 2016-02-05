@@ -253,7 +253,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					$json_data = $json_api->get_json( $json_url );
 
 					// check if we have no errors in returned json data
-					if ( ! isset( $json_data['errors'] ) || ! is_null( $json_data['errors'] ) ) {
+					if ( ! isset( $json_data['errors'] ) || is_null( $json_data['errors'] ) ) {
 						
 						// check if we have data
 						if ( isset( $json_data['data'] ) ) {
