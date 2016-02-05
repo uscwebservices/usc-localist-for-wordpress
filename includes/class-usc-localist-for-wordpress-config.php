@@ -182,6 +182,10 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 				// API parameters for GET 'events'
 				'events' => array(
 					'allowed' => array(
+						// custom value
+						'event_id' => '', // added so 'is_events_page' can check for url parameter
+
+						// localist values
 						'bounds' => '',
 						'campus_id' => '',
 						'group_id' => '',
