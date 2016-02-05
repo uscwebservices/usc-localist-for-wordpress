@@ -256,7 +256,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					if ( ! isset( $json_data['errors'] ) || ! is_null( $json_data['errors'] ) ) {
 						
 						// check if we have data
-						if ( $json_data['data'] ) {
+						if ( isset( $json_data['data'] ) ) {
 							
 							// we have json array data
 
