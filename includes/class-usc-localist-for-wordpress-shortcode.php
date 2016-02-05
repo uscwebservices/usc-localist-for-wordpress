@@ -141,6 +141,24 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$json_url['type'] = $api_type;
 
 			/**
+			 * Get flag for event inline in page
+			 */
+				
+				// set variable
+				$api_events_page = $attr_all['is_events_page'];
+
+				// check that we have a valid 'cache' value
+				if ( '' != $api_events_page ) {
+
+					// validate the cache value
+					$api_events_page = $json_api->validate_key_value( 'is_events_page', $api_events_page );
+
+				}
+
+				// store the cache number as part of the url array
+				$json_url['is_events_page'] = $api_events_page;
+
+			/**
 			 * Get cache
 			 */
 
@@ -153,10 +171,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					// validate the cache value
 					$api_cache = $json_api->validate_key_value( 'cache', $api_cache );
 
+				}
+
 					// store the cache number as part of the url array
 					$json_url['cache'] = $api_cache;
-
-				}
 
 			/**
 			 * Get template option
@@ -224,7 +242,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					$json_url['options'] = $parameters_string['parameters'];
 
 				}
-
+				
 			/**
 			 * Get the json data if no errors are present
 			 */
