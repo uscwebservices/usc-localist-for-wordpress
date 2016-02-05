@@ -84,7 +84,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
 			$api_events_page	= isset ( $params['is_events_page'] ) ? $params['is_events_page'] : false;
 			$api_event_id		= isset ( $params['event_id'] ) ? $params['event_id'] : '';
-			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : 0; // default cache to 1 hour
+			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS; // default cache to 1 hour
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
 			$timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : 5;
