@@ -110,7 +110,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_url = $api_base_url;
 
 			// set api type customizations
-			if ( $api_type == 'event' ) {
+			if ( $api_type == 'event' || $api_events_page ) {
 				
 				// set the type to events for api structure
 				$api_url .= 'events';
