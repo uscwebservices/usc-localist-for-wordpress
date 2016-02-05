@@ -130,7 +130,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_type = $attr_all['get'];
 
 				// check that we have a valid 'get' type
-				if ( '' == $api_type || null == $api_type ) {
+				if ( '' == $api_type || is_null( $api_type ) ) {
 
 					// let's default to events
 					$api_type = 'events';
@@ -148,15 +148,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_events_page = $attr_all['is_events_page'];
 
 				// check that we have a valid 'cache' value
-				if ( '' != $api_events_page ) {
+				if ( '' != $api_events_page || ! is_null( $api_events_page ) ) {
 
 					// validate the cache value
 					$api_events_page = $json_api->validate_key_value( 'is_events_page', $api_events_page );
 
-				}
+					// store the cache number as part of the url array
+					$json_url['is_events_page'] = $api_events_page;
 
-				// store the cache number as part of the url array
-				$json_url['is_events_page'] = $api_events_page;
+				}
 
 			/**
 			 * Get cache
@@ -166,15 +166,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_cache = $attr_all['cache'];
 
 				// check that we have a valid 'cache' value
-				if ( '' != $api_cache ) {
+				if ( '' != $api_cache || ! is_null( $api_cache ) ) {
 
 					// validate the cache value
 					$api_cache = $json_api->validate_key_value( 'cache', $api_cache );
 
-				}
-
 					// store the cache number as part of the url array
 					$json_url['cache'] = $api_cache;
+
+				}
 
 			/**
 			 * Get template option
@@ -242,7 +242,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					$json_url['options'] = $parameters_string['parameters'];
 
 				}
-				
+
 			/**
 			 * Get the json data if no errors are present
 			 */
@@ -253,7 +253,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					$json_data = $json_api->get_json( $json_url );
 
 					// check if we have no errors in returned json data
-					if ( ! isset( $json_data['errors'] ) || null == $json_data['errors'] ) {
+					if ( ! isset( $json_data['errors'] ) || ! is_null( $json_data['errors'] ) ) {
 						
 						// check if we have data
 						if ( $json_data['data'] ) {
