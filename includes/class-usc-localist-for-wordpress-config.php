@@ -56,6 +56,10 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						// custom values
 						'get' => '', // API GET type: [events,organizations,groups,search]
 						'cache' => '', // Transient cache timeout setting
+						'template' => '', // opttional: slug name from templates custom post type
+						'href'=>'', // optional: relative path to event detail
+						'date_range' => '', // optional: show date range for multiple date events
+						'is_events_page' => '', // optional: indicate single events to display on the shortcode page
 
 						// localist values
 						'organization_id' => '',
@@ -132,6 +136,11 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 
 						// API parameters that need to be boolean
 						'boolean' => array(
+							// custom values
+							'date_range',
+							'is_events_page',
+
+							// localist values
 							'featured',
 							'require_all',
 							'sponsored',
@@ -173,6 +182,10 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 				// API parameters for GET 'events'
 				'events' => array(
 					'allowed' => array(
+						// custom value
+						'event_id' => '', // added so 'is_events_page' can check for url parameter
+
+						// localist values
 						'bounds' => '',
 						'campus_id' => '',
 						'group_id' => '',
