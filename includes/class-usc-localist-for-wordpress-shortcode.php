@@ -130,7 +130,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_type = $attr_all['get'];
 
 				// check that we have a valid 'get' type
-				if ( '' == $api_type || is_null( $api_type ) ) {
+				if ( '' == $api_type || null == $api_type ) {
 
 					// let's default to events
 					$api_type = 'events';
@@ -148,7 +148,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_events_page = $attr_all['is_events_page'];
 
 				// check that we have a valid 'cache' value
-				if ( '' != $api_events_page || ! is_null( $api_events_page ) ) {
+				if ( '' != $api_events_page || null != $api_events_page ) {
 
 					// validate the cache value
 					$api_events_page = $json_api->validate_key_value( 'is_events_page', $api_events_page );
@@ -166,7 +166,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_cache = $attr_all['cache'];
 
 				// check that we have a valid 'cache' value
-				if ( '' != $api_cache || ! is_null( $api_cache ) ) {
+				if ( '' != $api_cache || null != $api_cache ) {
 
 					// validate the cache value
 					$api_cache = $json_api->validate_key_value( 'cache', $api_cache );
@@ -207,8 +207,21 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				foreach ( $url_parameters as $key => $value ) {
 					$json_url[$key] = $value;
 				}
-					
-				
+
+			/**
+			 * Specificaly set event_id if declared in the shortcode.
+			 *
+			 * This must come after checking the url parameters.
+			 */
+			 	
+				$api_event_id = $attr_all['event_id'];
+
+				if ( '' != $api_event_id || null != $api_event_id ) {
+
+					$json_url['event_id'] = $api_event_id;
+
+				}
+			
 			/**
 			 * Get allowed api attributes
 			 */
@@ -253,7 +266,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					$json_data = $json_api->get_json( $json_url );
 
 					// check if we have no errors in returned json data
-					if ( ! isset( $json_data['errors'] ) || is_null( $json_data['errors'] ) ) {
+					if ( ! isset( $json_data['errors'] ) || null == $json_data['errors'] ) {
 						
 						// check if we have data
 						if ( isset( $json_data['data'] ) ) {
