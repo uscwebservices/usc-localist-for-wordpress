@@ -126,6 +126,10 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 			// run the loading functions for actions and filters
 			$this->loader->run();
+
+			if ( did_action( 'customize_register' ) === 1 ) {
+				echo 'loaded';
+			}
 			
 		}
 
@@ -153,13 +157,13 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		 */
 		private function define_admin_hooks() {
 
-			$plugin_admin = new USC_Localist_For_Wordpress_Admin( $this->plugin_name, $this->plugin_version );
+			$plugin_admin = new USC_Localist_For_Wordpress_Admin( $this->plugin_name, $this->plugin_version, $this->plugin_tag );
 
 			// run admin activations on init
-			$this->loader->add_action( 'init', $plugin_admin, 'activate' );
+			$this->loader->add_action( 'init', $plugin_admin, 'activate_init' );
 
 			// add customizer registration
-			$this->loader->add_action( 'customize_register', $plugin_admin, 'customize_register_localist' );
+			$this->loader->add_action( 'customize_register', $plugin_admin, 'activate_customize_register' );
 
 		}
 

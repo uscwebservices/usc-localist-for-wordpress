@@ -15,19 +15,28 @@ class USC_Localist_For_Wordpress_Admin {
 	 * The ID of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
+	 * @access   protected
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
-	private $plugin_name;
+	protected $plugin_name;
 
 	/**
 	 * The version of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @access   protected
+	 * @var      string    $plugin_version    The current version of this plugin.
 	 */
-	private $version;
+	protected $plugin_version;
+
+	/**
+	 * The tag of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 * @var      string    $plugin_tag    The current version of this plugin.
+	 */
+	protected $plugin_tag;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -36,22 +45,23 @@ class USC_Localist_For_Wordpress_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $plugin_version, $plugin_tag ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->plugin_version = $plugin_version;
+		$this->plugin_tag = $plugin_tag;
 
 	}
 
 	/**
-	 * Activate
+	 * Activate: Init
 	 * ========
 	 *
-	 * Activate any functions that should run during the admin setup.
+	 * Activate any functions that should run during the admin setup with 'init' hook.
 	 *
 	 * @since 	1.0.0
 	 */
-	public function activate() {
+	public function activate_init() {
 		
 		// register the custom post types
 		$this->custom_post_types();
@@ -62,17 +72,91 @@ class USC_Localist_For_Wordpress_Admin {
 	}
 
 	/**
-	 * Customize Register for Localist
-	 * ===============================
+	 * Activate: Customize Register
+	 * ============================
 	 *
-	 * Set up Customizer options to store settings for calendars.
+	 * Activate any settings the should run during the admin setup with 'customize_register' hook.
+	 *
+	 * @since 	1.0.0
+	 */
+	public function activate_customize_register( $wp_customizer ) {
+
+		$this->customize_section_events( $wp_customizer, $this->plugin_tag );
+		$this->customize_events_detail_page( $wp_customizer, $this->plugin_tag );
+		$this->customize_events_date_range( $wp_customizer, $this->plugin_tag );
+
+	}
+
+	/**
+	 * Customize: Calendar Section
+	 * ===================================
+	 *
+	 * Set up the customizer section for the calendar options.
 	 *
 	 * The action hook is set in class USC_Localist_For_Wordpress::define_admin_hooks
 	 *
-	 * @since 1.0.0
+	 * @since 	1.0.0
 	 */
-	public function customize_register_localist() {
-		
+	public static function customize_section_events( $wp_customizer, $plugin_tag ) {
+
+		// localist events sections
+		$wp_customizer->add_section( 'customize_section_events', array(
+			'title'			=> __( 'Localist Calendar Options', $plugin_tag ),
+			'priority'		=> 130,
+		) );
+
+	}
+
+	/**
+	 * Customize: Events Date Range
+	 * ============================
+	 *
+	 * Add option to have global setting for multiple dates returned as range.
+	 *
+	 * @since 	1.0.0
+	 */
+	public static function customize_events_date_range( $wp_customizer, $plugin_tag ) {
+
+		// radio controls
+		$wp_customizer->add_setting( 'radio_setting', array(
+			'default'		=> 'yes',
+		) );
+
+		$wp_customizer->add_control( 'radio_setting', array(
+			'label'			=> 'Dates Range',
+			'section'		=> 'customize_section_events',
+			'type'			=> 'radio',
+			'description'	=> 'Display multiple dates as a Range.<br><br> <strong>No:</strong> Monday, Tuesday, Wednesday<br><br> <strong>Yes:</strong> Monday - Wednesday<br><br>',
+			'choices'		=> array( 'Yes', 'No' ),
+			'priority'		=> 1
+		) );
+
+
+	}
+
+	/**
+	 * Customize: Events Detail Page
+	 * =============================
+	 *
+	 * Set up Customizer options to store settings for the events detail page (if selected).
+	 *
+	 * @since 	1.0.0
+	 */
+	public static function customize_events_detail_page( $wp_customizer, $plugin_tag ) {
+        
+		// dropdown of pages
+		$wp_customizer->add_setting( 'dropdown_pages_setting', array(
+			'default'		=> 'Event',
+		) );
+
+		$wp_customizer->add_control( 'dropdown_pages_setting', array(
+			'label'			=> __( 'Event Details Page', $plugin_tag ),
+			'section' 		=> 'customize_section_events',
+			'type'			=> 'dropdown-pages',
+			'description' 	=> __( 'Choose a page where you want events to link to event details.<br><br>  On the selected page below, you must use the shortcode: <br><code>[localist-calendar get="event"]</code><br><br> If you leave this blank, the event links will go to the event detail page on the <a href="http://calendar.usc.edu" target="_blank">USC Calendar</a>', $plugin_tag ),
+			'priority'		=> 2
+		) );
+
 	}
 
 	/**
