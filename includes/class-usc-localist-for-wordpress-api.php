@@ -84,7 +84,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
 			$api_events_page	= isset ( $params['is_events_page'] ) ? $params['is_events_page'] : false;
 			$api_event_id		= isset ( $params['event_id'] ) ? $params['event_id'] : '';
-			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : 0; // default cache to 1 hour
+			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS; // default cache to 1 hour
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
 			$timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : 5;
@@ -231,14 +231,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 						// encode the json data and set to TRUE for array
 						$output['data'] = json_decode( $response['body'], true );
-
-						// let's store the data as a transient using the cache attribute
-						if ( '' != $api_cache ) {
-
-							// let's set a transient for the API call
-							set_transient( $transient_name, $output['data'], $api_cache );
-							
-						}
 						
 					}
 
@@ -254,6 +246,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 				// combine any errors and set a message value
 				$output['errors'] = join( '<br>', $error_messages->get_messages() );
+
+				// if we don't have any errors, set the transient
+				if ( ! isset( $output['errors'] ) || '' != $output['errors'] ) {
+
+					// let's store the data as a transient using the cache attribute
+					if ( '' != $api_cache ) {
+
+						// let's set a transient for the API call
+						set_transient( $transient_name, $output['data'], $api_cache );
+						
+					}
+
+				}
 
 			}
 
