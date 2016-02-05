@@ -118,11 +118,11 @@ class USC_Localist_For_Wordpress_Admin {
 	public static function customize_events_date_range( $wp_customizer, $plugin_tag ) {
 
 		// radio controls
-		$wp_customizer->add_setting( 'radio_setting', array(
+		$wp_customizer->add_setting( 'usc_lfwp_date_range', array(
 			'default'		=> 'yes',
 		) );
 
-		$wp_customizer->add_control( 'radio_setting', array(
+		$wp_customizer->add_control( 'usc_lfwp_date_range', array(
 			'label'			=> 'Dates Range',
 			'section'		=> 'customize_section_events',
 			'type'			=> 'radio',
@@ -145,11 +145,11 @@ class USC_Localist_For_Wordpress_Admin {
 	public static function customize_events_detail_page( $wp_customizer, $plugin_tag ) {
         
 		// dropdown of pages
-		$wp_customizer->add_setting( 'dropdown_pages_setting', array(
-			'default'		=> 'Event',
+		$wp_customizer->add_setting( 'usc_lfwp_events_detail_page', array(
+			'default'		=> 'Events',
 		) );
 
-		$wp_customizer->add_control( 'dropdown_pages_setting', array(
+		$wp_customizer->add_control( 'usc_lfwp_events_detail_page', array(
 			'label'			=> __( 'Event Details Page', $plugin_tag ),
 			'section' 		=> 'customize_section_events',
 			'type'			=> 'dropdown-pages',
