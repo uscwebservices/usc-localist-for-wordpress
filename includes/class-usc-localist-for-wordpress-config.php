@@ -136,6 +136,11 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 
 						// API parameters that need to be boolean
 						'boolean' => array(
+							// custom values
+							'date_range',
+							'is_events_page',
+
+							// localist values
 							'featured',
 							'require_all',
 							'sponsored',
