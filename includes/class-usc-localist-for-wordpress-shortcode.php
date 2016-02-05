@@ -141,6 +141,24 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$json_url['type'] = $api_type;
 
 			/**
+			 * Get flag for event inline in page
+			 */
+				
+				// set variable
+				$api_events_page = $attr_all['is_events_page'];
+
+				// check that we have a valid 'cache' value
+				if ( '' != $api_events_page || null != $api_events_page ) {
+
+					// validate the cache value
+					$api_events_page = $json_api->validate_key_value( 'is_events_page', $api_events_page );
+
+					// store the cache number as part of the url array
+					$json_url['is_events_page'] = $api_events_page;
+
+				}
+
+			/**
 			 * Get cache
 			 */
 
@@ -148,7 +166,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_cache = $attr_all['cache'];
 
 				// check that we have a valid 'cache' value
-				if ( '' != $api_cache ) {
+				if ( '' != $api_cache || null != $api_cache ) {
 
 					// validate the cache value
 					$api_cache = $json_api->validate_key_value( 'cache', $api_cache );
@@ -189,8 +207,21 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				foreach ( $url_parameters as $key => $value ) {
 					$json_url[$key] = $value;
 				}
-					
-				
+
+			/**
+			 * Specificaly set event_id if declared in the shortcode.
+			 *
+			 * This must come after checking the url parameters.
+			 */
+			 	
+				$api_event_id = $attr_all['event_id'];
+
+				if ( '' != $api_event_id || null != $api_event_id ) {
+
+					$json_url['event_id'] = $api_event_id;
+
+				}
+			
 			/**
 			 * Get allowed api attributes
 			 */
@@ -238,7 +269,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					if ( ! isset( $json_data['errors'] ) || null == $json_data['errors'] ) {
 						
 						// check if we have data
-						if ( $json_data['data'] ) {
+						if ( isset( $json_data['data'] ) ) {
 							
 							// we have json array data
 

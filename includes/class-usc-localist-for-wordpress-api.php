@@ -82,8 +82,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// default parameters
 			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
 			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
+			$api_events_page	= isset ( $params['is_events_page'] ) ? $params['is_events_page'] : false;
 			$api_event_id		= isset ( $params['event_id'] ) ? $params['event_id'] : '';
-			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS; // default cache to 1 hour
+			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : 0; // default cache to 1 hour
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
 			$timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : 5;
@@ -108,46 +109,52 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// set var for constructed api url
 			$api_url = $api_base_url;
 
-			// set api type customizations
-			if ( $api_type == 'event' ) {
+			// check if we have a single event or if it is an events page
+			if ( $api_type == 'event' || $api_events_page ) {
 				
 				// set the type to events for api structure
 				$api_url .= 'events';
 
 				if ( '' != $api_event_id ) {
-					$api_url .= '/' . $api_event_id;
+					
+					// add the event id but convert any integers to strings
+					$api_url .= '/' . strval( $api_event_id );
+
 				}
 
 			}
 
-			// default api type
+			// api type and add options and page number
 			else {
+				
 				$api_url .= $api_type;
-			}
+			
 
-			// add query string initiator for api options or page number
-			if ( '' != $api_options || '' != $api_page_number ) {
+				// add query string initiator for api options or page number
+				if ( '' != $api_options || '' != $api_page_number ) {
 
-				$api_url .= '?';
+					$api_url .= '?';
 
-			}
-
-			// add api options
-			if ( '' != $api_options ) {
-
-				$api_url .= $api_options;
-
-			}
-
-			// add page number
-			if ( '' != $api_page_number ) {
-
-				// if we have api options, add ampersand joiner
-				if ( '' != $api_options ) {
-					$api_url .= '&';
 				}
 
-				$api_url .= 'page=' . $api_page_number;
+				// add api options
+				if ( '' != $api_options ) {
+
+					$api_url .= $api_options;
+
+				}
+
+				// add page number
+				if ( '' != $api_page_number ) {
+
+					// if we have api options, add ampersand joiner
+					if ( '' != $api_options ) {
+						$api_url .= '&';
+					}
+
+					$api_url .= 'page=' . $api_page_number;
+
+				}
 
 			}
 
@@ -196,12 +203,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					if ( '' != $response['body'] ) {
 						
 						// convert response message to json data as an array
-						$localist_error = json_decode( $response['body'], true );
+						$localist_response = json_decode( $response['body'], true );
 
 						// return localist error response
-						if ( isset( $localist_error['error'] ) ) {
+						if ( isset( $localist_response['error'] ) ) {
 							
-							$error_messages->add_message( 'Localist Error: ' . $localist_error['error'] );
+							$error_messages->add_message( 'Localist Error: ' . $localist_response['error'] );
 
 						} else {
 
@@ -413,6 +420,41 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		}
 
 		/**
+		 * Convert To Bool
+		 * ===============
+		 *
+		 * Converts bool or strings to valid bool value.
+		 *
+		 * @since 	1.0.0
+		 * @param 	string 	$var 	string
+		 * @return 	bool
+		 */
+		function convert_to_bool( $var ) {
+			
+			// if we have a valid bool already, return it
+			if ( !is_string( $var ) ) {
+				return (bool) $var;
+			}
+			
+			// switch cases for types of strings
+			switch (strtolower($var)) {
+				
+				// true strings
+				case '1':
+				case 'true':
+				case 'on':
+				case 'yes':
+				case 'y':
+					return true;
+				
+				default:
+					return false;
+
+			}
+
+		}
+
+		/**
 		 * Validate Key Value
 		 * ==================
 		 * 
@@ -444,18 +486,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				// check if the value of the key supposed to be a boolean
 				if ( in_array( $key, $boolean_array ) ) {
 
-					// check that we have a boolean
-					if ( is_bool( $value ) ) {
+					// convert the value to a valid bool
+					$value = $this->convert_to_bool( $value );
 
-						// we have a boolean value - let's return it
-						return $value;
-
-					} else {
-
-						// we don't have one - let's return 'false' by default
-						return false;
-
-					}
+					return $value;
 
 				}
 
@@ -521,7 +555,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 					} 
 
-					// we dont have a valide number, so let's not return bad options
+					// we dont have a valid number, so let's not return bad options
 					else {
 						
 						return false;
