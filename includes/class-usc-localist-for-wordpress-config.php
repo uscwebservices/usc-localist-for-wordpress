@@ -59,6 +59,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'template' => '', // opttional: slug name from templates custom post type
 						'href'=>'', // optional: relative path to event detail
 						'date_range' => '', // optional: show date range for multiple date events
+						'is_events_page' => '', // optional: indicate single events to display on the shortcode page
 
 						// localist values
 						'organization_id' => '',
