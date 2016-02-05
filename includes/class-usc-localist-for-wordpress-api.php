@@ -82,6 +82,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// default parameters
 			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
 			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
+			$api_events_page	= isset ( $params['is_events_page'] ) ? $params['is_events_page'] : false;
 			$api_event_id		= isset ( $params['event_id'] ) ? $params['event_id'] : '';
 			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS; // default cache to 1 hour
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
@@ -413,6 +414,41 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		}
 
 		/**
+		 * Convert To Bool
+		 * ===============
+		 *
+		 * Converts bool or strings to valid bool value.
+		 *
+		 * @since 	1.0.0
+		 * @param 	string 	$var 	string
+		 * @return 	bool
+		 */
+		function convert_to_bool( $var ) {
+			
+			// if we have a valid bool already, return it
+			if ( !is_string( $var ) ) {
+				return (bool) $var;
+			}
+			
+			// switch cases for types of strings
+			switch (strtolower($var)) {
+				
+				// true strings
+				case '1':
+				case 'true':
+				case 'on':
+				case 'yes':
+				case 'y':
+					return true;
+				
+				default:
+					return false;
+
+			}
+
+		}
+
+		/**
 		 * Validate Key Value
 		 * ==================
 		 * 
@@ -444,18 +480,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				// check if the value of the key supposed to be a boolean
 				if ( in_array( $key, $boolean_array ) ) {
 
-					// check that we have a boolean
-					if ( is_bool( $value ) ) {
+					// convert the value to a valid bool
+					$value = $this->convert_to_bool( $value );
 
-						// we have a boolean value - let's return it
-						return $value;
-
-					} else {
-
-						// we don't have one - let's return 'false' by default
-						return false;
-
-					}
+					return $value;
 
 				}
 
