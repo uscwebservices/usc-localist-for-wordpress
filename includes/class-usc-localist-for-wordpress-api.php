@@ -251,7 +251,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				if ( ! isset( $output['errors'] ) || '' != $output['errors'] ) {
 
 					// let's store the data as a transient using the cache attribute
-					if ( '' != $api_cache ) {
+					if ( '' != $api_cache && isset( $output['data'] ) ) {
 
 						// let's set a transient for the API call
 						set_transient( $transient_name, $output['data'], $api_cache );
