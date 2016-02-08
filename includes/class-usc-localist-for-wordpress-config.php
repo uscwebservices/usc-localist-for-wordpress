@@ -54,7 +54,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 					'allowed' => array(
 						
 						// custom values
-						'get' => '', // API GET type: [events,organizations,groups,search]
+						'get' => '', // API GET type: [events,event,organizations,groups,search]
 						'cache' => '', // Transient cache timeout setting
 						'template' => '', // opttional: slug name from templates custom post type
 						'href'=>'', // optional: relative path to event detail
