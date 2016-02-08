@@ -277,9 +277,17 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 							switch ( $api_type ) {
 								
 								// add api get types and their respective classes
+
+								// future releases:
+								// organizations
+								// groups
+								// search
+
+								// events or event
 								default:
 									$shortcode_output = new USC_Localist_For_Wordpress_Events( $json_data['data'], $template_options );
 									$shortcode_output->run();
+									break;
 
 							}
 
