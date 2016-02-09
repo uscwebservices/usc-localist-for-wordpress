@@ -41,6 +41,24 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			$this->api_data = $api_data;
 			$this->template_options = $template_options;
 
+			$this->load_dependencies();
+
+		}
+
+		/**
+		 * Load Dependencies
+		 * =================
+		 * 
+		 * Load the required dependencies for this class.
+		 *
+		 * @since    1.0.0
+		 * @access   private
+		 */
+		private function load_dependencies() {
+
+			// require the config class for API variables
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-templates.php';
+
 		}
 
 		/**
@@ -53,10 +71,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 */
 		public function run() {
 
-			// run the loading functions for actions and filters
+			$template = new USC_Localist_For_Wordpress_Templates( $this->template_options );
 			
-			// TODO: proceess the event(s) output using the api_data, template_options
-			
+			$template_build = $template->get_template( $this->template_options );
 			
 		}
 
