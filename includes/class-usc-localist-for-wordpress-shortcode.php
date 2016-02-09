@@ -274,7 +274,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 					// perform the api call
 					$json_data = $json_api->get_json( $json_url );
-					
+
+					// set the template option for the returned api type
+					if ( isset( $json_data['api_type'] ) ) {
+
+						$template_options['api_type'] = $json_data['api_type'];
+
+					} else {
+
+						// use the api type passed to get the api
+						$template_options['api_type'] = $api_type;
+						
+					}
+
 					// check if we have no errors in returned json data
 					if ( ! isset( $json_data['errors'] ) || null == $json_data['errors'] ) {
 						
