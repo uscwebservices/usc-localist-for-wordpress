@@ -120,7 +120,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					// add the event id but convert any integers to strings
 					$api_url .= '/' . strval( $api_event_id );
 
-					// set the api type to single event for templates
+					// we are setting the api url by inclusion of the api_event_id so we assume we have a sigle event - let's manually set the api type to single event for output
 					$api_type = 'event';
 
 				}
@@ -155,6 +155,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 						$api_url .= '&';
 					}
 
+					// add the page number parameter
 					$api_url .= 'page=' . $api_page_number;
 
 				}
