@@ -70,7 +70,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 * @since 	1.0.0
 		 */
 		public function run() {
-
+			
 			$template = new USC_Localist_For_Wordpress_Templates( $this->template_options );
 			
 			$template_build = $template->get_template( $this->template_options );
