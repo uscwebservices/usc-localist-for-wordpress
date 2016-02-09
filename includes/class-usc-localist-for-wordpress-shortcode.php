@@ -179,9 +179,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			/**
 			 * Get template option
 			 */
-			
+				
+				// set template path option
+				$template_path = $attr_all['template'];
+
+				// set default template options
+				if ( '' == $template_path || null == $template_path ) {
+					
+					$template_path = 'list.html';
+
+				}
+
 				// set the template slug
-				$template_options['template'] = $attr_all['template'];
+				$template_options['template'] = $template_path;
 
 			/**
 			 * Get event details href option
