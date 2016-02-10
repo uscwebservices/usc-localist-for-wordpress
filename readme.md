@@ -53,10 +53,6 @@ In addion to the attributes from the [localist-api-docs], the following custom a
 
 This plugin uses the WordPress Customizer to set global calendar settings for the following items.
 
-### Dates Range
-
-Display multiple dates as a Range.
-
 <table>
 	<thead>
 		<td><strong>Option</strong></td>
