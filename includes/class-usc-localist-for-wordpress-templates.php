@@ -18,10 +18,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 	class USC_Localist_For_Wordpress_Templates {
 
 		/**
-		 * The array of events template options 'template', 'href', 'date_range'
+		 * The array of api data.
 		 * @var array
 		 */
-		public $template_options;
+		public $api_data;
 
 		/**
 		 * Construct
@@ -31,10 +31,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * 
 		 * Constructor to run when the class is called.
 		 */
-		public function __construct( $template_options ) {
+		public function __construct( $api_data ) {
 
 			// get the template path opton
-			$this->template_options = $template_options;
+			$this->api_data = $api_data;
 
 			// load the dependencies
 			$this->load_dependencies();
@@ -86,16 +86,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 *
 		 * @since 	1.0.0
 		 */
-		public function get_template( $template_options ) {
+		public function get_template( $api_data ) {
 			
 			// multiple items template path
-			$template_path_multiple = $template_options['template_multiple'];
+			$template_path_multiple = $api_data['template_multiple'];
 
 			// single items template path
-			$template_path_single = $template_options['template_single'];
+			$template_path_single = $api_data['template_single'];
 
 			// if we have a single template path value and the api type is a single event
-			if ( '' != $template_path_single && 'event' == $template_options['api_type'] ) {
+			if ( '' != $template_path_single && 'event' == $api_data['api_type'] ) {
 
 				$template_path = $template_path_single;
 
@@ -144,7 +144,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// get the post by slug name
 				$template_post = get_posts( array(
-					'name' => $template_options,
+					'name' => $template_path,
 					'posts_per_page' => 1,
 					'post_type' => 'event-template',
 					'post_status' => 'publish'
@@ -153,7 +153,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// fallback to default path 
 				if( ! $template_post ) {
 
-					$html = $default_html;
+					$html = $default_template;
 
 				} else {
 					
