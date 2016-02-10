@@ -64,7 +64,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 * @param 	string 	type 	the type of data to get [events]
 		 * @param 	string 	options the options to attach to narrow results
 		 * @param 	number 	timeout the timeout (in seconds) for waiting for the return
-		 * @return 	json 	array 	the json data 	
+		 * @return 	json 	array 	[data],[api_type],[api_options],[event_id],[page_current],[url]
 		 */
 		function get_json( $params ) {
 
@@ -87,7 +87,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : $config['default']['cache'];
 			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
-			$api_timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
+			$api_timeout		= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
 			
 			// set the default arguments
 			$args = array(
@@ -162,27 +162,42 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 			}
 
-			// add the api type to the output for template usage
-			$output['api_type'] = $api_type;
-
-			// add the api options to the output for additional calls
-			$output['api_options'] = $api_options;
-
-			// add the current page number to the output for additonal calls
-			$output['page_current'] = $api_page_number;
-
-			// set the api url to the output data for any debugging
-			$output['url'] = $api_url;
-
-			// REMOVE: local testing only
+			/**
+			 * REMOVE: Local Testing
+			 *
+			 * Use the sample json data in the plugin.
+			 */
 			if ( $config['testing'] ) {
 				
 				$api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
 				
 			}
+
+			/**
+			 * Data Options Output
+			 *
+			 * Add output data options for future calls (pagination)
+			 */
+			
+			// add the api type to the output
+			$output['api_type'] = $api_type;
+
+			// add the api options to the output
+			$output['api_options'] = $api_options;
+
+			// add the event id to the output
+			$output['event_id'] = $api_event_id;
+
+			// add the current page number to the output
+			$output['page_current'] = $api_page_number;
+
+			// add the api url used to the output
+			$output['url'] = $api_url;
 			
 			
-			// First let's check if we have a transient for this API call
+			/**
+			 * Transient Check
+			 */
 			
 			// transient name using constructed api url
 			$transient_name = 'localist_' . urlencode($api_url);
@@ -190,6 +205,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// get the transient by name
 			$transient = get_transient( $transient_name );
 
+			// First let's check if we have a transient for this API call
 			if ( ! empty( $transient ) ) {
 
 				// We have a transient, no need to make an API call
