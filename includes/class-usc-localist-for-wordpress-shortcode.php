@@ -112,12 +112,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			$config = $this->config;
 
 			// default setting for error checking
-			$errors = $json_data = false;
+			$errors = $api_output = false;
 
-			// default for json url and template options build
-			$json_url = $template_options = array();
+			// default for api url and template options build
+			$api_url = array();
 
-			$json_api = new USC_Localist_For_Wordpress_API;
+			$api_data = new USC_Localist_For_Wordpress_API;
 
 			// get all api options
 			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, $this->plugin_shortcode_calendar );
@@ -138,7 +138,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 				// set the api type
-				$json_url['type'] = $api_type;
+				$api_url['api_type'] = $api_type;
 
 			/**
 			 * Get flag for event inline in page
@@ -151,10 +151,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				if ( '' != $api_events_page || null != $api_events_page ) {
 
 					// validate the cache value
-					$api_events_page = $json_api->validate_key_value( 'is_events_page', $api_events_page );
+					$api_events_page = $api_data->validate_key_value( 'is_events_page', $api_events_page );
 
 					// store the cache number as part of the url array
-					$json_url['is_events_page'] = $api_events_page;
+					$api_url['is_events_page'] = $api_events_page;
 
 				}
 
@@ -169,10 +169,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				if ( '' != $api_cache || null != $api_cache ) {
 
 					// validate the cache value
-					$api_cache = $json_api->validate_key_value( 'cache', $api_cache );
+					$api_cache = $api_data->validate_key_value( 'cache', $api_cache );
 
 					// store the cache number as part of the url array
-					$json_url['cache'] = $api_cache;
+					$api_url['cache'] = $api_cache;
 
 				}
 
@@ -191,7 +191,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 				// set the template slug
-				$template_options['template_multiple'] = $template_path_multiple;
+				$api_url['template_multiple'] = $template_path_multiple;
 
 			/**
 			 * Get template option: single
@@ -208,31 +208,24 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 				// set the template slug
-				$template_options['template_single'] = $template_path_single;
+				$api_url['template_single'] = $template_path_single;
 
 			/**
 			 * Get event details href option
 			 */
 			
 				// set the template slug
-				$template_options['href'] = $attr_all['href'];
-
-			/**
-			 * Get date range option
-			 */
-				
-				// set the date_range option
-				$template_options['date_range'] = $attr_all['date_range'];
+				$api_output['href'] = $attr_all['href'];
 
 			/**
 			 * Get url parameters and attach to the api query
 			 */
 				
-				$url_parameters = $json_api->get_custom_query_variables( $api_type );
+				$url_parameters = $api_data->get_custom_query_variables( $api_type );
 
-				// loop through the url parameters and attach to the $json_url associative array
+				// loop through the url parameters and attach to the $api_url associative array
 				foreach ( $url_parameters as $key => $value ) {
-					$json_url[$key] = $value;
+					$api_url[$key] = $value;
 				}
 
 			/**
@@ -245,7 +238,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 				if ( '' != $api_event_id || null != $api_event_id ) {
 
-					$json_url['event_id'] = $api_event_id;
+					$api_url['event_id'] = $api_event_id;
 
 				}
 			
@@ -261,7 +254,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 */
 
 				// get the matching api options by get type
-				$parameters_string = $json_api->parameters_as_string( $api_attr, $api_type );
+				$parameters_string = $api_data->parameters_as_string( $api_attr, $api_type );
 				
 				// if we have any error messages
 				if ( empty( $parameters_string ) ) {
@@ -279,41 +272,29 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				} else {
 
 					// no errors
-					$json_url['options'] = $parameters_string['parameters'];
+					$api_url['options'] = $parameters_string['parameters'];
 
 				}
 
 			/**
-			 * Get the json data if no errors are present
+			 * Get the api data if no errors are present
 			 */
 				
 				if ( ! $errors ) {
 
 					// perform the api call
-					$json_data = $json_api->get_json( $json_url );
-
-					// set the template option for the returned api type
-					if ( isset( $json_data['api_type'] ) ) {
-
-						$template_options['api_type'] = $json_data['api_type'];
-
-					} else {
-
-						// use the api type passed to get the api
-						$template_options['api_type'] = $api_type;
-						
-					}
-
-					// check if we have no errors in returned json data
-					if ( ! isset( $json_data['errors'] ) || null == $json_data['errors'] ) {
+					$api_output = $api_data->get_api( $api_url );
+					
+					// check if we have no errors in returned api data
+					if ( ! isset( $api_output['errors'] ) || null == $api_output['errors'] ) {
 						
 						// check if we have data
-						if ( isset( $json_data['data'] ) ) {
+						if ( isset( $api_output['data'] ) ) {
 							
-							// we have json array data
+							// we have api array data
 
-							// TODO: function for looping through json data
-							switch ( $api_type ) {
+							// switch between api types for output of data by class type
+							switch ( $api_output['api_type'] ) {
 								
 								// add api get types and their respective classes
 
@@ -324,21 +305,21 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 								// events or event
 								default:
-									$shortcode_output = new USC_Localist_For_Wordpress_Events( $json_data['data'], $template_options );
+									$shortcode_output = new USC_Localist_For_Wordpress_Events( $api_output );
 									$shortcode_output->run();
 									break;
 
 							}
 
 
-							return 'API Data Successful: ' . $json_data['url'];  // replace this with loop
+							return 'API Data Successful: ' . $api_output['url'];  // replace this with loop
 
 
 						} 
 
 					} else {
 
-						return $json_data['errors'];
+						return $api_output['errors'];
 
 					}
 
