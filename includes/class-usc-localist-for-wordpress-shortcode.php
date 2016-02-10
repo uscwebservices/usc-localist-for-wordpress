@@ -218,6 +218,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_output['href'] = $attr_all['href'];
 
 			/**
+			 * Get date range option
+			 */
+				
+				// set the date_range option
+				$api_output['date_range'] = $attr_all['date_range'];
+
+			/**
 			 * Get url parameters and attach to the api query
 			 */
 				
@@ -284,7 +291,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 					// perform the api call
 					$api_output = $api_data->get_api( $api_url );
-					
+
 					// check if we have no errors in returned api data
 					if ( ! isset( $api_output['errors'] ) || null == $api_output['errors'] ) {
 						
