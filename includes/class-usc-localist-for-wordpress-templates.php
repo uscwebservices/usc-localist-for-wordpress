@@ -87,9 +87,25 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * @since 	1.0.0
 		 */
 		public function get_template( $template_options ) {
+			
+			// multiple items template path
+			$template_path_multiple = $template_options['template_multiple'];
 
-			// template path
-			$template_path = $template_options['template'];
+			// single items template path
+			$template_path_single = $template_options['template_single'];
+
+			// if we have a single template path value and the api type is a single event
+			if ( '' != $template_path_single && 'event' == $template_options['api_type'] ) {
+
+				$template_path = $template_path_single;
+
+			} else {
+
+				$template_path = $template_path_multiple;
+
+			}
+
+
 
 			// default template path
 			$default_template = plugin_dir_path( dirname( __FILE__ ) ) . '/templates/' . $template_path;
