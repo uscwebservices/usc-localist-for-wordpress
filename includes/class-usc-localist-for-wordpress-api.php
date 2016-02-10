@@ -49,8 +49,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		}
 
 		/**
-		 * Get JSON
-		 * ========
+		 * Get API
+		 * =======
 		 * 
 		 * Compile options from passed parameters and get the JSON object from the Localist API.  
 		 * Options need to be sanitized prior to being passed.  
@@ -66,7 +66,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 * @param 	number 	timeout the timeout (in seconds) for waiting for the return
 		 * @return 	array 		 	[data],[api_type],[api_options],[event_id],[page_current],[url]
 		 */
-		function get_json( $params ) {
+		function get_api( $params ) {
 
 			global $wp_version;
 
@@ -80,14 +80,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$error_messages = new USC_Localist_For_Wordpress_Errors;
 
 			// default parameters
-			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
-			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
-			$api_events_page	= isset ( $params['is_events_page'] ) ? $params['is_events_page'] : false;
-			$api_event_id		= isset ( $params['event_id'] ) ? $params['event_id'] : '';
-			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : $config['default']['cache'];
-			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
-			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
-			$api_timeout		= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
+			$api_base_url 			= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
+			$api_type 				= isset ( $params['api_type'] ) ? $params['api_type'] : '';
+			$api_events_page		= isset ( $params['is_events_page'] ) ? $params['is_events_page'] : false;
+			$api_event_id			= isset ( $params['event_id'] ) ? $params['event_id'] : '';
+			$api_cache 				= isset ( $params['cache'] ) ? $params['cache'] : $config['default']['cache'];
+			$api_options 			= isset ( $params['options'] ) ? $params['options'] : '';
+			$api_page_number		= isset ( $params['page'] ) ? $params['page'] : '';
+			$api_timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
+			$api_template_multiple	= isset ( $params['template_multiple'] ) ? $params['template_multiple'] : '';
+			$api_template_single	= isset ( $params['template_single'] ) ? $params['template_single'] : '';
 			
 			// set the default arguments
 			$args = array(
@@ -193,6 +195,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 			// add the api url used to the output
 			$output['url'] = $api_url;
+
+			// add the multiple template used to the output
+			$output['template_multiple'] = $api_template_multiple;
+
+			// add the single template used to the output
+			$output['template_single'] = $api_template_single;
 			
 			
 			/**
@@ -316,7 +324,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$values = array();
 
 			// set json api for function helpers
-			$json_api = $this;
+			$api_data = $this;
 
 			// get the allowed values for the api type
 			$allowed_array_keys = $this->config['api_options'][$api_type]['allowed'];
@@ -337,7 +345,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					if ( $parameter_value ) {
 
 						// validate the value
-						$parameter_value = $json_api->validate_key_value( $key['relationship'], $parameter_value );
+						$parameter_value = $api_data->validate_key_value( $key['relationship'], $parameter_value );
 
 						// add the value as an associative array item
 						$values[$key['relationship']] = $parameter_value;
@@ -381,7 +389,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$error_messages = new USC_Localist_For_Wordpress_Errors;
 
 			// set json api for function helpers
-			$json_api = $this;
+			$api_data = $this;
 
 			// if we do not have an array, end the process
 			if ( ! is_array ( $params ) ) {
@@ -397,7 +405,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					if ( null !== $value && '' !== $value &! empty( $value ) ) {
 
 						// get valid value for the key value
-						$value = $json_api->validate_key_value( $key, $value );
+						$value = $api_data->validate_key_value( $key, $value );
 
 						// check that we don't have a boolean
 						if ( is_bool( $value ) ) {
