@@ -165,8 +165,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// add the api type to the output for template usage
 			$output['api_type'] = $api_type;
 
-			// add the api options to the output for pagination use
+			// add the api options to the output for additional calls
 			$output['api_options'] = $api_options;
+
+			// add the current page number to the output for additonal calls
+			$output['page_current'] = $api_page_number;
 
 			// set the api url to the output data for any debugging
 			$output['url'] = $api_url;
