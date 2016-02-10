@@ -177,21 +177,38 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 			/**
-			 * Get template option
+			 * Get template option: multiple
 			 */
 				
-				// set template path option
-				$template_path = $attr_all['template'];
+				// set template path option: multiple
+				$template_path_multiple = $attr_all['template_multiple'];
 
 				// set default template options
-				if ( '' == $template_path || null == $template_path ) {
+				if ( '' == $template_path_multiple || null == $template_path_multiple ) {
 					
-					$template_path = 'list.html';
+					$template_path_multiple = 'events-list.html';
 
 				}
 
 				// set the template slug
-				$template_options['template'] = $template_path;
+				$template_options['template_multiple'] = $template_path_multiple;
+
+			/**
+			 * Get template option: single
+			 */
+				
+				// set template path option: single
+				$template_path_single = $attr_all['template_single'];
+
+				// set default template options
+				if ( '' == $template_path_single || null == $template_path_single ) {
+					
+					$template_path_single = 'events-single.html';
+
+				}
+
+				// set the template slug
+				$template_options['template_single'] = $template_path_single;
 
 			/**
 			 * Get event details href option
