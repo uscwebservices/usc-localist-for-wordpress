@@ -64,7 +64,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 * @param 	string 	type 	the type of data to get [events]
 		 * @param 	string 	options the options to attach to narrow results
 		 * @param 	number 	timeout the timeout (in seconds) for waiting for the return
-		 * @return 	json 	array 	[data],[api_type],[api_options],[event_id],[page_current],[url]
+		 * @return 	array 		 	[data],[api_type],[api_options],[event_id],[page_current],[url]
 		 */
 		function get_json( $params ) {
 
