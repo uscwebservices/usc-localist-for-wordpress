@@ -14,16 +14,24 @@
 if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 	
 	class USC_Localist_For_Wordpress_Config {
-		
+
 		/**
 		 * Configuration settings for the plugin.
 		 *
 		 * Defines urls for localist and allowed api attributes by 
 		 * types and validation methods.
+		 * 
+		 * @since 1.0.0
+		 * @var array
 		 */
 
-
 		public static $config = array(
+			'testing' => true,
+			'default' => array(
+				// 'cache' => HOUR_IN_SECONDS, // in seconds
+				'cache' => 0, // testing only
+				'api_timeout' => 5 // in seconds
+			),
 			'plugin' => array(
 				'name' => 'USC Localist for Wordpress',
 				'version' => USC_LFWP__VERSION,
