@@ -56,7 +56,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						// custom values
 						'get' => '', // API GET type: [events,event,organizations,groups,search]
 						'cache' => '', // Transient cache timeout setting
-						'template' => '', // opttional: slug name from templates custom post type
+						'template_multiple' => '', // opttional: slug name from templates custom post type - multiple events
+						'template_single' => '', // opttional: slug name from templates custom post type - single events
 						'href'=>'', // optional: relative path to event detail
 						'date_range' => '', // optional: show date range for multiple date events
 						'is_events_page' => '', // optional: indicate single events to display on the shortcode page
