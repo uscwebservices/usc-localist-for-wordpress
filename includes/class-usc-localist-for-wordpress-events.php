@@ -17,7 +17,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 	class USC_Localist_For_Wordpress_Events {
 
 		/**
-		 * The array of events API data.
+		 * The array API data and options.
 		 * @var array
 		 */
 		protected $api_data;
@@ -52,6 +52,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-templates.php';
 
+			// require the date class for date and time functions
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-dates.php';
+
 		}
 
 		/**
@@ -62,11 +65,109 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 *
 		 * @since 	1.0.0
 		 */
-		public function run() {
+		public function get_events() {
 			
-			$template = new USC_Localist_For_Wordpress_Templates( $this->api_data );
+			// get the template from the api_data
+			$new_template = new USC_Localist_For_Wordpress_Templates( $this->api_data );
 			
-			$template_build = $template->get_template( $this->api_data );
+			$template = $new_template->get_template( $this->api_data );
+
+			// var_dump($template);
+
+			$events = $this->api_data['data']['events'];
+
+			foreach ( $events as $event ) {
+
+				// get to the single event attribute from the API
+				$event = $event['event'];
+
+				// find all data fields
+				$fields = $template->find('*[data-field]');
+
+				// loop through the data fields found
+				foreach ( $fields as $field ) {
+					
+					// set variables for data-fields
+					
+					// field
+					$data_field = $field->{'data-field'};
+
+					// type
+					$data_type = $field->{'data-type'};
+
+					// format 
+					$data_format = isset( $field->{'data-format'} ) ? $field->{'data-format'} : '';
+
+					// new date class object
+					$datetime = new USC_Localist_For_Wordpress_Dates;
+
+					// check if we have fields with array items
+					if ( isset( $data_type ) ) {
+
+						switch ( $data_type ) {
+							
+							// date events
+							case 'date':
+
+								break;
+							
+							// time events
+							case 'time':
+
+								break;
+							
+							// datetime events
+							default:
+
+								break;
+						}
+
+					}
+
+					// parse through dot syntax data-fields
+					if ( strpos ( $data_field, '.' ) ) {
+
+						// convert dot path to array
+						$data_paths = explode('.', $data_field);
+
+						// set node to add array items as $event[node1][node2]
+						$node =& $event;
+
+						// loop through the array items
+						foreach ($data_paths as $path) {
+							
+							// check if the item exists 
+							if (array_key_exists($path, $node) ) {
+
+								$node =& $node[$path];
+
+							} 
+
+							// doesn't exist so let's return a message to help the template builder
+							else {
+
+								$node = __('Data type does not exist');
+
+							}
+
+						}
+
+						$field_value = $node;
+
+					} 
+
+					// single data-field
+					else {
+
+						$field_value = $event[$data_field];
+
+					}
+
+				}
+
+				$field->innertext = $fieldvalue;
+				
+			}
 			
 		}
 
