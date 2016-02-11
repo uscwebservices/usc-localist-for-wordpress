@@ -147,6 +147,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'boolean' => array(
 							// custom values
 							'is_events_page',
+							'date_range',
 
 							// localist values
 							'featured',
