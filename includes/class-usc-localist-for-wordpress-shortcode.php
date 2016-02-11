@@ -306,7 +306,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 								// events or event
 								default:
 									$shortcode_output = new USC_Localist_For_Wordpress_Events( $api_output );
-									$shortcode_output->run();
+									$shortcode_output->get_events();
 									break;
 
 							}
