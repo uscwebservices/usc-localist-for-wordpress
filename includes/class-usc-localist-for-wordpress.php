@@ -126,10 +126,6 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 			// run the loading functions for actions and filters
 			$this->loader->run();
-
-			if ( did_action( 'customize_register' ) === 1 ) {
-				echo 'loaded';
-			}
 			
 		}
 

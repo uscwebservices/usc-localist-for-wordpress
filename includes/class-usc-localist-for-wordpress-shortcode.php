@@ -119,8 +119,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			$api_data = new USC_Localist_For_Wordpress_API;
 
+			// get options set in customizer
+			$options_date_range = get_option('usc_lfwp_date_range');
+			$options_detail_page_id = get_option('usc_lfwp_events_detail_page');
+
 			// get all api options
 			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, $this->plugin_shortcode_calendar );
+
 
 			/**
 			 * Get type
