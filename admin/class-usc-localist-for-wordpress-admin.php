@@ -83,6 +83,7 @@ class USC_Localist_For_Wordpress_Admin {
 
 		$this->customize_section_events( $wp_customizer, $this->plugin_tag );
 		$this->customize_events_detail_page( $wp_customizer, $this->plugin_tag );
+		$this->customize_events_date_range( $wp_customizer, $this->plugin_tag );
 
 	}
 
@@ -103,6 +104,33 @@ class USC_Localist_For_Wordpress_Admin {
 			'title'			=> __( 'Localist Calendar Options', $plugin_tag ),
 			'priority'		=> 130,
 		) );
+
+	}
+
+	/**
+	 * Customize: Events Date Range
+	 * ============================
+	 *
+	 * Add option to have global setting for multiple dates returned as range.
+	 *
+	 * @since 	1.0.0
+	 */
+	public static function customize_events_date_range( $wp_customizer, $plugin_tag ) {
+
+		// radio controls
+		$wp_customizer->add_setting( 'usc_lfwp_date_range', array(
+			'default'		=> 'yes',
+		) );
+
+		$wp_customizer->add_control( 'usc_lfwp_date_range', array(
+			'label'			=> 'Dates Range',
+			'section'		=> 'customize_section_events',
+			'type'			=> 'radio',
+			'description'	=> 'Display multiple dates as a Range.<br><br> <strong>No:</strong> Monday, Tuesday, Wednesday<br><br> <strong>Yes:</strong> Monday - Wednesday<br><br>',
+			'choices'		=> array( 'Yes', 'No' ),
+			'priority'		=> 1
+		) );
+
 
 	}
 
