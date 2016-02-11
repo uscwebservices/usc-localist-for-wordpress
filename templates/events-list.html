@@ -1,10 +1,9 @@
 <html>
-	<ul class="events-list">
 		<li class="event-item">
-			<h2 class="event-title" data-field="title"><a href="#" data-href="localist_url"></a></h2>
-			<time class="event-date" data-field="event_instances.dates"></time>
-			<time class="event-time" data-field="event_instances.times"></time>
-			<address class="event-location" data-field="location_name"></address>
+			<h2 class="event-title" data-field="title"><a href=	"#" data-href="localist_url"></a></h2>
+			<time class="event-date" data-field="event_instances" data-type="datetime" data-format="l jS \of F Y h:i:s A"></time>
+			<time class="event-date" data-field="event_instances" data-type="datetime" data-format="F j, Y"></time>
+			<address class="event-location" data-field="geo.city"></address>
+			<span data-field="non.existent.data"></span>
 		</li>
-	</ul>
 </html>
