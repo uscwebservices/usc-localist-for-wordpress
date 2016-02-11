@@ -26,7 +26,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 		 */
 
 		public static $config = array(
-			'testing' => false,
+			'testing' => true,
 			'default' => array(
 				// 'cache' => HOUR_IN_SECONDS, // in seconds
 				'cache' => 0, // testing only
@@ -66,7 +66,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'cache' => '', // Transient cache timeout setting
 						'template_multiple' => '', // opttional: slug name from templates custom post type - multiple events
 						'template_single' => '', // opttional: slug name from templates custom post type - single events
-						'href'=>'', // optional: relative path to event detail
+						'details_page'=>'', // optional: relative path to event detail
 						'date_range' => '', // optional: show date range for multiple date events
 						'is_events_page' => '', // optional: indicate single events to display on the shortcode page
 
