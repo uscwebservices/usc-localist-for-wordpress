@@ -111,17 +111,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// get the default config file
 			$config = $this->config;
 
-			// default setting for error checking
-			$errors = $api_output = false;
+			// default setting for error checking, date_range, details_page
+			$errors = $api_output = $details_page = $date_range = false;
 
 			// default for api url and template options build
 			$api_url = array();
 
 			$api_data = new USC_Localist_For_Wordpress_API;
-
-			// get options set in customizer
-			$options_date_range = get_option('usc_lfwp_date_range');
-			$options_detail_page_id = get_option('usc_lfwp_events_detail_page');
 
 			// get all api options
 			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, $this->plugin_shortcode_calendar );
@@ -216,18 +212,57 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_url['template_single'] = $template_path_single;
 
 			/**
-			 * Get event details href option
+			 * Get event details page option
 			 */
-			
-				// set the template slug
-				$api_output['href'] = $attr_all['href'];
+
+				// date range from shortcode options
+				$shortcode_details_page = $attr_all['details_page'];
+
+				// date range from global options
+				$options_details_page_id = get_option('usc_lfwp_events_detail_page');
+				$options_details_page_uri = get_page_uri( $options_details_page_id );
+
+				if ( '' != $shortcode_details_page ) {
+
+					$details_page = $shortcode_details_page;
+
+				}
+
+				else if ( $options_details_page_id ) {
+
+					$details_page = $options_details_page_uri;
+					
+				}
+
+				// set the details_page option
+				$api_output['details_page'] = $details_page;
 
 			/**
 			 * Get date range option
 			 */
-				
+
+				// date range from shortcode options
+				$shortcode_date_range = $attr_all['date_range'];
+
+				// date range from global options
+				$options_date_range = get_option('usc_lfwp_date_range');
+
+				if ( '' != $shortcode_date_range ) {
+
+					$shortcode_date_range = $api_data->validate_key_value( 'date_range', $shortcode_date_range );
+
+					$date_range = $shortcode_date_range;
+
+				}
+
+				else if ( $options_date_range ) {
+
+					$date_range = $options_date_range;
+
+				}
+
 				// set the date_range option
-				$api_output['date_range'] = $attr_all['date_range'];
+				$api_output['date_range'] = $date_range;
 
 			/**
 			 * Get url parameters and attach to the api query
