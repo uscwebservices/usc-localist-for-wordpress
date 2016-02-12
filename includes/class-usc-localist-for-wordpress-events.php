@@ -69,7 +69,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			
 			// get the template from the api_data
 			$new_template = new USC_Localist_For_Wordpress_Templates( $this->api_data );
-			
 			$template = $new_template->get_template( $this->api_data );
 
 			// var_dump($template);
@@ -77,7 +76,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			$events = $this->api_data['data']['events'];
 
 			foreach ( $events as $event ) {
-
+				
 				// get to the single event attribute from the API
 				$event = $event['event'];
 
@@ -88,6 +87,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				foreach ( $fields as $field ) {
 
 					// set variables for data-fields
+					$field_value = '';
 					
 					// field
 					$data_field = $field->{'data-field'};
@@ -131,41 +131,37 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 					if ( strpos ( $data_field, '.' ) ) {
 
 						// convert dot path to array
-						$data_paths = explode('.', $data_field);
-
+						$paths = explode('.', $data_field);
 						// set node to add array items as $event[node1][node2]
 						$node =& $event;
 
 						// loop through the array items
-						foreach ($data_paths as $path) {
+						foreach ($paths as $path) {
 							
 							// check if the item exists 
 							if (array_key_exists($path, $node) ) {
 
 								$node =& $node[$path];
 
-							} 
-
-							// doesn't exist so let's return a message to help the template builder
-							else {
-
-								$node =  '"' . $data_field . '" ' . __('data type does not exist');
-
 							}
 
 						}
 
-						// set the field value to be returned
 						$field_value = $node;
 
 					} 
 
 					// single node data-field
 					else {
-
-						// set the field value to be returned
-						$field_value = $event[$data_field];
 						
+						$field_value = $event[$data_field];
+
+					}
+
+					// check that we do not have an array for a field value
+					if ( is_array( $field_value ) ) {
+
+						$field_value = 'data-field: "' . $data_field . '" is an array. Please select a "data-type" option to process the data.';
 
 					}
 
