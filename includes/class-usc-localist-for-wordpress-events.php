@@ -86,7 +86,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 
 				// loop through the data fields found
 				foreach ( $fields as $field ) {
-					
+
 					// set variables for data-fields
 					
 					// field
@@ -96,12 +96,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 					$data_type = $field->{'data-type'};
 
 					// format 
-					$data_format = isset( $field->{'data-format'} ) ? $field->{'data-format'} : '';
+					$data_format = isset( $field->{'data-format'} ) ? $field->{'data-format'} : false;
+
+					// image size
+					$data_image_size = isset( $field->{'image_size'} ) ? $field->{'image_size'} : false;
 
 					// new date class object
 					$datetime = new USC_Localist_For_Wordpress_Dates;
 
-					// check if we have fields with array items
+					// check if we have data type fields for specific handling
 					if ( isset( $data_type ) ) {
 
 						switch ( $data_type ) {
@@ -124,7 +127,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 
 					}
 
-					// parse through dot syntax data-fields
+					// multiple node data field
 					if ( strpos ( $data_field, '.' ) ) {
 
 						// convert dot path to array
@@ -146,28 +149,61 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 							// doesn't exist so let's return a message to help the template builder
 							else {
 
-								$node = __('Data type does not exist');
+								$node =  '"' . $data_field . '" ' . __('data type does not exist');
 
 							}
 
 						}
 
+						// set the field value to be returned
 						$field_value = $node;
 
 					} 
 
-					// single data-field
+					// single node data-field
 					else {
 
+						// set the field value to be returned
 						$field_value = $event[$data_field];
+						
+
+					}
+
+					// specific data types for handling non innertext output
+					
+					// photo
+					if ( 'photo_url' == $data_field ) {
+
+						// check if we have an overwriting image size preference: tiny, small, medium, big, big_300
+						if ( $data_format ) {
+							
+							$field_value = str_replace( '/huge/', '/' . $data_format . '/', $field_value );
+
+						}
+
+						$field->src = $field_value;
+					}
+
+					// default
+					else {
+						
+						$field->innertext = $field_value;
 
 					}
 
 				}
 
-				$field->innertext = $fieldvalue;
+				
 				
 			}
+
+			// save the template
+			$output = $template->save();
+
+			echo $output;
+
+			// set the value to display in the output
+			echo str_replace( array( '<html>', '</html>'), array( '', '' ), $output );
 			
 		}
 
