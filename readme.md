@@ -7,6 +7,7 @@ USC Localist for WordPress
 - API Options
 - Custom API options
 - Customizer
+- Templates
 - Notes
 
 <!-- /MarkdownTOC -->
@@ -82,6 +83,48 @@ Or, to display events and the event detail with one shortcode:
 	[localist-calendar get="events" is_events_page="true"]
 
 If you leave the dropdown blank, the event links will go to the event detail page on the [usc-calendar].
+
+
+## Templates
+
+### Using Data Types
+
+#### Preset Functions for Data Types
+
+##### photo_url
+
+The data node `photo_url` will replace the `src` with the url of the photo.  Using 'data-format', you can set the size of the images to be returned from the following list.
+
+<table>
+	<thead>
+		<td><strong>Value</strong></td>
+		<td><strong>Returned Size (px)</strong></td>
+	</thead>
+	<tr>
+		<td><code>tiny</code></td>
+		<td>20×20</td>
+	</tr>
+	<tr>
+		<td><code>small</code></td>
+		<td>50x50</td>
+	</tr>
+	<tr>
+		<td><code>medium</code></td>
+		<td>80×80</td>
+	</tr>
+	<tr>
+		<td><code>big</code></td>
+		<td>200×150</td>
+	</tr>
+	<tr>
+		<td><code>big_300</code></td>
+		<td>300×225</td>
+	</tr>
+</table>
+
+### data-field
+
+### data-type
 
 
 ## Notes
