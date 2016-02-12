@@ -62,49 +62,47 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 					'allowed' => array(
 						
 						// custom values
-						'get' => '', // API GET type: [events,event,organizations,groups,search]
 						'cache' => '', // Transient cache timeout setting
+						'get' => '', // API GET type: [events,event,organizations,groups,search]
+						'date_range' => '', // optional: show date range for multiple date events
+						'details_page'=>'', // optional: relative path to event detail
+						'is_events_page' => '', // optional: indicate single events to display on the shortcode page
 						'template_multiple' => '', // opttional: slug name from templates custom post type - multiple events
 						'template_single' => '', // opttional: slug name from templates custom post type - single events
-						'details_page'=>'', // optional: relative path to event detail
-						'date_range' => '', // optional: show date range for multiple date events
-						'is_events_page' => '', // optional: indicate single events to display on the shortcode page
 
 						// localist values
-						'organization_id' => '',
-						'communities_id' => '',
+						'all_custom_fields' => '',
 						'bounds' => '',
 						'campus_id' => '',
+						'communities_id' => '',
+						'created_after' => '',
+						'created_before' => '',
+						'days' => '',
+						'direction' => '',
+						'distinct' => '',
+						'end' => '',
+						'event_id' => '',
+						'exclude_type' => '',
+						'featured' => '',
 						'group_id' => '',
+						'include_activity' => '',
+						'include_attendance' => '',
+						'include_attendees' => '',
+						'keyword' => '',
+						'match' => '',
 						'near' => '',
+						'organization_id' => '',
+						'page' => '',
+						'pp' => '',
+						'require_all' => '',
+						'search' => '',
+						'sort' => '',
+						'sponsored' => '',
+						'start' => '',
+						'type' => '',
 						'units' => '',
 						'venue_id' => '',
 						'within' => '',
-						'days' => '',
-						'end' => '',
-						'start' => '',
-						'page' => '',
-						'pp' => '',
-						'created_after' => '',
-						'created_before' => '',
-						'exclude_type' => '',
-						'featured' => '',
-						'keyword' => '',
-						'match' => '',
-						'require_all' => '',
-						'sponsored' => '',
-						'type' => '',
-						'all_custom_fields' => '',
-						'direction' => '',
-						'distinct' => '',
-						'include_attendance' => '',
-						'sort' => '',
-						'search' => '',
-						'event_id' => '',
-						'all_custom_filds' => '',
-						'include_activity' => '',
-						'include_attendance' => '',
-						'include_attendees' => ''
 					),
 
 					// all API parameters types that allow array values
