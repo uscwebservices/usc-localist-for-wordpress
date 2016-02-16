@@ -85,7 +85,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 * @param 	string 	$timestamp 	the date object to check against
 		 * @return 	boolean
 		 */
-		function is_midnight( $timestamp ) {
+		public function is_midnight( $timestamp ) {
 			
 			// check if the hour and minute are set to '0'
 			if( date( 'H', $timestamp ) == 0 && date( 'i', $timestamp ) == 0 ) {
@@ -111,7 +111,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 * @param 	string 	$timestamp 	the date object to check against
 		 * @return 	boolean
 		 */
-		function is_noon( $timestamp ) {
+		public function is_noon( $timestamp ) {
 			
 			// check if the hour and minute are set to '0'
 			if( date( 'H', $timestamp ) == 12 && date( 'i', $timestamp ) == 0 ) {
@@ -123,6 +123,55 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 
 				// it is not noon
 				return false;
+
+			}
+
+		}
+
+		/**
+		 * Dates Instance
+		 * ==============
+		 *
+		 * Pass a date array 
+		 * 
+		 * @param  array  $dates 	array of date(s) to check against for the desired output
+		 * @param  boolean $end 	boolean to check if there is an end date
+		 * @return string			date as string
+		 */
+		public function dates_instance( $dates, $end = false ) {
+			
+			if ( $end && isset ( $dates['event_instance']['end'] ) ) {
+				$output = $dates['event_instance']['end'];
+			} 
+
+			else if ( isset ( $dates['event_instance']['start'] ) ) {
+				$output = $dates['event_instance']['start'];
+			} 
+
+			else {
+				$output = $dates;
+			}
+			
+			return $output;
+
+		}
+
+		/**
+		 * Format Date
+		 * ===========
+		 *
+		 * @param 	array 	$dates 		an array of dates to pass for formatting
+		 * @param 	string 	$format 	the php format to change the date
+		 * @param 	string 	$date_range	whether to display multi-day events as a
+		 *                             	range or the single instance date
+		 * @return 	string 	dates output
+		 */
+		public function format_date( $dates, $format = 'n/j/Y', $date_range = false ) {
+
+			// single event
+			if ( count( $dates ) <= 1 ) {
+
+				$output = date( $format, strtotime( $this->dates_instance( $dates[0] ) ) );
 
 			}
 
