@@ -146,16 +146,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 */
 				
 				// set variable
-				$api_events_page = $attr_all['is_events_page'];
+				$api_is_events_page = $attr_all['is_events_page'];
 
 				// check that we have a valid 'cache' value
-				if ( '' != $api_events_page || null != $api_events_page ) {
+				if ( '' != $api_is_events_page || null != $api_is_events_page ) {
 
 					// validate the cache value
-					$api_events_page = $api_data->validate_key_value( 'is_events_page', $api_events_page );
+					$api_is_events_page = $api_data->validate_key_value( 'is_events_page', $api_is_events_page );
 
 					// store the cache number as part of the url array
-					$api_url['is_events_page'] = $api_events_page;
+					$api_url['is_events_page'] = $api_is_events_page;
 
 				}
 
@@ -222,20 +222,32 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$options_details_page_id = get_option('usc_lfwp_events_detail_page');
 				$options_details_page_uri = get_page_uri( $options_details_page_id );
 
-				if ( '' != $shortcode_details_page ) {
+				// first check that is_events_page isn't set to true
+				if ( $api_is_events_page ) {
 
-					$details_page = $shortcode_details_page;
+					$api_url['details_page'] = the_permalink();
+
+				} 
+
+				// is_events_page is false or not set in the shortcode
+				else {
+
+					if ( '' != $shortcode_details_page ) {
+
+						$details_page = $shortcode_details_page;
+
+					}
+
+					else if ( $options_details_page_id ) {
+
+						$details_page = $options_details_page_uri;
+						
+					}
+
+					// set the details_page option
+					$api_url['details_page'] = $details_page;
 
 				}
-
-				else if ( $options_details_page_id ) {
-
-					$details_page = $options_details_page_uri;
-					
-				}
-
-				// set the details_page option
-				$api_output['details_page'] = $details_page;
 
 			/**
 			 * Get date range option
@@ -262,7 +274,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 				// set the date_range option
-				$api_output['date_range'] = $date_range;
+				$api_url['date_range'] = $date_range;
 
 			/**
 			 * Get url parameters and attach to the api query
