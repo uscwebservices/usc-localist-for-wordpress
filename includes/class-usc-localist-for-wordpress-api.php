@@ -90,6 +90,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
 			$api_template_multiple	= isset ( $params['template_multiple'] ) ? $params['template_multiple'] : '';
 			$api_template_single	= isset ( $params['template_single'] ) ? $params['template_single'] : '';
+
+			// not used for the api call but passed to other operation on output
+			$api_date_range			= isset ( $params['date_range'] ) ? $params['date_range'] : '';
+			$api_details_page		= isset ( $params['details_page'] ) ? $params['details_page'] : '';
+
+			// set the unused options for output
+			$output['date_range'] = $api_date_range;
+			$output['details_page'] = $api_details_page;
 			
 			// set the default arguments
 			$args = array(
