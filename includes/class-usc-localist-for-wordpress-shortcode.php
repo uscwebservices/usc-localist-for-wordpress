@@ -225,7 +225,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				// first check that is_events_page isn't set to true
 				if ( $api_is_events_page ) {
 
-					$api_url['details_page'] = the_permalink();
+					$api_url['details_page'] = get_permalink();
 
 				} 
 
