@@ -192,17 +192,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 
 			$is_weekly = $this->is_weekly( $dates );
 
-			//echo '<br>is_weekly: ' . $is_weekly;
-
-			// single event
-			if ( count( $dates ) <= 1 ) {
-
-				$output = date( $format, strtotime( $this->dates_instance( $dates[0] ) ) );
-
-			}
-
-			return $output;
-
 		}
 
 	}
