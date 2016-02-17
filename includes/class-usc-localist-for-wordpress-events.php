@@ -116,62 +116,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				// get the data fields, pass the template, api data and options
 				$template_data->data_fields( $template, $event, $options );
 
-				/**
-				 * Data Links
-				 */
-				
-					// find all data links
-					$links = $template->find('*[data-link]'); // handle links in templates
-					
-					foreach ( $links as $link ) {
-
-						// get the data link attribute
-						$data_link = $link->{'data-link'};
-
-						// check if we have a link to a map
-						if ( 'map' == $data_link ) {
-							
-							$map_link = $template_data->map_link($event['location_name']);
-							
-							// set the href using map_link function
-							$link->href = $map_link;
-
-							// set the text to the location name
-							$link->innertext = $event['location_name'];
-
-
-						} 
-
-						// check if we have a link to the details page
-						else if ( 'detail' == $data_link ) {
-							
-							// check if we have a set details page link
-							if ( '' != $details_page ) {
-								
-								// attach the event-id url parameter to the link
-								$link->href = $details_page . '?event-id=' . $event['id'];
-
-							}
-
-							// default: link to the localist details page
-							else {
-								
-								$link->href = $event['localist_url'];
-							
-							}
-
-						}
-
-						// defautl to use data link with node mapping
-						else {
-							
-							$link->href = $event[$data_link];
-
-						}
-
-					}
-
-				
+				// get the data links, pass the template, api data and options
+				$template_data->data_links( $template, $event, $options );
 
 				// save the template
 				$output = $template->save();

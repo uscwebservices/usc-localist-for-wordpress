@@ -79,17 +79,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
-		 * Event Data Type
-		 * ===============
+		 * Data Type
+		 * =========
 		 * 
 		 * @param 	string 	$data_type 		specific handling for data_fields function
 		 * @param 	array 	$api_data 		api data array used to get node values
 		 *                            		(i.e - event(s))
-		 * @param 	array 	$options 		api options passed [date_range, details_page]
+		 * @param 	array 	$options 		api options passed:
+		 *                           		[date_range, details_page, api_type]
 		 * @return 	string 	field_value		returns the value of the data_field + data_type
 		 *                               	combination
 		 */
-		public function event_data_type( $data_type, $api_data, $options ) {
+		public function data_type( $data_type, $api_data, $options ) {
 
 			// new date class object
 			$date_functions = new USC_Localist_For_Wordpress_Dates;
@@ -188,7 +189,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// check if we have data type fields for specific handling
 				if ( isset( $data_type ) ) {
 
-					$field_value = $this->event_data_type( $data_type, $api_data, $options );
+					$field_value = $this->data_type( $data_type, $api_data, $options );
 
 				}
 
@@ -206,6 +207,64 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				else {
 					
 					$field->innertext = $field_value;
+
+				}
+
+			}
+
+		}
+
+		public function data_links( $template, $api_data, $options ) {
+
+			// defaults
+			$details_page = $options['details_page'];
+
+			// find all data links
+			$links = $template->find('*[data-link]'); // handle links in templates
+			
+			foreach ( $links as $link ) {
+
+				// get the data link attribute
+				$data_link = $link->{'data-link'};
+
+				// check if we have a link to a map
+				if ( 'map' == $data_link ) {
+					
+					$map_link = $template_data->map_link($api_data['location_name']);
+					
+					// set the href using map_link function
+					$link->href = $map_link;
+
+					// set the text to the location name
+					$link->innertext = $api_data['location_name'];
+
+
+				} 
+
+				// check if we have a link to the details page
+				else if ( 'detail' == $data_link ) {
+					
+					// check if we have a set details page link
+					if ( '' != $details_page ) {
+						
+						// attach the api_data url parameter to the link
+						$link->href = $details_page . '?event-id=' . $api_data['id'];
+
+					}
+
+					// default: link to the localist details page
+					else {
+						
+						$link->href = $api_data['localist_url'];
+					
+					}
+
+				}
+
+				// defautl to use data link with node mapping
+				else {
+					
+					$link->href = $api_data[$data_link];
 
 				}
 
