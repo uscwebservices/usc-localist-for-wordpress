@@ -81,9 +81,186 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		}
 
 		/**
-		 * Data Links
-		 * ==========
+		 * Data Fields
+		 * ===========
+		 *
+		 * Get 
+		 * @param 	array 	$data 		[description]
+		 * @param 	object 	$template 	the template object
+		 * @param 	[type] 	$options 	[description]
+		 * @return 	[type] 				[description]
 		 */
+		public function data_fields( $template, $api_data, $options ) {
+
+			// find all data fields
+			$fields = $template->find('*[data-field]');
+
+			// loop through the data fields found
+			foreach ( $fields as $field ) {
+
+				// set variables for data-fields
+				$field_value = '';
+				
+				// field
+				$data_field = $field->{'data-field'};
+
+				// type
+				$data_type = $field->{'data-type'};
+
+				// format 
+				$data_format = isset( $field->{'data-format'} ) ? $field->{'data-format'} : false;
+
+				// image size
+				$data_image_size = isset( $field->{'image_size'} ) ? $field->{'image_size'} : false;
+
+				// check if we have data type fields for specific handling
+				if ( isset( $data_type ) ) {
+
+					$field_value = $this->event_data_type( $data_type, $api_data, $options );
+
+				}
+
+				
+				$field_value = $this->string_node( $api_data, $data_field );
+
+				// check that we do not have an array for a field value
+				if ( is_array( $field_value ) &! $data_type ) {
+
+					$field_value = 'data-field: "' . $data_field . '" is an array. Please select a "data-type" option to process the data.';
+
+				}
+
+				// default
+				else {
+					
+					$field->innertext = $field_value;
+
+				}
+
+			}
+
+		}
+
+		/**
+		 * Event Data Type
+		 * ===============
+		 * 
+		 * @param  [type] $data_type [description]
+		 * @param  [type] $api_data  [description]
+		 * @param  [type] $options   [description]
+		 * @return [type]            [description]
+		 */
+		public function event_data_type( $data_type, $api_data, $options ) {
+
+			// new date class object
+			$date_functions = new USC_Localist_For_Wordpress_Dates;
+
+			switch ( $data_type ) {
+
+				// date events
+				case 'date':
+
+					// if date range selected and non matching first/last dates
+					if ( $options['date_range'] && $api_data['first_date'] != $api_data['last_date'] ) {
+
+						$dates = array( $api_data['first_date'], $api_data['last_date'] );
+						
+					}
+
+					// otherwise, choose the array of event_instances
+					else {
+
+						$dates = $api_data['event_instances'];
+
+					}
+
+					$field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
+
+					break;
+				
+				// time events
+				case 'time':
+
+					$field_value = $date_functions->format_times( $api_data['event_instances'], $format );
+
+					break;
+				
+				// datetime events
+				default:
+
+					// if date range selected and non matching first/last dates
+					if ( $date_range && $api_data['first_date'] != $api_data['last_date'] ) {
+
+						$dates = array( $api_data['first_date'], $api_data['last_date'] );
+						
+					}
+
+					// otherwise, choose the array of event_instances
+					else {
+
+						$dates = $api_data['event_instances'];
+
+					}
+
+					$field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
+					//$fieldvalue = $date_functions->format_datetime($dates,$fmt,false,$range);
+
+					break;
+
+			}
+
+			return $field_value;
+
+		}
+
+		/**
+		 * String Node
+		 * ===========
+		 *
+		 * Parses a dot syntax string into an associative array.
+		 *
+		 * some.data.type becomes $api_data['some']['data']['type']
+		 * 
+		 * @param 	array 	$api_data 		single item array of api data node (i.e. - event)
+		 * @param 	string 	$data_field 	the data field to check against
+		 * @return 	assoc array path 		the p
+		 */
+		public function string_node( $api_data, $data_field ) {
+
+			// multiple node data field
+			if ( strpos ( $data_field, '.' ) ) {
+
+				// convert dot path to array
+				$paths = explode('.', $data_field);
+
+				// set node to add array items as $event[node1][node2]
+				$node =& $api_data;
+
+				// loop through the array items
+				foreach ($paths as $path) {
+					
+					// check if the item exists 
+					if (array_key_exists($path, $node) ) {
+
+						$node =& $node[$path];
+
+					}
+
+				}
+
+				$field_value = $node;
+
+			}
+
+			// single node data field
+			else {
+
+				$field_value = $api_data[$data_field];
+			}
+
+			return $field_value;
+
+		}
 		
 
 		/**
@@ -105,14 +282,21 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			$new_template = new USC_Localist_For_Wordpress_Templates( $this->api_data );
 			$template = $new_template->get_template( $this->api_data );
 
+			// store options as array
+			$options = array();
+
 			// get the date range if set
-			$date_range = $this->api_data['date_range'];
+			// $date_range = $this->api_data['date_range'];
+			$options['date_range'] = $this->api_data['date_range'];
+			
 
 			// get the details page link, if set
-			$details_page = $this->api_data['details_page'];
+			// $details_page = $this->api_data['details_page'];
+			$options['details_page'] = $this->api_data['details_page'];
 
 			// get the events from the class api data
 			$events = $this->api_data['data'];
+
 			
 			if ( $events['events'] ) {
 				$events = $events['events'];
@@ -128,153 +312,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 					$event = $single['event'];
 				}
 				
-				/**
-				 * Data Fields
-				 */
-				
-					// find all data fields
-					$fields = $template->find('*[data-field]');
-
-					// loop through the data fields found
-					foreach ( $fields as $field ) {
-
-						// set variables for data-fields
-						$field_value = '';
-						
-						// field
-						$data_field = $field->{'data-field'};
-
-						// type
-						$data_type = $field->{'data-type'};
-
-						// format 
-						$data_format = isset( $field->{'data-format'} ) ? $field->{'data-format'} : false;
-
-						// image size
-						$data_image_size = isset( $field->{'image_size'} ) ? $field->{'image_size'} : false;
-
-						// new date class object
-						$date_functions = new USC_Localist_For_Wordpress_Dates;
-
-						// check if we have data type fields for specific handling
-						if ( isset( $data_type ) ) {
-
-							switch ( $data_type ) {
-
-								// date events
-								case 'date':
-
-									// if date range selected and non matching first/last dates
-									if ( $date_range && $event['first_date'] != $event['last_date'] ) {
-
-										$dates = array( $event['first_date'], $event['last_date'] );
-										
-									}
-
-									// otherwise, choose the array of event_instances
-									else {
-
-										$dates = $event['event_instances'];
-
-									}
-
-									$field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
-
-									break;
-								
-								// time events
-								case 'time':
-
-									$field_value = $date_functions->format_times( $event['event_instances'], $format );
-
-									break;
-								
-								// datetime events
-								default:
-
-									// if date range selected and non matching first/last dates
-									if ( $date_range && $event['first_date'] != $event['last_date'] ) {
-
-										$dates = array( $event['first_date'], $event['last_date'] );
-										
-									}
-
-									// otherwise, choose the array of event_instances
-									else {
-
-										$dates = $event['event_instances'];
-
-									}
-
-									$field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
-									//$fieldvalue = $date_functions->format_datetime($dates,$fmt,false,$range);
-
-									break;
-							}
-
-						}
-
-						// multiple node data field
-						if ( strpos ( $data_field, '.' ) ) {
-
-							// convert dot path to array
-							$paths = explode('.', $data_field);
-							// set node to add array items as $event[node1][node2]
-							$node =& $event;
-
-							// loop through the array items
-							foreach ($paths as $path) {
-								
-								// check if the item exists 
-								if (array_key_exists($path, $node) ) {
-
-									$node =& $node[$path];
-
-								}
-
-							}
-
-							$field_value = $node;
-
-						} 
-
-						// single node data-field
-						else {
-
-							$field_value = $event[$data_field];
-
-						}
-
-						// check that we do not have an array for a field value
-						if ( is_array( $field_value ) &! $data_type ) {
-
-							$field_value = 'data-field: "' . $data_field . '" is an array. Please select a "data-type" option to process the data.';
-
-						}
-
-						// specific data types for handling non innertext output
-						
-						// photo
-						if ( 'photo_url' == $data_field ) {
-
-							// check if we have an overwriting image size preference: tiny, small, medium, big, big_300
-							if ( $data_format ) {
-								
-								$field_value = str_replace( '/huge/', '/' . $data_format . '/', $field_value );
-
-							}
-
-							$field->src = $field_value;
-						}
-
-						// default
-						else {
-							
-							$field->innertext = $field_value;
-
-						}
-
-					}
+				// get the data fields, pass the template, api data and options
+				$this->data_fields( $template, $event, $options );
 
 				/**
 				 * Data Links
