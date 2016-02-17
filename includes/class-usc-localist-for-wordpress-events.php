@@ -97,8 +97,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			// get the events from the class api data
 			$events = $this->api_data['data']['events'];
 
-			$range = $this->api_data['date_range'];
-			var_dump($range);
+			$date_range = $this->api_data['date_range'];
 
 			// get the details page link, if set
 			$details_page = $this->api_data['details_page'];
@@ -134,7 +133,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 						$data_image_size = isset( $field->{'image_size'} ) ? $field->{'image_size'} : false;
 
 						// new date class object
-						$datetime = new USC_Localist_For_Wordpress_Dates;
+						$date_functions = new USC_Localist_For_Wordpress_Dates;
 
 						// check if we have data type fields for specific handling
 						if ( isset( $data_type ) ) {
@@ -144,17 +143,50 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 								// date events
 								case 'date':
 
-									
+									// if date range selected and non matching first/last dates
+									if ( $date_range && $event['first_date'] != $event['last_date'] ) {
+
+										$dates = array( $event['first_date'], $event['last_date'] );
+										
+									}
+
+									// otherwise, choose the array of event_instances
+									else {
+
+										$dates = $event['event_instances'];
+
+									}
+
+									$field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
 
 									break;
 								
 								// time events
 								case 'time':
 
+									$field_value = $date_functions->format_times( $event['event_instances'], $format );
+
 									break;
 								
 								// datetime events
 								default:
+
+									// if date range selected and non matching first/last dates
+									if ( $date_range && $event['first_date'] != $event['last_date'] ) {
+
+										$dates = array( $event['first_date'], $event['last_date'] );
+										
+									}
+
+									// otherwise, choose the array of event_instances
+									else {
+
+										$dates = $event['event_instances'];
+
+									}
+
+									$field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
+									//$fieldvalue = $date_functions->format_datetime($dates,$fmt,false,$range);
 
 									break;
 							}
@@ -193,7 +225,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 						}
 
 						// check that we do not have an array for a field value
-						if ( is_array( $field_value ) ) {
+						if ( is_array( $field_value ) &! $data_type ) {
 
 							$field_value = 'data-field: "' . $data_field . '" is an array. Please select a "data-type" option to process the data.';
 
