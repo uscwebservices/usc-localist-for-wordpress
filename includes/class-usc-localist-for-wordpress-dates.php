@@ -132,7 +132,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 * Dates Instance
 		 * ==============
 		 *
-		 * Pass a date array 
+		 * Pass an array of single dates or event instances from API data.
+		 * Checks for API event instances and returns:
+		 *  - 'end' node if end is set to true
+		 *  - 'start' node if end is set to false (default)
+		 *  - date string if is single date string
 		 * 
 		 * @param  array  $dates 	array of date(s) to check against for the desired output
 		 * @param  boolean $end 	boolean to check if there is an end date
@@ -157,8 +161,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		}
 
 		/**
-		 * Format Date
-		 * ===========
+		 * Format Dates
+		 * ============
 		 *
 		 * @param 	array 	$dates 		an array of dates to pass for formatting
 		 * @param 	string 	$format 	the php format to change the date
@@ -166,7 +170,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 *                             	range or the single instance date
 		 * @return 	string 	dates output
 		 */
-		public function format_date( $dates, $format = 'n/j/Y', $date_range = false ) {
+		public function format_dates( $dates, $format = 'n/j/Y', $date_range = false ) {
 
 			// single event
 			if ( count( $dates ) <= 1 ) {
