@@ -129,10 +129,28 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		}
 
 		/**
+		 * Is Weekly
+		 * =========
+		 *
+		 * Checks for API event instances or array of single dates for
+		 * matching days of the week between dates.
+		 * 
+		 * @param  array 	$dates 	array of dates
+		 * @return boolean 			
+		 */
+		public function is_weekly ( $dates ) {
+
+			// assume we do not have weekly events
+			$weekly = false;
+
+			// var_dump( $dates );
+
+		}
+
+		/**
 		 * Dates Instance
 		 * ==============
 		 *
-		 * Pass an array of single dates or event instances from API data.
 		 * Checks for API event instances and returns:
 		 *  - 'end' node if end is set to true
 		 *  - 'start' node if end is set to false (default)
@@ -172,12 +190,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 */
 		public function format_dates( $dates, $format = 'n/j/Y', $date_range = false ) {
 
+			$is_weekly = $this->is_weekly( $dates );
+
+			//echo '<br>is_weekly: ' . $is_weekly;
+
 			// single event
 			if ( count( $dates ) <= 1 ) {
 
 				$output = date( $format, strtotime( $this->dates_instance( $dates[0] ) ) );
 
 			}
+
+			return $output;
 
 		}
 
