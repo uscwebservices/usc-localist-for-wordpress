@@ -143,8 +143,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			// assume we do not have weekly events
 			$weekly = false;
 
-			// var_dump( $dates );
-
 		}
 
 		/**
