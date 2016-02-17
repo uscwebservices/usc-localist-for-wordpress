@@ -81,10 +81,22 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		}
 
 		/**
+		 * Data Links
+		 * ==========
+		 */
+		
+
+		/**
+		 * Get Event
+		 * =========
+		 */
+		
+
+		/**
 		 * Get Events
 		 * ==========
 		 *
-		 * Functions to perform when running the plugin.
+		 * Get the events list and parse through the data
 		 *
 		 * @since 	1.0.0
 		 */
@@ -94,19 +106,21 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			$new_template = new USC_Localist_For_Wordpress_Templates( $this->api_data );
 			$template = $new_template->get_template( $this->api_data );
 
-			// get the events from the class api data
-			$events = $this->api_data['data']['events'];
-
+			// get the date range if set
 			$date_range = $this->api_data['date_range'];
 
 			// get the details page link, if set
 			$details_page = $this->api_data['details_page'];
 
+			// get the events from the class api data
+			$events = $this->api_data['data']['events'];
+
+			// loop through the events
 			foreach ( $events as $single ) {
-				
+
 				// get to the single event attribute from the API
 				$event = $single['event'];
-
+				
 				/**
 				 * Data Fields
 				 */
