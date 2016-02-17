@@ -2,12 +2,10 @@
 	<article class="event single">
 		<div class="event-content">
 			<h1 class="event-title" data-field="title"></h1>
-			<div class="event-details">
-				<div data-field="event_instances" data-subfield="datetime"></div>
-				<div><a href="#" data-href="map" data-field="location_name"></a></div>
-				<div data-field="room_number"></div>
-			</div>
-			<img class="event-photo" data-field="photo_url" alt="title" data-preferred="big">
+			<time class="event-date" data-field="event_instances" data-type="date" data-format="l jS \of F Y h:i:s A"></time>
+			<p><a href="#" data-href="map" data-field="location_name"></a></p>
+			<p data-field="room_number"></p>
+			<img src="" data-field="photo_url" data-format="tiny" />
 			<div data-field="description"></div>
 		</div>
 		<br clear="all">

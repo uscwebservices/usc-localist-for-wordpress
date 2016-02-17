@@ -90,7 +90,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 * Get Event
 		 * =========
 		 */
-		
 
 		/**
 		 * Get Events
@@ -113,13 +112,21 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			$details_page = $this->api_data['details_page'];
 
 			// get the events from the class api data
-			$events = $this->api_data['data']['events'];
+			$events = $this->api_data['data'];
+			
+			if ( $events['events'] ) {
+				$events = $events['events'];
+			}
 
 			// loop through the events
 			foreach ( $events as $single ) {
 
 				// get to the single event attribute from the API
-				$event = $single['event'];
+				$event = $single;
+
+				if ( $single['event'] ) {
+					$event = $single['event'];
+				}
 				
 				/**
 				 * Data Fields

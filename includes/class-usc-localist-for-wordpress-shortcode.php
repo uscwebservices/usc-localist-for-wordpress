@@ -362,11 +362,22 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 								// groups
 								// search
 
-								// events or event
+								// api type 'events'
+								// case 'event':
+									
+								// 	$shortcode_output = new USC_Localist_For_Wordpress_Events( $api_output );
+								// 	$shortcode_output->get_event();
+									
+								// 	break;
+
+								// default api type 'events'
 								default:
+
 									$shortcode_output = new USC_Localist_For_Wordpress_Events( $api_output );
 									$shortcode_output->get_events();
+
 									break;
+
 
 							}
 
