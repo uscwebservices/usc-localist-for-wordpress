@@ -79,6 +79,141 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
+		 * Event Data Type
+		 * ===============
+		 * 
+		 * @param 	string 	$data_type 		specific handling for data_fields function
+		 * @param 	array 	$api_data 		api data array used to get node values
+		 *                            		(i.e - event(s))
+		 * @param 	array 	$options 		api options passed [date_range, details_page]
+		 * @return 	string 	field_value		returns the value of the data_field + data_type
+		 *                               	combination
+		 */
+		public function event_data_type( $data_type, $api_data, $options ) {
+
+			// new date class object
+			$date_functions = new USC_Localist_For_Wordpress_Dates;
+
+			switch ( $data_type ) {
+
+				// date events
+				case 'date':
+
+					// if date range selected and non matching first/last dates
+					// if ( $options['date_range'] && $api_data['first_date'] != $api_data['last_date'] ) {
+
+					// 	$dates = array( $api_data['first_date'], $api_data['last_date'] );
+						
+					// }
+
+					// otherwise, choose the array of event_instances
+					// else {
+
+					// 	$dates = $api_data['event_instances'];
+
+					// }
+
+					// $field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
+
+					break;
+				
+				// time events
+				case 'time':
+
+					// $field_value = $date_functions->format_times( $api_data['event_instances'], $format );
+
+					break;
+				
+				// datetime events
+				default:
+
+					// if date range selected and non matching first/last dates
+					// if ( $date_range && $api_data['first_date'] != $api_data['last_date'] ) {
+
+					// 	$dates = array( $api_data['first_date'], $api_data['last_date'] );
+						
+					// }
+
+					// otherwise, choose the array of event_instances
+					// else {
+
+					// 	$dates = $api_data['event_instances'];
+
+					// }
+
+					// $field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
+					//$fieldvalue = $date_functions->format_datetime($dates,$fmt,false,$range);
+
+					break;
+
+			}
+
+			// return $field_value;
+
+		}
+
+		/**
+		 * Data Fields
+		 * ===========
+		 *
+		 * Get 
+		 * @param 	array 	$data 		[description]
+		 * @param 	object 	$template 	the template object
+		 * @param 	[type] 	$options 	[description]
+		 * @return 	[type] 				[description]
+		 */
+		public function data_fields( $template, $api_data, $options ) {
+
+			// find all data fields
+			$fields = $template->find('*[data-field]');
+
+			// loop through the data fields found
+			foreach ( $fields as $field ) {
+
+				// set variables for data-fields
+				$field_value = '';
+				
+				// field
+				$data_field = $field->{'data-field'};
+
+				// type
+				$data_type = $field->{'data-type'};
+
+				// format 
+				$data_format = isset( $field->{'data-format'} ) ? $field->{'data-format'} : false;
+
+				// image size
+				$data_image_size = isset( $field->{'image_size'} ) ? $field->{'image_size'} : false;
+
+				// check if we have data type fields for specific handling
+				if ( isset( $data_type ) ) {
+
+					$field_value = $this->event_data_type( $data_type, $api_data, $options );
+
+				}
+
+				
+				$field_value = $this->string_node( $api_data, $data_field );
+
+				// check that we do not have an array for a field value
+				if ( is_array( $field_value ) &! $data_type ) {
+
+					$field_value = 'data-field: "' . $data_field . '" is an array. Please select a "data-type" option to process the data.';
+
+				}
+
+				// default
+				else {
+					
+					$field->innertext = $field_value;
+
+				}
+
+			}
+
+		}
+
+		/**
 		 * Get Template
 		 * ============
 		 *
@@ -178,6 +313,79 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			
 			
 		}
+
+		/**
+		 * Map Links
+		 * =========
+		 *
+		 * @since 	1.0.0
+		 * @access 	public
+		 */
+		public function map_link( $location_name ) {
+			
+			// set the from argument replacement regex for '(ABC)'
+			$from = array('/\(([A-Z]{3})\)/');
+			
+			// set the to argument
+			$to = array('http://web-app.usc.edu/maps/?b=$1');
+			
+			// array of HSC locations
+			$hsc = 'BMT|BCC|CCC|CHP|CLB|CPT|CRL|CSA|CSB|CSC|DEI|DOH|EDM|EFC|EMP|HCC|HCT|HMR|HRA|HSV|IRD|KAM|LRA|LRB|MCH|MOL|MMR|NML|NOR|NRT|NTT|PAV|PGD|PGF|PGT|PGV|PHH|PMB|PSC|RMR|RSC|SRH|SSB|TOW|TRC|UNH|VBB|VWB|WOH|ZNI';
+
+			// return the map link
+			return preg_replace( '/\?b=('.$hsc.')/', '?b=$1#hsc', preg_replace( $from, $to, $location_name ) );
+
+		}
+
+		/**
+		 * String Node
+		 * ===========
+		 *
+		 * Parses a dot syntax string into an associative array.
+		 *
+		 * some.data.type becomes $api_data['some']['data']['type']
+		 * 
+		 * @param 	array 	$api_data 		single item array of api data node (i.e. - event)
+		 * @param 	string 	$data_field 	the data field to check against
+		 * @return 	assoc array path 		the p
+		 */
+		public function string_node( $api_data, $data_field ) {
+
+			// multiple node data field
+			if ( strpos ( $data_field, '.' ) ) {
+
+				// convert dot path to array
+				$paths = explode('.', $data_field);
+
+				// set node to add array items as $event[node1][node2]
+				$node =& $api_data;
+
+				// loop through the array items
+				foreach ($paths as $path) {
+					
+					// check if the item exists 
+					if (array_key_exists($path, $node) ) {
+
+						$node =& $node[$path];
+
+					}
+
+				}
+
+				$field_value = $node;
+
+			}
+
+			// single node data field
+			else {
+
+				$field_value = $api_data[$data_field];
+			}
+
+			return $field_value;
+
+		}
+
 
 	}
 
