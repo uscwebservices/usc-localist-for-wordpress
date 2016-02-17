@@ -145,10 +145,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 * Event Data Type
 		 * ===============
 		 * 
-		 * @param  [type] $data_type [description]
-		 * @param  [type] $api_data  [description]
-		 * @param  [type] $options   [description]
-		 * @return [type]            [description]
+		 * @param 	string 	$data_type 		specific handling for data_fields function
+		 * @param 	array 	$api_data 		api data array used to get node values
+		 *                            		(i.e - event(s))
+		 * @param 	array 	$options 		api options passed [date_range, details_page]
+		 * @return 	string 	field_value		returns the value of the data_field + data_type
+		 *                               	combination
 		 */
 		public function event_data_type( $data_type, $api_data, $options ) {
 
