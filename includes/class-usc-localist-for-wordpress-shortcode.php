@@ -225,7 +225,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				// first check that is_events_page isn't set to true
 				if ( $api_is_events_page ) {
 
-					$api_url['details_page'] = the_permalink();
+					$api_url['details_page'] = get_permalink();
 
 				} 
 
@@ -362,15 +362,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 								// groups
 								// search
 
-								// api type 'events'
-								// case 'event':
-									
-								// 	$shortcode_output = new USC_Localist_For_Wordpress_Events( $api_output );
-								// 	$shortcode_output->get_event();
-									
-								// 	break;
-
-								// default api type 'events'
+								// default api type 'events' or 'event'
 								default:
 
 									$shortcode_output = new USC_Localist_For_Wordpress_Events( $api_output );

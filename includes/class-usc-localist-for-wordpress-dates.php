@@ -143,8 +143,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			// assume we do not have weekly events
 			$weekly = false;
 
-			// var_dump( $dates );
-
 		}
 
 		/**
@@ -191,17 +189,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		public function format_dates( $dates, $format = 'n/j/Y', $date_range = false ) {
 
 			$is_weekly = $this->is_weekly( $dates );
-
-			//echo '<br>is_weekly: ' . $is_weekly;
-
-			// single event
-			if ( count( $dates ) <= 1 ) {
-
-				$output = date( $format, strtotime( $this->dates_instance( $dates[0] ) ) );
-
-			}
-
-			return $output;
 
 		}
 
