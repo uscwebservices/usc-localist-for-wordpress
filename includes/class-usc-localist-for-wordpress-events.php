@@ -57,23 +57,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 
 		}
 
-		
-
-		
-
-		
-		
-
-		/**
-		 * Get Event
-		 * =========
-		 */
-
 		/**
 		 * Get Events
 		 * ==========
 		 *
-		 * Get the events list and parse through the data
+		 * Get the template, apply to the event(s) and output.
 		 *
 		 * @since 	1.0.0
 		 */
