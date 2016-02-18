@@ -214,6 +214,17 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 		}
 
+		/**
+		 * Data Links
+		 * ==========
+		 *
+		 * Loop through all instances that have data attribute 'data-link'
+		 * 
+		 * @param 	object 	$template 	the template object from get_template
+		 * @param 	array 	$api_data 	the single api type array of data to map the link value
+		 * @param 	array 	$options 	the options passed from the api
+		 * @return 	html 				returns the links output to the $template object
+		 */
 		public function data_links( $template, $api_data, $options ) {
 
 			// defaults
@@ -227,16 +238,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// get the data link attribute
 				$data_link = $link->{'data-link'};
 
+				$data_field = $link->{'data-field'};
+
 				// check if we have a link to a map
 				if ( 'map' == $data_link ) {
 					
-					$map_link = $template_data->map_link($api_data['location_name']);
+					$map_link = $this->map_link( $api_data[$data_field] );
 					
 					// set the href using map_link function
 					$link->href = $map_link;
 
 					// set the text to the location name
-					$link->innertext = $api_data['location_name'];
+					$link->innertext = $api_data[$data_field];
 
 
 				} 
@@ -269,6 +282,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				}
 
 			}
+
+		}
+
+		/**
+		 * Get Photo
+		 * =========
+		 */
+		public function get_photo( $template, $api_data, $options ) {
+
+
 
 		}
 
@@ -374,25 +397,42 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
-		 * Map Links
-		 * =========
+		 * Map Link
+		 * ========
 		 *
 		 * @since 	1.0.0
 		 * @access 	public
 		 */
 		public function map_link( $location_name ) {
 			
-			// set the from argument replacement regex for '(ABC)'
-			$from = array('/\(([A-Z]{3})\)/');
-			
-			// set the to argument
-			$to = array('http://web-app.usc.edu/maps/?b=$1');
-			
 			// array of HSC locations
 			$hsc = 'BMT|BCC|CCC|CHP|CLB|CPT|CRL|CSA|CSB|CSC|DEI|DOH|EDM|EFC|EMP|HCC|HCT|HMR|HRA|HSV|IRD|KAM|LRA|LRB|MCH|MOL|MMR|NML|NOR|NRT|NTT|PAV|PGD|PGF|PGT|PGV|PHH|PMB|PSC|RMR|RSC|SRH|SSB|TOW|TRC|UNH|VBB|VWB|WOH|ZNI';
 
-			// return the map link
-			return preg_replace( '/\?b=('.$hsc.')/', '?b=$1#hsc', preg_replace( $from, $to, $location_name ) );
+			// get the map code for patterns matching (ABC)
+			preg_match( '/\(([A-Z]{3})\)/' , $location_name, $matches );
+
+			// attach the map code to the map base link
+			$map_link = 'http://web-app.usc.edu/maps/';
+
+			// if we have a map code, attach it
+			if ( $matches[1] ) {
+
+				$map_link .= '?b=' . $matches[1];
+
+				// add the HSC tag if the map code is found 
+				$map_link = preg_replace( '/\?b=('.$hsc.')/', '?b=$1#hsc', $map_link );
+
+			}
+
+			// attach the location name as a query
+			else {
+
+				$map_link .= '?q=' . $location_name;
+				
+			}
+
+			// return the constructed map link
+			return $map_link;
 
 		}
 
