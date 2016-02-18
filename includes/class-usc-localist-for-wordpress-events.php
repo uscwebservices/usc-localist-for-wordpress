@@ -83,22 +83,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			$template_data = new USC_Localist_For_Wordpress_Templates( $this->api_data );
 			$template = $template_data->get_template( $this->api_data );
 
-			// store options as array
-			$options = array();
+			// local scope of api_data
+			$api_data = $this->api_data;
 
-			// get the date range if set
-			// $date_range = $this->api_data['date_range'];
-			$options['date_range'] = $this->api_data['date_range'];
-			
-
-			// get the details page link, if set
-			// $details_page = $this->api_data['details_page'];
-			$options['details_page'] = $this->api_data['details_page'];
-
-			// get the events from the class api data
+			// get the events from the class api data (single event)
 			$events = $this->api_data['data'];
 
-			
+			// if we have 'events' (multiple events), map to that node
 			if ( $events['events'] ) {
 				$events = $events['events'];
 			}
@@ -106,18 +97,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			// loop through the events
 			foreach ( $events as $single ) {
 
-				// get to the single event attribute from the API
+				// get to the single event node
 				$event = $single;
 
+				// if we have sub 'event' (multiple events), map to that node
 				if ( $single['event'] ) {
 					$event = $single['event'];
 				}
 				
 				// get the data fields, pass the template, api data and options
-				$template_data->data_fields( $template, $event, $options );
+				$template_data->data_fields( $template, $event, $api_data );
 
 				// get the data links, pass the template, api data and options
-				$template_data->data_links( $template, $event, $options );
+				$template_data->data_links( $template, $event, $api_data );
 
 				// save the template
 				$output = $template->save();
