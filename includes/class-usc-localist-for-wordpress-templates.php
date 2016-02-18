@@ -286,12 +286,42 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
-		 * Get Photo
-		 * =========
+		 * Data Photos
+		 * ===========
+		 *
+		 * Get all instances with attribute 'data-photo' and attach the value as a source.
+		 * The size can be modified by using 'data-format' attribute and setting the value to:
+		 * 	- tiny, small, medium, big, big_300
+		 * 
+		 * @param 	object 	$template 	the template object from get_template
+		 * @param 	array 	$api_data 	the single api type array of data to get the value
+		 * @param 	array 	$options 	the options passed from the api
+		 * @return 	html 				returns the photo output to the $template object
 		 */
-		public function get_photo( $template, $api_data, $options ) {
+		public function data_photos( $template, $api_data, $options ) {
 
+			// find all data photo items
+			$photos = $template->find('*[data-photo]');
 
+			// loop through the data photos found
+			foreach ( $photos as $photo ) {
+
+				// get the photo value
+				$photo_value = $api_data[$photo->{'data-photo'}];
+
+				// format 
+				$data_format = isset( $photo->{'data-format'} ) ? $photo->{'data-format'} : false;
+
+				// check if we have an overwriting image size preference: tiny, small, medium, big, big_300
+				if ( $data_format ) {
+					
+					$photo_value = str_replace( '/huge/', '/' . $data_format . '/', $photo_value );
+
+				}
+
+				$photo->src = $photo_value;
+
+			}
 
 		}
 
@@ -428,7 +458,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			else {
 
 				$map_link .= '?q=' . $location_name;
-				
+
 			}
 
 			// return the constructed map link

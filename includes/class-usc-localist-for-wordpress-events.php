@@ -99,6 +99,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				// get the data links, pass the template, api data and options
 				$template_data->data_links( $template, $event, $api_data );
 
+				// get the data links, pass the template, api data and options
+				$template_data->data_photos( $template, $event, $api_data );
+
 				// save the template
 				$output = $template->save();
 
