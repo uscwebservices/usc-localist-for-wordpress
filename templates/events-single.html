@@ -1,10 +1,11 @@
 <html>
 	<article class="event single">
 		<h1 class="event-title" data-field="title"></h1>
-		<time class="event-date" data-field="event_instances" data-type="date" data-format="l jS \of F Y h:i:s A"></time>
-		<p><a href="#" data-href="map" data-field="location_name"></a></p>
-		<p data-field="room_number"></p>
-		<img src="" data-field="photo_url" data-format="tiny" />
-		<div data-field="description"></div>
+			<time class="event-date" data-field="event_instances" data-type="date" data-format="l jS \of F Y h:i:s A"></time>
+			<time class="event-date" data-field="event_instances" data-type="datetime" data-format="F j, Y"></time>
+			<address class="event-location" data-field="geo.city"></address>
+			<a href="" data-link="map" data-field="location_name"></a>
+			<img src="" data-field="photo_url" data-format="tiny" />
+			<img src="" data-field="photo_url" />
 	</article>
 </html>
