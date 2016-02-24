@@ -91,7 +91,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 *                               	combination
 		 */
 		public function data_type( $data_type, $data_format, $api_data, $options ) {
-
+			
 			// new date class object
 			$date_functions = new USC_Localist_For_Wordpress_Dates;
 
@@ -103,12 +103,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// date events
 				case 'date':
 
-					// if date range selected and non matching first/last dates
-					if ( $options['date_range'] ) {
-						$value = $date_functions->simple_date_range( $api_data['first_date'], $api_data['last_date'], $data_format );
+					// if date range selected, we have non matching first/last dates, and is a single event api
+					if ( $options['date_range'] &&  $api_data['first_date'] !=  $api_data['last_date'] && $options['api_type'] == 'event' ) {
 						
-					} else {
-						$value = $api_data['event_instances'][0]['event_instance']['start'];
+						$value = $date_functions->simple_date_range( $api_data['first_date'], $api_data['last_date'], $data_format );
+					
+					} 
+
+					// get the first single instance of the date
+					else {
+						
+						$value = date( $data_format, strtotime( $date_functions->dates_instance( $api_data['event_instances'][0] ) ) );
+						// $api_data['event_instances'][0]['event_instance']['start'];
+
 					}
 
 					// 	$dates = array( $api_data['first_date'], $api_data['last_date'] );
