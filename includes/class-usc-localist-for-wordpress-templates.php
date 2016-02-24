@@ -107,6 +107,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					if ( $options['date_range'] ) {
 						$value = $date_functions->simple_date_range( $api_data['first_date'], $api_data['last_date'], $data_format );
 						
+					} else {
+						$value = $api_data['event_instances'][0]['event_instance']['start'];
 					}
 
 					// 	$dates = array( $api_data['first_date'], $api_data['last_date'] );
@@ -194,11 +196,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// image size
 				$data_image_size = isset( $field->{'image_size'} ) ? $field->{'image_size'} : false;
 
-				//
+				// get the value from the string format mapped node
 				$field_value = $this->string_node( $api_data, $data_field );
 
 				// check if we have data type fields for specific handling
-				if ( isset( $data_type ) ) {
+				if ( $data_type ) {
 
 					$field_value = $this->data_type( $data_type, $data_format, $api_data, $options );
 
@@ -523,7 +525,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			else {
 
 				 return false;
-				 
+
 			}
 
 			return $field_value;
