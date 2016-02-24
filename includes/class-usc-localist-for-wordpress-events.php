@@ -78,7 +78,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			$events = $this->api_data['data'];
 
 			// if we have 'events' (multiple events), map to that node
-			if ( $events['events'] ) {
+			if ( isset( $events['events'] ) ) {
 				$events = $events['events'];
 			}
 
@@ -89,7 +89,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				$event = $single;
 
 				// if we have sub 'event' (multiple events), map to that node
-				if ( $single['event'] ) {
+				if ( isset( $single['event'] ) ) {
 					$event = $single['event'];
 				}
 				

@@ -514,9 +514,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			}
 
 			// single node data field
-			else {
+			else if ( isset( $api_data[$data_field] ) ) {
 
 				$field_value = $api_data[$data_field];
+			}
+
+			// we have nothing so return false
+			else {
+
+				 return false;
+				 
 			}
 
 			return $field_value;
