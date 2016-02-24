@@ -90,10 +90,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * @return 	string 	field_value		returns the value of the data_field + data_type
 		 *                               	combination
 		 */
-		public function data_type( $data_type, $api_data, $options ) {
+		public function data_type( $data_type, $data_format, $api_data, $options ) {
 
 			// new date class object
 			$date_functions = new USC_Localist_For_Wordpress_Dates;
+
+			// defualt value
+			$value = '';
 
 			switch ( $data_type ) {
 
@@ -101,7 +104,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				case 'date':
 
 					// if date range selected and non matching first/last dates
-					// if ( $options['date_range'] && $api_data['first_date'] != $api_data['last_date'] ) {
+					if ( $options['date_range'] ) {
+						$value = $date_functions->simple_date_range( $api_data['first_date'], $api_data['last_date'], $data_format );
+						
+					}
 
 					// 	$dates = array( $api_data['first_date'], $api_data['last_date'] );
 						
@@ -149,7 +155,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			}
 
-			// return $field_value;
+			return $value;
 
 		}
 
@@ -157,11 +163,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Data Fields
 		 * ===========
 		 *
-		 * Get 
-		 * @param 	array 	$data 		[description]
+		 * Get Template items with attribute data-field and set the inner text with the value of 
+		 * the mapped node.
+		 * 
 		 * @param 	object 	$template 	the template object
-		 * @param 	[type] 	$options 	[description]
-		 * @return 	[type] 				[description]
+		 * @param 	array 	$api_data 	the json array of the api data to use
+		 * @param 	array 	$options 	the options of the api call passed for any call specifi functions
+		 * @return 	 					the output of matching node values as the inner text of the template item
 		 */
 		public function data_fields( $template, $api_data, $options ) {
 
@@ -177,24 +185,24 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// field
 				$data_field = $field->{'data-field'};
 
-				// type
+				// specific type of data (date, time, datetime, etc)
 				$data_type = $field->{'data-type'};
 
-				// format 
+				// data format 
 				$data_format = isset( $field->{'data-format'} ) ? $field->{'data-format'} : false;
 
 				// image size
 				$data_image_size = isset( $field->{'image_size'} ) ? $field->{'image_size'} : false;
 
+				//
+				$field_value = $this->string_node( $api_data, $data_field );
+
 				// check if we have data type fields for specific handling
 				if ( isset( $data_type ) ) {
 
-					$field_value = $this->data_type( $data_type, $api_data, $options );
+					$field_value = $this->data_type( $data_type, $data_format, $api_data, $options );
 
 				}
-
-				
-				$field_value = $this->string_node( $api_data, $data_field );
 
 				// check that we do not have an array for a field value
 				if ( is_array( $field_value ) &! $data_type ) {
@@ -445,7 +453,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			$map_link = 'http://web-app.usc.edu/maps/';
 
 			// if we have a map code, attach it
-			if ( $matches[1] ) {
+			if ( $matches ) {
 
 				$map_link .= '?b=' . $matches[1];
 
