@@ -109,6 +109,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				echo str_replace( array( '<html>', '</html>'), array( '', '' ), $output );	
 				
 			}
+
+			// clear the template to prevent memory leak
+			$template->clear();
+			unset( $template );
 			
 		}
 
