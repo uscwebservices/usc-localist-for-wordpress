@@ -96,6 +96,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				// get the data fields, pass the template, api data and options
 				$template_data->data_fields( $template, $event, $api_data );
 
+				// get the data datetime, pass the template, api data and options
+				$template_data->data_datetime( $template, $event, $api_data );
+
 				// get the data links, pass the template, api data and options
 				$template_data->data_links( $template, $event, $api_data );
 

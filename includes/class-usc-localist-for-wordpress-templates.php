@@ -79,92 +79,54 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
-		 * Data Type
-		 * =========
+		 * Data Datetime
+		 * =============
+		 *
+		 * Get Template items with attribute data-datetime and set the inner text with the value of 
+		 * the mapped nodes.
 		 * 
-		 * @param 	string 	$data_type 		specific handling for data_fields function
-		 * @param 	array 	$api_data 		api data array used to get node values
-		 *                            		(i.e - event(s))
-		 * @param 	array 	$options 		api options passed:
-		 *                           		[date_range, details_page, api_type]
-		 * @return 	string 	field_value		returns the value of the data_field + data_type
-		 *                               	combination
+		 * @param 	object 	$template 	the template object
+		 * @param 	array 	$api_data 	the json array of the api data to use
+		 * @param 	array 	$options 	the options of the api call passed for any call specifi functions
+		 * @return 	 					the output of matching node values as the inner text of the template item
 		 */
-		public function data_type( $data_type, $data_format, $api_data, $options ) {
-			
-			// new date class object
-			$date_functions = new USC_Localist_For_Wordpress_Dates;
+		public function data_datetime( $template, $api_data, $options ) {
 
-			// defualt value
-			$value = '';
+			// find all data fields
+			$fields = $template->find('*[data-datetime]');
 
-			switch ( $data_type ) {
+			// set variable if we have a single event
+			$is_single = ( $options['api_type'] == 'event' ) ? true : false;
 
-				// date events
-				case 'date':
+			// loop through the data fields found
+			foreach ( $fields as $field ) {
 
-					// if date range selected, we have non matching first/last dates, and is a single event api
-					if ( $options['date_range'] &&  $api_data['first_date'] !=  $api_data['last_date'] && $options['api_type'] == 'event' ) {
-						
-						$value = $date_functions->simple_date_range( $api_data['first_date'], $api_data['last_date'], $data_format );
+				// set variables for data-fields
+				$field_value = '';
+				
+				// datetime field
+				if ( $is_single ) {
 					
-					} 
+					$data_datetime = isset( $field->{'data-datetime'} ) ? $field->{'data-datetime'} : 'datetime';
 
-					// get the first single instance of the date
-					else {
-						
-						$value = date( $data_format, strtotime( $date_functions->dates_instance( $api_data['event_instances'][0] ) ) );
-						// $api_data['event_instances'][0]['event_instance']['start'];
+				}
 
-					}
+				else {
 
-					// 	$dates = array( $api_data['first_date'], $api_data['last_date'] );
-						
-					// }
+					$data_datetime = isset( $field->{'data-datetime'} ) ? $field->{'data-datetime'} : 'date';
 
-					// otherwise, choose the array of event_instances
-					// else {
-
-					// 	$dates = $api_data['event_instances'];
-
-					// }
-
-					// $field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
-
-					break;
+				}
 				
-				// time events
-				case 'time':
+				// specific data type (start, end, full) - default 'full'
+				$data_type = isset( $field->{'data-type'} ) ? $field->{'data-type'} : 'full';
 
-					// $field_value = $date_functions->format_times( $api_data['event_instances'], $format );
+				// data format for dates
+				$data_format_date = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : 'j/d/Y';
 
-					break;
-				
-				// datetime events
-				default:
-
-					// if date range selected and non matching first/last dates
-					// if ( $date_range && $api_data['first_date'] != $api_data['last_date'] ) {
-
-					// 	$dates = array( $api_data['first_date'], $api_data['last_date'] );
-						
-					// }
-
-					// otherwise, choose the array of event_instances
-					// else {
-
-					// 	$dates = $api_data['event_instances'];
-
-					// }
-
-					// $field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
-					//$fieldvalue = $date_functions->format_datetime($dates,$fmt,false,$range);
-
-					break;
+				// data format for times
+				$data_format_time = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : 'g:i a';
 
 			}
-
-			return $value;
 
 		}
 
@@ -206,21 +168,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// get the value from the string format mapped node
 				$field_value = $this->string_node( $api_data, $data_field );
 
-				// check if we have data type fields for specific handling
-				if ( $data_type ) {
-
-					$field_value = $this->data_type( $data_type, $data_format, $api_data, $options );
-
-				}
-
 				// check that we do not have an array for a field value
-				if ( is_array( $field_value ) &! $data_type ) {
+				if ( is_array( $field_value ) ) {
 
-					$field_value = 'data-field: "' . $data_field . '" is an array. Please select a "data-type" option to process the data.';
+					$field->innertext = 'data-field: "' . $data_field . '" is an array. Please reference the help section for different data types.';
 
 				}
 
-				// default
+				// add field value as innertext of the node
 				else {
 					
 					$field->innertext = $field_value;
