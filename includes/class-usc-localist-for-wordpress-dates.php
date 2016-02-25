@@ -181,6 +181,56 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		}
 
 		/**
+		 * Date as HTML
+		 * ============
+		 *
+		 * Pass a single event instance and send back HTML in approriate <time> format.
+		 * 
+		 * @param 	array	$event_instance 	single event instance
+		 * @param 	array 	$options        	options for output 
+		 *                                 		[date-type, date-instance, format-date, format-time]
+		 * @return 	string 						html string using <time> format
+		 */
+		public function date_as_html( $event_instance, $options ) {
+			
+			// set event mapping
+			$event_instance = $event_instance['event_instance'];
+
+			// set option defaults if not passed
+			$date_type = isset( $options['date-type'] ) ? $options['date-type'] : 'date';
+			$date_instance = isset( $options['date-instance'] ) ? $options['date-instance'] : 'start';
+			$format_date = isset( $options['format-date'] ) ? $options['format-date'] : 'm/d/Y';
+			$format_time = isset( $options['format-time'] ) ? $options['format-time'] : 'm/d/Y';
+
+			// convert the string to a date
+			$converted_date = strtotime( $event_instance[$date_instance] );
+
+			switch ( $date_type ) {
+				
+				case 'date':
+					
+					$date = date( $format_date, $converted_date );
+					return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . '</time>';
+
+					break;
+				
+				case 'time':
+					
+					$time = date( $format_time, $converted_date );
+					return '<time>' . $time . '</time>';
+
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+			
+			
+
+		}
+
+		/**
 		 * Simple Date Range
 		 * =================
 		 * @param 	string 	$date_start 	the start date
