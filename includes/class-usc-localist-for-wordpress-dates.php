@@ -193,40 +193,76 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 */
 		public function date_as_html( $event_instance, $options ) {
 			
+			// config
+			$config = $this->config;
+
 			// set event mapping
 			$event_instance = $event_instance['event_instance'];
 
 			// set option defaults if not passed
 			$date_type = isset( $options['date-type'] ) ? $options['date-type'] : 'date';
 			$date_instance = isset( $options['date-instance'] ) ? $options['date-instance'] : 'start';
-			$format_date = isset( $options['format-date'] ) ? $options['format-date'] : 'm/d/Y';
-			$format_time = isset( $options['format-time'] ) ? $options['format-time'] : 'm/d/Y';
+			$format_date = isset( $options['format-date'] ) ? $options['format-date'] : $config['default']['format_date'];
+			$format_time = isset( $options['format-time'] ) ? $options['format-time'] : $config['default']['format_time'];
 
 			// convert the string to a date
 			$converted_date = strtotime( $event_instance[$date_instance] );
 
-			switch ( $date_type ) {
-				
-				case 'date':
-					
-					$date = date( $format_date, $converted_date );
-					return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . '</time>';
+			// do not show events before today
+			if ( isset( $event_instance[$date_instance] ) && new DateTime() < new DateTime($event_instance[$date_instance])  ) {
 
-					break;
-				
-				case 'time':
+				// use the date type selected
+				switch ( $date_type ) {
 					
-					$time = date( $format_time, $converted_date );
-					return '<time>' . $time . '</time>';
+					case 'date':
+						
+						$date = date( $format_date, $converted_date );
+						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . '</time>';
 
-					break;
-				
-				default:
-					# code...
-					break;
+						break;
+					
+					case 'time':
+						
+						$time = date( $format_time, $converted_date );
+						return '<time>' . $time . '</time>';
+
+						break;
+					
+					case 'datetime-start-end':
+						
+						// default output options
+						$time_end_output = '';
+
+						$date = date( $format_date, $converted_date );
+						$time_start = date( $format_time, strtotime( $event_instance['start'] ) );
+						
+						if ( isset( $event_instance['end'] ) ) {
+							
+							$time_end = date( $format_time, strtotime( $event_instance['end'] ) );
+							$time_end_output = ' to ' . $time_end;
+
+						}
+
+						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . ' at ' . $time_start . $time_end_output . '</time>';
+						
+						break;
+
+					default:
+						
+						$date = date( $format_date, $converted_date );
+						$time = date( $format_time, $converted_date );
+						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . ' at ' . $time . '</time>';
+						
+						break;
+				}
+
 			}
-			
-			
+
+			else {
+
+				return false;
+
+			}
 
 		}
 
