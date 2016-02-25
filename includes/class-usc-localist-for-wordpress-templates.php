@@ -92,11 +92,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 */
 		public function data_datetime( $template, $api_data, $options ) {
 
-			// new date class object
-			$date_functions = new USC_Localist_For_Wordpress_Dates;
-
 			// find all data fields
-			$fields = $template->find('*[data-datetime]');
+			$fields = $template->find('*[data-date-type]');
 
 			// set variable if we have a single event
 			$is_single = ( $options['api_type'] == 'event' ) ? true : false;
@@ -110,34 +107,43 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// datetime field
 				if ( $is_single ) {
 					
-					$data_datetime = isset( $field->{'data-datetime'} ) ? $field->{'data-datetime'} : 'datetime';
+					$options['date-type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'datetime';
 
 				}
 
 				else {
 
-					$data_datetime = isset( $field->{'data-datetime'} ) ? $field->{'data-datetime'} : 'date';
+					$options['date-type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'date';
 
 				}
 				
-				// specific data type (start, end, full) - default 'full'
-				$data_type = isset( $field->{'data-type'} ) ? $field->{'data-type'} : 'full';
+				// specific date instance to use (start, end)
+				$options['date-instance'] = isset( $field->{'data-date-instance'} ) ? $field->{'data-date-instance'} : 'start';
 
 				// data format for dates
-				$data_format_date = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : 'j/d/Y';
+				$options['format-date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : 'j/d/Y';
 
 				// data format for times
-				$data_format_time = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : 'g:i a';
+				$options['format-time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : 'g:i a';
 
-				// insert $date_functions->get_date_instances ( $api_data['event_instance'], $data_type );
+				// insert $date_functions->get_date_instances ( $api_data['event_instance'], $options['use-instance'] );
 				
+				// get the event instance(s)
 				$event_instances = $api_data['event_instances'];
 
 				foreach ( $event_instances as $event_instance ) {
+					
+					// $start = $date_functions->get_date_instance( $event_instance, 'start' );
+					// $end = $date_functions->get_date_instance( $event_instance, 'end' );
+					
+					// new date class object
+					$date_functions = new USC_Localist_For_Wordpress_Dates;
 
-					$start = $date_functions->get_date_instance( $event_instance, 'start' );
-					$end = $date_functions->get_date_instance( $event_instance, 'end' );
+					// get the formatted date/time element
+					$output = $date_functions->date_as_html( $event_instance, $options );
 
+					// attach the formatted date/time element to the field
+					$field->innertext = $output;
 
 				}
 
