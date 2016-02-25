@@ -21,7 +21,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * The array of api data.
 		 * @var array
 		 */
-		public $api_data;
+		protected $api_data;
+
+		protected $config;
 
 		/**
 		 * Construct
@@ -35,9 +37,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			// get the template path opton
 			$this->api_data = $api_data;
-
+			
 			// load the dependencies
 			$this->load_dependencies();
+
+			// retrun the API configurations
+			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}
 
@@ -54,6 +59,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions-simple-html-dom.php';
+
+			// require the config class for API variables
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
 		}
 
@@ -92,6 +100,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 */
 		public function data_datetime( $template, $api_data, $options ) {
 
+			// config setting
+			$config = $this->config;
+
 			// find all data fields
 			$fields = $template->find('*[data-date-type]');
 
@@ -117,14 +128,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				}
 				
-				// specific date instance to use (start, end)
+				// specific date instance to use (start, end, datetime-start-end)
 				$options['date-instance'] = isset( $field->{'data-date-instance'} ) ? $field->{'data-date-instance'} : 'start';
 
 				// data format for dates
-				$options['format-date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : 'm/d/Y';
+				$options['format-date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : $config['default']['format_date'];
 
 				// data format for times
-				$options['format-time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : 'g:i a';
+				$options['format-time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : $config['default']['format_time'];
 				
 				// separator to use between instances output
 				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : null;
@@ -144,13 +155,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					// new date class object
 					$date_functions = new USC_Localist_For_Wordpress_Dates;
 
-					// get the formatted date/time element
-					$output .= $date_functions->date_as_html( $event_instance, $options );
-					
-					// add the separator if set
-					if ( isset( $separator ) && $i < $event_instances_amount ) {
+					$date_output = $date_functions->date_as_html( $event_instance, $options );
 
-						$output .= $separator;
+					if ( $date_output ) {
+
+						// get the formatted date/time element
+						$output .= $date_functions->date_as_html( $event_instance, $options );
+
+						// add the separator if set
+						if ( isset( $separator ) && $i < $event_instances_amount ) {
+
+							$output .= $separator;
+
+						}
 
 					}
 

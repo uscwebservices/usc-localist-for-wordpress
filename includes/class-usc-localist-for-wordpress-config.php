@@ -30,7 +30,9 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 			'default' => array(
 				// 'cache' => HOUR_IN_SECONDS, // in seconds
 				'cache' => 0, // testing only
-				'api_timeout' => 5 // in seconds
+				'api_timeout' => 5, // in seconds
+				'format_date' => 'm/d/Y',
+				'format_time' => 'g:i a'
 			),
 			'plugin' => array(
 				'name' => 'USC Localist for Wordpress',
