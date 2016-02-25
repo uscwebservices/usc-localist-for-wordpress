@@ -158,18 +158,22 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 * @param  boolean $end 	boolean to check if there is an end date
 		 * @return string			date as string
 		 */
-		public function dates_instance( $dates, $end = false ) {
+		public function get_date_instance( $event_instance, $data_type = 'start' ) {
 			
-			if ( $end && isset ( $dates['event_instance']['end'] ) ) {
-				$output = $dates['event_instance']['end'];
+			// map to event data structure
+			$event_instance = $event_instance['event_instance'];
+
+			if ( $data_type == 'end' && isset ( $event_instance['end'] ) ) {
+				$output = $event_instance['end'];
 			} 
 
-			else if ( isset ( $dates['event_instance']['start'] ) ) {
-				$output = $dates['event_instance']['start'];
-			} 
+			else if ( isset ( $event_instance['start'] ) ) {
+				$output = $event_instance['start'];
+			}
 
 			else {
-				$output = $dates;
+
+				return false;
 			}
 			
 			return $output;

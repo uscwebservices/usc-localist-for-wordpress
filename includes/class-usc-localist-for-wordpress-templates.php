@@ -92,6 +92,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 */
 		public function data_datetime( $template, $api_data, $options ) {
 
+			// new date class object
+			$date_functions = new USC_Localist_For_Wordpress_Dates;
+
 			// find all data fields
 			$fields = $template->find('*[data-datetime]');
 
@@ -125,6 +128,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// data format for times
 				$data_format_time = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : 'g:i a';
+
+				// insert $date_functions->get_date_instances ( $api_data['event_instance'], $data_type );
+				
+				$event_instances = $api_data['event_instances'];
+
+				foreach ( $event_instances as $event_instance ) {
+
+					$start = $date_functions->get_date_instance( $event_instance, 'start' );
+					$end = $date_functions->get_date_instance( $event_instance, 'end' );
+
+
+				}
 
 			}
 
