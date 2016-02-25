@@ -101,10 +101,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			// loop through the data fields found
 			foreach ( $fields as $field ) {
 
-				// set variables for data-fields
-				$field_value = '';
+				// set variables for data-fields and output
+				$field_value = $output = '';
 				
-				// datetime field
+				// date types (date, time, datetime)
 				if ( $is_single ) {
 					
 					$options['date-type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'datetime';
@@ -121,29 +121,44 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				$options['date-instance'] = isset( $field->{'data-date-instance'} ) ? $field->{'data-date-instance'} : 'start';
 
 				// data format for dates
-				$options['format-date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : 'j/d/Y';
+				$options['format-date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : 'm/d/Y';
 
 				// data format for times
 				$options['format-time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : 'g:i a';
+				
+				// separator to use between instances output
+				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : null;
 
 				// insert $date_functions->get_date_instances ( $api_data['event_instance'], $options['use-instance'] );
 				
 				// get the event instance(s)
 				$event_instances = $api_data['event_instances'];
 
+				$event_instances_amount = count( $event_instances );
+				
+				// defaults for determing number in loop for fields(f) and event instances(e)
+				$i= 1;
+
 				foreach ( $event_instances as $event_instance ) {
-					
-					// $start = $date_functions->get_date_instance( $event_instance, 'start' );
-					// $end = $date_functions->get_date_instance( $event_instance, 'end' );
-					
+
 					// new date class object
 					$date_functions = new USC_Localist_For_Wordpress_Dates;
 
 					// get the formatted date/time element
-					$output = $date_functions->date_as_html( $event_instance, $options );
+					$output .= $date_functions->date_as_html( $event_instance, $options );
+					
+					// add the separator if set
+					if ( isset( $separator ) && $i < $event_instances_amount ) {
+
+						$output .= $separator;
+
+					}
 
 					// attach the formatted date/time element to the field
 					$field->innertext = $output;
+
+					// increase the number for event instances
+					$i++;
 
 				}
 
