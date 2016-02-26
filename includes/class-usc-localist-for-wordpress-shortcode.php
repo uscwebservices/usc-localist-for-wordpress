@@ -181,14 +181,35 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 * Get template option: multiple
 			 */
 				
-				$template_options['template_multiple'] = ( ! empty( $attr_all['template_multiple'] ) ) ? $attr_all['template_multiple'] : 'events-list.html' ;
+				// set template path option: multiple
+				$template_path_multiple = $attr_all['template_multiple'];
+
+				// set default template options
+				if ( empty( $template_path_multiple ) ) {
+					
+					$template_path_multiple = 'events-list.html';
+
+				}
+
+				// set the template slug
+				$template_options['template_multiple'] = $template_path_multiple;
 
 			/**
 			 * Get template option: single
 			 */
 				
-				$template_options['template_single'] = ( ! empty( $attr_all['template_single'] ) ) ? $attr_all['template_single'] : 'events-single.html' ;
+				// set template path option: single
+				$template_path_single = $attr_all['template_single'];
 
+				// set default template options
+				if ( empty( $template_path_single ) ) {
+					
+					$template_path_single = 'events-single.html';
+
+				}
+
+				// set the template slug
+				$template_options['template_single'] = $template_path_single;
 
 			/**
 			 * Get event details page option
@@ -259,33 +280,67 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 * Get pagination setting
 			 */
 				
-				// get the paginate option and convert to bool value
-				// $paginate = $api_data->convert_to_bool( $attr_all['paginate'] );
-				$paginate_options['paginate'] = isset ( $attr_all['paginate'] ) ? $attr_all['paginate'] : null ;
+				// get the paginate option if it exists
+				$paginate_options['paginate'] = isset ( $attr_all['paginate'] ) ? true : false ;
+
+				if ( $paginate_options['paginate'] ) {
+
+					// set the paginate type to the value from the shortcode
+					$paginate_options['paginate_type'] = $attr_all['paginate'];
+
+				}
 
 			/**
 			 * Get paginate label next
 			 */
+				
+				// get the paginate next label
+				$paginate_label_next = $attr_all['paginate_label_next'];
 
-				$paginate_options['paginate_label_next'] = isset ( $attr_all['paginate_label_next'] ) ? $attr_all['paginate_label_next'] : null ;
+				if ( ! empty( $paginate_label_next ) ) {
+
+					$paginate_options['paginate_label_next'] = $paginate_label_next;
+
+				}
 
 			/**
 			 * Get paginate label previous
 			 */
 				
-				$paginate_options['paginate_label_previous'] = isset ( $attr_all['paginate_label_previous'] ) ? $attr_all['paginate_label_previous'] : null ;
+				// get the paginate previous label
+				$paginate_label_previous = $attr_all['paginate_label_previous'];
+
+				if ( ! empty( $paginate_label_previous ) ) {
+
+					$paginate_options['paginate_label_previous'] = $paginate_label_previous;
+
+				}
 
 			/**
 			 * Get paginate label first
 			 */
+				
+				// get the paginate first label
+				$paginate_label_first = $attr_all['paginate_label_first'];
 
-				$paginate_options['paginate_label_first'] = isset ( $attr_all['paginate_label_first'] ) ? $attr_all['paginate_label_first'] : null ;
+				if ( ! empty( $paginate_label_first ) ) {
+
+					$paginate_options['paginate_label_first'] = $paginate_label_first;
+
+				}
 
 			/**
 			 * Get paginate label last
 			 */
 				
-				$paginate_options['paginate_label_last'] = isset ( $attr_all['paginate_label_last'] ) ? $attr_all['paginate_label_last'] : null ;
+				// get the paginate last label
+				$paginate_label_last = $attr_all['paginate_label_last'];
+
+				if ( ! empty( $paginate_label_last ) ) {
+
+					$paginate_options['paginate_label_last'] = $paginate_label_last;
+
+				}
 
 
 			/**
@@ -350,7 +405,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			/**
 			 * Get the api data if no errors are present
 			 */
-			
+				
 				if ( ! $errors ) {
 
 					// perform the api call
