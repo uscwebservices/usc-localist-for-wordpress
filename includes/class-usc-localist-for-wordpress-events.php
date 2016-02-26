@@ -75,7 +75,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			$api_data = $this->api_data;
 
 			// get the events from the class api data (single event)
-			$events = $this->api_data['data'];
+			$events = $this->api_data['api_data'];
+
+			// get the paginate setting
+			$paginate = $this->api_data['template_options']['paginate'];
+			var_dump($paginate);
 
 			// if we have 'events' (multiple events), map to that node
 			if ( isset( $events['events'] ) ) {

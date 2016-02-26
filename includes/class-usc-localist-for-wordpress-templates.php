@@ -253,7 +253,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		public function data_links( $template, $api_data, $options ) {
 
 			// defaults
-			$details_page = $options['details_page'];
+			$details_page = $options['template_options']['details_page'];
 
 			// find all data links
 			$links = $template->find('*[data-link]'); // handle links in templates
@@ -361,10 +361,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		public function get_template( $api_data ) {
 			
 			// multiple items template path
-			$template_path_multiple = $api_data['template_multiple'];
+			$template_path_multiple = $api_data['template_options']['template_multiple'];
 
 			// single items template path
-			$template_path_single = $api_data['template_single'];
+			$template_path_single = $api_data['template_options']['template_single'];
 
 			// if we have a single template path value and the api type is a single event
 			if ( '' != $template_path_single && 'event' == $api_data['api_type'] ) {

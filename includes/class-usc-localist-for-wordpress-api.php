@@ -88,16 +88,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_options 			= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number		= isset ( $params['page'] ) ? $params['page'] : '';
 			$api_timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
-			$api_template_multiple	= isset ( $params['template_multiple'] ) ? $params['template_multiple'] : '';
-			$api_template_single	= isset ( $params['template_single'] ) ? $params['template_single'] : '';
-
-			// not used for the api call but passed to other operation on output
-			$api_date_range			= isset ( $params['date_range'] ) ? $params['date_range'] : '';
-			$api_details_page		= isset ( $params['details_page'] ) ? $params['details_page'] : '';
-
-			// set the unused options for output
-			$output['date_range'] = $api_date_range;
-			$output['details_page'] = $api_details_page;
 			
 			// set the default arguments
 			$args = array(
@@ -209,12 +199,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 			// add the api url used to the output
 			$output['url'] = $api_url;
-
-			// add the multiple template used to the output
-			$output['template_multiple'] = $api_template_multiple;
-
-			// add the single template used to the output
-			$output['template_single'] = $api_template_single;
 			
 			
 			/**
@@ -231,7 +215,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			if ( ! empty( $transient ) ) {
 
 				// We have a transient, no need to make an API call
-				$output['data'] = $transient;
+				$output['api_data'] = $transient;
 				
 			} else {
 
@@ -285,7 +269,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					if ( '' != $response['body'] ) {
 
 						// encode the json data and set to TRUE for array
-						$output['data'] = json_decode( $response['body'], true );
+						$output['api_data'] = json_decode( $response['body'], true );
 						
 					}
 
@@ -306,10 +290,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				if ( ! isset( $output['errors'] ) || '' != $output['errors'] ) {
 
 					// let's store the data as a transient using the cache attribute
-					if ( '' != $api_cache && isset( $output['data'] ) ) {
+					if ( '' != $api_cache && isset( $output['api_data'] ) ) {
 
 						// let's set a transient for the API call
-						set_transient( $transient_name, $output['data'], $api_cache );
+						set_transient( $transient_name, $output['api_data'], $api_cache );
 						
 					}
 
