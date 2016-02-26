@@ -26,7 +26,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 		 */
 
 		public static $config = array(
-			'testing' => false, // set to true to use local events.json data
+			'testing' => true, // set to true to use local events.json data
 			'default' => array(
 				// 'cache' => HOUR_IN_SECONDS, // in seconds
 				'cache' => 0, // testing only
@@ -71,6 +71,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'is_events_page' => '', // optional: indicate single events to display on the shortcode page
 						'template_multiple' => '', // opttional: slug name from templates custom post type - multiple events
 						'template_single' => '', // opttional: slug name from templates custom post type - single events
+						'paginate' => '', // optional: show pagination on multi-events
 
 						// localist values
 						'all_custom_fields' => '',

@@ -115,7 +115,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			$errors = $api_output = $details_page = $date_range = false;
 
 			// default for api url and template options build
-			$api_url = array();
+			$api_url = $template_options = array();
 
 			$api_data = new USC_Localist_For_Wordpress_API;
 
@@ -138,8 +138,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 				}
 
-				// set the api type
-				$api_url['api_type'] = $api_type;
+				// set the get type for api url and options
+				$api_url['api']['type'] = $api_type;
 
 			/**
 			 * Get flag for event inline in page
@@ -192,7 +192,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 				// set the template slug
-				$api_url['template_multiple'] = $template_path_multiple;
+				$template_options['template_multiple'] = $template_path_multiple;
 
 			/**
 			 * Get template option: single
@@ -209,7 +209,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 				// set the template slug
-				$api_url['template_single'] = $template_path_single;
+				$template_options['template_single'] = $template_path_single;
 
 			/**
 			 * Get event details page option
@@ -225,7 +225,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				// first check that is_events_page isn't set to true
 				if ( $api_is_events_page ) {
 
-					$api_url['details_page'] = get_permalink();
+					$template_options['details_page'] = get_permalink();
 
 				} 
 
@@ -245,7 +245,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					}
 
 					// set the details_page option
-					$api_url['details_page'] = $details_page;
+					$template_options['details_page'] = $details_page;
 
 				}
 
@@ -274,7 +274,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 				// set the date_range option
-				$api_url['date_range'] = $date_range;
+				$template_options['date_range'] = $date_range;
+
+			/**
+			 * Get pagination option
+			 */
+				
+				// get the paginate option and convert to bool value
+				$paginate = $api_data->convert_to_bool( $attr_all['paginate'] );
+
+				// set the paginate option
+				$template_options['paginate'] = $paginate;
+
 
 			/**
 			 * Get url parameters and attach to the api query
@@ -344,16 +355,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					// perform the api call
 					$api_output = $api_data->get_api( $api_url );
 
+					// add the options
+					$api_output['template_options'] = $template_options;
+
 					// check if we have no errors in returned api data
 					if ( ! isset( $api_output['errors'] ) || null == $api_output['errors'] ) {
 						
 						// check if we have data
-						if ( isset( $api_output['data'] ) ) {
+						if ( isset( $api_output['api']['data'] ) ) {
 							
 							// we have api array data
-
+							
 							// switch between api types for output of data by class type
-							switch ( $api_output['api_type'] ) {
+							switch ( $api_output['api']['type'] ) {
 								
 								// add api get types and their respective classes
 

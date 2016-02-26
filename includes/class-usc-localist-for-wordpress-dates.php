@@ -212,10 +212,30 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			$single_date_check = true;
 
 			// check for single events
-			if ( $options['api_type'] == 'event' ) {
+			if ( $options['api']['type'] == 'event' ) {
 
-				// we want true only if the event date is in the future from today
-				$single_date_check = new DateTime() < new DateTime($event_instance[$date_instance]);
+				// set a date for checking against 'now'
+				$date_event = new DateTime( $event_instance[$date_instance] );
+
+				// if end is set
+				if ( isset( $event_instance['end'] ) ) {
+
+					$date_event = new DateTime( $event_instance['end'] );
+
+				}
+
+				// set now date instance
+				$date_now = new DateTime('now');
+				
+				// set now date to midnight if event instance is 'all day'
+				if ( $event_instance['all_day'] ) {
+
+					$date_now = new DateTime('midnight');
+
+				}
+
+				// set boolean to check if $date_now is less than or equal to $date_event
+				$single_date_check = $date_now <= $date_event;
 
 			}
 
