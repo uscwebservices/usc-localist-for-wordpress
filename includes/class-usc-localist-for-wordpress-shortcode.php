@@ -373,10 +373,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 							}
 
-
-							return 'API Data Successful: ' . $api_output['url'];  // replace this with loop
-
-
 						} 
 
 					} else {
