@@ -49,8 +49,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		}
 
 		/**
-		 * Get JSON
-		 * ========
+		 * Get API
+		 * =======
 		 * 
 		 * Compile options from passed parameters and get the JSON object from the Localist API.  
 		 * Options need to be sanitized prior to being passed.  
@@ -64,9 +64,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 * @param 	string 	type 	the type of data to get [events]
 		 * @param 	string 	options the options to attach to narrow results
 		 * @param 	number 	timeout the timeout (in seconds) for waiting for the return
-		 * @return 	json 	array 	the json data 	
+		 * @return 	array 		 	[data],[api_type],[api_options],[event_id],[page_current],[url]
 		 */
-		function get_json( $params ) {
+		function get_api( $params ) {
 
 			global $wp_version;
 
@@ -80,18 +80,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$error_messages = new USC_Localist_For_Wordpress_Errors;
 
 			// default parameters
-			$api_base_url 		= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
-			$api_type 			= isset ( $params['type'] ) ? $params['type'] : '';
-			$api_events_page	= isset ( $params['is_events_page'] ) ? $params['is_events_page'] : false;
-			$api_event_id		= isset ( $params['event_id'] ) ? $params['event_id'] : '';
-			$api_cache 			= isset ( $params['cache'] ) ? $params['cache'] : HOUR_IN_SECONDS; // default cache to 1 hour
-			$api_options 		= isset ( $params['options'] ) ? $params['options'] : '';
-			$api_page_number	= isset ( $params['page'] ) ? $params['page'] : '';
-			$timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : 5;
+			$api_base_url 			= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
+			$api_type 				= isset ( $params['api']['type'] ) ? $params['api']['type'] : '';
+			$api_events_page		= isset ( $params['is_events_page'] ) ? $params['is_events_page'] : false;
+			$api_event_id			= isset ( $params['event_id'] ) ? $params['event_id'] : '';
+			$api_cache 				= isset ( $params['cache'] ) ? $params['cache'] : $config['default']['cache'];
+			$api_options 			= isset ( $params['options'] ) ? $params['options'] : '';
+			$api_page_number		= isset ( $params['page'] ) ? $params['page'] : 1; // default to first page of results
+			$api_timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
+
 			
 			// set the default arguments
 			$args = array(
-			    'timeout'		=> $timeout,
+			    'timeout'		=> $api_timeout,
 			    'redirection'	=> 5,
 			    'httpversion'	=> '1.0',
 			    'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' ),
@@ -109,8 +110,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// set var for constructed api url
 			$api_url = $api_base_url;
 
-			// check if we have a single event or if it is an events page
-			if ( $api_type == 'event' || $api_events_page ) {
+			// check if we have a single event or if it is an events page with event id
+			if ( $api_type == 'event' || ( $api_events_page && '' != $api_event_id ) ) {
 				
 				// set the type to events for api structure
 				$api_url .= 'events';
@@ -119,6 +120,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					
 					// add the event id but convert any integers to strings
 					$api_url .= '/' . strval( $api_event_id );
+
+					// we are setting the api url by inclusion of the api_event_id so we assume we have a sigle event - let's manually set the api type to single event for output
+					$api_type = 'event';
 
 				}
 
@@ -152,20 +156,55 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 						$api_url .= '&';
 					}
 
+					// add the page number parameter
 					$api_url .= 'page=' . $api_page_number;
 
 				}
 
 			}
 
-			// set the api url to the output data for any debugging
-			$output['url'] = $api_url;
+			/**
+			 * REMOVE: Local Testing
+			 *
+			 * Use the sample json data in the plugin.
+			 */
+			if ( $config['testing'] ) {
+				
+				if ( $api_type == 'event' ) {
+					$api_url = plugins_url( '/sample/event-alt.json', dirname(__FILE__) );
+				}
 
-			// REMOVE: local testing only
-			// $api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
+				else {
+					$api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
+				}
+				
+			}
+
+			/**
+			 * Data Options Output
+			 *
+			 * Add output data options for future calls (pagination)
+			 */
+			
+			// add the api type to the output
+			$output['api']['type'] = $api_type;
+
+			// add the api options to the output
+			$output['api']['options'] = $api_options;
+
+			// add the event id to the output
+			$output['api']['event_id'] = $api_event_id;
+
+			// add the current page number to the output
+			$output['api']['page_current'] = $api_page_number;
+
+			// add the api url used to the output
+			$output['api']['url'] = $api_url;
 			
 			
-			// First let's check if we have a transient for this API call
+			/**
+			 * Transient Check
+			 */
 			
 			// transient name using constructed api url
 			$transient_name = 'localist_' . urlencode($api_url);
@@ -173,10 +212,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// get the transient by name
 			$transient = get_transient( $transient_name );
 
+			// First let's check if we have a transient for this API call
 			if ( ! empty( $transient ) ) {
 
 				// We have a transient, no need to make an API call
-				$output['data'] = $transient;
+				$output['api']['data'] = $transient;
 				
 			} else {
 
@@ -230,7 +270,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					if ( '' != $response['body'] ) {
 
 						// encode the json data and set to TRUE for array
-						$output['data'] = json_decode( $response['body'], true );
+						$output['api']['data'] = json_decode( $response['body'], true );
 						
 					}
 
@@ -251,10 +291,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				if ( ! isset( $output['errors'] ) || '' != $output['errors'] ) {
 
 					// let's store the data as a transient using the cache attribute
-					if ( '' != $api_cache && isset( $output['data'] ) ) {
+					if ( '' != $api_cache && isset( $output['api']['data'] ) ) {
 
 						// let's set a transient for the API call
-						set_transient( $transient_name, $output['data'], $api_cache );
+						set_transient( $transient_name, $output['api']['data'], $api_cache );
 						
 					}
 
@@ -283,7 +323,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$values = array();
 
 			// set json api for function helpers
-			$json_api = $this;
+			$api_data = $this;
 
 			// get the allowed values for the api type
 			$allowed_array_keys = $this->config['api_options'][$api_type]['allowed'];
@@ -304,7 +344,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					if ( $parameter_value ) {
 
 						// validate the value
-						$parameter_value = $json_api->validate_key_value( $key['relationship'], $parameter_value );
+						$parameter_value = $api_data->validate_key_value( $key['relationship'], $parameter_value );
 
 						// add the value as an associative array item
 						$values[$key['relationship']] = $parameter_value;
@@ -348,7 +388,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$error_messages = new USC_Localist_For_Wordpress_Errors;
 
 			// set json api for function helpers
-			$json_api = $this;
+			$api_data = $this;
 
 			// if we do not have an array, end the process
 			if ( ! is_array ( $params ) ) {
@@ -364,7 +404,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					if ( null !== $value && '' !== $value &! empty( $value ) ) {
 
 						// get valid value for the key value
-						$value = $json_api->validate_key_value( $key, $value );
+						$value = $api_data->validate_key_value( $key, $value );
 
 						// check that we don't have a boolean
 						if ( is_bool( $value ) ) {

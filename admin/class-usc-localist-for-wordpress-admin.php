@@ -79,11 +79,11 @@ class USC_Localist_For_Wordpress_Admin {
 	 *
 	 * @since 	1.0.0
 	 */
-	public function activate_customize_register( $wp_customizer ) {
+	public function activate_customize_register( $wp_customize ) {
 
-		$this->customize_section_events( $wp_customizer, $this->plugin_tag );
-		$this->customize_events_detail_page( $wp_customizer, $this->plugin_tag );
-		$this->customize_events_date_range( $wp_customizer, $this->plugin_tag );
+		$this->customize_section_events( $wp_customize, $this->plugin_tag );
+		$this->customize_events_detail_page( $wp_customize, $this->plugin_tag );
+		$this->customize_events_date_range( $wp_customize, $this->plugin_tag );
 
 	}
 
@@ -97,10 +97,10 @@ class USC_Localist_For_Wordpress_Admin {
 	 *
 	 * @since 	1.0.0
 	 */
-	public static function customize_section_events( $wp_customizer, $plugin_tag ) {
+	public static function customize_section_events( $wp_customize, $plugin_tag ) {
 
 		// localist events sections
-		$wp_customizer->add_section( 'customize_section_events', array(
+		$wp_customize->add_section( 'customize_section_events', array(
 			'title'			=> __( 'Localist Calendar Options', $plugin_tag ),
 			'priority'		=> 130,
 		) );
@@ -115,19 +115,23 @@ class USC_Localist_For_Wordpress_Admin {
 	 *
 	 * @since 	1.0.0
 	 */
-	public static function customize_events_date_range( $wp_customizer, $plugin_tag ) {
+	public static function customize_events_date_range( $wp_customize, $plugin_tag ) {
 
 		// radio controls
-		$wp_customizer->add_setting( 'usc_lfwp_date_range', array(
-			'default'		=> 'yes',
+		$wp_customize->add_setting( 'usc_lfwp_date_range', array(
+			'default'		=> false,
+			'type'			=> 'option'
 		) );
 
-		$wp_customizer->add_control( 'usc_lfwp_date_range', array(
+		$wp_customize->add_control( 'usc_lfwp_date_range', array(
 			'label'			=> 'Dates Range',
 			'section'		=> 'customize_section_events',
 			'type'			=> 'radio',
-			'description'	=> 'Display multiple dates as a Range.<br><br> <strong>No:</strong> Monday, Tuesday, Wednesday<br><br> <strong>Yes:</strong> Monday - Wednesday<br><br>',
-			'choices'		=> array( 'Yes', 'No' ),
+			'description'	=> 'Display multiple dates as a Range',
+			'choices'		=> array( 
+				true => 'Yes: Monday - Wednesday',
+				false => 'No: Monday, Tuesday, Wednesday'
+			),
 			'priority'		=> 1
 		) );
 
@@ -142,14 +146,15 @@ class USC_Localist_For_Wordpress_Admin {
 	 *
 	 * @since 	1.0.0
 	 */
-	public static function customize_events_detail_page( $wp_customizer, $plugin_tag ) {
+	public static function customize_events_detail_page( $wp_customize, $plugin_tag ) {
         
 		// dropdown of pages
-		$wp_customizer->add_setting( 'usc_lfwp_events_detail_page', array(
+		$wp_customize->add_setting( 'usc_lfwp_events_detail_page', array(
 			'default'		=> 'Events',
+			'type'			=> 'option'
 		) );
 
-		$wp_customizer->add_control( 'usc_lfwp_events_detail_page', array(
+		$wp_customize->add_control( 'usc_lfwp_events_detail_page', array(
 			'label'			=> __( 'Event Details Page', $plugin_tag ),
 			'section' 		=> 'customize_section_events',
 			'type'			=> 'dropdown-pages',
