@@ -350,8 +350,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			/**
 			 * Get the api data if no errors are present
 			 */
-				var_dump($template_options);
-				var_dump($paginate_options);
+			
 				if ( ! $errors ) {
 
 					// perform the api call
