@@ -131,7 +131,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_type = $attr_all['get'];
 
 				// check that we have a valid 'get' type
-				if ( '' == $api_type || null == $api_type ) {
+				if ( empty( $api_type ) ) {
 
 					// let's default to events
 					$api_type = 'events';
@@ -146,10 +146,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 */
 				
 				// set variable
-				$api_is_events_page = $attr_all['is_events_page'];
+				$api_is_events_page = $api_data->convert_to_bool( $attr_all['is_events_page'] );
 
 				// check that we have a valid 'cache' value
-				if ( '' != $api_is_events_page || null != $api_is_events_page ) {
+				if ( $api_is_events_page ) {
 
 					// validate the cache value
 					$api_is_events_page = $api_data->validate_key_value( 'is_events_page', $api_is_events_page );
@@ -167,7 +167,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_cache = $attr_all['cache'];
 
 				// check that we have a valid 'cache' value
-				if ( '' != $api_cache || null != $api_cache ) {
+				if ( ! empty( $api_cache ) ) {
 
 					// validate the cache value
 					$api_cache = $api_data->validate_key_value( 'cache', $api_cache );
@@ -185,7 +185,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$template_path_multiple = $attr_all['template_multiple'];
 
 				// set default template options
-				if ( '' == $template_path_multiple || null == $template_path_multiple ) {
+				if ( empty( $template_path_multiple ) ) {
 					
 					$template_path_multiple = 'events-list.html';
 
@@ -202,7 +202,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$template_path_single = $attr_all['template_single'];
 
 				// set default template options
-				if ( '' == $template_path_single || null == $template_path_single ) {
+				if ( empty( $template_path_single ) ) {
 					
 					$template_path_single = 'events-single.html';
 
@@ -232,7 +232,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				// is_events_page is false or not set in the shortcode
 				else {
 
-					if ( '' != $shortcode_details_page ) {
+					if ( ! empty( $shortcode_details_page ) ) {
 
 						$details_page = $shortcode_details_page;
 
@@ -259,7 +259,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				// date range from global options
 				$options_date_range = get_option('usc_lfwp_date_range');
 
-				if ( '' != $shortcode_date_range ) {
+				if ( ! empty( $shortcode_date_range ) ) {
 
 					$shortcode_date_range = $api_data->validate_key_value( 'date_range', $shortcode_date_range );
 
@@ -306,7 +306,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 	
 				$api_event_id = $attr_all['event_id'];
 
-				if ( '' != $api_event_id || null != $api_event_id ) {
+				if ( ! empty( $api_event_id ) ) {
 
 					$api_url['event_id'] = $api_event_id;
 
