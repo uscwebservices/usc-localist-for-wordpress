@@ -58,12 +58,33 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 			// check that the page variable is set
 			if ( isset( $api_page ) ) {
 
+				global $post_id;
+
+				// set default output
+				$output = '';
+
+				// get current and total pages
+				$page_uri = get_page_uri($post_id);
 				$page_total = $api_page['total'];
 				$page_current = $api_data['api']['page_current'];
 
 				// check for first and last pages out of total available
 				$is_last_page = ( $page_current == intval($page_total) ) ? true : false;
 				$is_first_page = ( $page_current == 1 ) ? true : false;
+
+				if ( ! $is_first_page ) {
+
+					$output .= '<a href="/' . $page_uri . '/' . ( $page_current - 1 ) . '">Previous</a>';
+
+				}
+
+				if ( ! $is_last_page ) {
+
+					$output .= '<a href="/' . $page_uri . '/' . ( $page_current + 1 ) . '">Next</a>';
+
+				}
+
+				echo $output;
 
 			}
 
