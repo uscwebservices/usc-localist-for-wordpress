@@ -86,7 +86,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_event_id			= isset ( $params['event_id'] ) ? $params['event_id'] : '';
 			$api_cache 				= isset ( $params['cache'] ) ? $params['cache'] : $config['default']['cache'];
 			$api_options 			= isset ( $params['options'] ) ? $params['options'] : '';
-			$api_page_number		= isset ( $params['page'] ) ? $params['page'] : '';
+			$api_page_number		= isset ( $params['page'] ) ? $params['page'] : 1; // default to first page of results
 			$api_timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
 
 			
@@ -196,10 +196,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$output['api']['event_id'] = $api_event_id;
 
 			// add the current page number to the output
-			$output['page_current'] = $api_page_number;
+			$output['api']['page_current'] = $api_page_number;
 
 			// add the api url used to the output
-			$output['url'] = $api_url;
+			$output['api']['url'] = $api_url;
 			
 			
 			/**
