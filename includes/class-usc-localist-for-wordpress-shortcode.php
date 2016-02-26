@@ -139,7 +139,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 				// set the get type for api url and options
-				$api_url['api_type'] = $template_options['api_type'] = $api_type;
+				$api_url['api']['type'] = $api_type;
 
 			/**
 			 * Get flag for event inline in page
@@ -367,7 +367,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 							// we have api array data
 							
 							// switch between api types for output of data by class type
-							switch ( $api_output['api_type'] ) {
+							switch ( $api_output['api']['type'] ) {
 								
 								// add api get types and their respective classes
 

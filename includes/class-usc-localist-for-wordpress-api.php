@@ -81,14 +81,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 			// default parameters
 			$api_base_url 			= isset ( $params['url'] ) ? $params['url'] : $config['url']['base'];
-			$api_type 				= isset ( $params['api_type'] ) ? $params['api_type'] : '';
+			$api_type 				= isset ( $params['api']['type'] ) ? $params['api']['type'] : '';
 			$api_events_page		= isset ( $params['is_events_page'] ) ? $params['is_events_page'] : false;
 			$api_event_id			= isset ( $params['event_id'] ) ? $params['event_id'] : '';
 			$api_cache 				= isset ( $params['cache'] ) ? $params['cache'] : $config['default']['cache'];
 			$api_options 			= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number		= isset ( $params['page'] ) ? $params['page'] : '';
 			$api_timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
-			
+
 			
 			// set the default arguments
 			$args = array(
@@ -187,7 +187,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			 */
 			
 			// add the api type to the output
-			$output['api_type'] = $api_type;
+			$output['api']['type'] = $api_type;
 
 			// add the api options to the output
 			$output['api_options'] = $api_options;

@@ -107,7 +107,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			$fields = $template->find('*[data-date-type]');
 
 			// set variable if we have a single event
-			$is_single = ( $options['api_type'] == 'event' ) ? true : false;
+			$is_single = ( $options['api']['type'] == 'event' ) ? true : false;
 
 			// loop through the data fields found
 			foreach ( $fields as $field ) {
@@ -367,7 +367,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			$template_path_single = $api_data['template_options']['template_single'];
 
 			// if we have a single template path value and the api type is a single event
-			if ( '' != $template_path_single && 'event' == $api_data['api_type'] ) {
+			if ( '' != $template_path_single && 'event' == $api_data['api']['type'] ) {
 
 				$template_path = $template_path_single;
 

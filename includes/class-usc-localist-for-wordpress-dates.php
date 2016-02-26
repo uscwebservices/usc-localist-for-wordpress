@@ -212,10 +212,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			$single_date_check = true;
 
 			// check for single events
-			if ( $options['api_type'] == 'event' ) {
+			if ( $options['api']['type'] == 'event' ) {
 
 				// we want true only if the event date is in the future from today
-				$single_date_check = new DateTime() < new DateTime($event_instance[$date_instance]);
+				$single_date_check = new DateTime() <= new DateTime($event_instance[$date_instance]);
 
 			}
 
