@@ -26,7 +26,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 		 */
 
 		public static $config = array(
-			'testing' => true, // set to true to use local events.json data
+			'testing' => false, // set to true to use local events.json data
 			'default' => array(
 				// 'cache' => HOUR_IN_SECONDS, // in seconds
 				'cache' => 0, // testing only
