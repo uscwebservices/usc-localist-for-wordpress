@@ -117,7 +117,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			}
 
 			// get the paginate setting
-			$option_paginate = $this->api_data['template_options']['paginate'];
+			$option_paginate = $this->api_data['paginate_options']['paginate'];
 
 			// only run pagination if true and on multiple events api
 			if ( $option_paginate && $api_data['api']['type'] == 'events' ) {
