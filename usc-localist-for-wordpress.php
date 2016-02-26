@@ -22,6 +22,7 @@ define( 'USC_LFWP__VERSION', '1.0.0' );
 // set a global variable for the path to the plugin
 define( 'USC_LFWP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
+// date_default_timezone_set('America/Los_Angeles');
 
 /**
  * The code that runs during plugin activation.
