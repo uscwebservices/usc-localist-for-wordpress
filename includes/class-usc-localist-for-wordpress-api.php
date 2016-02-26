@@ -190,7 +190,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$output['api']['type'] = $api_type;
 
 			// add the api options to the output
-			$output['api_options'] = $api_options;
+			$output['api']['options'] = $api_options;
 
 			// add the event id to the output
 			$output['event_id'] = $api_event_id;
