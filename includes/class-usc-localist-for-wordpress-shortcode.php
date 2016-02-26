@@ -362,7 +362,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					if ( ! isset( $api_output['errors'] ) || null == $api_output['errors'] ) {
 						
 						// check if we have data
-						if ( isset( $api_output['api_data'] ) ) {
+						if ( isset( $api_output['api']['data'] ) ) {
 							
 							// we have api array data
 							

@@ -89,6 +89,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_page_number		= isset ( $params['page'] ) ? $params['page'] : '';
 			$api_timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
 			
+			
 			// set the default arguments
 			$args = array(
 			    'timeout'		=> $api_timeout,
@@ -215,7 +216,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			if ( ! empty( $transient ) ) {
 
 				// We have a transient, no need to make an API call
-				$output['api_data'] = $transient;
+				$output['api']['data'] = $transient;
 				
 			} else {
 
@@ -269,7 +270,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					if ( '' != $response['body'] ) {
 
 						// encode the json data and set to TRUE for array
-						$output['api_data'] = json_decode( $response['body'], true );
+						$output['api']['data'] = json_decode( $response['body'], true );
 						
 					}
 
@@ -290,10 +291,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				if ( ! isset( $output['errors'] ) || '' != $output['errors'] ) {
 
 					// let's store the data as a transient using the cache attribute
-					if ( '' != $api_cache && isset( $output['api_data'] ) ) {
+					if ( '' != $api_cache && isset( $output['api']['data'] ) ) {
 
 						// let's set a transient for the API call
-						set_transient( $transient_name, $output['api_data'], $api_cache );
+						set_transient( $transient_name, $output['api']['data'], $api_cache );
 						
 					}
 
