@@ -78,7 +78,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			$events = $this->api_data['data'];
 
 			// if we have 'events' (multiple events), map to that node
-			if ( $events['events'] ) {
+			if ( isset( $events['events'] ) ) {
 				$events = $events['events'];
 			}
 
@@ -89,12 +89,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				$event = $single;
 
 				// if we have sub 'event' (multiple events), map to that node
-				if ( $single['event'] ) {
+				if ( isset( $single['event'] ) ) {
 					$event = $single['event'];
 				}
 				
 				// get the data fields, pass the template, api data and options
 				$template_data->data_fields( $template, $event, $api_data );
+
+				// get the data datetime, pass the template, api data and options
+				$template_data->data_datetime( $template, $event, $api_data );
 
 				// get the data links, pass the template, api data and options
 				$template_data->data_links( $template, $event, $api_data );
@@ -109,6 +112,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				echo str_replace( array( '<html>', '</html>'), array( '', '' ), $output );	
 				
 			}
+
+			// clear the template to prevent memory leak
+			$template->clear();
+			unset( $template );
 			
 		}
 
