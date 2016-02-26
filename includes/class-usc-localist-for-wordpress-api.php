@@ -171,7 +171,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			if ( $config['testing'] ) {
 				
 				if ( $api_type == 'event' ) {
-					$api_url = plugins_url( '/sample/event.json', dirname(__FILE__) );
+					$api_url = plugins_url( '/sample/event-alt.json', dirname(__FILE__) );
 				}
 
 				else {
@@ -193,7 +193,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$output['api']['options'] = $api_options;
 
 			// add the event id to the output
-			$output['event_id'] = $api_event_id;
+			$output['api']['event_id'] = $api_event_id;
 
 			// add the current page number to the output
 			$output['page_current'] = $api_page_number;
