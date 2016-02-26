@@ -59,15 +59,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 
 			// set defaults if values not passed
 			$paginate_type 				= isset ( $options['paginate_type'] ) ? $options['paginate_type'] : 'next';
-			$paginate_offset 			= isset ( $options['paginate_offset'] ) ? $options['paginate_offset'] : 3;
-			$paginate_numeric_separator = isset ( $options['paginate_numeric_separator'] ) ? $options['paginate_numeric_separator'] : ' -- ';
-			$paginate_label_next 		= isset ( $options['paginate_label_next'] ) ? $options['paginate_label_next'] : null;
-			$paginate_label_previous 	= isset ( $options['paginate_label_previous'] ) ? $options['paginate_label_previous'] : null;
-			$paginate_label_first 		= isset ( $options['paginate_label_first'] ) ? $options['paginate_label_first'] : null;
-			$paginate_label_last	 	= isset ( $options['paginate_label_last'] ) ? $options['paginate_label_last'] : null;
+
+			// check if pagintate type is next
+			$is_next = ( $paginate_type == 'next' ) ? true : false;
 
 			// check if paginate type is numeric
 			$is_numeric = ( $paginate_type == 'numeric' ) ? true : false;
+
+			$paginate_offset 			= isset ( $options['paginate_offset'] ) ? $options['paginate_offset'] : 3;
+			$paginate_numeric_separator = isset ( $options['paginate_numeric_separator'] ) ? $options['paginate_numeric_separator'] : ' ... ';
+			$paginate_label_next 		= isset ( $options['paginate_label_next'] ) ? $options['paginate_label_next'] : ( ( $is_next ) ? 'Next' : null );
+			$paginate_label_previous 	= isset ( $options['paginate_label_previous'] ) ? $options['paginate_label_previous'] : ( ( $is_next ) ? 'Previous' : null );
+			$paginate_label_first 		= isset ( $options['paginate_label_first'] ) ? $options['paginate_label_first'] : null;
+			$paginate_label_last	 	= isset ( $options['paginate_label_last'] ) ? $options['paginate_label_last'] : null;
 			
 			// check that the page variable is set
 			if ( isset( $api_page ) ) {
