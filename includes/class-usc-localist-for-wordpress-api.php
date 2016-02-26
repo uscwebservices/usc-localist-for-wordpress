@@ -179,7 +179,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			 */
 			if ( $config['testing'] ) {
 				
-				$api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
+				if ( $api_type == 'event' ) {
+					$api_url = plugins_url( '/sample/event.json', dirname(__FILE__) );
+				}
+
+				else {
+					$api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
+				}
 				
 			}
 

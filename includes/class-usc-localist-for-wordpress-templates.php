@@ -21,7 +21,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * The array of api data.
 		 * @var array
 		 */
-		public $api_data;
+		protected $api_data;
+
+		protected $config;
 
 		/**
 		 * Construct
@@ -35,9 +37,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			// get the template path opton
 			$this->api_data = $api_data;
-
+			
 			// load the dependencies
 			$this->load_dependencies();
+
+			// retrun the API configurations
+			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}
 
@@ -54,6 +59,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions-simple-html-dom.php';
+
+			// require the config class for API variables
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
 		}
 
@@ -79,92 +87,99 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
-		 * Data Type
-		 * =========
+		 * Data Datetime
+		 * =============
+		 *
+		 * Get Template items with attribute data-datetime and set the inner text with the value of 
+		 * the mapped nodes.
 		 * 
-		 * @param 	string 	$data_type 		specific handling for data_fields function
-		 * @param 	array 	$api_data 		api data array used to get node values
-		 *                            		(i.e - event(s))
-		 * @param 	array 	$options 		api options passed:
-		 *                           		[date_range, details_page, api_type]
-		 * @return 	string 	field_value		returns the value of the data_field + data_type
-		 *                               	combination
+		 * @param 	object 	$template 	the template object
+		 * @param 	array 	$api_data 	the json array of the api data to use
+		 * @param 	array 	$options 	the options of the api call passed for any call specifi functions
+		 * @return 	 					the output of matching node values as the inner text of the template item
 		 */
-		public function data_type( $data_type, $data_format, $api_data, $options ) {
-			
-			// new date class object
-			$date_functions = new USC_Localist_For_Wordpress_Dates;
+		public function data_datetime( $template, $api_data, $options ) {
 
-			// defualt value
-			$value = '';
+			// config setting
+			$config = $this->config;
 
-			switch ( $data_type ) {
+			// find all data fields
+			$fields = $template->find('*[data-date-type]');
 
-				// date events
-				case 'date':
+			// set variable if we have a single event
+			$is_single = ( $options['api_type'] == 'event' ) ? true : false;
 
-					// if date range selected, we have non matching first/last dates, and is a single event api
-					if ( $options['date_range'] &&  $api_data['first_date'] !=  $api_data['last_date'] && $options['api_type'] == 'event' ) {
-						
-						$value = $date_functions->simple_date_range( $api_data['first_date'], $api_data['last_date'], $data_format );
+			// loop through the data fields found
+			foreach ( $fields as $field ) {
+
+				// set variables for data-fields and output
+				$field_value = $output = '';
+				
+				// date types (date, time, datetime)
+				if ( $is_single ) {
 					
-					} 
+					$options['date-type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'datetime';
 
-					// get the first single instance of the date
-					else {
-						
-						$value = date( $data_format, strtotime( $date_functions->dates_instance( $api_data['event_instances'][0] ) ) );
-						// $api_data['event_instances'][0]['event_instance']['start'];
+				}
+
+				else {
+
+					$options['date-type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'date';
+
+				}
+				
+				// specific date instance to use (start, end, datetime-start-end)
+				$options['date-instance'] = isset( $field->{'data-date-instance'} ) ? $field->{'data-date-instance'} : 'start';
+
+				// data format for dates
+				$options['format-date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : $config['default']['format_date'];
+
+				// data format for times
+				$options['format-time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : $config['default']['format_time'];
+				
+				// separator to use between instances output
+				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : null;
+
+				// insert $date_functions->get_date_instances ( $api_data['event_instance'], $options['use-instance'] );
+				
+				// get the event instance(s)
+				$event_instances = $api_data['event_instances'];
+
+				$event_instances_amount = count( $event_instances );
+				
+				// defaults for determing number in loop for fields(f) and event instances(e)
+				$i= 1;
+
+				foreach ( $event_instances as $event_instance ) {
+
+					// new date class object
+					$date_functions = new USC_Localist_For_Wordpress_Dates;
+
+					$date_output = $date_functions->date_as_html( $event_instance, $options );
+					
+					if ( $date_output ) {
+
+						// get the formatted date/time element
+						$output .= $date_functions->date_as_html( $event_instance, $options );
+
+						// add the separator if set
+						if ( isset( $separator ) && $i < $event_instances_amount ) {
+
+							$output .= $separator;
+
+						}
 
 					}
 
-					// 	$dates = array( $api_data['first_date'], $api_data['last_date'] );
-						
-					// }
+					// attach the formatted date/time element to the field
+					$field->innertext = $output;
 
-					// otherwise, choose the array of event_instances
-					// else {
+					// increase the number for event instances
+					$i++;
 
-					// 	$dates = $api_data['event_instances'];
-
-					// }
-
-					// $field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
-
-					break;
-				
-				// time events
-				case 'time':
-
-					// $field_value = $date_functions->format_times( $api_data['event_instances'], $format );
-
-					break;
-				
-				// datetime events
-				default:
-
-					// if date range selected and non matching first/last dates
-					// if ( $date_range && $api_data['first_date'] != $api_data['last_date'] ) {
-
-					// 	$dates = array( $api_data['first_date'], $api_data['last_date'] );
-						
-					// }
-
-					// otherwise, choose the array of event_instances
-					// else {
-
-					// 	$dates = $api_data['event_instances'];
-
-					// }
-
-					// $field_value = $date_functions->format_dates( $dates, $data_format, $date_range );
-					//$fieldvalue = $date_functions->format_datetime($dates,$fmt,false,$range);
-
-					break;
+				}
 
 			}
-
-			return $value;
 
 		}
 
@@ -206,21 +221,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// get the value from the string format mapped node
 				$field_value = $this->string_node( $api_data, $data_field );
 
-				// check if we have data type fields for specific handling
-				if ( $data_type ) {
-
-					$field_value = $this->data_type( $data_type, $data_format, $api_data, $options );
-
-				}
-
 				// check that we do not have an array for a field value
-				if ( is_array( $field_value ) &! $data_type ) {
+				if ( is_array( $field_value ) ) {
 
-					$field_value = 'data-field: "' . $data_field . '" is an array. Please select a "data-type" option to process the data.';
+					$field->innertext = 'data-field: "' . $data_field . '" is an array. Please reference the help section for different data types.';
 
 				}
 
-				// default
+				// add field value as innertext of the node
 				else {
 					
 					$field->innertext = $field_value;

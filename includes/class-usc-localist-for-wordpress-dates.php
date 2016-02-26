@@ -158,21 +158,122 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 * @param  boolean $end 	boolean to check if there is an end date
 		 * @return string			date as string
 		 */
-		public function dates_instance( $dates, $end = false ) {
+		public function get_date_instance( $event_instance, $data_type = 'start' ) {
 			
-			if ( $end && isset ( $dates['event_instance']['end'] ) ) {
-				$output = $dates['event_instance']['end'];
+			// map to event data structure
+			$event_instance = $event_instance['event_instance'];
+
+			if ( $data_type == 'end' && isset ( $event_instance['end'] ) ) {
+				$output = $event_instance['end'];
 			} 
 
-			else if ( isset ( $dates['event_instance']['start'] ) ) {
-				$output = $dates['event_instance']['start'];
-			} 
+			else if ( isset ( $event_instance['start'] ) ) {
+				$output = $event_instance['start'];
+			}
 
 			else {
-				$output = $dates;
+
+				return false;
 			}
 			
 			return $output;
+
+		}
+
+		/**
+		 * Date as HTML
+		 * ============
+		 *
+		 * Pass a single event instance and send back HTML in approriate <time> format.
+		 * 
+		 * @param 	array	$event_instance 	single event instance
+		 * @param 	array 	$options        	options for output 
+		 *                                 		[date-type, date-instance, format-date, format-time]
+		 * @return 	string 						html string using <time> format
+		 */
+		public function date_as_html( $event_instance, $options ) {
+			
+			// config
+			$config = $this->config;
+
+			// set event mapping
+			$event_instance = $event_instance['event_instance'];
+
+			// set option defaults if not passed
+			$date_type = isset( $options['date-type'] ) ? $options['date-type'] : 'date';
+			$date_instance = isset( $options['date-instance'] ) ? $options['date-instance'] : 'start';
+			$format_date = isset( $options['format-date'] ) ? $options['format-date'] : $config['default']['format_date'];
+			$format_time = isset( $options['format-time'] ) ? $options['format-time'] : $config['default']['format_time'];
+
+			// convert the string to a date
+			$converted_date = strtotime( $event_instance[$date_instance] );
+
+			// check defaults
+			$single_date_check = true;
+
+			// check for single events
+			if ( $options['api_type'] == 'event' ) {
+
+				// we want true only if the event date is in the future from today
+				$single_date_check = new DateTime() < new DateTime($event_instance[$date_instance]);
+
+			}
+
+			// do not show events before today
+			if ( isset( $event_instance[$date_instance] ) && $single_date_check  ) {
+
+				// use the date type selected
+				switch ( $date_type ) {
+					
+					case 'date':
+						
+						$date = date( $format_date, $converted_date );
+						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . '</time>';
+
+						break;
+					
+					case 'time':
+						
+						$time = date( $format_time, $converted_date );
+						return '<time>' . $time . '</time>';
+
+						break;
+					
+					case 'datetime-start-end':
+						
+						// default output options
+						$time_end_output = '';
+
+						$date = date( $format_date, $converted_date );
+						$time_start = date( $format_time, strtotime( $event_instance['start'] ) );
+						
+						if ( isset( $event_instance['end'] ) ) {
+							
+							$time_end = date( $format_time, strtotime( $event_instance['end'] ) );
+							$time_end_output = ' to ' . $time_end;
+
+						}
+
+						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . ' at ' . $time_start . $time_end_output . '</time>';
+						
+						break;
+
+					default:
+						
+						$date = date( $format_date, $converted_date );
+						$time = date( $format_time, $converted_date );
+						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . ' at ' . $time . '</time>';
+						
+						break;
+				}
+
+			}
+
+			else {
+
+				return false;
+
+			}
 
 		}
 
