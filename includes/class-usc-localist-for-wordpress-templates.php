@@ -156,7 +156,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					$date_functions = new USC_Localist_For_Wordpress_Dates;
 
 					$date_output = $date_functions->date_as_html( $event_instance, $options );
-
+					
 					if ( $date_output ) {
 
 						// get the formatted date/time element

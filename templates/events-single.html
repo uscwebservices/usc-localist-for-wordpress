@@ -1,12 +1,12 @@
 <html>
 	<article class="event single">
 		<h1 class="event-title" data-field="title"></h1>
-			<p>Start: <span data-date-type="date" data-date-instance="start" data-separator=", "></span></p>
-			<p>End: <span data-date-type="date" data-date-instance="end" data-separator=", "></span></p>
-			<p>Time: <span data-date-type="time" data-separator="|- "></span></p>
-			<p>Datetime: <span data-date-type="datetime" data-format-date="l jS \of F Y" data-format-time="h:i:s A"></span></p>
-			<address class="event-location" data-field="geo.city"></address>
-			<a href="" data-link="map" data-field="location_name"></a>
-			<img src="" data-photo="photo_url" data-format="big" />
+		<img class="event-image" src="" data-photo="photo_url" data-format="big" />
+		<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
+		<div class="event-location">
+			<a class="event-map" href="" data-link="map" data-field="location_name"></a>
+			<span class="event-location" data-field="geo.city"></span>
+		</div>
+		<div data-field="description"></div>
 	</article>
 </html>
