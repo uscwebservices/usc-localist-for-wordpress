@@ -115,7 +115,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			$errors = $api_output = $details_page = $date_range = false;
 
 			// default for api url and template options build
-			$api_url = $template_options = array();
+			$api_url = $template_options = $paginate_options = array();
 
 			$api_data = new USC_Localist_For_Wordpress_API;
 
@@ -281,22 +281,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 */
 				
 				// get the paginate option and convert to bool value
-				$paginate = $api_data->convert_to_bool( $attr_all['paginate'] );
+				// $paginate = $api_data->convert_to_bool( $attr_all['paginate'] );
+				$paginate = $attr_all['paginate'];
 
-				// set the paginate option
-				$template_options['paginate'] = $paginate;
+				if ( ! empty( $paginate ) ) {
 
-			/**
-			 * Get paginate type
-			 */
-				
-				// get the paginate type option
-				$paginate_type =$attr_all['paginate_type'];
-
-				if ( ! empty( $paginate_type ) ) {
-
-					$template_options['paginate_type'] = $paginate_type;
-
+					// set the paginate option
+					$paginate_options['paginate'] = $paginate;
+					
 				}
 
 			/**
@@ -308,7 +300,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 				if ( ! empty( $paginate_label_next ) ) {
 
-					$template_options['paginate_label_next'] = $paginate_label_next;
+					$paginate_options['paginate_label_next'] = $paginate_label_next;
 
 				}
 
@@ -321,7 +313,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 				if ( ! empty( $paginate_label_previous ) ) {
 
-					$template_options['paginate_label_previous'] = $paginate_label_previous;
+					$paginate_options['paginate_label_previous'] = $paginate_label_previous;
 
 				}
 
@@ -394,8 +386,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					// perform the api call
 					$api_output = $api_data->get_api( $api_url );
 
-					// add the options
+					// add the template options
 					$api_output['template_options'] = $template_options;
+
+					// add the paginate options
+					$api_output['paginate_options'] = $paginate_options;
 
 					// check if we have no errors in returned api data
 					if ( ! isset( $api_output['errors'] ) || null == $api_output['errors'] ) {
