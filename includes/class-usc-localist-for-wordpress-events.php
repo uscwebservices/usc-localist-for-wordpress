@@ -55,6 +55,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			// require the date class for date and time functions
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-dates.php';
 
+			// require the paginate class
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-paginate.php';
+
 		}
 
 		/**
@@ -76,9 +79,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 
 			// get the events from the class api data (single event)
 			$events = $this->api_data['api']['data'];
-
-			// get the paginate setting
-			$paginate = $this->api_data['template_options']['paginate'];
 
 			// if we have 'events' (multiple events), map to that node
 			if ( isset( $events['events'] ) ) {
@@ -115,6 +115,20 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				echo str_replace( array( '<html>', '</html>'), array( '', '' ), $output );	
 				
 			}
+
+			// get the paginate setting
+			$option_paginate = $this->api_data['template_options']['paginate'];
+
+			// only run pagination if true and on multiple events api
+			if ( $option_paginate && $api_data['api']['type'] == 'events' ) {
+
+				$paginate = new USC_Localist_For_Wordpress_Paginate();
+
+				$paginate->get_pagination( $api_data );
+
+
+			}
+
 
 			// clear the template to prevent memory leak
 			$template->clear();
