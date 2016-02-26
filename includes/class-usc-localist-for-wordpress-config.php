@@ -74,6 +74,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'paginate' => '', // optional: show pagination on multi-events (next, numeric)
 						'paginate_label_next' => '', // optional: define the text for the 'next' label in pagination
 						'paginate_label_previous' => '', // optional: define the text for the 'next' label in pagination
+						'paginate_label_first' => '', // optional: define the text for the 'first' label in pagination
+						'paginate_label_last' => '', // optional: define the text for the 'last' label in pagination
 
 						// localist values
 						'all_custom_fields' => '',
