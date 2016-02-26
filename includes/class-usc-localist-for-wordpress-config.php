@@ -72,6 +72,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'template_multiple' => '', // opttional: slug name from templates custom post type - multiple events
 						'template_single' => '', // opttional: slug name from templates custom post type - single events
 						'paginate' => '', // optional: show pagination on multi-events (next, numeric)
+						'paginate_offset' => '', // optional: define the amount of numbers to the left and right of current page
+						'paginate_numeric_separator' => '', // optional: define the separator to use between first [separator] current [separtor] last
 						'paginate_label_next' => '', // optional: define the text for the 'next' label in pagination
 						'paginate_label_previous' => '', // optional: define the text for the 'next' label in pagination
 						'paginate_label_first' => '', // optional: define the text for the 'first' label in pagination
@@ -126,6 +128,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						// API parameters that need to be numbers
 						'numbers' => array(
 							'cache',
+							'paginate_offset',
 							'page',
 							'pp',
 							'campus_id',

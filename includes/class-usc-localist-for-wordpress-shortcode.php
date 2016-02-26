@@ -261,9 +261,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 				if ( ! empty( $shortcode_date_range ) ) {
 
-					$shortcode_date_range = $api_data->validate_key_value( 'date_range', $shortcode_date_range );
-
-					$date_range = $shortcode_date_range;
+					$date_range = $api_data->validate_key_value( 'date_range', $shortcode_date_range );
 
 				}
 
@@ -287,6 +285,32 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 					// set the paginate type to the value from the shortcode
 					$paginate_options['paginate_type'] = $attr_all['paginate'];
+
+				}
+
+			/**
+			 * Get paginate offset
+			 */
+				
+				// get the paginate offset number
+				$paginate_offset = $attr_all['paginate_offset'];
+
+				if ( ! empty( $paginate_offset ) ) {
+
+					$paginate_options['paginate_offset'] = $api_data->validate_key_value( 'paginate_offset', $paginate_offset );
+
+				}
+
+			/**
+			 * Get paginate numeric separator
+			 */
+				
+				// get the paginate offse number
+				$paginate_numeric_separator = $attr_all['paginate_numeric_separator'];
+
+				if ( ! empty( $paginate_numeric_separator ) ) {
+
+					$paginate_options['paginate_numeric_separator'] = $paginate_numeric_separator;
 
 				}
 
