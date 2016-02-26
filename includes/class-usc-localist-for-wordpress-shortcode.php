@@ -305,7 +305,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 * Get paginate numeric separator
 			 */
 				
-				// get the paginate offse number
+				// get the paginate numeric separator
 				$paginate_numeric_separator = $attr_all['paginate_numeric_separator'];
 
 				if ( ! empty( $paginate_numeric_separator ) ) {
