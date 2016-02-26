@@ -208,8 +208,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			// convert the string to a date
 			$converted_date = strtotime( $event_instance[$date_instance] );
 
+			// check defaults
+			$single_date_check = true;
+
+			// check for single events
+			if ( $options['api_type'] == 'event' ) {
+
+				// we want true only if the event date is in the future from today
+				$single_date_check = new DateTime() < new DateTime($event_instance[$date_instance]);
+
+			}
+
 			// do not show events before today
-			if ( isset( $event_instance[$date_instance] ) && new DateTime() < new DateTime($event_instance[$date_instance])  ) {
+			if ( isset( $event_instance[$date_instance] ) && $single_date_check  ) {
 
 				// use the date type selected
 				switch ( $date_type ) {
