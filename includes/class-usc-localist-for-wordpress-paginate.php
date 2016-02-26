@@ -54,6 +54,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 
 			// map to the page option returned in the api
 			$api_page = $api_data['api']['data']['page'];
+
+			$options = $api_data['paginate_options'];
+
+			// set defaults if values not passed
+			$paginate 					= isset ( $options['paginate'] ) ? $options['paginate'] : 'next';
+			$paginate_label_next 		= isset ( $options['paginate_label_next'] ) ? $options['paginate_label_next'] : 'Next';
+			$paginate_label_previous 	= isset ( $options['paginate_label_previous'] ) ? $options['paginate_label_previous'] : 'Previous';
+
 			
 			// check that the page variable is set
 			if ( isset( $api_page ) ) {
@@ -72,15 +80,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 				$is_last_page = ( $page_current == intval($page_total) ) ? true : false;
 				$is_first_page = ( $page_current == 1 ) ? true : false;
 
+				// add 'previous' label to event pages that are not the first
 				if ( ! $is_first_page ) {
 
-					$output .= '<a href="/' . $page_uri . '/' . ( $page_current - 1 ) . '">Previous</a>';
+					$output .= '<a href="/' . $page_uri . '/' . ( $page_current - 1 ) . '">' . $paginate_label_previous . '</a>';
 
 				}
 
+				// if numeric is selected, add the numbers as a list
+
+				// add 'next' label to event pages that are not the last
 				if ( ! $is_last_page ) {
 
-					$output .= '<a href="/' . $page_uri . '/' . ( $page_current + 1 ) . '">Next</a>';
+					$output .= '<a href="/' . $page_uri . '/' . ( $page_current + 1 ) . '">' . $paginate_label_next . '</a>';
 
 				}
 
