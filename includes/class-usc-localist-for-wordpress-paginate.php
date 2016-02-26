@@ -64,6 +64,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 			$paginate_label_first 		= isset ( $options['paginate_label_first'] ) ? $options['paginate_label_first'] : null;
 			$paginate_label_last	 	= isset ( $options['paginate_label_last'] ) ? $options['paginate_label_last'] : null;
 
+			// check if paginate type is numeric
+			$is_numeric = ( $paginate_type == 'numeric' ) ? true : false;
 			
 			// check that the page variable is set
 			if ( isset( $api_page ) ) {
@@ -85,16 +87,33 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 				// add 'previous' label to event pages that are not the first
 				if ( ! $is_first_page ) {
 
-					$output .= '<a href="/' . $page_uri . '/' . ( $page_current - 1 ) . '">' . $paginate_label_previous . '</a>';
+					$output .= '<a class="paginate paginate-prev" href="/' . $page_uri . '/' . ( $page_current - 1 ) . '">' . $paginate_label_previous . '</a>';
 
 				}
 
 				// if numeric is selected, add the numbers as a list
+				if ( $is_numeric ) {
+
+					for ( $i=1; $i < $page_total ; $i++) { 
+						
+						// check if we are on the current page number
+						if ( $i == $page_current ) {
+
+							$output .= '<span class="paginate paginate-number current">' . $i . '</span>';
+
+						} else {
+
+							$output .= '<a class="paginate paginate-number" href="/' . $page_uri . '/' . $i . '">' . $i . '</a>';
+
+						}
+
+					}
+				}
 
 				// add 'next' label to event pages that are not the last
 				if ( ! $is_last_page ) {
 
-					$output .= '<a href="/' . $page_uri . '/' . ( $page_current + 1 ) . '">' . $paginate_label_next . '</a>';
+					$output .= '<a class="paginate paginate-next" href="/' . $page_uri . '/' . ( $page_current + 1 ) . '">' . $paginate_label_next . '</a>';
 
 				}
 
