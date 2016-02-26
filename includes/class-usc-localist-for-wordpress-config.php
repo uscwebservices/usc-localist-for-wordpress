@@ -72,6 +72,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'template_multiple' => '', // opttional: slug name from templates custom post type - multiple events
 						'template_single' => '', // opttional: slug name from templates custom post type - single events
 						'paginate' => '', // optional: show pagination on multi-events
+						'paginate_label_next' => '', // optional: define the text for the 'next' label in pagination
+						'paginate_label_previous' => '', // optional: define the text for the 'next' label in pagination
 
 						// localist values
 						'all_custom_fields' => '',
