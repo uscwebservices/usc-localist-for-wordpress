@@ -121,7 +121,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 
 			// only run pagination if true and on multiple events api
 			if ( $option_paginate && $api_data['api']['type'] == 'events' ) {
-
+				
 				$paginate = new USC_Localist_For_Wordpress_Paginate();
 
 				$paginate->get_pagination( $api_data );

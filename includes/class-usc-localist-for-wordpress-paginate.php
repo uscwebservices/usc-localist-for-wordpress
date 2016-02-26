@@ -58,7 +58,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 			$options = $api_data['paginate_options'];
 
 			// set defaults if values not passed
-			$paginate 					= isset ( $options['paginate'] ) ? $options['paginate'] : 'next';
+			$paginate_type 				= isset ( $options['paginate_type'] ) ? $options['paginate_type'] : 'next';
 			$paginate_label_next 		= isset ( $options['paginate_label_next'] ) ? $options['paginate_label_next'] : 'Next';
 			$paginate_label_previous 	= isset ( $options['paginate_label_previous'] ) ? $options['paginate_label_previous'] : 'Previous';
 			$paginate_label_first 		= isset ( $options['paginate_label_first'] ) ? $options['paginate_label_first'] : null;
