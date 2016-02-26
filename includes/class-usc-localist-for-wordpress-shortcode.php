@@ -277,7 +277,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$template_options['date_range'] = $date_range;
 
 			/**
-			 * Get pagination option
+			 * Get pagination setting
 			 */
 				
 				// get the paginate option and convert to bool value
@@ -285,6 +285,45 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 				// set the paginate option
 				$template_options['paginate'] = $paginate;
+
+			/**
+			 * Get paginate type
+			 */
+				
+				// get the paginate type option
+				$paginate_type =$attr_all['paginate_type'];
+
+				if ( ! empty( $paginate_type ) ) {
+
+					$template_options['paginate_type'] = $paginate_type;
+
+				}
+
+			/**
+			 * Get paginate label next
+			 */
+				
+				// get the paginate next label
+				$paginate_label_next =$attr_all['paginate_label_next'];
+
+				if ( ! empty( $paginate_label_next ) ) {
+
+					$template_options['paginate_label_next'] = $paginate_label_next;
+
+				}
+
+			/**
+			 * Get paginate label previous
+			 */
+				
+				// get the paginate previous label
+				$paginate_label_previous =$attr_all['paginate_label_previous'];
+
+				if ( ! empty( $paginate_label_previous ) ) {
+
+					$template_options['paginate_label_previous'] = $paginate_label_previous;
+
+				}
 
 
 			/**
