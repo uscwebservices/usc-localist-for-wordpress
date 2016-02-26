@@ -115,7 +115,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			$errors = $api_output = $details_page = $date_range = false;
 
 			// default for api url and template options build
-			$api_url = $template_options = array();
+			$api_url = $template_options = $paginate_options = array();
 
 			$api_data = new USC_Localist_For_Wordpress_API;
 
@@ -131,7 +131,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_type = $attr_all['get'];
 
 				// check that we have a valid 'get' type
-				if ( '' == $api_type || null == $api_type ) {
+				if ( empty( $api_type ) ) {
 
 					// let's default to events
 					$api_type = 'events';
@@ -146,10 +146,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 */
 				
 				// set variable
-				$api_is_events_page = $attr_all['is_events_page'];
+				$api_is_events_page = $api_data->convert_to_bool( $attr_all['is_events_page'] );
 
 				// check that we have a valid 'cache' value
-				if ( '' != $api_is_events_page || null != $api_is_events_page ) {
+				if ( $api_is_events_page ) {
 
 					// validate the cache value
 					$api_is_events_page = $api_data->validate_key_value( 'is_events_page', $api_is_events_page );
@@ -167,7 +167,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_cache = $attr_all['cache'];
 
 				// check that we have a valid 'cache' value
-				if ( '' != $api_cache || null != $api_cache ) {
+				if ( ! empty( $api_cache ) ) {
 
 					// validate the cache value
 					$api_cache = $api_data->validate_key_value( 'cache', $api_cache );
@@ -185,7 +185,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$template_path_multiple = $attr_all['template_multiple'];
 
 				// set default template options
-				if ( '' == $template_path_multiple || null == $template_path_multiple ) {
+				if ( empty( $template_path_multiple ) ) {
 					
 					$template_path_multiple = 'events-list.html';
 
@@ -202,7 +202,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$template_path_single = $attr_all['template_single'];
 
 				// set default template options
-				if ( '' == $template_path_single || null == $template_path_single ) {
+				if ( empty( $template_path_single ) ) {
 					
 					$template_path_single = 'events-single.html';
 
@@ -232,7 +232,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				// is_events_page is false or not set in the shortcode
 				else {
 
-					if ( '' != $shortcode_details_page ) {
+					if ( ! empty( $shortcode_details_page ) ) {
 
 						$details_page = $shortcode_details_page;
 
@@ -259,11 +259,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				// date range from global options
 				$options_date_range = get_option('usc_lfwp_date_range');
 
-				if ( '' != $shortcode_date_range ) {
+				if ( ! empty( $shortcode_date_range ) ) {
 
-					$shortcode_date_range = $api_data->validate_key_value( 'date_range', $shortcode_date_range );
-
-					$date_range = $shortcode_date_range;
+					$date_range = $api_data->validate_key_value( 'date_range', $shortcode_date_range );
 
 				}
 
@@ -277,14 +275,96 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$template_options['date_range'] = $date_range;
 
 			/**
-			 * Get pagination option
+			 * Get pagination setting
 			 */
 				
-				// get the paginate option and convert to bool value
-				$paginate = $api_data->convert_to_bool( $attr_all['paginate'] );
+				// get the paginate option if it exists
+				$paginate_options['paginate'] = isset ( $attr_all['paginate'] ) ? true : false ;
 
-				// set the paginate option
-				$template_options['paginate'] = $paginate;
+				if ( $paginate_options['paginate'] ) {
+
+					// set the paginate type to the value from the shortcode
+					$paginate_options['paginate_type'] = $attr_all['paginate'];
+
+				}
+
+			/**
+			 * Get paginate offset
+			 */
+				
+				// get the paginate offset number
+				$paginate_offset = $attr_all['paginate_offset'];
+
+				if ( ! empty( $paginate_offset ) ) {
+
+					$paginate_options['paginate_offset'] = $api_data->validate_key_value( 'paginate_offset', $paginate_offset );
+
+				}
+
+			/**
+			 * Get paginate numeric separator
+			 */
+				
+				// get the paginate numeric separator
+				$paginate_numeric_separator = $attr_all['paginate_numeric_separator'];
+
+				if ( ! empty( $paginate_numeric_separator ) ) {
+
+					$paginate_options['paginate_numeric_separator'] = $paginate_numeric_separator;
+
+				}
+
+			/**
+			 * Get paginate label next
+			 */
+				
+				// get the paginate next label
+				$paginate_label_next = $attr_all['paginate_label_next'];
+
+				if ( ! empty( $paginate_label_next ) ) {
+
+					$paginate_options['paginate_label_next'] = $paginate_label_next;
+
+				}
+
+			/**
+			 * Get paginate label previous
+			 */
+				
+				// get the paginate previous label
+				$paginate_label_previous = $attr_all['paginate_label_previous'];
+
+				if ( ! empty( $paginate_label_previous ) ) {
+
+					$paginate_options['paginate_label_previous'] = $paginate_label_previous;
+
+				}
+
+			/**
+			 * Get paginate label first
+			 */
+				
+				// get the paginate first label
+				$paginate_label_first = $attr_all['paginate_label_first'];
+
+				if ( ! empty( $paginate_label_first ) ) {
+
+					$paginate_options['paginate_label_first'] = $paginate_label_first;
+
+				}
+
+			/**
+			 * Get paginate label last
+			 */
+				
+				// get the paginate last label
+				$paginate_label_last = $attr_all['paginate_label_last'];
+
+				if ( ! empty( $paginate_label_last ) ) {
+
+					$paginate_options['paginate_label_last'] = $paginate_label_last;
+
+				}
 
 
 			/**
@@ -306,7 +386,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 	
 				$api_event_id = $attr_all['event_id'];
 
-				if ( '' != $api_event_id || null != $api_event_id ) {
+				if ( ! empty( $api_event_id ) ) {
 
 					$api_url['event_id'] = $api_event_id;
 
@@ -355,8 +435,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 					// perform the api call
 					$api_output = $api_data->get_api( $api_url );
 
-					// add the options
+					// add the template options
 					$api_output['template_options'] = $template_options;
+
+					// add the paginate options
+					$api_output['paginate_options'] = $paginate_options;
 
 					// check if we have no errors in returned api data
 					if ( ! isset( $api_output['errors'] ) || null == $api_output['errors'] ) {

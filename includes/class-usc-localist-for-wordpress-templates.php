@@ -23,7 +23,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 */
 		protected $api_data;
 
-		protected $config;
+		/**
+		 * Configuration variable
+		 * @var string
+		 */
+		private $config;
 
 		/**
 		 * Construct
