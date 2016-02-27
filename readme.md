@@ -25,6 +25,10 @@ Please reference the [localist-api-docs] for a full reference of current support
 
 In addion to the attributes from the [localist-api-docs], the following custom attributes can be used.
 
+Table | Sample
+------|-------
+something | preview 
+
 <table>
 	<thead>
 		<td><strong>Parameter</strong></td>
