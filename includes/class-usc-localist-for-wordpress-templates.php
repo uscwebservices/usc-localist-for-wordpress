@@ -238,15 +238,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// field
 				$data_field = $field->{'data-field'};
 
-				// specific type of data (date, time, datetime, etc)
-				$data_type = $field->{'data-type'};
-
-				// data format 
-				$data_format = isset( $field->{'data-format'} ) ? $field->{'data-format'} : false;
-
-				// image size
-				$data_image_size = isset( $field->{'image_size'} ) ? $field->{'image_size'} : false;
-
 				// get the value from the string format mapped node
 				$field_value = $this->string_node( $api_data, $data_field );
 
@@ -292,19 +283,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// get the data link attribute
 				$data_link = $link->{'data-link'};
 
-				$data_field = $link->{'data-field'};
-
 				// check if we have a link to a map
 				if ( 'map' == $data_link ) {
 					
-					$map_link = $this->map_link( $api_data[$data_field] );
+					$map_link = $this->map_link( $api_data['location_name'] );
 					
 					// set the href using map_link function
 					$link->href = $map_link;
-
-					// set the text to the location name
-					$link->innertext = $api_data[$data_field];
-
 
 				} 
 
