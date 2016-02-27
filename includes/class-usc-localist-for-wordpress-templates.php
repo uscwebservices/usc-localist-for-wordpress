@@ -283,8 +283,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// get the data link attribute
 				$data_link = $link->{'data-link'};
 
-				$data_field = $link->{'data-field'};
-
 				// check if we have a link to a map
 				if ( 'map' == $data_link ) {
 					
@@ -292,10 +290,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					
 					// set the href using map_link function
 					$link->href = $map_link;
-
-					// set the text to the location name
-					$link->innertext = $api_data[$data_field];
-
 
 				} 
 
