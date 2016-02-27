@@ -75,6 +75,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			return $d;
 
 		}
+		}
 
 		/**
 		 * Dates Instance
@@ -227,24 +228,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 				return false;
 
 			}
-
-		}
-
-		/**
-		 * Simple Date Range
-		 * =================
-		 * @param 	string 	$date_start 	the start date
-		 * @param 	string 	$date_end 		the end date
-		 * @param 	string 	$format 		the php format to use for the returned date
-		 * @param 	string 	$separator 		the separator between the two
-		 * @return 	string 					the start date + separator + end date
-		 */
-		public function simple_date_range( $date_start, $date_end, $format = 'n/j/Y', $separator = ' - ' ) {
-
-			$start = date( $format, strtotime( $date_start ) );
-			$end = date( $format, strtotime( $date_end ) );
-
-			return $start . $separator . $end;
 
 		}
 
