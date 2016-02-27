@@ -129,23 +129,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		}
 
 		/**
-		 * Is Weekly
-		 * =========
-		 *
-		 * Checks for API event instances or array of single dates for
-		 * matching days of the week between dates.
-		 * 
-		 * @param  array 	$dates 	array of dates
-		 * @return boolean 			
-		 */
-		public function is_weekly ( $dates ) {
-
-			// assume we do not have weekly events
-			$weekly = false;
-
-		}
-
-		/**
 		 * Dates Instance
 		 * ==============
 		 *
