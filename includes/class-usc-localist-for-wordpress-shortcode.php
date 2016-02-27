@@ -215,10 +215,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			 * Get event details page option
 			 */
 
-				// date range from shortcode options
+				// details page from shortcode options
 				$shortcode_details_page = $attr_all['details_page'];
 
-				// date range from global options
+				// detials page from global options
 				$options_details_page_id = get_option('usc_lfwp_events_detail_page');
 				$options_details_page_uri = get_page_uri( $options_details_page_id );
 

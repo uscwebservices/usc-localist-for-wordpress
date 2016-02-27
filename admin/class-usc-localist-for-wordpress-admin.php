@@ -129,8 +129,8 @@ class USC_Localist_For_Wordpress_Admin {
 			'type'			=> 'radio',
 			'description'	=> 'Display multiple dates as a Range',
 			'choices'		=> array( 
-				true => 'Yes: Monday - Wednesday',
-				false => 'No: Monday, Tuesday, Wednesday'
+				true => 'Yes [first - last instance]: 1/1/16 - 6/1/16',
+				false => 'No [current instance]: 2/2/16'
 			),
 			'priority'		=> 1
 		) );

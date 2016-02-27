@@ -122,24 +122,24 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// date types (date, time, datetime)
 				if ( $is_single ) {
 					
-					$options['date-type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'datetime';
+					$options['date_type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'datetime';
 
 				}
 
 				else {
 
-					$options['date-type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'date';
+					$options['date_type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'date';
 
 				}
 				
 				// specific date instance to use (start, end, datetime-start-end)
-				$options['date-instance'] = isset( $field->{'data-date-instance'} ) ? $field->{'data-date-instance'} : 'start';
+				$options['date_instance'] = isset( $field->{'data-date-instance'} ) ? $field->{'data-date-instance'} : 'start';
 
 				// data format for dates
-				$options['format-date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : $config['default']['format_date'];
+				$options['format_date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : $config['default']['format_date'];
 
 				// data format for times
-				$options['format-time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : $config['default']['format_time'];
+				$options['format_time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : $config['default']['format_time'];
 				
 				// separator to use between instances output
 				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : null;

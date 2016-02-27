@@ -200,10 +200,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			$event_instance = $event_instance['event_instance'];
 
 			// set option defaults if not passed
-			$date_type = isset( $options['date-type'] ) ? $options['date-type'] : 'date';
-			$date_instance = isset( $options['date-instance'] ) ? $options['date-instance'] : 'start';
-			$format_date = isset( $options['format-date'] ) ? $options['format-date'] : $config['default']['format_date'];
-			$format_time = isset( $options['format-time'] ) ? $options['format-time'] : $config['default']['format_time'];
+			$date_type = isset( $options['date_type'] ) ? $options['date_type'] : 'date';
+			$date_instance = isset( $options['date_instance'] ) ? $options['date_instance'] : 'start';
+			$format_date = isset( $options['format_date'] ) ? $options['format_date'] : $config['default']['format_date'];
+			$format_time = isset( $options['format_time'] ) ? $options['format_time'] : $config['default']['format_time'];
+
+			// var_dump($options);
 
 			// convert the string to a date
 			$converted_date = strtotime( $event_instance[$date_instance] );
@@ -312,24 +314,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			$end = date( $format, strtotime( $date_end ) );
 
 			return $start . $separator . $end;
-
-		}
-
-		/**
-		 * Format Dates
-		 * ============
-		 *
-		 * @param 	array 	$dates 		an array of dates to pass for formatting
-		 * @param 	string 	$format 	the php format to change the date
-		 * @param 	string 	$date_range	whether to display multi-day events as a
-		 *                             	range or the single instance date
-		 * @return 	string 	dates output
-		 */
-		public function format_dates( $dates, $format = 'n/j/Y', $date_range = false ) {
-
-			// next release
-			// $is_weekly = $this->is_weekly( $dates );
-			
 
 		}
 
