@@ -189,7 +189,7 @@ Would output:
 
 ##### Links
 
-To set a link from the API data, you can add the data attribute `data-link` to an `a` tag and use the mapped dot syntax path to the data.  You can use this in conjunction with the `data-field`
+To set a link from the API data, you can add the data attribute `data-link` to an `a` tag and use the mapped dot syntax path to the data.  You can use this in conjunction with the `data-field`.
 
 <table>
 	<thead>
@@ -200,16 +200,18 @@ To set a link from the API data, you can add the data attribute `data-link` to a
 	</thead>
 	<tbody>
 		<tr>
-			<td><code>data-link</code></td>
+			<td rowspan="3"><code>data-link</code></td>
+			<td rowspan="3">string</td>
 			<td>string</td>
-			<td>string<br>
-				<code>map</code><br>
-				<code>detail</code>
-			</td>
-			<td>String: the dot syntax mapping to the url<br>
-				Map: automatically sets link to <code>location_name</code><br>
-				Detail: automatically sets link to event detaill page
-			</td>
+			<td>The dot syntax mapping to the url</td>
+		</tr>
+		<tr>
+			<td><code>map</code></td>
+			<td>Automatically sets link to <code>location_name</code></td>
+		</tr>
+		<tr>
+			<td><code>detail</code></td>
+			<td>Automatically sets link to event detaill page</td>
 		</tr>
 	</tbody>
 </table>
@@ -219,16 +221,80 @@ To set a link from the API data, you can add the data attribute `data-link` to a
 
 ##### Dates
 
+To set a date ore time setting from the API data, you can add the data attribute `data-date-type` to any HTML tag.  This will automatically map the data to the `first_date`, `last_date`, or event instance(s) depending on the options chosen.
+
+<table>
+	<thead>
+		<td><strong>Parameter</strong></td>
+		<td><strong>Type</strong></td>
+		<td><strong>Options</strong></td>
+		<td><strong>Description</strong></td>
+	</thead>
+	<tbody>
+		<tr>
+			<td rowspan="3"><code>data-date-type</code></td>
+			<td>string</td>
+			<td>
+				<code>date</code>
+			</td>
+			<td>Returns the date of the selection.</td>
+		</tr>
+		<tr>
+			<td>string</td>
+			<td>
+				<code>time</code>
+			</td>
+			<td>Returns the time of the selection.</td>
+		</tr>
+		<tr>
+			<td>string</td>
+			<td>
+				<code>datetime</code>
+			</td>
+			<td>Returns the date and time of the selection.</td>
+		</tr>
+		<tr>
+			<td><code>data-format</code></td>
+			<td>string</td>
+			<td>See list below</td>
+			<td>Choose from the available photo sizes to set the <code>src</code></td>
+		</tr>
+	</tbody>
+</table>
+
+
 ##### Photos
 
+The data node `photo_url` will replace the `src` with the url of the photo.
 
+To set a photo url from the API data, you can add the data attribute `data-photo` to an `img` tag and use the mapped dot syntax path to the data.  Use this in conjunction with the `data-format` (below) to change the image size returned.
 
+<table>
+	<thead>
+		<td><strong>Parameter</strong></td>
+		<td><strong>Type</strong></td>
+		<td><strong>Options</strong></td>
+		<td><strong>Description</strong></td>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code>data-photo</code></td>
+			<td>string</td>
+			<td><code>photo_url</code></td>
+			<td>The dot syntax mapping to the photo attribute.</td>
+		</tr>
+		<tr>
+			<td><code>data-format</code></td>
+			<td>string</td>
+			<td>See list below</td>
+			<td>Choose from the available photo sizes to set the <code>src</code></td>
+		</tr>
+	</tbody>
+</table>
 
-#### Preset Functions for Data Types
+##### Photo Format
 
-##### photo_url
-
-The data node `photo_url` will replace the `src` with the url of the photo.  Using 'data-format', you can set the size of the images to be returned from the following list.
+Using `data-format` with `data-photo`, you can set the size of the images to be returned from the following list:
 
 <table>
 	<thead>
@@ -257,15 +323,7 @@ The data node `photo_url` will replace the `src` with the url of the photo.  Usi
 	</tr>
 </table>
 
-### data-field
 
-### data-type
-
-### data-datetime
-
-### data-links
-
-### data-photos
 
 
 ## Notes
