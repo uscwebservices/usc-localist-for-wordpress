@@ -288,7 +288,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// check if we have a link to a map
 				if ( 'map' == $data_link ) {
 					
-					$map_link = $this->map_link( $api_data[$data_field] );
+					$map_link = $this->map_link( $api_data['location_name'] );
 					
 					// set the href using map_link function
 					$link->href = $map_link;
