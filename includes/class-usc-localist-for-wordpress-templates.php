@@ -145,43 +145,66 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : null;
 
 				// date ranges
-				$range['first_date'] = $api_data['first_date'];
-				$range['last_date'] = $api_data['last_date'];
-				
-				// get the event instance(s)
-				$event_instances = $api_data['event_instances'];
+				$date_range = isset( $options['template_options']['date_range'] ) ? $options['template_options']['date_range'] : false;
 
-				$event_instances_amount = count( $event_instances );
-				
-				// defaults for determing number in loop
-				$i= 1;
+				$date_start = date( $options['format_date'], strtotime( $api_data['first_date'] ) );
+				$date_end = date( $options['format_date'], strtotime( $api_data['last_date'] ) );
 
-				foreach ( $event_instances as $event_instance ) {
-
-					// new date class object
-					$date_functions = new USC_Localist_For_Wordpress_Dates;
-
-					$date_output = $date_functions->date_as_html( $event_instance, $options, $range );
+				// return the date range if set and not on sigle event
+				if ( ! $is_single && $date_range && ( $date_start != $date_end ) ) {
 					
-					if ( $date_output ) {
+					$date_start = date( $options['format_date'], strtotime( $api_data['first_date'] ) );
+					$date_end = date( $options['format_date'], strtotime( $api_data['last_date'] ) );
 
-						// get the formatted date/time element
-						$output .= $date_output;
+					if ( $date_start != $date_end ) {
 
-						// add the separator if set
-						if ( isset( $separator ) && $i < $event_instances_amount ) {
+						$output .= '<time datetime="'. $api_data['first_date'] .'">' . $date_start . '</time> - <time datetime="'. $api_data['last_date'] . '">' . $date_end . '</time>';
 
-							$output .= $separator;
+						$field->innertext = $output;
+					}
+
+				}
+
+				// no date range
+				else {
+
+				
+					// get the event instance(s)
+					$event_instances = $api_data['event_instances'];
+
+					$event_instances_amount = count( $event_instances );
+					
+					// defaults for determing number in loop
+					$i= 1;
+
+					foreach ( $event_instances as $event_instance ) {
+
+						// new date class object
+						$date_functions = new USC_Localist_For_Wordpress_Dates;
+
+						$date_output = $date_functions->date_as_html( $event_instance, $options );
+						
+						if ( $date_output ) {
+
+							// get the formatted date/time element
+							$output .= $date_output;
+
+							// add the separator if set
+							if ( isset( $separator ) && $i < $event_instances_amount ) {
+
+								$output .= $separator;
+
+							}
 
 						}
 
+						// attach the formatted date/time element to the field
+						$field->innertext = $output;
+
+						// increase the number for event instances
+						$i++;
+
 					}
-
-					// attach the formatted date/time element to the field
-					$field->innertext = $output;
-
-					// increase the number for event instances
-					$i++;
 
 				}
 
