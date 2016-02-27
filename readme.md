@@ -5,7 +5,7 @@ USC Localist for WordPress
 
 - Plugin Usage
 - API Options
-- Custom API options
+- Custom shortcode API options
 - Customizer
 - Templates
 - Notes
@@ -21,31 +21,88 @@ This is a WordPress Plugin that uses the shortcode `[localist-calender]` to get 
 
 Please reference the [localist-api-docs] for a full reference of current supported options.
 
-## Custom API options
+## Custom shortcode API options
 
-In addion to the attributes from the [localist-api-docs], the following custom attributes can be used:
+In addion to the attributes from the [localist-api-docs], the following custom attributes can be used.
 
 <table>
 	<thead>
-		<td><strong>Attribute</strong></td>
-		<td><strong>Accepted Values</strong></td>
+		<td><strong>Parameter</strong></td>
+		<td><strong>Type</strong></td>
+		<td><strong>Options [Default]</strong></td>
+		<td><strong>Description</strong></td>
 	</thead>
 	<tbody>
 		<tr>
 			<td><code>get</code></td>
-			<td>The <code>type</code> of API data to get: <code>events</code>, <code>event</code></td>
+			<td>string</td>
+			<td>
+				[<code>events</code>]<br>
+				<code>event</code>
+			</td>
+			<td>The <code>type</code> of API data to get.</td>
 		</tr>
 		<tr>
 			<td><code>cache</code></td>
-			<td>The amount of time to store the API results in the site.  This will help performance of the page. <br><br>Default: <code>1 hour</code></td>
+			<td>integer</td>
+			<td>1 hour</td>
+			<td>The amount of time (in seconds) to store the API results in the site.  This will help performance of the page.</td>
 		</tr>
 		<tr>
-			<td><code>template</code></td>
-			<td>Enter the <code>slug</code> of the Event Templates post to use for the structure of the returned API data.</td>
+			<td><code>date_range</code></td>
+			<td>boolean</td>
+			<td>
+				<code>true</code><br>
+				[<code>false</code>]
+			</td>
+			<td>Displays <code>first_date</code> - <code>last_date</code> on <code>events</code> if dates differ else the next single instance will display.</td>
 		</tr>
 		<tr>
-			<td><code>href</code></td>
-			<td>Enter the link to the events detail page.  This will output the <code>href</code> base and attache the event id to the end.  You can specify a global setting for this using the <a href="#customize">Customize</a> options.</td>
+			<td><code>details_page</code></td>
+			<td>string</td>
+			<td></td>
+			<td>Enter the link to the events detail page. Global setting available in the <a href="#customize">Customize</a> options. Please see <code>is_events_page</code>.</td>
+		</tr>
+		<tr>
+			<td><code>is_events_page</code></td>
+			<td>boolean</td>
+			<td>
+				<code>true</code> <br>
+				[<code>false</code>]
+			</td>
+			<td>Uses the same page for details page.</td>
+		</tr>
+		<tr>
+			<td><code>paginate</code></td>
+			<td>string</td>
+			<td>
+				<code>next</code><br>
+				<code>numeric</code>
+			</td>
+			<td>Show the pagination on multiple events api.</td>
+		</tr>
+		<tr>
+			<td><code>paginate_offset</code></td>
+			<td>numeric</td>
+			<td><code>3</code></td>
+			<td>The amount of numbers to show before and after the current page.</td>
+		</tr>
+		<tr>
+			<td><code>paginate_numeric_separator</code></td>
+			<td>string</td>
+			<td><code> ... </code></td>
+			<td>The separator used betwen first, last and the offset page start/end. <br> Example: 1 ... 21 <strong>22</strong> 23 ... 84</td>
+		</tr>
+		<tr>
+			<td><code>template_multiple</code></td>
+			<td>string</td><td></td>
+			<td>The <code>slug</code> of the post type <strong>Event Templates</strong> to use for the structure of the returned API data for a list of events.  Defaults to list view.</td>
+		</tr>
+		<tr>
+			<td><code>template_single</code></td>
+			<td>string</td>
+			<td></td>
+			<td>Enter the <code>slug</code> of the posty type <strong>Event Templates</strong> to use for the structure of the returned API data for a single event.  Defaults to single view.</td>
 		</tr>
 	</tbody>
 </table>
@@ -61,11 +118,11 @@ This plugin uses the WordPress Customizer to set global calendar settings for th
 	</thead>
 	<tr>
 		<td><code>no</code></td>
-		<td>Monday, Tuesday, Wednesday</td>
+		<td>1/1/2016, 2/1/2016, 3/1/2016</td>
 	</tr>
 	<tr>
 		<td><code>yes</code></td>
-		<td>Monday - Wednesday</td>
+		<td>1/1/2016 - 3/1/2016</td>
 	</tr>
 </table>
 
@@ -87,7 +144,83 @@ If you leave the dropdown blank, the event links will go to the event detail pag
 
 ## Templates
 
-### Using Data Types
+### Data Fields
+
+To use the data from the API, you can add the data attribute `data-field` to any HTML element and use the mapped dot syntax path to the data.  The `data-field` will start at the individual `event` level.
+
+<table>
+	<thead>
+		<td><strong>Parameter</strong></td>
+		<td><strong>Type</strong></td>
+		<td><strong>Options</strong></td>
+		<td><strong>Description</strong></td>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code>data-field</code></td>
+			<td>string</td>
+			<td></td>
+			<td>The dot syntax mapping to the API for the desired value.</td>
+		</tr>
+	</tbody>
+</table>
+
+Sample:
+
+	event: {
+		title: "Reshaping Tradition: Contemporary Ceramics from East Asia",
+		geo: {
+			street: "46 North Los Robles Avenue",
+			city: "Pasadena",
+			state: "CA",
+			country: "US",
+			zip: "91101"
+		}
+	}
+
+Using the sample data:
+
+	<address data-field="geo.city"></address>
+
+Would output:
+
+	<address data-field="geo.city">Pasadena</address>
+
+
+##### Links
+
+To set a link from the API data, you can add the data attribute `data-link` to an `a` tag and use the mapped dot syntax path to the data.  You can use this in conjunction with the `data-field`
+
+<table>
+	<thead>
+		<td><strong>Parameter</strong></td>
+		<td><strong>Type</strong></td>
+		<td><strong>Options</strong></td>
+		<td><strong>Description</strong></td>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code>data-link</code></td>
+			<td>string</td>
+			<td>string<br>
+				<code>map</code><br>
+				<code>detail</code>
+			</td>
+			<td>String: the dot syntax mapping to the url.<br>
+				Map: automatically sets link to <code>location_name</code><br>
+				Detail: automatically sets link to event detaill page
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+##### Dates
+
+##### Photos
+
+
+
 
 #### Preset Functions for Data Types
 
@@ -126,11 +259,19 @@ The data node `photo_url` will replace the `src` with the url of the photo.  Usi
 
 ### data-type
 
+### data-datetime
+
+### data-links
+
+### data-photos
+
 
 ## Notes
 
 
-### Departments
+### Events
+
+#### Event Departments
 
 Once a department, or group of departments, is chosen, events from the department(s) will be selected and then the other search parameters applied.  This is pertinent to `keyword` and `type` searches with a setting of `match=any`.
 
@@ -140,21 +281,19 @@ We have a 'History' department (group_id=1) with 20 events and 10 tagged with th
 
 Searching for the following elements separately:
 
-	[localist-calendar group_id='1'] produces 20 results
+	[localist-calendar get='events' group_id='1'] produces 20 results
 
-	[localist-calendar keyword='History'] produces 30 results
+	[localist-calendar get='events' keyword='History'] produces 30 results
 
 If we combined the two searches above with match 'any', we might expect to get 50 results:
 
-	[localist-calendar group_id='1' keyword='History' match='any']
+	[localist-calendar get='events' group_id='1' keyword='History' match='any']
 
 However, since the events for the department 'History' are gathered first and then the filters applied, we would only get 10 events in return and not 50.
 
 Please see the [localist-api-docs] for the latest information.
 
-[id]
 
 
-[customize]: [Customize][] 'Customize'
 [localist-api-docs]: http://www.localist.com/doc/api 'Localist API'
 [usc-calendar]: https://calendar.usc.edu "USC Calendar"
