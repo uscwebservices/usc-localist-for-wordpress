@@ -75,7 +75,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			return $d;
 
 		}
-		}
 
 		/**
 		 * Dates Instance
