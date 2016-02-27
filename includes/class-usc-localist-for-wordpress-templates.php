@@ -122,36 +122,38 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// date types (date, time, datetime)
 				if ( $is_single ) {
 					
-					$options['date-type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'datetime';
+					$options['date_type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'datetime';
 
 				}
 
 				else {
 
-					$options['date-type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'date';
+					$options['date_type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'date';
 
 				}
 				
 				// specific date instance to use (start, end, datetime-start-end)
-				$options['date-instance'] = isset( $field->{'data-date-instance'} ) ? $field->{'data-date-instance'} : 'start';
+				$options['date_instance'] = isset( $field->{'data-date-instance'} ) ? $field->{'data-date-instance'} : 'start';
 
 				// data format for dates
-				$options['format-date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : $config['default']['format_date'];
+				$options['format_date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : $config['default']['format_date'];
 
 				// data format for times
-				$options['format-time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : $config['default']['format_time'];
+				$options['format_time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : $config['default']['format_time'];
 				
 				// separator to use between instances output
 				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : null;
 
-				// insert $date_functions->get_date_instances ( $api_data['event_instance'], $options['use-instance'] );
+				// date ranges
+				$range['first_date'] = $api_data['first_date'];
+				$range['last_date'] = $api_data['last_date'];
 				
 				// get the event instance(s)
 				$event_instances = $api_data['event_instances'];
 
 				$event_instances_amount = count( $event_instances );
 				
-				// defaults for determing number in loop for fields(f) and event instances(e)
+				// defaults for determing number in loop
 				$i= 1;
 
 				foreach ( $event_instances as $event_instance ) {
@@ -159,12 +161,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					// new date class object
 					$date_functions = new USC_Localist_For_Wordpress_Dates;
 
-					$date_output = $date_functions->date_as_html( $event_instance, $options );
+					$date_output = $date_functions->date_as_html( $event_instance, $options, $range );
 					
 					if ( $date_output ) {
 
 						// get the formatted date/time element
-						$output .= $date_functions->date_as_html( $event_instance, $options );
+						$output .= $date_output;
 
 						// add the separator if set
 						if ( isset( $separator ) && $i < $event_instances_amount ) {
