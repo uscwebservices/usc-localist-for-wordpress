@@ -55,7 +55,7 @@ In addion to the attributes from the [localist-api-docs], the following custom a
 				<code>true</code><br>
 				[<code>false</code>]
 			</td>
-			<td>Displays <code>first_date</code> - <code>last_date</code> on <code>events</code> if dates differ else the next single instance will display.</td>
+			<td>Displays <code>first_date</code> - <code>last_date</code> on <code>events</code> if dates differ else the next single instance will display. (see note below)</td>
 		</tr>
 		<tr>
 			<td><code>details_page</code></td>
@@ -106,6 +106,8 @@ In addion to the attributes from the [localist-api-docs], the following custom a
 		</tr>
 	</tbody>
 </table>
+
++ ***Note:*** the shortcode attribute `date-range` will only show on multiple events list.  Single event details will list all instances of dates after current date.
 
 ## Customizer
 
@@ -187,7 +189,7 @@ Would output:
 	<address data-field="geo.city">Pasadena</address>
 
 
-##### Links
+### Links
 
 To set a link from the API data, you can add the data attribute `data-link` to an `a` tag and use the mapped dot syntax path to the data.  You can use this in conjunction with the `data-field`.
 
@@ -203,23 +205,23 @@ To set a link from the API data, you can add the data attribute `data-link` to a
 			<td rowspan="3"><code>data-link</code></td>
 			<td rowspan="3">string</td>
 			<td>string</td>
-			<td>The dot syntax mapping to the url</td>
+			<td>The dot syntax mapping to the url.</td>
 		</tr>
 		<tr>
 			<td><code>map</code></td>
-			<td>Automatically sets link to <code>location_name</code></td>
+			<td>Automatically sets link to <code>location_name</code>.</td>
 		</tr>
 		<tr>
 			<td><code>detail</code></td>
-			<td>Automatically sets link to event detaill page</td>
+			<td>Automatically sets link to event detaill page.</td>
 		</tr>
 	</tbody>
 </table>
 
-<strong>Note:</strong> The `data-link="map"` function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the `location_name`.
+***Note:*** The `data-link="map"` function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the `location_name`.
 
 
-##### Dates
+### Dates
 
 To set a date ore time setting from the API data, you can add the data attribute `data-date-type` to any HTML tag.  This will automatically map the data to the `first_date`, `last_date`, or event instance(s) depending on the options chosen.
 
@@ -233,37 +235,62 @@ To set a date ore time setting from the API data, you can add the data attribute
 	<tbody>
 		<tr>
 			<td rowspan="3"><code>data-date-type</code></td>
-			<td>string</td>
+			<td rowspan="3">string</td>
 			<td>
 				<code>date</code>
 			</td>
-			<td>Returns the date of the selection.</td>
+			<td>Returns the date of the selection. Use with <code>data-format-date</code>.</td>
 		</tr>
 		<tr>
-			<td>string</td>
 			<td>
 				<code>time</code>
 			</td>
-			<td>Returns the time of the selection.</td>
+			<td>Returns the time of the selection. Use with <code>data-format-time</code>.</td>
 		</tr>
 		<tr>
-			<td>string</td>
 			<td>
 				<code>datetime</code>
 			</td>
-			<td>Returns the date and time of the selection.</td>
+			<td>Returns the date and time of the selection. Use with <code>data-format-time</code> and <code>data-format-date</code>.</td>
 		</tr>
 		<tr>
-			<td><code>data-format</code></td>
+			<td rowspan="3"><code>data-date-instance</code></td>
+			<td rowspan="3">string</td>
+			<td><code>start</code></td>
+			<td>Use the <code>start</code> of the event instance for the date/time output.</td>
+		</tr>
+		<tr>
+			<td><code>end</code></td>
+			<td>Use the <code>end</code> of the event instance for the date/time output.</td>
+		</tr>
+		<tr>
+			<td><code>datetime-start-end</code></td>
+			<td>Uses the <code>start</code> and <code>end</code> of the event instance for the date/time output. Uses <code>data-format-time</code> and <code>data-format-date</code>.</td>
+		</tr>
+		<tr>
+			<td><code>data-format-time</code></td>
 			<td>string</td>
-			<td>See list below</td>
-			<td>Choose from the available photo sizes to set the <code>src</code></td>
+			<td></td>
+			<td>Set the time output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
+		</tr>
+		<tr>
+			<td><code>data-format-date</code></td>
+			<td>string</td>
+			<td></td>
+			<td>Set the date output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
+		</tr>
+		<tr>
+			<td><code>data-separator</code></td>
+			<td>string</td>
+			<td></td>
+			<td>Used between date/time instances for single events.</td>
 		</tr>
 	</tbody>
 </table>
 
 
-##### Photos
+
+### Photos
 
 The data node `photo_url` will replace the `src` with the url of the photo.
 
@@ -292,7 +319,7 @@ To set a photo url from the API data, you can add the data attribute `data-photo
 	</tbody>
 </table>
 
-##### Photo Format
+#### Photo Format
 
 Using `data-format` with `data-photo`, you can set the size of the images to be returned from the following list:
 
@@ -354,6 +381,6 @@ However, since the events for the department 'History' are gathered first and th
 Please see the [localist-api-docs] for the latest information.
 
 
-
+[php-date]: http://php.net/manual/en/function.date.php 'PHP Date'
 [localist-api-docs]: http://www.localist.com/doc/api 'Localist API'
 [usc-calendar]: https://calendar.usc.edu "USC Calendar"
