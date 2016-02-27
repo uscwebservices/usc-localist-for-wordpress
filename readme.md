@@ -206,13 +206,15 @@ To set a link from the API data, you can add the data attribute `data-link` to a
 				<code>map</code><br>
 				<code>detail</code>
 			</td>
-			<td>String: the dot syntax mapping to the url.<br>
+			<td>String: the dot syntax mapping to the url<br>
 				Map: automatically sets link to <code>location_name</code><br>
 				Detail: automatically sets link to event detaill page
 			</td>
 		</tr>
 	</tbody>
 </table>
+
+<strong>Note:</strong> The `data-link="map"` function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the `location_name`.
 
 
 ##### Dates
