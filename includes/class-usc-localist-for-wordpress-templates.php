@@ -238,15 +238,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// field
 				$data_field = $field->{'data-field'};
 
-				// specific type of data (date, time, datetime, etc)
-				$data_type = $field->{'data-type'};
-
-				// data format 
-				$data_format = isset( $field->{'data-format'} ) ? $field->{'data-format'} : false;
-
-				// image size
-				$data_image_size = isset( $field->{'image_size'} ) ? $field->{'image_size'} : false;
-
 				// get the value from the string format mapped node
 				$field_value = $this->string_node( $api_data, $data_field );
 
