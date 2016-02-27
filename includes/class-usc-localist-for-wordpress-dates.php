@@ -191,7 +191,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 *                                 		[date-type, date-instance, format-date, format-time]
 		 * @return 	string 						html string using <time> format
 		 */
-		public function date_as_html( $event_instance, $options ) {
+		public function date_as_html( $event_instance, $options, $range ) {
 			
 			// config
 			$config = $this->config;
@@ -204,17 +204,20 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			$date_instance = isset( $options['date_instance'] ) ? $options['date_instance'] : 'start';
 			$format_date = isset( $options['format_date'] ) ? $options['format_date'] : $config['default']['format_date'];
 			$format_time = isset( $options['format_time'] ) ? $options['format_time'] : $config['default']['format_time'];
-
-			// var_dump($options);
+			$date_range = isset( $options['template_options']['date_range'] ) ? $options['template_options']['date_range'] : false;
+			$range_first_date = isset( $range['first_date'] ) ? $range['first_date'] : null;
+			$range_last_date = isset( $range['last_date'] ) ? $range['last_date'] : null;
 
 			// convert the string to a date
 			$converted_date = strtotime( $event_instance[$date_instance] );
 
 			// check defaults
-			$single_date_check = true;
+			$date_check = true;
+
+			$is_single = ( $options['api']['type'] == 'event') ? true : false;
 
 			// check for single events
-			if ( $options['api']['type'] == 'event' ) {
+			if ( $is_single) {
 
 				// set a date for checking against 'now'
 				$date_event = new DateTime( $event_instance[$date_instance] );
@@ -237,12 +240,25 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 				}
 
 				// set boolean to check if $date_now is less than or equal to $date_event
-				$single_date_check = $date_now <= $date_event;
+				$date_check = $date_now <= $date_event;
+
+			}
+
+			// return the date range if set and not on sigle event
+			if ( ! $is_single && $date_range ) {
+				
+				$date_start = date( $format_date, strtotime( $range_first_date ) );
+				$date_end = date( $format_date, strtotime( $range_last_date ) );
+
+				if ( $date_start != $date_end ) {
+
+					return '<time datetime="'. $event_instance['start'] .'">' . $date_start . '</time> - <time datetime="'. $event_instance['end'] . '">' . $date_end . '</time>';
+				}
 
 			}
 
 			// do not show events before today
-			if ( isset( $event_instance[$date_instance] ) && $single_date_check  ) {
+			if ( isset( $event_instance[$date_instance] ) && $date_check  ) {
 
 				// use the date type selected
 				switch ( $date_type ) {
