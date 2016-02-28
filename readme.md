@@ -1,16 +1,14 @@
 USC Localist for WordPress
 ==========================
 
-<!-- MarkdownTOC -->
+Table of Contents
 
-- Plugin Usage
-- API Options
-- Custom shortcode API options
-- Customizer
-- Templates
-- Notes
-
-<!-- /MarkdownTOC -->
+- [Plugin Usage](#plugin-usage)
+- [API Options](#api-options)
+- [Shortcode API Options](#shortcode-api-options)
+- [Customizer](#customizer)
+- [Templates](#templates)
+- [Notes](#notes)
 
 ## Plugin Usage
 
@@ -21,7 +19,7 @@ This is a WordPress Plugin that uses the shortcode `[localist-calender]` to get 
 
 Please reference the [localist-api-docs] for a full reference of current supported options.
 
-## Custom shortcode API options
+## Shortcode API options
 
 In addion to the attributes from the [localist-api-docs], the following custom attributes can be used.
 
