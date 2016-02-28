@@ -1,16 +1,14 @@
 USC Localist for WordPress
 ==========================
 
-<!-- MarkdownTOC -->
+Table of Contents
 
-- Plugin Usage
-- API Options
-- Custom shortcode API options
-- Customizer
-- Templates
-- Notes
-
-<!-- /MarkdownTOC -->
+- [Plugin Usage](#markdown-header-plugin-usage)
+- [API Options](#markdown-header-api-options)
+- [Shortcode API Options](#markdown-header-shortcode-api-options)
+- [Customizer](#markdown-header-customizer)
+- [Templates](#markdown-header-templates)
+- [Notes](#markdown-header-notes)
 
 ## Plugin Usage
 
@@ -21,91 +19,24 @@ This is a WordPress Plugin that uses the shortcode `[localist-calender]` to get 
 
 Please reference the [localist-api-docs] for a full reference of current supported options.
 
-## Custom shortcode API options
+## Shortcode API options
 
 In addion to the attributes from the [localist-api-docs], the following custom attributes can be used.
 
-<table>
-	<thead>
-		<td><strong>Parameter</strong></td>
-		<td><strong>Type</strong></td>
-		<td><strong>Options [Default]</strong></td>
-		<td><strong>Description</strong></td>
-	</thead>
-	<tbody>
-		<tr>
-			<td><code>get</code></td>
-			<td>string</td>
-			<td>
-				[<code>events</code>]<br>
-				<code>event</code>
-			</td>
-			<td>The <code>type</code> of API data to get.</td>
-		</tr>
-		<tr>
-			<td><code>cache</code></td>
-			<td>integer</td>
-			<td>1 hour</td>
-			<td>The amount of time (in seconds) to store the API results in the site.  This will help performance of the page.</td>
-		</tr>
-		<tr>
-			<td><code>date_range</code></td>
-			<td>boolean</td>
-			<td>
-				<code>true</code><br>
-				[<code>false</code>]
-			</td>
-			<td>Displays <code>first_date</code> - <code>last_date</code> on <code>events</code> if dates differ else the next single instance will display. (see note below)</td>
-		</tr>
-		<tr>
-			<td><code>details_page</code></td>
-			<td>string</td>
-			<td></td>
-			<td>Enter the link to the events detail page. Global setting available in the <a href="#customize">Customize</a> options. Please see <code>is_events_page</code>.</td>
-		</tr>
-		<tr>
-			<td><code>is_events_page</code></td>
-			<td>boolean</td>
-			<td>
-				<code>true</code> <br>
-				[<code>false</code>]
-			</td>
-			<td>Uses the same page for details page.</td>
-		</tr>
-		<tr>
-			<td><code>paginate</code></td>
-			<td>string</td>
-			<td>
-				<code>next</code><br>
-				<code>numeric</code>
-			</td>
-			<td>Show the pagination on multiple events api.</td>
-		</tr>
-		<tr>
-			<td><code>paginate_offset</code></td>
-			<td>numeric</td>
-			<td><code>3</code></td>
-			<td>The amount of numbers to show before and after the current page.</td>
-		</tr>
-		<tr>
-			<td><code>paginate_numeric_separator</code></td>
-			<td>string</td>
-			<td><code> ... </code></td>
-			<td>The separator used betwen first, last and the offset page start/end. <br> Example: 1 ... 21 <strong>22</strong> 23 ... 84</td>
-		</tr>
-		<tr>
-			<td><code>template_multiple</code></td>
-			<td>string</td><td></td>
-			<td>The <code>slug</code> of the post type <strong>Event Templates</strong> to use for the structure of the returned API data for a list of events.  Defaults to list view.</td>
-		</tr>
-		<tr>
-			<td><code>template_single</code></td>
-			<td>string</td>
-			<td></td>
-			<td>Enter the <code>slug</code> of the posty type <strong>Event Templates</strong> to use for the structure of the returned API data for a single event.  Defaults to single view.</td>
-		</tr>
-	</tbody>
-</table>
+Parameter | Type | Options | Default | Description
+----------|------|---------|---------|------------
+`get` | string | `events` `event` | `events` | The `type` of API to call.
+`cache` | integer | |  1 hour | The amount of time (in seconds) to store the API results in the site. This will help performance of the page.
+`date_range` | boolean | `true` `false` | `false` | Displays `first_date` - `last_date` on events if dates differ else the next single instance will display. (see note below)
+`details_page` | string | | | Enter the link to the events detail page. Global setting available in the [Customizer](#markdown-header-customizer) options. Please see `is_events_page`. |  |
+`is_events_page` | boolean | `true` `false`  | `false` | Uses the same page for details page.
+`paginate` | string | `next` `numeric` |  | Show the pagination on multiple events api.
+`paginate_offset` | numeric | | `3` | The amount of numbers to show before and after the current page.
+`paginate_numeric_separator` | string |  | ` ... ` | The separator used betwen first, last and the offset page start/end. 
+| | | | Example: 1 ... 21 **22** 23 ... 84
+`template_multiple` | string | post-slug |  | Use the slug of the post type _Event Templates_ to use for the structure of the returned API data for a list of events. Defaults to list view.
+`template_single` | string | post-slug |  | Use the slug of the post type _Event Templates_ to use for the structure of the returned API data for a list of events. Defaults to list view.
+
 
 + ***Note:*** the shortcode attribute `date-range` will only show on multiple events list.  Single event details will list all instances of dates after current date.
 
@@ -113,20 +44,11 @@ In addion to the attributes from the [localist-api-docs], the following custom a
 
 This plugin uses the WordPress Customizer to set global calendar settings for the following items.
 
-<table>
-	<thead>
-		<td><strong>Option</strong></td>
-		<td><strong>Output</strong></td>
-	</thead>
-	<tr>
-		<td><code>no</code></td>
-		<td>1/1/2016, 2/1/2016, 3/1/2016</td>
-	</tr>
-	<tr>
-		<td><code>yes</code></td>
-		<td>1/1/2016 - 3/1/2016</td>
-	</tr>
-</table>
+
+Option | Output
+-------|-------
+`no` | 1/1/2016, 2/1/2016, 3/1/2016
+`yes` | 1/1/2016 - 3/1/2016
 
 
 ### Event Details Page
@@ -150,24 +72,12 @@ If you leave the dropdown blank, the event links will go to the event detail pag
 
 To use the data from the API, you can add the data attribute `data-field` to any HTML element and use the mapped dot syntax path to the data.  The `data-field` will start at the individual `event` level.
 
-<table>
-	<thead>
-		<td><strong>Parameter</strong></td>
-		<td><strong>Type</strong></td>
-		<td><strong>Options</strong></td>
-		<td><strong>Description</strong></td>
-	</thead>
-	<tbody>
-		<tr>
-			<td><code>data-field</code></td>
-			<td>string</td>
-			<td></td>
-			<td>The dot syntax mapping to the API for the desired value.</td>
-		</tr>
-	</tbody>
-</table>
 
-Sample:
+Parameter | Type | Options | Default | Description
+----------|------|---------|---------|------------
+`data-field` | string | | | The dot syntax mapping to the API for the desired value.
+
+Example:
 
 	event: {
 		title: "Reshaping Tradition: Contemporary Ceramics from East Asia",
@@ -184,7 +94,7 @@ Using the sample data:
 
 	<address data-field="geo.city"></address>
 
-Would output:
+Output:
 
 	<address data-field="geo.city">Pasadena</address>
 
@@ -193,30 +103,11 @@ Would output:
 
 To set a link from the API data, you can add the data attribute `data-link` to an `a` tag and use the mapped dot syntax path to the data.  You can use this in conjunction with the `data-field`.
 
-<table>
-	<thead>
-		<td><strong>Parameter</strong></td>
-		<td><strong>Type</strong></td>
-		<td><strong>Options</strong></td>
-		<td><strong>Description</strong></td>
-	</thead>
-	<tbody>
-		<tr>
-			<td rowspan="3"><code>data-link</code></td>
-			<td rowspan="3">string</td>
-			<td>string</td>
-			<td>The dot syntax mapping to the url.</td>
-		</tr>
-		<tr>
-			<td><code>map</code></td>
-			<td>Automatically sets link to <code>location_name</code>.</td>
-		</tr>
-		<tr>
-			<td><code>detail</code></td>
-			<td>Automatically sets link to event detaill page.</td>
-		</tr>
-	</tbody>
-</table>
+Parameter | Type | Options | Default | Description
+----------|------|---------|---------|------------
+`data-link` | string | string | | The dot syntax mapping to the url.
+| | `map` | | Automatically sets link to `location_name`.
+| | `detail` | | Automatically sets link to event detail page.
 
 ***Note:*** The `data-link="map"` function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the `location_name`.
 
@@ -225,68 +116,17 @@ To set a link from the API data, you can add the data attribute `data-link` to a
 
 To set a date ore time setting from the API data, you can add the data attribute `data-date-type` to any HTML tag.  This will automatically map the data to the `first_date`, `last_date`, or event instance(s) depending on the options chosen.
 
-<table>
-	<thead>
-		<td><strong>Parameter</strong></td>
-		<td><strong>Type</strong></td>
-		<td><strong>Options</strong></td>
-		<td><strong>Description</strong></td>
-	</thead>
-	<tbody>
-		<tr>
-			<td rowspan="3"><code>data-date-type</code></td>
-			<td rowspan="3">string</td>
-			<td>
-				<code>date</code>
-			</td>
-			<td>Returns the date of the selection. Use with <code>data-format-date</code>.</td>
-		</tr>
-		<tr>
-			<td>
-				<code>time</code>
-			</td>
-			<td>Returns the time of the selection. Use with <code>data-format-time</code>.</td>
-		</tr>
-		<tr>
-			<td>
-				<code>datetime</code>
-			</td>
-			<td>Returns the date and time of the selection. Use with <code>data-format-time</code> and <code>data-format-date</code>.</td>
-		</tr>
-		<tr>
-			<td rowspan="3"><code>data-date-instance</code></td>
-			<td rowspan="3">string</td>
-			<td><code>start</code></td>
-			<td>Use the <code>start</code> of the event instance for the date/time output.</td>
-		</tr>
-		<tr>
-			<td><code>end</code></td>
-			<td>Use the <code>end</code> of the event instance for the date/time output.</td>
-		</tr>
-		<tr>
-			<td><code>datetime-start-end</code></td>
-			<td>Uses the <code>start</code> and <code>end</code> of the event instance for the date/time output. Uses <code>data-format-time</code> and <code>data-format-date</code>.</td>
-		</tr>
-		<tr>
-			<td><code>data-format-time</code></td>
-			<td>string</td>
-			<td></td>
-			<td>Set the time output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
-		</tr>
-		<tr>
-			<td><code>data-format-date</code></td>
-			<td>string</td>
-			<td></td>
-			<td>Set the date output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
-		</tr>
-		<tr>
-			<td><code>data-separator</code></td>
-			<td>string</td>
-			<td></td>
-			<td>Used between date/time instances for single events.</td>
-		</tr>
-	</tbody>
-</table>
+Parameter | Type | Options | Default | Description
+----------|------|---------|---------|------------
+`data-date-type` | string | `date` | `date` | Returns the date of the selection. Use with `data-format-date`.
+ | | `time` | | Returns the time of the selection. Use with `data-format-time`.
+ | | `datetime` | | Returns the date and time of the selection. Use with `data-format-date` and `data-format-time`.
+ `data-date-instance` | string | `start` | `start` | Use the start of the event instance for the date/time output.
+ | | `end` | | Use the end of the event instance for the date/time output.
+ | | `datetime-start-end` | | Uses the start and end of the event instance for the date/time output.
+ `data-format-time` | string | PHP Data | `g:i a` | Set the time output format using [PHP Date][php-date].
+ `data-format-date` | string | PHP Data | `m/d/Y` | Set the date output format using [PHP Date][php-date].
+ `data-separator` | string | | | Used between date/time instances for single events.
 
 
 
@@ -296,61 +136,23 @@ The data node `photo_url` will replace the `src` with the url of the photo.
 
 To set a photo url from the API data, you can add the data attribute `data-photo` to an `img` tag and use the mapped dot syntax path to the data.  Use this in conjunction with the `data-format` (below) to change the image size returned.
 
-<table>
-	<thead>
-		<td><strong>Parameter</strong></td>
-		<td><strong>Type</strong></td>
-		<td><strong>Options</strong></td>
-		<td><strong>Description</strong></td>
-	</thead>
-	<tbody>
-		<tr>
-			<td><code>data-photo</code></td>
-			<td>string</td>
-			<td><code>photo_url</code></td>
-			<td>The dot syntax mapping to the photo attribute.</td>
-		</tr>
-		<tr>
-			<td><code>data-format</code></td>
-			<td>string</td>
-			<td>See list below</td>
-			<td>Choose from the available photo sizes to set the <code>src</code></td>
-		</tr>
-	</tbody>
-</table>
+Parameter | Type | Options | Default | Description
+----------|------|---------|---------|------------
+`data-photo` | string | `photo_url` | | The dot syntax mapping to the photo attribute.
+`data-format` | string | See list in [Photo Format](#markdown-header-photo-format) | `huge` | Choose from the available photo sizes to set the `src`.
+
 
 #### Photo Format
 
 Using `data-format` with `data-photo`, you can set the size of the images to be returned from the following list:
 
-<table>
-	<thead>
-		<td><strong>Value</strong></td>
-		<td><strong>Returned Size (px)</strong></td>
-	</thead>
-	<tr>
-		<td><code>tiny</code></td>
-		<td>20×20</td>
-	</tr>
-	<tr>
-		<td><code>small</code></td>
-		<td>50x50</td>
-	</tr>
-	<tr>
-		<td><code>medium</code></td>
-		<td>80×80</td>
-	</tr>
-	<tr>
-		<td><code>big</code></td>
-		<td>200×150</td>
-	</tr>
-	<tr>
-		<td><code>big_300</code></td>
-		<td>300×225</td>
-	</tr>
-</table>
-
-
+Option | Returned Size (px)
+-------|-------------------
+tiny | 20x20
+small | 50x50
+medium | 80x80
+big | 200x150
+big_300 | 300×225
 
 
 ## Notes
@@ -364,7 +166,7 @@ Once a department, or group of departments, is chosen, events from the departmen
 
 **Example**
 
-We have a 'History' department (group_id=1) with 20 events and 10 tagged with the keyword 'History'.  In all of USC events, we have 30 events tagged with the keyword 'History'.
+We have a _History_ department `group_id=1` with 20 events and 10 tagged with the keyword _History_.  In all of USC events, we have 30 events tagged with the keyword _History_.
 
 Searching for the following elements separately:
 
@@ -372,13 +174,11 @@ Searching for the following elements separately:
 
 	[localist-calendar get='events' keyword='History'] produces 30 results
 
-If we combined the two searches above with match 'any', we might expect to get 50 results:
+If we combined the two searches above with match `any`, we might expect to get 50 results:
 
 	[localist-calendar get='events' group_id='1' keyword='History' match='any']
 
-However, since the events for the department 'History' are gathered first and then the filters applied, we would only get 10 events in return and not 50.
-
-Please see the [localist-api-docs] for the latest information.
+However, since the events for the department _History_ are gathered first and then the filters applied, we would only get 10 events in return and not 50.
 
 
 [php-date]: http://php.net/manual/en/function.date.php 'PHP Date'
