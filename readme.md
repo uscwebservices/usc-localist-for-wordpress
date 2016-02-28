@@ -25,91 +25,20 @@ Please reference the [localist-api-docs] for a full reference of current support
 
 In addion to the attributes from the [localist-api-docs], the following custom attributes can be used.
 
-Table | Sample
-------|-------
-something | preview 
+Parameter | Type | Options | Default | Description
+----------|------|---------|---------|------------
+`get` | string | `events` `event` | `events` | The `type` of API to call.
+`cache` | integer | |  1 hour | The amount of time (in seconds) to store the API results in the site. This will help performance of the page.
+`date_range` | boolean | `true` `false` | `false` | Displays `first_date` - `last_date` on events if dates differ else the next single instance will display. (see note below)
+`details_page` | string | Enter the link to the events detail page. Global setting available in the [Customize](#customize) options. Please see `is_events_page`. |  |
+`is_events_page` | boolean | `true` `false`  | `false` | Uses the same page for details page.
+`paginate` | string | `next` `numeric` |  | Show the pagination on multiple events api.
+`paginate_offset` | numeric | `3` |  | The amount of numbers to show before and after the current page.
+`paginate_numeric_separator` | string |  | ` ... ` | The separator used betwen first, last and the offset page start/end. 
+Example: 1 ... 21 **22** 23 ... 84
+`template_multiple` | string | post-slug |  | Use the slug of the post type _Event Templates_ to use for the structure of the returned API data for a list of events. Defaults to list view.
+`template_single` | string | post-slug |  | Use the slug of the post type _Event Templates_ to use for the structure of the returned API data for a list of events. Defaults to list view.
 
-<table>
-	<thead>
-		<td><strong>Parameter</strong></td>
-		<td><strong>Type</strong></td>
-		<td><strong>Options [Default]</strong></td>
-		<td><strong>Description</strong></td>
-	</thead>
-	<tbody>
-		<tr>
-			<td><code>get</code></td>
-			<td>string</td>
-			<td>
-				[<code>events</code>]<br>
-				<code>event</code>
-			</td>
-			<td>The <code>type</code> of API data to get.</td>
-		</tr>
-		<tr>
-			<td><code>cache</code></td>
-			<td>integer</td>
-			<td>1 hour</td>
-			<td>The amount of time (in seconds) to store the API results in the site.  This will help performance of the page.</td>
-		</tr>
-		<tr>
-			<td><code>date_range</code></td>
-			<td>boolean</td>
-			<td>
-				<code>true</code><br>
-				[<code>false</code>]
-			</td>
-			<td>Displays <code>first_date</code> - <code>last_date</code> on <code>events</code> if dates differ else the next single instance will display. (see note below)</td>
-		</tr>
-		<tr>
-			<td><code>details_page</code></td>
-			<td>string</td>
-			<td></td>
-			<td>Enter the link to the events detail page. Global setting available in the <a href="#customize">Customize</a> options. Please see <code>is_events_page</code>.</td>
-		</tr>
-		<tr>
-			<td><code>is_events_page</code></td>
-			<td>boolean</td>
-			<td>
-				<code>true</code> <br>
-				[<code>false</code>]
-			</td>
-			<td>Uses the same page for details page.</td>
-		</tr>
-		<tr>
-			<td><code>paginate</code></td>
-			<td>string</td>
-			<td>
-				<code>next</code><br>
-				<code>numeric</code>
-			</td>
-			<td>Show the pagination on multiple events api.</td>
-		</tr>
-		<tr>
-			<td><code>paginate_offset</code></td>
-			<td>numeric</td>
-			<td><code>3</code></td>
-			<td>The amount of numbers to show before and after the current page.</td>
-		</tr>
-		<tr>
-			<td><code>paginate_numeric_separator</code></td>
-			<td>string</td>
-			<td><code> ... </code></td>
-			<td>The separator used betwen first, last and the offset page start/end. <br> Example: 1 ... 21 <strong>22</strong> 23 ... 84</td>
-		</tr>
-		<tr>
-			<td><code>template_multiple</code></td>
-			<td>string</td><td></td>
-			<td>The <code>slug</code> of the post type <strong>Event Templates</strong> to use for the structure of the returned API data for a list of events.  Defaults to list view.</td>
-		</tr>
-		<tr>
-			<td><code>template_single</code></td>
-			<td>string</td>
-			<td></td>
-			<td>Enter the <code>slug</code> of the posty type <strong>Event Templates</strong> to use for the structure of the returned API data for a single event.  Defaults to single view.</td>
-		</tr>
-	</tbody>
-</table>
 
 + ***Note:*** the shortcode attribute `date-range` will only show on multiple events list.  Single event details will list all instances of dates after current date.
 
