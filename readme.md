@@ -3,12 +3,12 @@ USC Localist for WordPress
 
 Table of Contents
 
-- [Plugin Usage](#plugin-usage)
-- [API Options](#api-options)
-- [Shortcode API Options](#shortcode-api-options)
-- [Customizer](#customizer)
-- [Templates](#templates)
-- [Notes](#notes)
+- [Plugin Usage](#markdown-header-plugin-usage)
+- [API Options](#markdown-header-api-options)
+- [Shortcode API Options](#markdown-header-shortcode-api-options)
+- [Customizer](#markdown-header-customizer)
+- [Templates](#markdown-header-templates)
+- [Notes](#markdown-header-notes)
 
 ## Plugin Usage
 
@@ -28,7 +28,7 @@ Parameter | Type | Options | Default | Description
 `get` | string | `events` `event` | `events` | The `type` of API to call.
 `cache` | integer | |  1 hour | The amount of time (in seconds) to store the API results in the site. This will help performance of the page.
 `date_range` | boolean | `true` `false` | `false` | Displays `first_date` - `last_date` on events if dates differ else the next single instance will display. (see note below)
-`details_page` | string | | | Enter the link to the events detail page. Global setting available in the [Customizer](#customizer) options. Please see `is_events_page`. |  |
+`details_page` | string | | | Enter the link to the events detail page. Global setting available in the [Customizer](#markdown-header-customizer) options. Please see `is_events_page`. |  |
 `is_events_page` | boolean | `true` `false`  | `false` | Uses the same page for details page.
 `paginate` | string | `next` `numeric` |  | Show the pagination on multiple events api.
 `paginate_offset` | numeric | | `3` | The amount of numbers to show before and after the current page.
@@ -139,7 +139,7 @@ To set a photo url from the API data, you can add the data attribute `data-photo
 Parameter | Type | Options | Default | Description
 ----------|------|---------|---------|------------
 `data-photo` | string | `photo_url` | | The dot syntax mapping to the photo attribute.
-`data-format` | string | See list in [Photo Format](#photo-format) | `huge` | Choose from the available photo sizes to set the `src`.
+`data-format` | string | See list in [Photo Format](#markdown-header-photo-format) | `huge` | Choose from the available photo sizes to set the `src`.
 
 
 #### Photo Format
