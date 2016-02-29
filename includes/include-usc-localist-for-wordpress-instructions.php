@@ -79,7 +79,7 @@
 				<td>string</td>
 				<td></td>
 				<td>false</td>
-				<td>Enter the link to the events detail page. Global setting available in the <a href="#settings-bookmark-customize">Customize</a> options. Please see <code>is_events_page</code>.</td>
+				<td>Enter the link to the events detail page. Global setting available in the <a href="#settings-bookmark-customizer">Customizer</a> options. Please see <code>is_events_page</code>.</td>
 			</tr>
 			<tr>
 				<td><code>is_events_page</code></td>
