@@ -49,6 +49,12 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		protected $plugin_shortcode_calendar;
 
 		/**
+		 * Tag identifier used by the settings page.
+		 * @var string
+		 */
+		protected $plugin_settings;
+
+		/**
 		 * Construct
 		 * =========
 		 *
@@ -103,7 +109,11 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			// require the shortcode class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-shortcode.php';
 
-			
+			/**
+			 * The class responsible for the settings page of the plugin.
+			 */
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-settings.php';
+
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 			$this->loader = new USC_Localist_For_Wordpress_Loader();
 
@@ -160,6 +170,13 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 
 			// add customizer registration
 			$this->loader->add_action( 'customize_register', $plugin_admin, 'activate_customize_register' );
+
+			if ( is_admin() ) {
+				$plugin_settings = new USC_Localist_For_Wordpress_Settings( $this->plugin_name, $this->plugin_version, $this->plugin_tag );
+
+				// add admin menu for settings
+				$this->loader->add_action( 'admin_menu', $plugin_settings, 'add_plugin_options_page' );
+			}
 
 		}
 
