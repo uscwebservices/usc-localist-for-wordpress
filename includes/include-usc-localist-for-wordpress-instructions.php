@@ -7,7 +7,13 @@
  * @author	 USC Web Services <webhelp@usc.edu>
  */
 ?>
-
+<style type="text/css">
+	pre {
+		padding: 1rem;
+		background: #23282d;
+		color: #fff;
+	}
+</style>
 <div class="wrap">
 	
 	<h2 id="settings-bookmark-usc-localist-for-wordpress">USC Localist for WordPress</h2>
@@ -101,7 +107,7 @@
 					<code>numeric</code>
 				</td>
 				<td>
-					<code>next</code>
+					false
 				</td>
 				<td>Show the pagination on multiple events api.</td>
 			</tr>
@@ -171,16 +177,20 @@
 
 	<p>Or, to display events and the event detail with one shortcode:</p>
 
-		<code>[localist-calendar get="events" is_events_page="true"]</code>
+		<p><code>[localist-calendar get="events" is_events_page="true"]</code></p>
 
 	<p>If you leave the dropdown blank, the event links will go to the event detail page on the <a href="https://calendar.usc.edu">USC Calendar</a>.</p>
 
 
 	<h3 id="settings-bookmark-templates">Templates</h3>
 
+	<p>You can add a custom template in the <a href="edit.php?post_type=event-template">Events Templates</a> section and specify it's use within the shortcode as <code>template_multiple</code> for events lists or <code>template_sinle</code> for event details pages.</p>
+
+	<p>Please use the sections below to help write a template using data attributes.</p>
+
 	<h4 id="settings-bookmark-templates-data-fields">Data Fields</h4>
 
-	<p>To use the data from the API, you can add the data attribute <code>data-field</code> to any HTML element and use the mapped dot syntax path to the data.  The <code>data-field</code> will start at the individual <code>event</code> level.</p>
+	<p>To use the data from the API, you can add the data attribute <code>data-field</code> to any HTML element and use the mapped dot syntax path to the data.  The <code>data-field</code> will start at the individual <code>event</code> level and fill the content area of the selected tag.</p>
 
 	<table class="widefat">
 		<thead>
@@ -216,16 +226,16 @@ event: {
 
 	<p>Using the sample data:</p>
 
-		<code>&lt;address data-field=&quot;geo.city&quot;&gt;&lt;/address&gt;</code>
+		<pre>&lt;address data-field=&quot;geo.city&quot;&gt;&lt;/address&gt;</pre>
 
 	<p>Would output:</p>
 
-		<code>&lt;address data-field=&quot;geo.city&quot;&gt;Pasadena&lt;/address&gt;</code>
+		<pre>&lt;address data-field=&quot;geo.city&quot;&gt;Pasadena&lt;/address&gt;</pre>
 
 
 	<h4 id="settings-bookmark-templates-links">Links</h4>
 
-	<p>To set a link from the API data, you can add the data attribute <code>data-link</code> to an <code>a</code> tag and use the mapped dot syntax path to the data.  You can use this in conjunction with the <code>data-field</code>.</p>
+	<p>To set a link from the API data, you can add the data attribute <code>data-link</code> to an <code>a</code> tag and use the mapped dot syntax path to the data which will set the <code>src</code> attribute of the tag.</p>
 
 	<table class="widefat">
 		<thead>
@@ -251,6 +261,34 @@ event: {
 			</tr>
 		</tbody>
 	</table>
+
+	<p>You can use this in conjunction with the <code>data-field</code> to set the text of the link.</p>
+
+	<p>Sample:</p>
+
+<pre>
+event: {
+	title: "USC Tommy Trojan",
+	localist_url: "http://calendar.usc.edu/event/usc_tommy_trojan",
+	location_name: "Student Union (STU)"
+}
+</pre>
+	
+	<p>Using the sample data:</p>
+
+<pre>
+&lt;a href=&quot;&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;&lt;/a&gt;
+&lt;a class=&quot;event-map&quot; href=&quot;&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
+</pre>
+
+	<p>Would output:</p>
+
+<pre>
+&lt;a href=&quot;http://calendar.usc.edu/event/usc_tommy_trojan&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;USC Tommy Trojan&lt;/a&gt;
+&lt;a class=&quot;event-map&quot; href=&quot;http://web-app.usc.edu/maps/?b=STU&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;Student Union (STU)&lt;/a&gt;
+</pre>
+
+
 
 	<p><strong>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.</p>
 
@@ -385,6 +423,40 @@ event: {
 	</table>
 
 
+	<h4 id="settings-bookmark-templates-samples">Template Samples</h4>
+
+	<p>Below are the default templates used for the plugin.</p>
+
+	<h5 id="settings-bookmark-templates-samples-multiple">Multiple Events Template</h5>
+
+<pre>
+&lt;html&gt;
+	&lt;li class=&quot;event-item&quot;&gt;
+		&lt;h2 class=&quot;event-title&quot;&gt;&lt;a href=&quot;&quot; data-link=&quot;detail&quot; data-field=&quot;title&quot;&gt;&lt;/a&gt;&lt;/h2&gt;
+		&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;&lt;/div&gt;
+		&lt;address class=&quot;event-location&quot; data-field=&quot;location_name&quot;&gt;&lt;/address&gt;
+		&lt;img src=&quot;&quot; data-photo=&quot;photo_url&quot; data-format=&quot;medium&quot; /&gt;
+	&lt;/li&gt;
+&lt;/html&gt;
+</pre>
+
+	<h5 id="settings-bookmark-templates-samples-single">Single Event Template</h5>
+
+<pre>
+&lt;html&gt;
+	&lt;article class=&quot;event single&quot;&gt;
+		&lt;h1 class=&quot;event-title&quot; data-field=&quot;title&quot;&gt;&lt;/h1&gt;
+		&lt;img class=&quot;event-image&quot; src=&quot;&quot; data-photo=&quot;photo_url&quot; data-format=&quot;big&quot; /&gt;
+		&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;&lt;/div&gt;
+		&lt;div class=&quot;event-location&quot;&gt;
+			&lt;a class=&quot;event-map&quot; href=&quot;&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
+			&lt;span class=&quot;event-location&quot; data-field=&quot;geo.city&quot;&gt;&lt;/span&gt;
+		&lt;/div&gt;
+		&lt;div data-field=&quot;description&quot;&gt;&lt;/div&gt;
+	&lt;/article&gt;
+&lt;/html&gt;
+</pre>
+
 
 
 	<h3 id="settings-bookmark-notes">Notes</h3>
@@ -402,9 +474,9 @@ event: {
 
 	<p>Searching for the following elements separately:</p>
 
-		<code>[localist-calendar get='events' group_id='1'] produces 20 results</code>
+		<p><code>[localist-calendar get='events' group_id='1'] produces 20 results</code></p>
 
-		<code>[localist-calendar get='events' keyword='History'] produces 30 results</code>
+		<p><code>[localist-calendar get='events' keyword='History'] produces 30 results</code></p>
 
 	<p>If we combined the two searches above with match 'any', we might expect to get 50 results:</p>
 
