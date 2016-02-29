@@ -13,7 +13,7 @@
  * @author 		USC Web Services <webhelp@usc.edu>
  */
 
-if ( ! class_exists( 'USC_Localist_For_Wordpress_Public' ) ) {
+if ( ! class_exists( 'USC_Localist_For_Wordpress_Deactivator' ) ) {
 
 	class USC_Localist_For_Wordpress_Deactivator {
 
