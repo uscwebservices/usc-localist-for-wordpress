@@ -302,6 +302,7 @@ event: {
 			<td><strong>Parameter</strong></td>
 			<td><strong>Type</strong></td>
 			<td><strong>Options</strong></td>
+			<td><strong>Default</strong></td>
 			<td><strong>Description</strong></td>
 		</thead>
 		<tbody>
@@ -311,54 +312,155 @@ event: {
 				<td>
 					<code>date</code>
 				</td>
+				<td></td>
 				<td>Returns the date of the selection. Use with <code>data-format-date</code>.</td>
 			</tr>
 			<tr>
 				<td>
 					<code>time</code>
 				</td>
+				<td></td>
 				<td>Returns the time of the selection. Use with <code>data-format-time</code>.</td>
 			</tr>
 			<tr>
 				<td>
 					<code>datetime</code>
 				</td>
+				<td></td>
 				<td>Returns the date and time of the selection. Use with <code>data-format-time</code> and <code>data-format-date</code>.</td>
 			</tr>
 			<tr>
 				<td rowspan="3"><code>data-date-instance</code></td>
 				<td rowspan="3">string</td>
 				<td><code>start</code></td>
+				<td><code>start</code></td>
 				<td>Use the <code>start</code> of the event instance for the date/time output.</td>
 			</tr>
 			<tr>
 				<td><code>end</code></td>
+				<td></td>
 				<td>Use the <code>end</code> of the event instance for the date/time output.</td>
 			</tr>
 			<tr>
 				<td><code>datetime-start-end</code></td>
+				<td></td>
 				<td>Uses the <code>start</code> and <code>end</code> of the event instance for the date/time output. Uses <code>data-format-time</code> and <code>data-format-date</code>.</td>
 			</tr>
 			<tr>
 				<td><code>data-format-time</code></td>
 				<td>string</td>
 				<td></td>
+				<td><code>g:i a</code></td>
 				<td>Set the time output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
 			</tr>
 			<tr>
 				<td><code>data-format-date</code></td>
 				<td>string</td>
 				<td></td>
+				<td><code>m/d/Y</code></td>
 				<td>Set the date output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
 			</tr>
 			<tr>
 				<td><code>data-separator</code></td>
 				<td>string</td>
 				<td></td>
+				<td></td>
 				<td>Used between date/time instances for single events.</td>
 			</tr>
 		</tbody>
 	</table>
+
+	<p>Using the sample data:</p>
+
+<pre>
+event: {
+	first_date: "2016-02-02",
+	last_date: "2016-04-05",
+	event_instances: [
+		{
+			event_instance: {
+				start: "2016-03-08T10:45:00-08:00",
+				end: "2016-03-08T11:45:00-08:00"
+			}
+		},
+		{
+			event_instance: {
+				start: "2016-03-22T10:45:00-07:00",
+				end: "2016-03-22T11:45:00-07:00"
+			}
+		},
+		{
+			event_instance: {
+				start: "2016-03-29T10:45:00-07:00",
+				end: "2016-03-29T11:45:00-07:00"
+			}
+		},
+		{
+			event_instance: {
+				start: "2016-04-05T10:45:00-07:00",
+				end: "2016-04-05T11:45:00-07:00"
+			}
+		}
+	]
+}
+</pre>
+	
+	<p>The code below:</p>
+<pre>
+&lt;!-- 1 --&gt;
+&lt;div class=&quot;event-dates&quot; data-date-type=&quot;date&quot;&gt;&lt;/div&gt;
+
+&lt;!-- 3 --&gt;
+&lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;start&quot;&gt;&lt;/div&gt;
+
+&lt;!-- 4 --&gt;
+&lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;end&quot;&gt;
+
+&lt;!-- 5 --&gt;
+&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;&lt;/div&gt;
+</pre>
+
+	<p>Would output:</p>
+
+<pre>
+&lt;!-- 1 --&gt;
+&lt;div class=&quot;event-dates&quot; data-date-type=&quot;date&quot;&gt;
+	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;03/08/2016&lt;/time&gt;
+	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;03/15/2016&lt;/time&gt;
+	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;03/22/2016&lt;/time&gt;
+	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;03/29/2016&lt;/time&gt;
+	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;04/05/2016&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;!-- 3 --&gt;
+&lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;start&quot;&gt;
+	&lt;time&gt;6:45 pm&lt;/time&gt;
+	&lt;time&gt;5:45 pm&lt;/time&gt;
+	&lt;time&gt;5:45 pm&lt;/time&gt;
+	&lt;time&gt;5:45 pm&lt;/time&gt;
+	&lt;time&gt;5:45 pm&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;!-- 4 --&gt;
+&lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;end&quot;&gt;
+	&lt;time&gt;6:45 pm&lt;/time&gt;
+	&lt;time&gt;5:45 pm&lt;/time&gt;
+	&lt;time&gt;5:45 pm&lt;/time&gt;
+	&lt;time&gt;5:45 pm&lt;/time&gt;
+	&lt;time&gt;5:45 pm&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;!-- 5 --&gt;
+&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;
+	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;Tuesday, March 8th, 2016 at 6:45 pm to 7:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;Tuesday, March 15th, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;
+&lt;/div&gt;
+</pre>
+
+
 
 
 
@@ -431,12 +533,12 @@ event: {
 
 <pre>
 &lt;html&gt;
-	&lt;li class=&quot;event-item&quot;&gt;
-		&lt;h2 class=&quot;event-title&quot;&gt;&lt;a href=&quot;&quot; data-link=&quot;detail&quot; data-field=&quot;title&quot;&gt;&lt;/a&gt;&lt;/h2&gt;
+	&lt;article class=&quot;event-item&quot;&gt;
+		&lt;h1 class=&quot;event-title&quot;&gt;&lt;a href=&quot;&quot; data-link=&quot;detail&quot; data-field=&quot;title&quot;&gt;&lt;/a&gt;&lt;/h1&gt;
 		&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;&lt;/div&gt;
 		&lt;address class=&quot;event-location&quot; data-field=&quot;location_name&quot;&gt;&lt;/address&gt;
 		&lt;img src=&quot;&quot; data-photo=&quot;photo_url&quot; data-format=&quot;medium&quot; /&gt;
-	&lt;/li&gt;
+	&lt;/article&gt;
 &lt;/html&gt;
 </pre>
 
