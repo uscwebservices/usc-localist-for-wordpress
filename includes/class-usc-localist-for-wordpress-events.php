@@ -70,6 +70,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 */
 		public function get_events() {
 			
+			// set default output
+			$output = '';
+
 			// get the template from the api_data
 			$template_data = new USC_Localist_For_Wordpress_Templates( $this->api_data );
 			$template = $template_data->get_template( $this->api_data );
@@ -109,12 +112,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				$template_data->data_photos( $template, $event, $api_data );
 
 				// save the template
-				$output = $template->save();
+				$template_output = $template->save();
 
 				// set the value to display in the output
-				echo str_replace( array( '<html>', '</html>'), array( '', '' ), $output );	
+				$output .= str_replace( array( '<html>', '</html>'), array( '', '' ), $template_output );	
 				
 			}
+
+			// clear the template to prevent memory leak
+			$template->clear();
+			unset( $template );
 
 			// get the paginate setting
 			$option_paginate = $this->api_data['paginate_options']['paginate'];
@@ -124,15 +131,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				
 				$paginate = new USC_Localist_For_Wordpress_Paginate();
 
-				$paginate->get_pagination( $api_data );
+				$output .= $paginate->get_pagination( $api_data );
 
 
 			}
 
-
-			// clear the template to prevent memory leak
-			$template->clear();
-			unset( $template );
+			// return the output for the event(s)
+			return $output;
 			
 		}
 
