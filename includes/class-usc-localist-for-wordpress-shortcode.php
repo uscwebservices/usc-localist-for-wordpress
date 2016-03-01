@@ -463,12 +463,22 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 								default:
 
 									$shortcode_output = new USC_Localist_For_Wordpress_Events( $api_output );
-									$shortcode_output->get_events();
+									$output = $shortcode_output->get_events();
+
 
 									break;
 
 
 							}
+
+							// start the object collection
+							ob_start();
+
+							// ouput the html
+							echo $output;
+
+							// return the shortcode cleaned object
+							return ob_get_clean();
 
 						} 
 
