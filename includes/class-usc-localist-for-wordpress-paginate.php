@@ -155,7 +155,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 
 				}
 
+				// start the object collection
+				ob_start();
+
+				// ouput the html
 				echo $output;
+
+				// return the clean object
+				return ob_get_clean();
 
 			}
 
