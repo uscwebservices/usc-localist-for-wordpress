@@ -333,7 +333,7 @@ event: {
 				<td rowspan="3"><code>data-date-instance</code></td>
 				<td rowspan="3">string</td>
 				<td><code>start</code></td>
-				<td></td>
+				<td><code>start</code></td>
 				<td>Use the <code>start</code> of the event instance for the date/time output.</td>
 			</tr>
 			<tr>
