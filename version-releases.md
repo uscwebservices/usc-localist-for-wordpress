@@ -1,6 +1,15 @@
 USC Localist for WordPress
 ==========================
 
+## 1.1.2 
+
+- Pagination fix for lists with 2 results.
+
+## 1.1.1
+
+- Documentation updates for date/time.
+- Single simple date for events list template.
+
 ## 1.1.0
 
 - Return event data as ob_get_clean instead of echo
