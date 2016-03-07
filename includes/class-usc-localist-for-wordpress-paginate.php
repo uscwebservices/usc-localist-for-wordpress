@@ -114,7 +114,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 
 					}
 
-					for ( $i=1; $i < $page_total ; $i++) { 
+					for ( $i = 1; $i < ( $page_total + 1 ) ; $i++ ) { 
 						
 						// check if we are on the current page number
 						if ( $i == $page_current ) {
