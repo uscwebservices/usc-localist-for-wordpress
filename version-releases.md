@@ -1,6 +1,10 @@
 USC Localist for WordPress
 ==========================
 
+## 1.1.3 
+
+- Spelling fix for 'calendar' in documentation.
+
 ## 1.1.2 
 
 - Pagination fix for lists with 2 results.
