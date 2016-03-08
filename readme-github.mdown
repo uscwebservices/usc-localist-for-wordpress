@@ -12,7 +12,7 @@
 
 	<h3>Plugin Usage</h3>
 
-	<p>This is a WordPress Plugin that uses the shortcode <code>[localist-calender]</code> to get events from the <a href="https://calendar.usc.edu" title="USC Calendar">usc-calendar</a>.</p>
+	<p>This is a WordPress Plugin that uses the shortcode <code>[localist-calendar]</code> to get events from the <a href="https://calendar.usc.edu" title="USC Calendar">usc-calendar</a>.</p>
 
 	<h3>API Options</h3>
 
