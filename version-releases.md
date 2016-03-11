@@ -1,6 +1,10 @@
 USC Localist for WordPress
 ==========================
 
+## 1.1.4
+
+- Note about setting cache to '0'
+
 ## 1.1.3 
 
 - Spelling fix for 'calendar' in documentation.

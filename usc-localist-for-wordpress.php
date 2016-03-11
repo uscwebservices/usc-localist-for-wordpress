@@ -4,7 +4,7 @@
  * Plugin Name:       USC Localist for WordPress
  * Plugin URI:        https://bitbucket.org/uscwebservices/usc-localist-for-wordpress
  * Description:       Localist API Shortcodes for WordPress
- * Version:           1.1.2
+ * Version:           1.1.4
  * Author:            USC Web Services
  * Author URI:        http://itservices.usc.edu/webservices/
  * License:           MIT
@@ -17,7 +17,7 @@
 defined( 'ABSPATH' ) or die( 'sorry, no tampering' );
 
 // match the Plugin version.
-define( 'USC_LFWP__VERSION', '1.1.2' );
+define( 'USC_LFWP__VERSION', '1.1.4' );
 
 // set a global variable for the path to the plugin
 define( 'USC_LFWP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
