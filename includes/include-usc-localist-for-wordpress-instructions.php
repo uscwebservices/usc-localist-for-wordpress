@@ -68,7 +68,7 @@
 				<td>1 hour</td>
 				<td>
 					The amount of time (in seconds) to store the API results in the site.  This will help performance of the page.
-					<br><strong>Note:</strong> setting the cache to <code>0</code> sets the cache to never expire.
+					<br><strong>Note:</strong> setting the cache to <code>0</code> sets the cache to never be set.
 				</td>
 			</tr>
 			<tr>
