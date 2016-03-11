@@ -88,7 +88,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_options 			= isset ( $params['options'] ) ? $params['options'] : '';
 			$api_page_number		= isset ( $params['page'] ) ? $params['page'] : 1; // default to first page of results
 			$api_timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
-
 			
 			// set the default arguments
 			$args = array(
@@ -288,10 +287,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				$output['errors'] = join( '<br>', $error_messages->get_messages() );
 
 				// if we don't have any errors, set the transient
-				if ( ! isset( $output['errors'] ) || '' != $output['errors'] ) {
+				if ( ! isset( $output['errors'] ) || '' == $output['errors'] ) {
 
 					// let's store the data as a transient using the cache attribute
-					if ( '' != $api_cache && isset( $output['api']['data'] ) ) {
+					if ( '' != $api_cache  && 0 != $api_cache && '0' != $api_cache && isset( $output['api']['data'] ) ) {
 
 						// let's set a transient for the API call
 						set_transient( $transient_name, $output['api']['data'], $api_cache );
@@ -526,7 +525,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$boolean_array = $config['api_options']['all']['validation']['boolean'];
 
 			// check that we don't have an empty value
-			if ( !empty( $value ) ) {
+			if ( !is_null( $value ) ) {
 
 				// check if the value of the key supposed to be a boolean
 				if ( in_array( $key, $boolean_array ) ) {

@@ -167,7 +167,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_cache = $attr_all['cache'];
 
 				// check that we have a valid 'cache' value
-				if ( ! empty( $api_cache ) ) {
+				if ( $api_cache || '0' == $api_cache ) {
 
 					// validate the cache value
 					$api_cache = $api_data->validate_key_value( 'cache', $api_cache );
