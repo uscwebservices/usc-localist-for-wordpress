@@ -1,6 +1,10 @@
 USC Localist for WordPress
 ==========================
 
+## 1.1.6
+
+- set timezone to Los Angeles for strtotime functions
+
 ## 1.1.5
 
 - allow cache to be '0' and not set transient
