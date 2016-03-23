@@ -4,7 +4,7 @@
  * Plugin Name:       USC Localist for WordPress
  * Plugin URI:        https://bitbucket.org/uscwebservices/usc-localist-for-wordpress
  * Description:       Localist API Shortcodes for WordPress
- * Version:           1.1.5
+ * Version:           1.1.6
  * Author:            USC Web Services
  * Author URI:        http://itservices.usc.edu/webservices/
  * License:           MIT
@@ -17,10 +17,13 @@
 defined( 'ABSPATH' ) or die( 'sorry, no tampering' );
 
 // match the Plugin version.
-define( 'USC_LFWP__VERSION', '1.1.5' );
+define( 'USC_LFWP__VERSION', '1.1.6' );
 
 // set a global variable for the path to the plugin
 define( 'USC_LFWP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+
+// set timezone to Los Angeles for strtotime functions
+date_default_timezone_set('America/Los_Angeles');
 
 /**
  * The code that runs during plugin activation.
