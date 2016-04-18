@@ -107,35 +107,40 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 				// if numeric is selected, add the numbers as a list
 				if ( $is_numeric ) {
 
-					// add the first page to show the first
-					if ( $page_current > ( 1 + $paginate_offset ) ) {
+					// check that we have more than one page of results
+					if ( $page_total > 1 ) {
 
-						$output .= '<a class="paginate paginate-number last" href="/' . $page_uri . '/' . 1 . '">' . 1 . '</a>' . $paginate_numeric_separator;
+						// add the first page to show the first
+						if ( $page_current > ( 1 + $paginate_offset ) ) {
 
-					}
-
-					for ( $i = 1; $i < ( $page_total + 1 ) ; $i++ ) { 
-						
-						// check if we are on the current page number
-						if ( $i == $page_current ) {
-
-							$output .= '<span class="paginate paginate-number current">' . $i . '</span>';
-
-						} 
-
-						// check that we are within the pagination offset amount from the current page
-						else if ( $i >= ( $page_current - $paginate_offset ) && $i <= ( $page_current + $paginate_offset )  ) {
-
-							$output .= '<a class="paginate paginate-number" href="/' . $page_uri . '/' . $i . '">' . $i . '</a>';
+							$output .= '<a class="paginate paginate-number first" href="/' . $page_uri . '/' . 1 . '">' . 1 . '</a>' . $paginate_numeric_separator;
 
 						}
 
-					}
+						for ( $i = 1; $i < ( $page_total + 1 ) ; $i++ ) { 
+							
+							// check if we are on the current page number
+							if ( $i == $page_current ) {
 
-					// add the last page to show how many pages we have
-					if ( $page_current < ( $page_total - $paginate_offset ) ) {
+								$output .= '<span class="paginate paginate-number current">' . $i . '</span>';
 
-						$output .= $paginate_numeric_separator . '<a class="paginate paginate-number last" href="/' . $page_uri . '/' . $page_total . '">' . $page_total . '</a>';
+							} 
+
+							// check that we are within the pagination offset amount from the current page
+							else if ( $i >= ( $page_current - $paginate_offset ) && $i <= ( $page_current + $paginate_offset )  ) {
+
+								$output .= '<a class="paginate paginate-number" href="/' . $page_uri . '/' . $i . '">' . $i . '</a>';
+
+							}
+
+						}
+
+						// add the last page to show how many pages we have
+						if ( $page_current < ( $page_total - $paginate_offset ) ) {
+
+							$output .= $paginate_numeric_separator . '<a class="paginate paginate-number last" href="/' . $page_uri . '/' . $page_total . '">' . $page_total . '</a>';
+
+						}
 
 					}
 
