@@ -1,6 +1,10 @@
 USC Localist for WordPress
 ==========================
 
+## 1.1.7
+
+- return numeric pagination results if only greater than 1 page of results
+
 ## 1.1.6
 
 - set timezone to Los Angeles for strtotime functions
