@@ -107,6 +107,33 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Settings') ) {
 			
 		}
 
+		/**
+		 * Remove Rich Text Editor
+		 * =======================
+		 *
+		 * Removes the Rich text editor based on post_type.
+		 * 
+		 * @return [type] [description]
+		 * 
+		 * @since 1.1.7
+		 */
+		public function remove_richedit_option() {
+			
+			global $post;
+
+			if ( 'event-template' === $post->post_type ) {
+				
+				return false;
+
+			} else {
+				
+				return true;
+
+			}
+
+		}
+
+
 		
 	}
 

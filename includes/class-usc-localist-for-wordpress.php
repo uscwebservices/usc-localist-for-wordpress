@@ -172,10 +172,15 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 			$this->loader->add_action( 'customize_register', $plugin_admin, 'activate_customize_register' );
 
 			if ( is_admin() ) {
+				
 				$plugin_settings = new USC_Localist_For_Wordpress_Settings( $this->plugin_name, $this->plugin_version, $this->plugin_tag );
 
 				// add admin menu for settings
 				$this->loader->add_action( 'admin_menu', $plugin_settings, 'add_plugin_options_page' );
+
+				// add action to remove visual editor from event templates
+				$this->loader->add_action( 'user_can_richedit', $plugin_settings, 'remove_richedit_option' );
+
 			}
 
 		}
