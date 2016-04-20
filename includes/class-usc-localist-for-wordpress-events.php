@@ -69,7 +69,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 * @since 	1.0.0
 		 */
 		public function get_events() {
-			
+
 			// set default output
 			$output = '';
 
@@ -88,51 +88,63 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				$events = $events['events'];
 			}
 
-			// loop through the events
-			foreach ( $events as $single ) {
+			// check that we have actual events returned
+			if ( count( $events ) == 0 ) {
 
-				// get to the single event node
-				$event = $single;
+				$output .= $api_data['template_options']['message_no_events'];
 
-				// if we have sub 'event' (multiple events), map to that node
-				if ( isset( $single['event'] ) ) {
-					$event = $single['event'];
+			} 
+
+			// we have events
+			else {
+
+				// loop through the events
+				foreach ( $events as $single ) {
+
+					// get to the single event node
+					$event = $single;
+
+					// if we have sub 'event' (multiple events), map to that node
+					if ( isset( $single['event'] ) ) {
+						$event = $single['event'];
+					}
+					
+					// get the data fields, pass the template, api data and options
+					$template_data->data_fields( $template, $event, $api_data );
+
+					// get the data datetime, pass the template, api data and options
+					$template_data->data_datetime( $template, $event, $api_data );
+
+					// get the data links, pass the template, api data and options
+					$template_data->data_links( $template, $event, $api_data );
+
+					// get the data links, pass the template, api data and options
+					$template_data->data_photos( $template, $event, $api_data );
+
+					// save the template
+					$template_output = $template->save();
+
+					// set the value to display in the output
+					$output .= str_replace( array( '<html>', '</html>'), array( '', '' ), $template_output );	
+					
 				}
-				
-				// get the data fields, pass the template, api data and options
-				$template_data->data_fields( $template, $event, $api_data );
 
-				// get the data datetime, pass the template, api data and options
-				$template_data->data_datetime( $template, $event, $api_data );
+				// clear the template to prevent memory leak
+				$template->clear();
+				unset( $template );
 
-				// get the data links, pass the template, api data and options
-				$template_data->data_links( $template, $event, $api_data );
+				// get the paginate setting
+				$option_paginate = $this->api_data['paginate_options']['paginate'];
 
-				// get the data links, pass the template, api data and options
-				$template_data->data_photos( $template, $event, $api_data );
+				// only run pagination if true and on multiple events api
+				if ( $option_paginate && $api_data['api']['type'] == 'events' ) {
+					
+					$paginate = new USC_Localist_For_Wordpress_Paginate();
 
-				// save the template
-				$template_output = $template->save();
+					$output .= $paginate->get_pagination( $api_data );
 
-				// set the value to display in the output
-				$output .= str_replace( array( '<html>', '</html>'), array( '', '' ), $template_output );	
-				
-			}
 
-			// clear the template to prevent memory leak
-			$template->clear();
-			unset( $template );
-
-			// get the paginate setting
-			$option_paginate = $this->api_data['paginate_options']['paginate'];
-
-			// only run pagination if true and on multiple events api
-			if ( $option_paginate && $api_data['api']['type'] == 'events' ) {
-				
-				$paginate = new USC_Localist_For_Wordpress_Paginate();
-
-				$output .= $paginate->get_pagination( $api_data );
-
+				}
 
 			}
 
