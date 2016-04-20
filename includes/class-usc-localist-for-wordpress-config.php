@@ -26,13 +26,22 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 		 */
 
 		public static $config = array(
-			'testing' => false, // set to true to use local events.json data
+			'testing' => array(
+				'enabled' => false, // set to true to use local events.json data
+				'json' => array(
+					'single' => '/sample/event-alt.json',
+					'multiple' => '/sample/events-none.json'
+				)
+			),
 			'default' => array(
 				'cache' => HOUR_IN_SECONDS, // in seconds
 				// 'cache' => 0, // testing only
 				'api_timeout' => 5, // in seconds
 				'format_date' => 'm/d/Y',
-				'format_time' => 'g:i a'
+				'format_time' => 'g:i a',
+				'messages' => array(
+					'no-events' => 'At this time, there are no published events.'
+				)
 			),
 			'plugin' => array(
 				'name' => 'USC Localist for Wordpress',
@@ -63,14 +72,24 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 				'all' => array(
 					'allowed' => array(
 						
-						// custom values
-						'cache' => '', // Transient cache timeout setting
+						// custom values: API type
 						'get' => '', // API GET type: [events,event,organizations,groups,search]
+						
+						// custom values: cache
+						'cache' => '', // Transient cache timeout setting
+
+						// custom values: dates
 						'date_range' => '', // optional: show date range for multiple date events
+
+						// custom values: event details link
 						'details_page'=>'', // optional: relative path to event detail
 						'is_events_page' => '', // optional: indicate single events to display on the shortcode page
+						
+						// custom values: templates
 						'template_multiple' => '', // opttional: slug name from templates custom post type - multiple events
 						'template_single' => '', // opttional: slug name from templates custom post type - single events
+						
+						// custom values: pagination
 						'paginate' => '', // optional: show pagination on multi-events (next, numeric)
 						'paginate_offset' => '', // optional: define the amount of numbers to the left and right of current page
 						'paginate_numeric_separator' => '', // optional: define the separator to use between first [separator] current [separtor] last
@@ -78,6 +97,9 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'paginate_label_previous' => '', // optional: define the text for the 'next' label in pagination
 						'paginate_label_first' => '', // optional: define the text for the 'first' label in pagination
 						'paginate_label_last' => '', // optional: define the text for the 'last' label in pagination
+
+						// cusom values: messages
+						'message_no_events' => '', // optional: the message to display if there are no events
 
 						// localist values
 						'all_custom_fields' => '',
