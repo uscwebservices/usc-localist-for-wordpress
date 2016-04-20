@@ -275,6 +275,26 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$template_options['date_range'] = $date_range;
 
 			/**
+			 * Get No Events Message
+			 */
+				
+				// get the message for no events
+				$message_no_events = $attr_all['message_no_events'];
+
+				if ( ! empty( $message_no_events ) ) {
+
+					$template_options['message_no_events'] = $message_no_events;
+
+				}
+
+				// default setting
+				else {
+
+					$template_options['message_no_events'] = $config['default']['messages']['no-events'];
+
+				}
+
+			/**
 			 * Get pagination setting
 			 */
 				
