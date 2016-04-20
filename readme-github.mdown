@@ -104,10 +104,6 @@
 	    </tbody>
 	</table>
 
-	<ul>
-	<li><strong><em>Note:</em></strong> the shortcode attribute <code>date-range</code> will only show on multiple events list.  Single event details will list all instances of dates after current date.</li>
-	</ul>
-
 	<h3>Customizer</h3>
 
 	<p>This plugin uses the WordPress Customizer to set global calendar settings for the following items.</p>
