@@ -8,13 +8,16 @@
  */
 ?>
 <style type="text/css">
-	pre {
+	.usc_lfwp_wrap pre {
 		padding: 1rem;
 		background: #23282d;
 		color: #fff;
 	}
+	.usc_lfwp_wrap ul {
+		padding: .25rem 0 0 1rem;
+	}
 </style>
-<div class="wrap">
+<div class="usc_lfwp_wrap">
 	
 	<h2 id="settings-bookmark-usc-localist-for-wordpress">USC Localist for WordPress</h2>
 
@@ -22,9 +25,39 @@
 		<li><a href="#settings-bookmark-plugin-usage">Plugin Usage</a></li>
 		<li><a href="#settings-bookmark-api-options">API Options</a></li>
 		<li><a href="#settings-bookmark-custom-shortcode-api-options">Custom shortcode API options</a></li>
-		<li><a href="#settings-bookmark-customizer">Customizer</a></li>
-		<li><a href="#settings-bookmark-templates">Templates</a></li>
-		<li><a href="#settings-bookmark-notes">Notes</a></li>
+		<li><a href="#settings-bookmark-customizer">Customizer</a>
+			<ul>
+				<li><a href="#settings-bookmark-customizer-event-details-page">Event Details Page</a></li>
+			</ul>
+		</li>
+
+		<li><a href="#settings-bookmark-templates">Templates</a>
+			<ul>
+				<li><a href="#settings-bookmark-templates-data-fields">Data Fields</a></li>
+				<li><a href="#settings-bookmark-templates-links">Links</a></li>
+				<li><a href="#settings-bookmark-templates-dates">Dates</a></li>
+				<li><a href="#settings-bookmark-templates-photos">Photos</a>
+					<ul>
+						<li><a href="#settings-bookmark-templates-photos-photo-format">Photo Format</a></li>
+					</ul>
+				</li>
+				<li><a href="#settings-bookmark-templates-samples">Template Samples</a>
+					<ul>
+						<li><a href="#settings-bookmark-templates-samples-multiple">Multiple Events Template</a></li>
+						<li><a href="#settings-bookmark-templates-samples-single">Single Events Template</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li><a href="#settings-bookmark-notes">Notes</a>
+			<ul>
+				<li><a href="#settings-bookmark-notes-events">Events</a>
+					<ul>
+						<li><a href="#settings-bookmark-notes-events-event-departments">Event Departments</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
 	</ul>
 	
 	<h3 id="settings-bookmark-plugin-usage">Plugin Usage</h3>
