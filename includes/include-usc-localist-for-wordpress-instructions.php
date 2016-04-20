@@ -8,6 +8,13 @@
  */
 ?>
 <style type="text/css">
+	.usc_lfwp_wrap h1 { font-size: 2.2rem; }
+	.usc_lfwp_wrap h2 { font-size: 2rem; }
+	.usc_lfwp_wrap h3 { font-size: 1.8rem; }
+	.usc_lfwp_wrap h4 { font-size: 1.6rem; }
+	.usc_lfwp_wrap h5 { font-size: 1.4rem; }
+	.usc_lfwp_wrap h6 { font-size: 1.2rem; }
+
 	.usc_lfwp_wrap pre {
 		padding: 1rem;
 		background: #23282d;
