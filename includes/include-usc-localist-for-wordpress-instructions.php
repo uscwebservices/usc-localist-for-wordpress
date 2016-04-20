@@ -108,20 +108,8 @@
 				<td>1 hour</td>
 				<td>
 					The amount of time (in seconds) to store the API results in the site.  This will help performance of the page.
-					<br><strong>Note:</strong> setting the cache to <code>0</code> sets the cache to never be set.
+					<br><strong>Note:</strong> setting the cache to <code>0</code> sets the cache to never be set. (<a href="#note-cache">see note below</a>)
 				</td>
-			</tr>
-			<tr>
-				<td><code>date_range</code></td>
-				<td>boolean</td>
-				<td>
-					<code>true</code><br>
-					<code>false</code>
-				</td>
-				<td>
-					<code>false</code>
-				</td>
-				<td>Displays <code>first_date</code> - <code>last_date</code> on <code>events</code> if dates differ else the next single instance will display. (see note below)</td>
 			</tr>
 			<tr>
 				<td><code>details_page</code></td>
@@ -185,10 +173,19 @@
 				</td>
 				<td>Enter the <code>slug</code> of the posty type <strong>Event Templates</strong> to use for the structure of the returned API data for a single event.  Defaults to single view.</td>
 			</tr>
+			<tr>
+				<td><code>message_no_events</code></td>
+				<td>string</td>
+				<td></td>
+				<td>
+					<code>At this time, there are no published events.</code>
+				</td>
+				<td>Enter the message to display if there are no events returned from the API.</td>
+			</tr>
 		</tbody>
 	</table>
 
-	<p><strong>Note:</strong> the shortcode attribute <code>date-range</code> will only show on multiple events list.  Single event details will list all instances of dates after current date.</p>
+	<p id="note-cache"><strong>Note:</strong> Setting a value for <code>cache</code> means that the database will store an object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may overtask the database writing transients unnecessarily.</p>
 
 	<h3 id="settings-bookmark-customizer">Customizer</h3>
 
