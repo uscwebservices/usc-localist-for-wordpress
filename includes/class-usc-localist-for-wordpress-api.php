@@ -167,14 +167,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			 *
 			 * Use the sample json data in the plugin.
 			 */
-			if ( $config['testing'] ) {
+			if ( $config['testing']['enabled'] ) {
 				
 				if ( $api_type == 'event' ) {
-					$api_url = plugins_url( '/sample/event-alt.json', dirname(__FILE__) );
+					$api_url = plugins_url( $config['testing']['json']['single'], dirname(__FILE__) );
 				}
 
 				else {
-					$api_url = plugins_url( '/sample/events.json', dirname(__FILE__) );
+					$api_url = plugins_url( $config['testing']['json']['multiple'], dirname(__FILE__) );
 				}
 				
 			}
