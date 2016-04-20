@@ -5,6 +5,7 @@ USC Localist for WordPress
 
 - return numeric pagination results if only greater than 1 page of results
 - remove rich text editor for custom template type 'event-templates'
+- add no events messaging option
 
 ## 1.1.6
 
