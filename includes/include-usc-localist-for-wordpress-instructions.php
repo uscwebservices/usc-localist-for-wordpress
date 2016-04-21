@@ -438,7 +438,7 @@ event: {
 				<td>string</td>
 				<td></td>
 				<td></td>
-				<td>Used between date/time instances for single events.</td>
+				<td>Used between date/time <code>&lt;time&gt;</code>instances for single events.</td>
 			</tr>
 		</tbody>
 	</table>
