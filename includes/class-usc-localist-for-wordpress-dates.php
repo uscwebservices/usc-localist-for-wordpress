@@ -135,6 +135,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			$date_instance = isset( $options['date_instance'] ) ? $options['date_instance'] : 'start';
 			$format_date = isset( $options['format_date'] ) ? $options['format_date'] : $config['default']['format_date'];
 			$format_time = isset( $options['format_time'] ) ? $options['format_time'] : $config['default']['format_time'];
+			$separator_date_time = isset ( $options['separator_date_time'] ) ? $options['separator_date_time'] : $config['default']['separator']['date_time'];
+			$separator_time = isset ( $options['separator_time'] ) ? $options['separator_time'] : $config['default']['separator']['time'];
 
 			// convert the string to a date
 			$converted_date = strtotime( $event_instance[$date_instance] );
@@ -203,11 +205,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						if ( isset( $event_instance['end'] ) ) {
 							
 							$time_end = date( $format_time, strtotime( $event_instance['end'] ) );
-							$time_end_output = ' to ' . $time_end;
+							$time_end_output = $separator_time . $time_end;
 
 						}
 
-						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . ' at ' . $time_start . $time_end_output . '</time>';
+						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . $separator_date_time . $time_start . $time_end_output . '</time>';
 						
 						break;
 
@@ -215,7 +217,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						
 						$date = date( $format_date, $converted_date );
 						$time = date( $format_time, $converted_date );
-						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . ' at ' . $time . '</time>';
+						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . $separator_date_time . $time . '</time>';
 						
 						break;
 				}
