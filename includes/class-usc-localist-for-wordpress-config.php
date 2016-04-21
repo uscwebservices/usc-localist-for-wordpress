@@ -27,7 +27,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 
 		public static $config = array(
 			'testing' => array(
-				'enabled' => true, // set to true to use local events.json data
+				'enabled' => false, // set to true to use local events.json data
 				'json' => array(
 					'single' => '/sample/event.json',
 					'multiple' => '/sample/events.json'
@@ -39,6 +39,10 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 				'api_timeout' => 5, // in seconds
 				'format_date' => 'm/d/Y',
 				'format_time' => 'g:i a',
+				'separator' => array(
+					'date_time' => ' at ',
+					'time' => ' to '
+				),
 				'messages' => array(
 					'no-events' => 'At this time, there are no published events.'
 				)
@@ -180,6 +184,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 							'date_range',
 
 							// localist values
+							'distinct',
 							'featured',
 							'require_all',
 							'sponsored',
