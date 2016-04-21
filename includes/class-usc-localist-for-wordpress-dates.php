@@ -168,7 +168,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 				}
 
 				// set boolean to check if $date_now is less than or equal to $date_event
-				$date_check = $date_now <= $date_event;
+				$date_check = ( $date_now <= $date_event );
 
 			}
 
