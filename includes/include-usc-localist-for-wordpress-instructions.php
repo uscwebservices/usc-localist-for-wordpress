@@ -8,13 +8,16 @@
  */
 ?>
 <style type="text/css">
+	
+	/* headings */
 	.usc_lfwp_wrap h1 { font-size: 2.2rem; }
 	.usc_lfwp_wrap h2 { font-size: 2rem; }
 	.usc_lfwp_wrap h3 { font-size: 1.8rem; }
 	.usc_lfwp_wrap h4 { font-size: 1.6rem; }
 	.usc_lfwp_wrap h5 { font-size: 1.4rem; }
 	.usc_lfwp_wrap h6 { font-size: 1.2rem; }
-
+	
+	/* code style */
 	.usc_lfwp_wrap pre {
 		padding: 1rem;
 		background: #23282d;
@@ -25,9 +28,12 @@
 		white-space: -o-pre-wrap;	/* Opera 7 */
 		word-wrap: break-word;		/* Internet Explorer 5.5+ */
 	}
+
+	/* list style */
 	.usc_lfwp_wrap ul {
 		padding: .25rem 0 0 1rem;
 	}
+
 </style>
 <div class="usc_lfwp_wrap">
 	
@@ -427,11 +433,11 @@ event: {
 				<td>Set the separator for instances using <code>data-date-instance="datetime-start-end"</code> between the date and time output.</td>
 			</tr>
 			<tr>
-				<td><code>data-format-date</code></td>
+				<td><code>data-separator-time</code></td>
 				<td>string</td>
 				<td></td>
-				<td><code>m/d/Y</code></td>
-				<td>Set the date output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
+				<td><code> to </code></td>
+				<td>Set the separator for instances using <code>data-date-instance="datetime-start-end"</code> between the start time and end time output.</td>
 			</tr>
 			<tr>
 				<td><code>data-separator</code></td>
