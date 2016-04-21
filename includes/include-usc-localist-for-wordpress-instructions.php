@@ -19,6 +19,11 @@
 		padding: 1rem;
 		background: #23282d;
 		color: #fff;
+		white-space: pre-wrap;		/* css-3 */
+		white-space: -moz-pre-wrap;	/* Mozilla, since 1999 */
+		white-space: -pre-wrap;		/* Opera 4-6 */
+		white-space: -o-pre-wrap;	/* Opera 7 */
+		word-wrap: break-word;		/* Internet Explorer 5.5+ */
 	}
 	.usc_lfwp_wrap ul {
 		padding: .25rem 0 0 1rem;
@@ -415,6 +420,20 @@ event: {
 				<td>Set the date output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
 			</tr>
 			<tr>
+				<td><code>data-separator-date-time</code></td>
+				<td>string</td>
+				<td></td>
+				<td><code> at </code></td>
+				<td>Set the separator for instances using <code>data-date-instance="datetime-start-end"</code> between the date and time output.</td>
+			</tr>
+			<tr>
+				<td><code>data-format-date</code></td>
+				<td>string</td>
+				<td></td>
+				<td><code>m/d/Y</code></td>
+				<td>Set the date output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
+			</tr>
+			<tr>
 				<td><code>data-separator</code></td>
 				<td>string</td>
 				<td></td>
@@ -472,6 +491,9 @@ event: {
 
 &lt;!-- 5 --&gt;
 &lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;&lt;/div&gt;
+
+&lt;!-- 6 --&gt;
+&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot; data-sepatrator-date-time=&quot; from &quot; data-sepatrator-time=&quot; - &quot;&gt;&lt;/div&gt;
 </pre>
 
 	<p>Would output:</p>
@@ -511,6 +533,15 @@ event: {
 	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;&lt;br&gt;
 	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;&lt;br&gt;
 	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;!-- 6 --&gt;
+&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot; data-sepatrator-date-time=&quot; from &quot; data-sepatrator-time=&quot; - &quot;&gt;
+	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;Tuesday, March 8th, 2016 from 6:45 pm - 7:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;Tuesday, March 15th, 2016 from 5:45 pm - 6:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 from 5:45 pm - 6:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 from 5:45 pm - 6:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 from 5:45 pm - 6:45 pm&lt;/time&gt;
 &lt;/div&gt;
 </pre>
 
