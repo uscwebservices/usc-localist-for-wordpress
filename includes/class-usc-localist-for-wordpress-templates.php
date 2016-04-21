@@ -140,6 +140,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// data format for times
 				$options['format_time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : $config['default']['format_time'];
+
+				// date and time separator
+				$options['separator_date_time'] = isset( $field->{'data-separator-date-time'} ) ? $field->{'data-separator-date-time'} : $config['default']['separator']['date_time'];
+
+				// time separator
+				$options['separator_time'] = isset( $field->{'data-separator-time'} ) ? $field->{'data-separator-time'} : $config['default']['separator']['time'];
 				
 				// separator to use between instances output
 				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : null;
