@@ -112,6 +112,18 @@
 				</td>
 			</tr>
 			<tr>
+				<td><code>date_range</code></td>
+				<td>boolean</td>
+				<td>
+					<code>true</code><br>
+					<code>false</code>
+				</td>
+				<td>
+					<code>false</code>
+				</td>
+				<td>Displays <code>first_date</code> - <code>last_date</code> on <code>events</code> if dates differ else the next single instance will display. (<a href="#note-date-range">see note below</a>)</td>
+			</tr>
+			<tr>
 				<td><code>details_page</code></td>
 				<td>string</td>
 				<td></td>
@@ -186,6 +198,8 @@
 	</table>
 
 	<p id="note-cache"><strong>Note:</strong> Setting a value for <code>cache</code> means that the database will store an object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may overtask the database writing transients unnecessarily.</p>
+
+	<p id="note-date-range"><strong>Note:</strong> The shortcode attribute <code>date-range</code> will only show on multiple events list.  Single event details will list all instances of dates after current date.</p>
 
 	<h3 id="settings-bookmark-customizer">Customizer</h3>
 

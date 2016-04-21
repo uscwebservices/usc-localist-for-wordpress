@@ -27,6 +27,7 @@ Parameter | Type | Options | Default | Description
 ----------|------|---------|---------|------------
 `get` | string | `events` `event` | `events` | The `type` of API to call.
 `cache` | integer | |  1 hour | The amount of time (in seconds) to store the API results in the site. This will help performance of the page.
+`date_range` | boolean | `true` `false` | `false` | Displays `first_date` - `last_date` on events if dates differ else the next single instance will display. (see note below)
 `details_page` | string | | | Enter the link to the events detail page. Global setting available in the [Customizer](#markdown-header-customizer) options. Please see `is_events_page`. |  |
 `is_events_page` | boolean | `true` `false`  | `false` | Uses the same page for details page.
 `paginate` | string | `next` `numeric` |  | Show the pagination on multiple events api.
@@ -36,6 +37,8 @@ Parameter | Type | Options | Default | Description
 `template_multiple` | string | post-slug |  | Use the slug of the post type _Event Templates_ to use for the structure of the returned API data for a list of events. Defaults to list view.
 `template_single` | string | post-slug |  | Use the slug of the post type _Event Templates_ to use for the structure of the returned API data for a list of events. Defaults to list view.
 
+
++ ***Note:*** the shortcode attribute `date-range` will only show on multiple events list.  Single event details will list all instances of dates after current date.
 
 ## Customizer
 
