@@ -177,7 +177,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 				return false;
 
 			}
-			// var_dump($api_data['api']);
 
 		}
 
