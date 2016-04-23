@@ -27,7 +27,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 
 		public static $config = array(
 			'testing' => array(
-				'enabled' => false, // set to true to use local events.json data
+				'enabled' => true, // set to true to use local events.json data
 				'json' => array(
 					'single' => '/sample/event.json',
 					'multiple' => '/sample/events.json'
