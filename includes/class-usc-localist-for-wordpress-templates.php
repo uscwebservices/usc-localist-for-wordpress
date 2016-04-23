@@ -300,8 +300,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			$details_page = $options['template_options']['details_page'];
 
 			// find all data links
-			$links = $template->find('*[data-link]'); // handle links in templates
-			
+			$links = $template->find('*[data-link]');
+
+			// loop through the links
 			foreach ( $links as $link ) {
 
 				// get the data link attribute
@@ -309,7 +310,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// check if we have a link to a map
 				if ( 'map' == $data_link ) {
-					
+
 					$map_link = $this->map_link( $api_data['location_name'] );
 					
 					// set the href using map_link function
@@ -318,11 +319,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				} 
 
 				// check if we have a link to the details page
-				elseif ( 'detail' == $data_link ) {
-					
+				else if ( 'detail' == $data_link ) {
+
 					// check if we have a set details page link
 					if ( '' != $details_page ) {
-						
+
 						// attach the api_data url parameter to the link
 						$link->href = $details_page . '?event-id=' . $api_data['id'];
 
@@ -330,7 +331,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 					// default: link to the localist details page
 					else {
-						
+
 						$link->href = $api_data['localist_url'];
 					
 					}
@@ -340,20 +341,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// default to use data link with node mapping
 				else {
 
-					// if the link has a value	
+					// if the link node has no value	
 					if ( empty( $api_data[$data_link] ) ) {
 
 						// set the href to null
 						$link->href = null;
-
-						$link->class = 'non-link';
 
 						// set the tag to be a span
 						$link->tag = 'span';
 
 					}
 
-					// we don't have a link
+					// we have a link
 					else {
 
 						// set the href to the value of the link
