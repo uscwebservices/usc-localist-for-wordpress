@@ -310,11 +310,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// check if we have a link to a map
 				if ( 'map' == $data_link ) {
-
-					$map_link = $this->map_link( $api_data['location_name'] );
+					
+					$map_link = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
 					
 					// set the href using map_link function
-					$link->href = $map_link;
+					if ( $map_link ) {
+						
+						$link->href = $map_link;
+
+					}
 
 				} 
 
@@ -341,7 +345,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// default to use data link with node mapping
 				else {
 
-					// if the link node has no value	
+					// if the link node has no value
+
 					if ( empty( $api_data[$data_link] ) ) {
 
 						// set the href to null
@@ -351,7 +356,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 						$link->tag = 'span';
 
 					}
-
+					
 					// we have a link
 					else {
 
@@ -514,10 +519,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Map Link
 		 * ========
 		 *
-		 * @since 	1.0.0
-		 * @access 	public
+		 * Return a link to USC Maps for HSC or UPC, fallback to address in google mapse or return false.
+		 * 
+		 * @param  string 	$location_name 	location name in three letter campus location
+		 * @param  string 	$address 		address node for use with google maps
+		 * @return string 					returns link value or boolean false
+		 *
+		 * @since 1.0.0
 		 */
-		public function map_link( $location_name ) {
+		public function map_link( $location_name, $address, $geo ) {
 			
 			// array of HSC locations
 			$hsc = 'BMT|BCC|CCC|CHP|CLB|CPT|CRL|CSA|CSB|CSC|DEI|DOH|EDM|EFC|EMP|HCC|HCT|HMR|HRA|HSV|IRD|KAM|LRA|LRB|MCH|MOL|MMR|NML|NOR|NRT|NTT|PAV|PGD|PGF|PGT|PGV|PHH|PMB|PSC|RMR|RSC|SRH|SSB|TOW|TRC|UNH|VBB|VWB|WOH|ZNI';
@@ -539,9 +549,30 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			}
 
 			// attach the location name as a query
-			else {
+			else if ( ! empty( $location_name ) ) {
 
 				$map_link .= '?q=' . $location_name;
+
+			}
+
+			// set the link to a google map based on address
+			else if ( ! empty( $address ) ){
+
+				$map_link = 'https://www.google.com/maps/place/' . urlencode( $address );
+
+			}
+
+			// set the link to google map based on latitude/longitude
+			else if ( ! empty( $geo['latitude'] && ! empty( $geo['longitude'] ) ) ) {
+
+				$map_link = 'https://www.google.com/maps/place/' . $geo['latitude'] . ',' . $geo['longitude'];
+
+			}
+
+			// we don't have any locations available
+			else {
+
+				$map_link = '';
 
 			}
 

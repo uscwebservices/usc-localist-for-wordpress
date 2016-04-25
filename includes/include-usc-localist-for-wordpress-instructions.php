@@ -360,7 +360,7 @@ event: {
 &lt;a href=&quot;http://calendar.usc.edu/event/usc_tommy_trojan&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;USC Tommy Trojan&lt;/a&gt;
 &lt;a class=&quot;event-map&quot; href=&quot;http://web-app.usc.edu/maps/?b=STU&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;Student Union (STU)&lt;/a&gt;
 &lt;a class=&quot;ticket&quot; href=&quot;http://eventbrite.com/&quot; data-link=&quot;ticket_url&quot;&gt;Ticket&lt;/a&gt;
-&lt;span class=&quot;ticket non-link&quot; data-link=&quot;venue_url&quot; data-field=&quot;location_name&quot;&gt;Student Union (STU)&lt;/span&gt;
+&lt;span class=&quot;ticket&quot; data-link=&quot;venue_url&quot; data-field=&quot;location_name&quot;&gt;Student Union (STU)&lt;/span&gt;
 </pre>
 
 
