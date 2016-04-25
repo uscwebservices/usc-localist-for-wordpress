@@ -57,6 +57,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 			),
 			'url' => array(
 				'base' => 'https://calendar.usc.edu/api/2/',
+				'google_maps' => 'https://www.google.com/maps/place/',
 				'parameters' => array(
 					// add custom url parameters and map their relationship (will validate against relationship item settings)
 					'page' => array(
