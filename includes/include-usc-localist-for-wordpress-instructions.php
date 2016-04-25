@@ -329,7 +329,15 @@ event: {
 	
 	<p id="note-link"><strong>Note:</strong> If linking to a <code>string</code> mapped node and there is no link returned, the anchor <code>&lt;a&gt;</code> tag will be changed to a <code>&lt;span&gt;</code> tag and a class of <code>non-link</code> added to the tag.</p>
 
-	<p id="note-link-map"><strong>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fallback to the following nodes for information <code>location</code> fallback to <code>location_name</code> fallback to <code>address</code> fallback to <code>geo.latitude</code> + <code>geo.longitude</code>.</p>
+	<p id="note-link-map"><strong>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fallback to the following nodes for information:
+
+	<ol>
+		<li>USC Maps (3 letter code): <code>location_name</code></li>
+		<li>Google Maps: <code>geo.street</code> + <code>geo.city</code> + <code>geo.state</code></li>
+		<li>Google Maps: <code>geo.latitude</code> + <code>geo.longitude</code></li>
+		<li>USC Maps (UPC with query): <code>location_name</code></li>
+		<li>Google Maps: <code>address</code></li>
+	</ol>
 
 	<p>You can use this in conjunction with the <code>data-field</code> to set the text of the link.</p>
 
