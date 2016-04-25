@@ -337,14 +337,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Loop through all instances that have data attribute 'data-link'
 		 * 
 		 * @param 	object 	$template 	the template object from get_template
-		 * @param 	array 	$data 		the single api type array of data to map the link value
-		 * @param 	array 	$api_data 	the options passed from the api
+		 * @param 	array 	$api_data 	the single api type array of data to map the link value
+		 * @param 	array 	$options 	the options passed from the api
 		 * @return 	html 				returns the links output to the $template object
 		 */
-		public function data_links( $template, $data, $api_data ) {
+		public function data_links( $template, $api_data, $options ) {
 
 			// defaults
-			$details_page = $api_data['template_options']['details_page'];
+			$details_page = $options['template_options']['details_page'];
 
 			// find all data links
 			$links = $template->find('*[data-link]');
@@ -358,10 +358,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// check if we have a link to a map
 				if ( 'map' == $data_link ) {
 					
-					$url = $this->map_link( $data['location_name'], $data['address'], $data['geo'] );
+					$url = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
 					
 					// set the href using map_link function
-					if ( ! empty( $map_link ) ) {
+					if ( ! empty( $url ) ) {
 
 						$this->data_link_reset( $link, $url );
 
@@ -379,8 +379,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					// check if we have a set details page link
 					if ( ! empty( $details_page ) ) {
 
-						// attach the data url parameter to the link
-						$url = $details_page . '?event-id=' . $data['id'];
+						// attach the api_data url parameter to the link
+						$url = $details_page . '?event-id=' . $api_data['id'];
 
 						$this->data_link_reset( $link, $url );
 
@@ -389,7 +389,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					// default: link to the localist details page
 					else {
 
-						$this->data_link_reset( $link, $data['localist_url'] );
+						$this->data_link_reset( $link, $api_data['localist_url'] );
 					
 					}
 
@@ -400,7 +400,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 					// if the link node has no value
 
-					if ( empty( $data[$data_link] ) ) {
+					if ( empty( $api_data[$data_link] ) ) {
 
 						$this->data_link_null( $link );
 
@@ -409,7 +409,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					// we have a link
 					else {
 
-						$this->data_link_reset( $link, $data[$data_link] );
+						$this->data_link_reset( $link, $api_data[$data_link] );
 
 					}
 
@@ -574,6 +574,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 */
 		public function map_link( $location_name, $address, $geo ) {
 			
+			// config setting
+			$config = $this->config;
+
 			// array of HSC locations
 			$hsc = 'BMT|BCC|CCC|CHP|CLB|CPT|CRL|CSA|CSB|CSC|DEI|DOH|EDM|EFC|EMP|HCC|HCT|HMR|HRA|HSV|IRD|KAM|LRA|LRB|MCH|MOL|MMR|NML|NOR|NRT|NTT|PAV|PGD|PGF|PGT|PGV|PHH|PMB|PSC|RMR|RSC|SRH|SSB|TOW|TRC|UNH|VBB|VWB|WOH|ZNI';
 
@@ -582,6 +585,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			// attach the map code to the map base link
 			$map_link = 'http://web-app.usc.edu/maps/';
+
+			// google maps base link\
+			$google_maps = $config['url']['google_maps'];
 
 			// if we have a map code, attach it
 			if ( $matches ) {
@@ -596,32 +602,24 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			// set the link to google map based on geo location
 			else if ( ! empty( $geo['street'] ) || ! empty( $geo['city'] || ! empty( $geo['state'] ) ) ) {
 
-				$map_link = 'https://www.google.com/maps/place/';
+				// reset base to google maps
+				$map_link = $google_maps;
 
-				if ( ! empty( $geo['street'] ) ) {
+				// add the street if it exists
+				$map_link .= ( ! empty ( $geo['street'] ) ) ? urlencode( $geo['street'] . ', ' ) : '';
+				
+				// add the city if it exists
+				$map_link .= ( ! empty ( $geo['city'] ) ) ? urlencode( $geo['city'] . ', ' ) : '';
 
-					$map_link .= urlencode( $geo['street'] ) . ', ';
-
-				}
-
-				if ( ! empty( $geo['city'] ) ) {
-
-					$map_link .= urlencode( $geo['city'] ) . ', ';
-
-				}
-
-				if ( ! empty( $geo['state'] ) ) {
-
-					$map_link .= urlencode( $geo['state'] );
-
-				}
+				// add the state if it exists
+				$map_link .= ( ! empty ( $geo['state'] ) ) ? urlencode( $geo['state'] ) : '';
 
 			}
 
 			// set the link to google map based on latitude/longitude
 			else if ( ! empty( $geo['latitude'] && ! empty( $geo['longitude'] ) ) ) {
 
-				$map_link = 'https://www.google.com/maps/place/' . $geo['latitude'] . ',' . $geo['longitude'];
+				$map_link = $google_maps . $geo['latitude'] . ',' . $geo['longitude'];
 
 			}
 
