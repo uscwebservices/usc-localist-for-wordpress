@@ -7,6 +7,7 @@ USC Localist for WordPress
 - remove rich text editor for custom template type 'event-templates'
 - add no events messaging option
 - add date and time separtor options to templates for datetime-start-end output
+- map link choice of location -> location_name -> address -> geo.latitude + geo.longitudue 
 
 ## 1.1.6
 
