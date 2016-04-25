@@ -314,11 +314,11 @@ event: {
 				<td rowspan="3"><code>data-link</code></td>
 				<td rowspan="3">string</td>
 				<td>string</td>
-				<td>The dot syntax mapping to the url.</td>
+				<td>The dot syntax mapping to the url. (<a href="#note-link">see note below</a>)</td>
 			</tr>
 			<tr>
 				<td><code>map</code></td>
-				<td>Automatically sets link to <code>location_name</code>.</td>
+				<td>Automatically sets link to <code>location_name</code>. (<a href="#note-link-map">see note below</a>)</td>
 			</tr>
 			<tr>
 				<td><code>detail</code></td>
@@ -326,6 +326,10 @@ event: {
 			</tr>
 		</tbody>
 	</table>
+	
+	<p id="note-link"><strong>Note:</strong> If linking to a <code>string</code> mapped node and there is no link returned, the anchor <code>&lt;a&gt;</code> tag will be changed to a <code>&lt;span&gt;</code> tag and a class of <code>non-link</code> added to the tag.</p>
+
+	<p id="note-link-map"><strong>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.</p>
 
 	<p>You can use this in conjunction with the <code>data-field</code> to set the text of the link.</p>
 
@@ -335,7 +339,9 @@ event: {
 event: {
 	title: "USC Tommy Trojan",
 	localist_url: "http://calendar.usc.edu/event/usc_tommy_trojan",
-	location_name: "Student Union (STU)"
+	location_name: "Student Union (STU)",
+	ticket_url: "http://eventbrite.com/",
+	venue_url: ""
 }
 </pre>
 	
@@ -344,6 +350,8 @@ event: {
 <pre>
 &lt;a href=&quot;&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;&lt;/a&gt;
 &lt;a class=&quot;event-map&quot; href=&quot;&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
+&lt;a class=&quot;ticket&quot; href=&quot;&quot; data-link=&quot;ticket_url&quot;&gt;Ticket&lt;/a&gt;
+&lt;a class=&quot;ticket&quot; href=&quot;&quot; data-link=&quot;venue_url&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
 </pre>
 
 	<p>Would output:</p>
@@ -351,11 +359,9 @@ event: {
 <pre>
 &lt;a href=&quot;http://calendar.usc.edu/event/usc_tommy_trojan&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;USC Tommy Trojan&lt;/a&gt;
 &lt;a class=&quot;event-map&quot; href=&quot;http://web-app.usc.edu/maps/?b=STU&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;Student Union (STU)&lt;/a&gt;
+&lt;a class=&quot;ticket&quot; href=&quot;http://eventbrite.com/&quot; data-link=&quot;ticket_url&quot;&gt;Ticket&lt;/a&gt;
+&lt;span class=&quot;ticket&quot; data-link=&quot;venue_url&quot; data-field=&quot;location_name&quot;&gt;Student Union (STU)&lt;/span&gt;
 </pre>
-
-
-
-	<p><strong>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.</p>
 
 
 	<h4 id="settings-bookmark-templates-dates">Dates</h4>

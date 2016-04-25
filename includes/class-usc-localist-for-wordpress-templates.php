@@ -219,6 +219,43 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
+		 * Data Fields Value
+		 * =================
+		 *
+		 * Process the individual data-field value from the data_fields and data_link function loops.
+		 * 
+		 * @param  object	$field 		the data field to be processed
+		 * @param  array 	$api_data 	the json array of the api data to use
+		 * @return string				the output of matching node values as the inner text of the template item
+		 */
+		public function data_fields_value( $field, $api_data ) {
+
+			// set variables for data-fields
+			$field_value = '';
+			
+			// get the data-field
+			$data_field = $field->{'data-field'};
+
+			// get the value from the string format mapped node
+			$field_value = $this->string_node( $api_data, $data_field );
+
+			// check that we do not have an array for a field value
+			if ( is_array( $field_value ) ) {
+
+				return 'data-field: "' . $data_field . '" is an array. Please reference the help section for different data types.';
+
+			}
+
+			// add field value as innertext of the node
+			else {
+				
+				return $field_value;
+
+			}
+
+		}
+
+		/**
 		 * Data Fields
 		 * ===========
 		 *
@@ -227,7 +264,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * 
 		 * @param 	object 	$template 	the template object
 		 * @param 	array 	$api_data 	the json array of the api data to use
-		 * @param 	array 	$options 	the options of the api call passed for any call specifi functions
+		 * @param 	array 	$options 	the options of the api call passed for any call specific functions
 		 * @return 	 					the output of matching node values as the inner text of the template item
 		 */
 		public function data_fields( $template, $api_data, $options ) {
@@ -238,28 +275,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			// loop through the data fields found
 			foreach ( $fields as $field ) {
 
-				// set variables for data-fields
-				$field_value = '';
-				
-				// field
-				$data_field = $field->{'data-field'};
+				$field_value = $this->data_fields_value( $field, $api_data );
 
-				// get the value from the string format mapped node
-				$field_value = $this->string_node( $api_data, $data_field );
-
-				// check that we do not have an array for a field value
-				if ( is_array( $field_value ) ) {
-
-					$field->innertext = 'data-field: "' . $data_field . '" is an array. Please reference the help section for different data types.';
-
-				}
-
-				// add field value as innertext of the node
-				else {
-					
-					$field->innertext = $field_value;
-
-				}
+				$field->innertext = $field_value;
 
 			}
 
@@ -292,15 +310,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// check if we have a link to a map
 				if ( 'map' == $data_link ) {
 					
-					$map_link = $this->map_link( $api_data['location_name'] );
+					$map_link = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
 					
 					// set the href using map_link function
-					$link->href = $map_link;
+					if ( $map_link ) {
+						
+						$link->href = $map_link;
+
+					}
 
 				} 
 
 				// check if we have a link to the details page
-				else if ( 'detail' == $data_link ) {
+				elseif ( 'detail' == $data_link ) {
 					
 					// check if we have a set details page link
 					if ( '' != $details_page ) {
@@ -319,10 +341,32 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				}
 
-				// defautl to use data link with node mapping
+				// default to use data link with node mapping
 				else {
-					
-					$link->href = $api_data[$data_link];
+
+					// if the link has a value	
+					if ( empty( $api_data[$data_link] ) ) {
+
+						// set the href to null
+						$link->href = null;
+
+						$link->class = 'non-link';
+
+						// set the tag to be a span
+						$link->tag = 'span';
+
+					}
+
+					// we don't have a link
+					else {
+
+						// set the href to the value of the link
+						$link->href = $api_data[$data_link];
+
+						// reset the tag to 'a' - oddity with span declaration below
+						$link->tag = 'a';
+
+					}
 
 				}
 
@@ -475,10 +519,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Map Link
 		 * ========
 		 *
-		 * @since 	1.0.0
-		 * @access 	public
+		 * Return a link to USC Maps for HSC or UPC, fallback to address in google mapse or return false.
+		 * 
+		 * @param  string 	$location_name 	location name in three letter campus location
+		 * @param  string 	$address 		address node for use with google maps
+		 * @return string 					returns link value or boolean false
+		 *
+		 * @since 1.0.0
 		 */
-		public function map_link( $location_name ) {
+		public function map_link( $location_name, $address, $geo ) {
 			
 			// array of HSC locations
 			$hsc = 'BMT|BCC|CCC|CHP|CLB|CPT|CRL|CSA|CSB|CSC|DEI|DOH|EDM|EFC|EMP|HCC|HCT|HMR|HRA|HSV|IRD|KAM|LRA|LRB|MCH|MOL|MMR|NML|NOR|NRT|NTT|PAV|PGD|PGF|PGT|PGV|PHH|PMB|PSC|RMR|RSC|SRH|SSB|TOW|TRC|UNH|VBB|VWB|WOH|ZNI';
@@ -500,9 +549,30 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			}
 
 			// attach the location name as a query
-			else {
+			else if ( ! empty( $location_name ) ) {
 
 				$map_link .= '?q=' . $location_name;
+
+			}
+
+			// set the link to a google map based on address
+			else if ( ! empty( $address ) ){
+
+				$map_link = 'https://www.google.com/maps/place/' . urlencode( $address );
+
+			}
+
+			// set the link to google map based on latitude/longitude
+			else if ( ! empty( $geo['latitude'] && ! empty( $geo['longitude'] ) ) ) {
+
+				$map_link = 'https://www.google.com/maps/place/' . $geo['latitude'] . ',' . $geo['longitude'];
+
+			}
+
+			// we don't have any locations available
+			else {
+
+				$map_link = '';
 
 			}
 
