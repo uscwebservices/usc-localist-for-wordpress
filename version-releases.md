@@ -7,7 +7,7 @@ USC Localist for WordPress
 - remove rich text editor for custom template type 'event-templates'
 - add no events messaging option
 - add date and time separtor options to templates for datetime-start-end output
-- link conversion to span and 'non-link' class added if no link found
+- link conversion to span if no link found
 
 ## 1.1.6
 
