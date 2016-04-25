@@ -284,6 +284,53 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
+		 * Data Link Null
+		 * ==============
+		 *
+		 * Sets the data link to be null and change the a tag to span.
+		 *
+		 * Simple HTML DOM has a recursive issue and this function helps set items.
+		 *
+		 * @since 1.1.7
+		 * 
+		 * @param  object 	$link 	the single html node object
+		 * @return object 		 	sets the html node object attributes
+		 */
+		public function data_link_null( $link ) {
+
+			// remove the href attribute
+			$link->href = null;
+
+			// change the a tag to a span
+			$link->tag = 'span';
+
+		}
+
+		/**
+		 * Data Link Reset
+		 * ===============
+		 *
+		 * Sets the data link to be an a tag and attaches the url as the href.
+		 *
+		 * Simple HTML DOM has a recursive issue and this function helps set items.
+		 *
+		 * @since 1.1.7
+		 * 
+		 * @param  object 	$link 	the single html node object
+		 * @param  string 	$url 	the url to set the a tag href
+		 * @return object 		 	sets the html node object attributes
+		 */
+		public function data_link_reset( $link, $url ) {
+
+			// set the href to the url
+			$link->href = $url;
+
+			// reset the tag to 'a' - oddity with span declaration using simple html dom
+			$link->tag = 'a';
+
+		}
+
+		/**
 		 * Data Links
 		 * ==========
 		 *
@@ -300,8 +347,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			$details_page = $options['template_options']['details_page'];
 
 			// find all data links
-			$links = $template->find('*[data-link]'); // handle links in templates
-			
+			$links = $template->find('*[data-link]');
+
+			// loop through the links
 			foreach ( $links as $link ) {
 
 				// get the data link attribute
@@ -313,29 +361,35 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					$map_link = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
 					
 					// set the href using map_link function
-					if ( $map_link ) {
-						
-						$link->href = $map_link;
+					if ( ! empty( $map_link ) ) {
+
+						$this->data_link_reset( $link, $map_link );
+
+					} else {
+
+						$this->data_link_null( $link );
 
 					}
 
 				} 
 
 				// check if we have a link to the details page
-				elseif ( 'detail' == $data_link ) {
-					
+				else if ( 'detail' == $data_link ) {
+
 					// check if we have a set details page link
 					if ( '' != $details_page ) {
-						
+
 						// attach the api_data url parameter to the link
-						$link->href = $details_page . '?event-id=' . $api_data['id'];
+						$url = $details_page . '?event-id=' . $api_data['id'];
+
+						$this->data_link_reset( $link, $url );
 
 					}
 
 					// default: link to the localist details page
 					else {
-						
-						$link->href = $api_data['localist_url'];
+
+						$this->data_link_reset( $link, $api_data['localist_url'] );
 					
 					}
 
@@ -344,27 +398,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// default to use data link with node mapping
 				else {
 
-					// if the link has a value	
+					// if the link node has no value
+
 					if ( empty( $api_data[$data_link] ) ) {
 
-						// set the href to null
-						$link->href = null;
-
-						$link->class = 'non-link';
-
-						// set the tag to be a span
-						$link->tag = 'span';
+						$this->data_link_null( $link );
 
 					}
-
-					// we don't have a link
+					
+					// we have a link
 					else {
 
-						// set the href to the value of the link
-						$link->href = $api_data[$data_link];
-
-						// reset the tag to 'a' - oddity with span declaration below
-						$link->tag = 'a';
+						$this->data_link_reset( $link, $api_data[$data_link] );
 
 					}
 
@@ -548,6 +593,38 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			}
 
+			// set the link to google map based on geo location
+			else if ( ! empty( $geo['street'] ) || ! empty( $geo['city'] || ! empty( $geo['state'] ) ) ) {
+
+				$map_link = 'https://www.google.com/maps/place/';
+
+				if ( ! empty( $geo['street'] ) ) {
+
+					$map_link .= urlencode( $geo['street'] ) . ', ';
+
+				}
+
+				if ( ! empty( $geo['city'] ) ) {
+
+					$map_link .= urlencode( $geo['city'] ) . ', ';
+
+				}
+
+				if ( ! empty( $geo['state'] ) ) {
+
+					$map_link .= urlencode( $geo['state'] );
+
+				}
+
+			}
+
+			// set the link to google map based on latitude/longitude
+			else if ( ! empty( $geo['latitude'] && ! empty( $geo['longitude'] ) ) ) {
+
+				$map_link = 'https://www.google.com/maps/place/' . $geo['latitude'] . ',' . $geo['longitude'];
+
+			}
+
 			// attach the location name as a query
 			else if ( ! empty( $location_name ) ) {
 
@@ -559,13 +636,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			else if ( ! empty( $address ) ){
 
 				$map_link = 'https://www.google.com/maps/place/' . urlencode( $address );
-
-			}
-
-			// set the link to google map based on latitude/longitude
-			else if ( ! empty( $geo['latitude'] && ! empty( $geo['longitude'] ) ) ) {
-
-				$map_link = 'https://www.google.com/maps/place/' . $geo['latitude'] . ',' . $geo['longitude'];
 
 			}
 
