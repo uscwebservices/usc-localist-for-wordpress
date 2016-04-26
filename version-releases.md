@@ -7,12 +7,12 @@ USC Localist for WordPress
 - remove rich text editor for custom template type 'event-templates'
 - add no events messaging option
 - add date and time separtor options to templates for datetime-start-end output
-- map link choice of:
-	- USC Maps (3 letter code)
-	- Google Maps: Street, City, State
-	- Google Maps: Latitude, Longitude
-	- USC Maps (UPC with query)
-	- Google Maps: Address 
+- map link fallback order:
+	1. USC Maps (3 letter code)
+	2. Google Maps: Street, City, State
+	3. Google Maps: Latitude, Longitude
+	4. USC Maps (UPC with query)
+	5. Google Maps: Address 
 
 ## 1.1.6
 
