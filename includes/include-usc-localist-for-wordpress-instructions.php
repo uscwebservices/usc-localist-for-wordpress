@@ -270,7 +270,7 @@
 				<td>string</td>
 				<td></td>
 				<td>
-					<code>At this time, there are no published events.</code>
+					<code>No scheduled events.</code>
 				</td>
 				<td>Enter the message to display if there are no events returned from the API.</td>
 			</tr>
