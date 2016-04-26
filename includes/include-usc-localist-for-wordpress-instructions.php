@@ -93,7 +93,9 @@
 
 	<h3 id="settings-bookmark-shortcode-api-options">Shortcode API Options</h3>
 	
-	<p>Below are the attributes available from the Localist API. Please reference the <a href="http://www.localist.com/doc/api">Localist API</a> for full documentation of currently supported options.</p>
+	<p>Below are the attributes available from the Localist API. Please reference the <a href="http://www.localist.com/doc/api">Localist API Documents</a> for full documentation of currently supported options.</p>
+
+	<p><a class="button button-primary" href="http://www.localist.com/doc/api">See Localist API Documents</a></p>
 
 	<table class="widefat">
 		<thead>
@@ -186,7 +188,7 @@
 				<td>1 hour</td>
 				<td>
 					The amount of time (in seconds) to store the API results in the site.  This will help performance of the page.
-					<br><strong>Note:</strong> setting the cache to <code>0</code> sets the cache to never be set. (<a href="#note-cache">see note below</a>)
+					<br><strong>Note:</strong> setting the cache to <code>0</code> sets the cache to never be set. (<a href="#note-cache">see note<sup>1</sup> below</a>)
 				</td>
 			</tr>
 			<tr>
@@ -199,7 +201,7 @@
 				<td>
 					<code>false</code>
 				</td>
-				<td>Displays <code>first_date</code> - <code>last_date</code> on <code>events</code> if dates differ else the next single instance will display. (<a href="#note-date-range">see note below</a>)</td>
+				<td>Displays <code>first_date</code> - <code>last_date</code> on <code>events</code> if dates differ else the next single instance will display. (<a href="#note-date-range">see note<sup>2</sup> below</a>)</td>
 			</tr>
 			<tr>
 				<td><code>details_page</code></td>
@@ -275,9 +277,9 @@
 		</tbody>
 	</table>
 
-	<p id="note-cache"><strong>Note:</strong> Setting a value for <code>cache</code> means that the database will store an object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may overtask the database writing transients unnecessarily.</p>
+	<p id="note-cache"><strong><sup>1</sup>Note:</strong> Setting a value for <code>cache</code> means that the database will store an object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may overtask the database writing transients unnecessarily.</p>
 
-	<p id="note-date-range"><strong>Note:</strong> The shortcode attribute <code>date-range</code> will only show on multiple events list.  Single event details will list all instances of dates after current date.</p>
+	<p id="note-date-range"><strong><sup>2</sup>Note:</strong> The shortcode attribute <code>date-range</code> will only show on multiple events list.  Single event details will list all instances of dates after current date.</p>
 
 	<h3 id="settings-bookmark-customizer">Customizer</h3>
 
@@ -317,6 +319,8 @@
 	<h3 id="settings-bookmark-templates">Templates</h3>
 
 	<p>You can add a custom template in the <a href="edit.php?post_type=event-template">Events Templates</a> section and specify it's use within the shortcode as <code>template_multiple</code> for events lists or <code>template_sinle</code> for event details pages.</p>
+
+	<p><a class="button button-primary" href="edit.php?post_type=event-template">Edit Custom Events Templates</a></p>
 
 	<p>Please use the sections below to help write a template using data attributes.</p>
 
@@ -381,11 +385,11 @@ event: {
 				<td rowspan="3"><code>data-link</code></td>
 				<td rowspan="3">string</td>
 				<td>string</td>
-				<td>The dot syntax mapping to the url. (<a href="#note-link">see note below</a>)</td>
+				<td>The dot syntax mapping to the url. (<a href="#note-link">see note<sup>1</sup> below</a>)</td>
 			</tr>
 			<tr>
 				<td><code>map</code></td>
-				<td>Automatically sets link to <code>location_name</code>. (<a href="#note-link-map">see note below</a>)</td>
+				<td>Automatically sets link to <code>location_name</code>. (<a href="#note-link-map">see note<sup>2</sup> below</a>)</td>
 			</tr>
 			<tr>
 				<td><code>detail</code></td>
@@ -394,9 +398,9 @@ event: {
 		</tbody>
 	</table>
 	
-	<p id="note-link"><strong>Note:</strong> If linking to a <code>string</code> mapped node and there is no link returned, the anchor <code>&lt;a&gt;</code> tag will be changed to a <code>&lt;span&gt;</code> tag and the <code>href</code> attribute removed.</p>
+	<p id="note-link"><strong><sup>1</sup>Note:</strong> If linking to a <code>string</code> mapped node and there is no link returned, the anchor <code>&lt;a&gt;</code> tag will be changed to a <code>&lt;span&gt;</code> tag and the <code>href</code> attribute removed.</p>
 
-	<p id="note-link-map"><strong>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fallback to the following nodes for information:
+	<p id="note-link-map"><strong><sup>2</sup>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fallback to the following nodes for information:
 
 	<ol>
 		<li>USC Maps (3 letter code): <code>location_name</code></li>
@@ -759,4 +763,6 @@ event: {
 	<p>However, since the events for the department 'History' are gathered first and then the filters applied, we would only get 10 events in return and not 50.</p>
 
 	<p>Please see the <a href="http://www.localist.com/doc/api">Localist API</a> for the latest information.</p>
+
+	<p><a class="button button-primary" href="http://www.localist.com/doc/api">Latest Localist API Documentation</a></p>
 
