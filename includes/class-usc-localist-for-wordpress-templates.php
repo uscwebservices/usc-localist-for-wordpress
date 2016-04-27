@@ -284,6 +284,53 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
+		 * Data Link Null
+		 * ==============
+		 *
+		 * Sets the data link to be null and change the a tag to span.
+		 *
+		 * Simple HTML DOM has a recursive issue and this function helps set items.
+		 *
+		 * @since 1.1.7
+		 * 
+		 * @param  object 	$link 	the single html node object
+		 * @return object 		 	sets the html node object attributes
+		 */
+		public function data_link_null( $link ) {
+
+			// remove the href attribute
+			$link->href = null;
+
+			// change the a tag to a span
+			$link->tag = 'span';
+
+		}
+
+		/**
+		 * Data Link Reset
+		 * ===============
+		 *
+		 * Sets the data link to be an a tag and attaches the url as the href.
+		 *
+		 * Simple HTML DOM has a recursive issue and this function helps set items.
+		 *
+		 * @since 1.1.7
+		 * 
+		 * @param  object 	$link 	the single html node object
+		 * @param  string 	$url 	the url to set the a tag href
+		 * @return object 		 	sets the html node object attributes
+		 */
+		public function data_link_reset( $link, $url ) {
+
+			// set the href to the url
+			$link->href = $url;
+
+			// reset the tag to 'a' - oddity with span declaration using simple html dom
+			$link->tag = 'a';
+
+		}
+
+		/**
 		 * Data Links
 		 * ==========
 		 *
@@ -300,8 +347,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			$details_page = $options['template_options']['details_page'];
 
 			// find all data links
-			$links = $template->find('*[data-link]'); // handle links in templates
-			
+			$links = $template->find('*[data-link]');
+
+			// loop through the links
 			foreach ( $links as $link ) {
 
 				// get the data link attribute
@@ -310,28 +358,38 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// check if we have a link to a map
 				if ( 'map' == $data_link ) {
 					
-					$map_link = $this->map_link( $api_data['location_name'] );
+					$url = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
 					
 					// set the href using map_link function
-					$link->href = $map_link;
+					if ( ! empty( $url ) ) {
+
+						$this->data_link_reset( $link, $url );
+
+					} else {
+
+						$this->data_link_null( $link );
+
+					}
 
 				} 
 
 				// check if we have a link to the details page
-				elseif ( 'detail' == $data_link ) {
-					
+				else if ( 'detail' == $data_link ) {
+
 					// check if we have a set details page link
-					if ( '' != $details_page ) {
-						
+					if ( ! empty( $details_page ) ) {
+
 						// attach the api_data url parameter to the link
-						$link->href = $details_page . '?event-id=' . $api_data['id'];
+						$url = $details_page . '?event-id=' . $api_data['id'];
+
+						$this->data_link_reset( $link, $url );
 
 					}
 
 					// default: link to the localist details page
 					else {
-						
-						$link->href = $api_data['localist_url'];
+
+						$this->data_link_reset( $link, $api_data['localist_url'] );
 					
 					}
 
@@ -340,27 +398,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// default to use data link with node mapping
 				else {
 
-					// if the link has a value	
+					// if the link node has no value
+
 					if ( empty( $api_data[$data_link] ) ) {
 
-						// set the href to null
-						$link->href = null;
-
-						$link->class = 'non-link';
-
-						// set the tag to be a span
-						$link->tag = 'span';
+						$this->data_link_null( $link );
 
 					}
-
-					// we don't have a link
+					
+					// we have a link
 					else {
 
-						// set the href to the value of the link
-						$link->href = $api_data[$data_link];
-
-						// reset the tag to 'a' - oddity with span declaration below
-						$link->tag = 'a';
+						$this->data_link_reset( $link, $api_data[$data_link] );
 
 					}
 
@@ -515,11 +564,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Map Link
 		 * ========
 		 *
-		 * @since 	1.0.0
-		 * @access 	public
+		 * Return a link to USC Maps for HSC or UPC, fallback to address in google mapse or return false.
+		 * 
+		 * @param  string 	$location_name 	location name in three letter campus location
+		 * @param  string 	$address 		address node for use with google maps
+		 * @return string 					returns link value or boolean false
+		 *
+		 * @since 1.0.0
 		 */
-		public function map_link( $location_name ) {
+		public function map_link( $location_name, $address, $geo ) {
 			
+			// config setting
+			$config = $this->config;
+
 			// array of HSC locations
 			$hsc = 'BMT|BCC|CCC|CHP|CLB|CPT|CRL|CSA|CSB|CSC|DEI|DOH|EDM|EFC|EMP|HCC|HCT|HMR|HRA|HSV|IRD|KAM|LRA|LRB|MCH|MOL|MMR|NML|NOR|NRT|NTT|PAV|PGD|PGF|PGT|PGV|PHH|PMB|PSC|RMR|RSC|SRH|SSB|TOW|TRC|UNH|VBB|VWB|WOH|ZNI';
 
@@ -528,6 +585,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			// attach the map code to the map base link
 			$map_link = 'http://web-app.usc.edu/maps/';
+
+			// google maps base link\
+			$google_maps = $config['url']['google_maps'];
 
 			// if we have a map code, attach it
 			if ( $matches ) {
@@ -539,10 +599,48 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			}
 
+			// set the link to google map based on geo location
+			else if ( ! empty( $geo['street'] ) || ! empty( $geo['city'] || ! empty( $geo['state'] ) ) ) {
+
+				// reset base to google maps
+				$map_link = $google_maps;
+
+				// add the street if it exists
+				$map_link .= ( ! empty ( $geo['street'] ) ) ? urlencode( $geo['street'] . ', ' ) : '';
+				
+				// add the city if it exists
+				$map_link .= ( ! empty ( $geo['city'] ) ) ? urlencode( $geo['city'] . ', ' ) : '';
+
+				// add the state if it exists
+				$map_link .= ( ! empty ( $geo['state'] ) ) ? urlencode( $geo['state'] ) : '';
+
+			}
+
+			// set the link to google map based on latitude/longitude
+			else if ( ! empty( $geo['latitude'] && ! empty( $geo['longitude'] ) ) ) {
+
+				$map_link = $google_maps . $geo['latitude'] . ',' . $geo['longitude'];
+
+			}
+
 			// attach the location name as a query
-			else {
+			else if ( ! empty( $location_name ) ) {
 
 				$map_link .= '?q=' . $location_name;
+
+			}
+
+			// set the link to a google map based on address
+			else if ( ! empty( $address ) ){
+
+				$map_link = 'https://www.google.com/maps/place/' . urlencode( $address );
+
+			}
+
+			// we don't have any locations available
+			else {
+
+				$map_link = '';
 
 			}
 
