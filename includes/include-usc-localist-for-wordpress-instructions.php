@@ -53,6 +53,7 @@
 		<li><a href="#settings-bookmark-custom-shortcode-api-options">Custom shortcode API options</a></li>
 		<li><a href="#settings-bookmark-customizer">Customizer</a>
 			<ul>
+				<li><a href="#settings-bookmark-customizer-event-dates-range">Dates Range</a></li>
 				<li><a href="#settings-bookmark-customizer-event-details-page">Event Details Page</a></li>
 			</ul>
 		</li>
@@ -294,6 +295,10 @@
 	<h2 id="settings-bookmark-customizer">Customizer</h2>
 
 	<p>This plugin uses the WordPress <a href="/wp-admin/customize.php">Customizer</a> to set global calendar settings for the following items.</p>
+	
+	<h3 id="settings-bookmark-customizer-event-dates-range">Dates Range</h3>
+
+	<p>Display multiple dates as a range on multiple events list.</p>
 
 	<table class="widefat">
 		<thead>
@@ -302,13 +307,15 @@
 		</thead>
 		<tr>
 			<td><code>no</code></td>
-			<td>1/1/2016, 2/1/2016, 3/1/2016</td>
+			<td>1/1/2016</td>
 		</tr>
 		<tr>
 			<td><code>yes</code></td>
 			<td>1/1/2016 - 3/1/2016</td>
 		</tr>
 	</table>
+
+	<p><strong>Note:</strong> Date ranges will display on multiple event lists only.  Single event details iterate through the dates.  If set to <code>no</code>, the multiple display will show the single date of the current instance returned.</p>
 
 
 	<h3 id="settings-bookmark-customizer-event-details-page">Event Details Page</h3>
@@ -328,7 +335,7 @@
 
 	<h2 id="settings-bookmark-templates">Templates</h2>
 
-	<p>You can add a custom template in the <a href="edit.php?post_type=event-template">Events Templates</a> section and specify it's use within the shortcode as <code>template_multiple</code> for events lists or <code>template_sinle</code> for event details pages.</p>
+	<p>You can add a custom template in the <a href="edit.php?post_type=event-template">Events Templates</a> section and specify it's use within the shortcode as <code>template_multiple</code> for events lists or <code>template_sinle</code> for event details page.</p>
 
 	<p><a class="button button-primary" href="edit.php?post_type=event-template">Edit Custom Events Templates</a></p>
 
@@ -383,6 +390,8 @@ event: {
 
 	<p>To set a link from the API data, you can add the data attribute <code>data-link</code> to an <code>a</code> tag and use the mapped dot syntax path to the data which will set the <code>src</code> attribute of the tag.</p>
 
+	<p>You can use this in conjunction with the <code>data-field</code> to set the text of the link.</p>
+
 	<table class="widefat">
 		<thead>
 			<td><strong>Parameter</strong></td>
@@ -403,26 +412,24 @@ event: {
 			</tr>
 			<tr>
 				<td><code>detail</code></td>
-				<td>Automatically sets link to event detaill page.</td>
+				<td>Automatically sets link to <a href="#settings-bookmark-customizer-event-details-page">event detail</a> page.</td>
 			</tr>
 		</tbody>
 	</table>
 	
 	<p id="note-link"><strong><sup>1</sup>Note:</strong> If linking to a <code>string</code> mapped node and there is no link returned, the anchor <code>&lt;a&gt;</code> tag will be changed to a <code>&lt;span&gt;</code> tag and the <code>href</code> attribute removed.</p>
 
-	<p id="note-link-map"><strong><sup>2</sup>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  IF there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fallback to the following nodes for information:
+	<p id="note-link-map"><strong><sup>2</sup>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  If there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fallback to the following nodes for information:</p>
 
 	<ol>
-		<li>USC Maps (3 letter code): <code>location_name</code></li>
+		<li>USC Maps: 3 letter code in (parenthesis) from <code>location_name</code></li>
 		<li>Google Maps: <code>geo.street</code> + <code>geo.city</code> + <code>geo.state</code></li>
 		<li>Google Maps: <code>geo.latitude</code> + <code>geo.longitude</code></li>
 		<li>USC Maps (UPC with query): <code>location_name</code></li>
 		<li>Google Maps: <code>address</code></li>
 	</ol>
 
-	<p>You can use this in conjunction with the <code>data-field</code> to set the text of the link.</p>
-
-	<p>Sample:</p>
+	<p>Sample data:</p>
 
 <pre>
 event: {
@@ -434,7 +441,7 @@ event: {
 }
 </pre>
 	
-	<p>Using the sample data:</p>
+	<p>Template code:</p>
 
 <pre>
 &lt;a href=&quot;&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;&lt;/a&gt;
@@ -443,7 +450,7 @@ event: {
 &lt;a class=&quot;ticket&quot; href=&quot;&quot; data-link=&quot;venue_url&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
 </pre>
 
-	<p>Would output:</p>
+	<p>Output:</p>
 
 <pre>
 &lt;a href=&quot;http://calendar.usc.edu/event/usc_tommy_trojan&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;USC Tommy Trojan&lt;/a&gt;
@@ -455,7 +462,7 @@ event: {
 
 	<h3 id="settings-bookmark-templates-dates">Dates</h3>
 
-	<p>To set a date ore time setting from the API data, you can add the data attribute <code>data-date-type</code> to any HTML tag.  This will automatically map the data to the <code>first_date</code>, <code>last_date</code>, or event instance(s) depending on the options chosen.</p>
+	<p>To set a date or time setting from the API data, you can add the data attribute <code>data-date-type</code> to any HTML tag.  This will automatically map the data to the <code>first_date</code>, <code>last_date</code>, or event instance(s) depending on the options chosen.</p>
 
 	<table class="widefat">
 		<thead>
@@ -487,7 +494,7 @@ event: {
 					<code>datetime</code>
 				</td>
 				<td></td>
-				<td>Returns the date and time of the selection. Use with <code>data-format-time</code> and <code>data-format-date</code>.</td>
+				<td>Returns the date and time of the selection. Use with <code>data-format-date</code> and <code>data-format-time</code>.</td>
 			</tr>
 			<tr>
 				<td rowspan="3"><code>data-date-instance</code></td>
@@ -504,7 +511,7 @@ event: {
 			<tr>
 				<td><code>datetime-start-end</code></td>
 				<td></td>
-				<td>Uses the <code>start</code> and <code>end</code> of the event instance for the date/time output. Uses <code>data-format-time</code> and <code>data-format-date</code>.</td>
+				<td>Uses the <code>start</code> and <code>end</code> of the event instance for the date/time output. Uses <code>data-format-date</code> and <code>data-format-time</code>.</td>
 			</tr>
 			<tr>
 				<td><code>data-format-time</code></td>
@@ -544,7 +551,7 @@ event: {
 		</tbody>
 	</table>
 
-	<p>Using the sample data:</p>
+	<p>Sample data:</p>
 
 <pre>
 event: {
@@ -554,32 +561,32 @@ event: {
 		{
 			event_instance: {
 				start: "2016-03-08T10:45:00-08:00",
-				end: "2016-03-08T11:45:00-08:00"
+				end: "2016-03-08T12:45:00-08:00"
 			}
 		},
 		{
 			event_instance: {
 				start: "2016-03-22T10:45:00-07:00",
-				end: "2016-03-22T11:45:00-07:00"
+				end: "2016-03-22T12:45:00-07:00"
 			}
 		},
 		{
 			event_instance: {
 				start: "2016-03-29T10:45:00-07:00",
-				end: "2016-03-29T11:45:00-07:00"
+				end: "2016-03-29T12:45:00-07:00"
 			}
 		},
 		{
 			event_instance: {
 				start: "2016-04-05T10:45:00-07:00",
-				end: "2016-04-05T11:45:00-07:00"
+				end: "2016-04-05T12:45:00-07:00"
 			}
 		}
 	]
 }
 </pre>
 	
-	<p>The code below:</p>
+	<p>Template code:</p>
 <pre>
 &lt;!-- 1 --&gt;
 &lt;div class=&quot;event-dates&quot; data-date-type=&quot;date&quot;&gt;&lt;/div&gt;
@@ -597,7 +604,7 @@ event: {
 &lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot; data-sepatrator-date-time=&quot; from &quot; data-sepatrator-time=&quot; - &quot;&gt;&lt;/div&gt;
 </pre>
 
-	<p>Would output:</p>
+	<p>Output:</p>
 
 <pre>
 &lt;!-- 1 --&gt;
@@ -611,16 +618,16 @@ event: {
 
 &lt;!-- 3 --&gt;
 &lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;start&quot;&gt;
-	&lt;time&gt;6:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
+	&lt;time&gt;2:45 pm&lt;/time&gt;
+	&lt;time&gt;3:45 pm&lt;/time&gt;
+	&lt;time&gt;3:45 pm&lt;/time&gt;
+	&lt;time&gt;3:45 pm&lt;/time&gt;
+	&lt;time&gt;3:45 pm&lt;/time&gt;
 &lt;/div&gt;
 
 &lt;!-- 4 --&gt;
 &lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;end&quot;&gt;
-	&lt;time&gt;6:45 pm&lt;/time&gt;
+	&lt;time&gt;4:45 pm&lt;/time&gt;
 	&lt;time&gt;5:45 pm&lt;/time&gt;
 	&lt;time&gt;5:45 pm&lt;/time&gt;
 	&lt;time&gt;5:45 pm&lt;/time&gt;
@@ -629,20 +636,20 @@ event: {
 
 &lt;!-- 5 --&gt;
 &lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;
-	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;Tuesday, March 8th, 2016 at 6:45 pm to 7:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;Tuesday, March 15th, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 at 5:45 pm to 6:45 pm&lt;/time&gt;
+	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;Tuesday, March 8th, 2016 at 2:45 pm to 4:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;Tuesday, March 15th, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;
 &lt;/div&gt;
 
 &lt;!-- 6 --&gt;
 &lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot; data-sepatrator-date-time=&quot; from &quot; data-sepatrator-time=&quot; - &quot;&gt;
-	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;Tuesday, March 8th, 2016 from 6:45 pm - 7:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;Tuesday, March 15th, 2016 from 5:45 pm - 6:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 from 5:45 pm - 6:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 from 5:45 pm - 6:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 from 5:45 pm - 6:45 pm&lt;/time&gt;
+	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;Tuesday, March 8th, 2016 from 2:45 pm - 4:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;Tuesday, March 15th, 2016 from 3:45 pm - 5:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 from 3:45 pm - 5:45 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 from 3:45 pm - 6545 pm&lt;/time&gt;&lt;br&gt;
+	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 from 3:45 pm - 5:45 pm&lt;/time&gt;
 &lt;/div&gt;
 </pre>
 
@@ -681,7 +688,7 @@ event: {
 
 	<h4 id="settings-bookmark-templates-photos-photo-format">Photo Format</h4>
 
-	<p>Using <code>data-format</code> with <code>data-photo</code>, you can set the size of the images to be returned from the following list:</p>
+	<p>Using <code>data-format</code> with <code>data-photo</code>, you can set the size of the images to be returned from the following list. <code>huge</code> is the default size returned from the API.</p>
 
 	<table class="widefat">
 		<thead>
@@ -707,6 +714,10 @@ event: {
 		<tr>
 			<td><code>big_300</code></td>
 			<td>300×225</td>
+		</tr>
+		<tr>
+			<td><code>huge</code></td>
+			<td>Uploaded image size</td>
 		</tr>
 	</table>
 
@@ -756,9 +767,34 @@ event: {
 
 	<p>Once a department, or group of departments, is chosen, events from the department(s) will be selected and then the other search parameters applied.  This is pertinent to <code>keyword</code> and <code>type</code> searches with a setting of <code>match=any</code>.</p>
 
-	**Example**
+	<strong>Example</strong>
 
-	<p>We have a 'History' department (group_id=1) with 20 events and 10 tagged with the keyword 'History'.  In all of USC events, we have 30 events tagged with the keyword 'History'.</p>
+	<p>We have a 'History' department <code>group_id=1</code> with 20 events and 10 tagged with the keyword 'History'.  In all of USC events, we have 30 events tagged with the keyword 'History'.</p>
+
+	<table class="widefat">
+		<thead>
+			<td><strong>Dept ID</strong></td>
+			<td><strong>Dept Name</strong></td>
+			<td><strong>Tag</strong></td>
+			<td><strong>Number of Events</strong></td>
+		</thead>
+		<tr>
+			<td rowspan="2">1</td>
+			<td rowspan="2">History</td>
+			<td>n/a</td>
+			<td>10</td>
+		</tr>
+		<tr>
+			<td>'History'</td>
+			<td>10</td>
+		</tr>
+		<tr>
+			<td><em>Multiple</em></td>
+			<td><em>Multiple</em></td>
+			<td>'History'</td>
+			<td>30</td>
+		</tr>
+	</table>
 
 	<p>Searching for the following elements separately:</p>
 
