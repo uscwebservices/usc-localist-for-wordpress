@@ -10,12 +10,12 @@
 <style type="text/css">
 	
 	/* headings */
-	.usc_lfwp_wrap h1 { font-size: 2.2rem; }
-	.usc_lfwp_wrap h2 { font-size: 2rem; }
-	.usc_lfwp_wrap h3 { font-size: 1.8rem; }
-	.usc_lfwp_wrap h4 { font-size: 1.6rem; }
-	.usc_lfwp_wrap h5 { font-size: 1.4rem; }
-	.usc_lfwp_wrap h6 { font-size: 1.2rem; }
+	.usc_lfwp_wrap h1 { font-size: 2.5rem; }
+	.usc_lfwp_wrap h2 { font-size: 2.25rem; }
+	.usc_lfwp_wrap h3 { font-size: 1.75rem; }
+	.usc_lfwp_wrap h4 { font-size: 1.3rem; }
+	.usc_lfwp_wrap h5 { font-size: 1.0rem; }
+	.usc_lfwp_wrap h6 { font-size: 0.7rem; }
 	
 	/* code style */
 	.usc_lfwp_wrap pre {
@@ -41,7 +41,7 @@
 </style>
 <div class="usc_lfwp_wrap">
 	
-	<h2 id="settings-bookmark-usc-localist-for-wordpress">USC Localist for WordPress</h2>
+	<h1 id="settings-bookmark-usc-localist-for-wordpress">USC Localist for WordPress</h1>
 
 	<ul>
 		<li><a href="#settings-bookmark-plugin-usage">Plugin Usage</a></li>
@@ -86,12 +86,12 @@
 		</li>
 	</ul>
 	
-	<h3 id="settings-bookmark-plugin-usage">Plugin Usage</h3>
+	<h2 id="settings-bookmark-plugin-usage">Plugin Usage</h2>
 
 	<p>This is a WordPress Plugin that uses the shortcode <code>[localist-calendar]</code> to get events from the <a href="https://calendar.usc.edu">USC Calendar</a>.</p>
 
 
-	<h3 id="settings-bookmark-shortcode-api-options">Shortcode API Options</h3>
+	<h2 id="settings-bookmark-shortcode-api-options">Shortcode API Options</h2>
 	
 	<p>Below are the attributes available from the Localist API. Please reference the <a href="http://www.localist.com/doc/api">Localist API Documents</a> for full documentation of currently supported options.</p>
 
@@ -156,7 +156,7 @@
 		</tr>
 	</table>
 
-	<h3 id="settings-bookmark-custom-shortcode-api-options">Custom Shortcode API options</h3>
+	<h2 id="settings-bookmark-custom-shortcode-api-options">Custom Shortcode API options</h2>
 
 	<p>In addion to the attributes from the <a href="http://www.localist.com/doc/api">Localist API</a>, the following custom attributes can be used.</p>
 
@@ -201,7 +201,7 @@
 				<td>
 					<code>false</code>
 				</td>
-				<td>Displays <code>first_date</code> - <code>last_date</code> on <code>events</code> if dates differ else the next single instance will display. (<a href="#note-date-range">see note<sup>2</sup> below</a>)</td>
+				<td>Displays <code>first_date</code> - <code>last_date</code> on multiple <code>events</code> if dates differ, else the single instance will display. (<a href="#note-date-range">see note<sup>2</sup> below</a>)</td>
 			</tr>
 			<tr>
 				<td><code>details_page</code></td>
@@ -220,7 +220,7 @@
 				<td>
 					<code>false</code>
 				</td>
-				<td>Uses the same page for details page.</td>
+				<td>Displays multiple events and single event details using the same shortcode on the same page.</td>
 			</tr>
 			<tr>
 				<td><code>paginate</code></td>
@@ -232,21 +232,31 @@
 				<td>
 					false
 				</td>
-				<td>Show the pagination on multiple events api.</td>
+				<td>
+					Show the pagination on multiple events api.
+					<br><code>next</code> displays << Prev Next >>
+					<br><code>numeric</code> displays 1 2 3
+				</td>
 			</tr>
 			<tr>
 				<td><code>paginate_offset</code></td>
 				<td>numeric</td>
 				<td></td>
 				<td><code>3</code></td>
-				<td>The amount of numbers to show before and after the current page.</td>
+				<td>
+					The amount of numbers to show before and after the current page. 
+					<br>Example using <code>3</code>: 1...10 <strong>11</strong> 12...95
+				</td>
 			</tr>
 			<tr>
 				<td><code>paginate_numeric_separator</code></td>
 				<td>string</td>
 				<td><code> ... </code></td>
 				<td>false</td>
-				<td>The separator used betwen first, last and the offset page start/end. <br> Example: 1 ... 21 <strong>22</strong> 23 ... 84</td>
+				<td>
+					The separator used betwen first, last and the offset page start/end. 
+					<br>Example: 1 ... 10 <strong>11</strong> 12 ... 95
+				</td>
 			</tr>
 			<tr>
 				<td><code>template_multiple</code></td>
@@ -254,7 +264,7 @@
 				<td>
 					<code>events-list.html</code>
 				</td>
-				<td>The <code>slug</code> of the post type <strong>Event Templates</strong> to use for the structure of the returned API data for a list of events.  Defaults to list view.</td>
+				<td>The <code>slug</code> of the post type <a href="edit.php?post_type=event-template">Event Templates</a> to use for the structure of the returned API data for a list of events.  Defaults to <a href="#settings-bookmark-templates-samples-multiple">list view</a>.</td>
 			</tr>
 			<tr>
 				<td><code>template_single</code></td>
@@ -263,7 +273,7 @@
 				<td>
 					<code>events-single.html</code>
 				</td>
-				<td>Enter the <code>slug</code> of the posty type <strong>Event Templates</strong> to use for the structure of the returned API data for a single event.  Defaults to single view.</td>
+				<td>Enter the <code>slug</code> of the posty type <a href="edit.php?post_type=event-template">Event Templates</a> to use for the structure of the returned API data for a single event.  Defaults to <a href="#settings-bookmark-templates-samples-single">single view</a>.</td>
 			</tr>
 			<tr>
 				<td><code>message_no_events</code></td>
@@ -277,11 +287,11 @@
 		</tbody>
 	</table>
 
-	<p id="note-cache"><strong><sup>1</sup>Note:</strong> Setting a value for <code>cache</code> means that the database will store an object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may overtask the database writing transients unnecessarily.</p>
+	<p id="note-cache"><strong><sup>1</sup>Note:</strong> Setting a value for <code>cache</code> means that the database will store a transient object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may overtask the database writing transients unnecessarily.  Object cache is separate from page cache.  If a page cache is set to a time less than the <code>cache</code>, it may take the page cache time plus the object cache time to refresh the data displayed.</p>
 
 	<p id="note-date-range"><strong><sup>2</sup>Note:</strong> The shortcode attribute <code>date-range</code> will only show on multiple events list.  Single event details will list all instances of dates after current date.</p>
 
-	<h3 id="settings-bookmark-customizer">Customizer</h3>
+	<h2 id="settings-bookmark-customizer">Customizer</h2>
 
 	<p>This plugin uses the WordPress <a href="/wp-admin/customize.php">Customizer</a> to set global calendar settings for the following items.</p>
 
@@ -301,7 +311,7 @@
 	</table>
 
 
-	<h4 id="settings-bookmark-customizer-event-details-page">Event Details Page</h4>
+	<h3 id="settings-bookmark-customizer-event-details-page">Event Details Page</h3>
 
 	<p>Choose a page where the events link to an event details page.</p>
 
@@ -316,7 +326,7 @@
 	<p>If you leave the dropdown blank, the event links will go to the event detail page on the <a href="https://calendar.usc.edu">USC Calendar</a>.</p>
 
 
-	<h3 id="settings-bookmark-templates">Templates</h3>
+	<h2 id="settings-bookmark-templates">Templates</h2>
 
 	<p>You can add a custom template in the <a href="edit.php?post_type=event-template">Events Templates</a> section and specify it's use within the shortcode as <code>template_multiple</code> for events lists or <code>template_sinle</code> for event details pages.</p>
 
@@ -324,7 +334,7 @@
 
 	<p>Please use the sections below to help write a template using data attributes.</p>
 
-	<h4 id="settings-bookmark-templates-data-fields">Data Fields</h4>
+	<h3 id="settings-bookmark-templates-data-fields">Data Fields</h3>
 
 	<p>To use the data from the API, you can add the data attribute <code>data-field</code> to any HTML element and use the mapped dot syntax path to the data.  The <code>data-field</code> will start at the individual <code>event</code> level and fill the content area of the selected tag.</p>
 
@@ -369,7 +379,7 @@ event: {
 		<pre>&lt;address data-field=&quot;geo.city&quot;&gt;Pasadena&lt;/address&gt;</pre>
 
 
-	<h4 id="settings-bookmark-templates-links">Links</h4>
+	<h3 id="settings-bookmark-templates-links">Links</h3>
 
 	<p>To set a link from the API data, you can add the data attribute <code>data-link</code> to an <code>a</code> tag and use the mapped dot syntax path to the data which will set the <code>src</code> attribute of the tag.</p>
 
@@ -443,7 +453,7 @@ event: {
 </pre>
 
 
-	<h4 id="settings-bookmark-templates-dates">Dates</h4>
+	<h3 id="settings-bookmark-templates-dates">Dates</h3>
 
 	<p>To set a date ore time setting from the API data, you can add the data attribute <code>data-date-type</code> to any HTML tag.  This will automatically map the data to the <code>first_date</code>, <code>last_date</code>, or event instance(s) depending on the options chosen.</p>
 
@@ -640,7 +650,7 @@ event: {
 
 
 
-	<h4 id="settings-bookmark-templates-photos">Photos</h4>
+	<h3 id="settings-bookmark-templates-photos">Photos</h3>
 
 	<p>The data node <code>photo_url</code> will replace the <code>src</code> with the url of the photo.</p>
 
@@ -669,7 +679,7 @@ event: {
 		</tbody>
 	</table>
 
-	<h5 id="settings-bookmark-templates-photos-photo-format">Photo Format</h5>
+	<h4 id="settings-bookmark-templates-photos-photo-format">Photo Format</h4>
 
 	<p>Using <code>data-format</code> with <code>data-photo</code>, you can set the size of the images to be returned from the following list:</p>
 
@@ -701,11 +711,11 @@ event: {
 	</table>
 
 
-	<h4 id="settings-bookmark-templates-samples">Template Samples</h4>
+	<h3 id="settings-bookmark-templates-samples">Template Samples</h3>
 
 	<p>Below are the default templates used for the plugin.</p>
 
-	<h5 id="settings-bookmark-templates-samples-multiple">Multiple Events Template</h5>
+	<h4 id="settings-bookmark-templates-samples-multiple">Multiple Events Template</h4>
 
 <pre>
 &lt;html&gt;
@@ -718,7 +728,7 @@ event: {
 &lt;/html&gt;
 </pre>
 
-	<h5 id="settings-bookmark-templates-samples-single">Single Event Template</h5>
+	<h4 id="settings-bookmark-templates-samples-single">Single Event Template</h4>
 
 <pre>
 &lt;html&gt;
@@ -737,12 +747,12 @@ event: {
 
 
 
-	<h3 id="settings-bookmark-notes">Notes</h3>
+	<h2 id="settings-bookmark-notes">Notes</h2>
 
 
-	<h4 id="settings-bookmark-notes-events">Events</h4>
+	<h3 id="settings-bookmark-notes-events">Events</h3>
 
-	<h5 id="settings-bookmark-notes-events-event-departments">Event Departments</h5>
+	<h4 id="settings-bookmark-notes-events-event-departments">Event Departments</h4>
 
 	<p>Once a department, or group of departments, is chosen, events from the department(s) will be selected and then the other search parameters applied.  This is pertinent to <code>keyword</code> and <code>type</code> searches with a setting of <code>match=any</code>.</p>
 
