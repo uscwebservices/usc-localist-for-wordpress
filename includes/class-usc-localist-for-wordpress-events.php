@@ -50,6 +50,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		private function load_dependencies() {
 
 			// require the config class for API variables
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
+
+			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-templates.php';
 
 			// require the date class for date and time functions
@@ -57,6 +60,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 
 			// require the paginate class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-paginate.php';
+
+			// retrun the API configurations
+			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}
 
@@ -70,6 +76,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 */
 		public function get_events() {
 
+			// get the default config file
+			$config = $this->config;
+			
 			// set default output
 			$output = '';
 
@@ -91,7 +100,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			// check that we have actual events returned
 			if ( count( $events ) == 0 ) {
 
+				$output .= '<p class="' . $config['default']['class']['no_events'] . '">';
 				$output .= $api_data['template_options']['message_no_events'];
+				$output .= '</p>';
 
 			} 
 

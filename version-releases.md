@@ -1,6 +1,10 @@
 USC Localist for WordPress
 ==========================
 
+## 1.1.8
+
+- add <p class="no-events-message"> tag wrapper to no events messaging.
+
 ## 1.1.7
 
 - return numeric pagination results if only greater than 1 page of results
