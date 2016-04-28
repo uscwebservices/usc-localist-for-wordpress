@@ -290,7 +290,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				// default setting
 				else {
 
-					$template_options['message_no_events'] = $config['default']['messages']['no-events'];
+					$template_options['message_no_events'] = $config['default']['messages']['no_events'];
 
 				}
 
