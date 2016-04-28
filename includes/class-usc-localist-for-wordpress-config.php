@@ -47,7 +47,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 					'no_events' => 'No scheduled events.'
 				),
 				'class' => array(
-					'no_events' => 'no-events'
+					'no_events' => 'no-events-message'
 				)
 			),
 			'plugin' => array(
