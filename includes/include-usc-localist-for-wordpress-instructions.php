@@ -283,7 +283,7 @@
 				<td>
 					<code>No scheduled events.</code>
 				</td>
-				<td>Enter the message to display if there are no events returned from the API.</td>
+				<td>Enter the message to display if there are no events returned from the API. (<a href="#note-no-events-message">see <sup>3</sup> below</a>)</td>
 			</tr>
 		</tbody>
 	</table>
@@ -291,6 +291,8 @@
 	<p id="note-cache"><strong><sup>1</sup>Note:</strong> Setting a value for <code>cache</code> means that the database will store a transient object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may overtask the database writing transients unnecessarily.  Object cache is separate from page cache.  If a page cache is set to a time less than the <code>cache</code>, it may take the page cache time plus the object cache time to refresh the data displayed.</p>
 
 	<p id="note-date-range"><strong><sup>2</sup>Note:</strong> The shortcode attribute <code>date-range</code> will only show on multiple events list.  Single event details will list all instances of dates after current date.</p>
+
+	<p id="note-no-events-message"><strong><sup>3</sup>Note:</strong> The output of the no events message is <code>&lt;p class="no-events-message"&gt;No scheduled events.&lt;/p&gt;</code></p>
 
 	<h2 id="settings-bookmark-customizer">Customizer</h2>
 
