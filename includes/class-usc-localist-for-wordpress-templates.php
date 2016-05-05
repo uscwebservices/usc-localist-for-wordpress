@@ -113,6 +113,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			// set variable if we have a single event
 			$is_single = ( $options['api']['type'] == 'event' ) ? true : false;
 
+			// get the separator
+			$separator_date_time = isset ( $options['separator_range'] ) ? $options['separator_range'] : $config['default']['separator']['range'];
+
 			// loop through the data fields found
 			foreach ( $fields as $field ) {
 
@@ -146,6 +149,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// time separator
 				$options['separator_time'] = isset( $field->{'data-separator-time'} ) ? $field->{'data-separator-time'} : $config['default']['separator']['time'];
+
+				// range separator
+				$options['separator_range'] = isset( $field->{'data-separator-range'} ) ? $field->{'data-separator-range'} : $config['default']['separator']['range'];
 				
 				// separator to use between instances output
 				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : $config['default']['separator']['default'];
@@ -164,7 +170,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 					if ( $date_start != $date_end ) {
 
-						$output .= '<time datetime="'. $api_data['first_date'] .'">' . $date_start . '</time> - <time datetime="'. $api_data['last_date'] . '">' . $date_end . '</time>';
+						$output .= '<time class="event-date-range-start" datetime="'. $api_data['first_date'] .'">' . $date_start . '</time>' . $options['separator_range'] . '<time class="event-date-range-end" datetime="'. $api_data['last_date'] . '">' . $date_end . '</time>';
 
 						$field->innertext = $output;
 					}
