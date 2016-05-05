@@ -1,6 +1,12 @@
 USC Localist for WordPress
 ==========================
 
+
+## 1.1.9
+
+- add span tag classes around template items with data-date-type="datetime-start-end"
+
+
 ## 1.1.8
 
 - add <p class="no-events-message"> tag wrapper to no events messaging.
