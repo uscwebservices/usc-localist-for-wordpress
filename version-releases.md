@@ -4,7 +4,8 @@ USC Localist for WordPress
 
 ## 1.2.0
 
-- add span tag classes around template items with data-date-type="datetime-start-end"
+- add span tag classes around template items with date, time and datetime-start-end options
+- add date range separator template option with 'data-separator-range': default ' - '
 
 
 ## 1.1.8
