@@ -183,14 +183,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 					case 'date':
 						
 						$date = date( $format_date, $converted_date );
-						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . '</time>';
+						return '<time class="event-' . $date_type . '-' . $date_instance . ' " datetime="' . $event_instance[$date_instance] . '">' . $date . '</time>';
 
 						break;
 					
 					case 'time':
 						
 						$time = date( $format_time, $converted_date );
-						return '<time>' . $time . '</time>';
+						return '<time class="event-' . $date_type . '-' . $date_instance . '">' . $time . '</time>';
 
 						break;
 					
