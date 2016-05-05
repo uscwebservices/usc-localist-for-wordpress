@@ -148,7 +148,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				$options['separator_time'] = isset( $field->{'data-separator-time'} ) ? $field->{'data-separator-time'} : $config['default']['separator']['time'];
 				
 				// separator to use between instances output
-				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : null;
+				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : $config['default']['separator']['default'];
 
 				// date ranges
 				$date_range = isset( $options['template_options']['date_range'] ) ? $options['template_options']['date_range'] : false;

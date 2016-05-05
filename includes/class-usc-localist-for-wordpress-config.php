@@ -40,6 +40,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 				'format_date' => 'm/d/Y',
 				'format_time' => 'g:i a',
 				'separator' => array(
+					'default' => null,
 					'date_time' => ' at ',
 					'time' => ' to '
 				),
