@@ -199,25 +199,42 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						// default output options
 						$time_end_output = '';
 
+						// convert date to date format
 						$date = date( $format_date, $converted_date );
+
+						// convert start time to time format
 						$time_start = date( $format_time, strtotime( $event_instance['start'] ) );
 						
+						// check if there is an end time 
 						if ( isset( $event_instance['end'] ) ) {
 							
-							$time_end = date( $format_time, strtotime( $event_instance['end'] ) );
-							$time_end_output = $separator_time . $time_end;
+							$time_end_format = date( $format_time, strtotime( $event_instance['end'] ) );
+							$time_end = $separator_time . $time_end_format;
 
 						}
 
-						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . $separator_date_time . $time_start . $time_end_output . '</time>';
+						return '<time class="event-' . $date_type . '" datetime="' . $event_instance[$date_instance] . '">'
+							. '<span class="event-date">' . $date . '</span>'
+							. $separator_date_time 
+							. '<span class="event-time-start">' . $time_start . '</span>'
+							. '<span class="event-time-end">' . $time_end . '</span>'
+							. '</time>';
 						
 						break;
 
 					default:
 						
+						// convert date to date format
 						$date = date( $format_date, $converted_date );
+
+						// convert time to time format
 						$time = date( $format_time, $converted_date );
-						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . $separator_date_time . $time . '</time>';
+						
+						return '<time class="event-' . $date_type . '-' . $date_instance . '" datetime="' . $event_instance[$date_instance] . '">'
+							. '<span class="event-date">' . $date . '</span>'
+							. $separator_date_time
+							. '<span class="event-time">' . $time . '</span>'
+							. '</time>';
 						
 						break;
 				}
