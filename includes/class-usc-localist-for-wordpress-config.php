@@ -42,7 +42,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 				'separator' => array(
 					'default' => null,
 					'date_time' => ' at ',
-					'time' => ' to '
+					'time' => ' to ',
+					'range' => ' - '
 				),
 				'messages' => array(
 					'no_events' => 'No scheduled events.'
