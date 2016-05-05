@@ -319,6 +319,8 @@
 
 	<p><strong>Note:</strong> Date ranges will display on multiple event lists only.  Single event details iterate through the dates.  If set to <code>no</code>, the multiple display will show the single date of the current instance returned.</p>
 
+	<p><strong>Note:</strong> Please reference <a href="#settings-bookmark-templates-dates">Templates &gt; Dates</a> for setting a custom value for the range separator.</p>
+
 
 	<h3 id="settings-bookmark-customizer-event-details-page">Event Details Page</h3>
 
@@ -528,6 +530,13 @@ event: {
 				<td></td>
 				<td><code>m/d/Y</code></td>
 				<td>Set the date output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
+			</tr>
+			<tr>
+				<td><code>data-separator-range</code></td>
+				<td>string</td>
+				<td></td>
+				<td><code> - </code></td>
+				<td>Set the separator for multiple events using the <a href="#settings-bookmark-customizer-event-dates-range">range option</a>.</td>
 			</tr>
 			<tr>
 				<td><code>data-separator-date-time</code></td>
