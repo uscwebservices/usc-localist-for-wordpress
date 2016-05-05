@@ -566,31 +566,31 @@ event: {
 
 <pre>
 event: {
-	first_date: "2016-02-02",
-	last_date: "2016-04-05",
+	first_date: "2020-02-02",
+	last_date: "2020-04-05",
 	event_instances: [
 		{
 			event_instance: {
-				start: "2016-03-08T10:45:00-08:00",
-				end: "2016-03-08T12:45:00-08:00"
+				start: "2020-03-08T10:45:00-08:00",
+				end: "2020-03-08T12:45:00-08:00"
 			}
 		},
 		{
 			event_instance: {
-				start: "2016-03-22T10:45:00-07:00",
-				end: "2016-03-22T12:45:00-07:00"
+				start: "2020-03-22T10:45:00-07:00",
+				end: "2020-03-22T12:45:00-07:00"
 			}
 		},
 		{
 			event_instance: {
-				start: "2016-03-29T10:45:00-07:00",
-				end: "2016-03-29T12:45:00-07:00"
+				start: "2020-03-29T10:45:00-07:00",
+				end: "2020-03-29T12:45:00-07:00"
 			}
 		},
 		{
 			event_instance: {
-				start: "2016-04-05T10:45:00-07:00",
-				end: "2016-04-05T12:45:00-07:00"
+				start: "2020-04-05T10:45:00-07:00",
+				end: "2020-04-05T12:45:00-07:00"
 			}
 		}
 	]
@@ -618,55 +618,8 @@ event: {
 	<p>Output:</p>
 
 <pre>
-&lt;!-- 1 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;date&quot;&gt;
-	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;03/08/2016&lt;/time&gt;
-	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;03/15/2016&lt;/time&gt;
-	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;03/22/2016&lt;/time&gt;
-	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;03/29/2016&lt;/time&gt;
-	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;04/05/2016&lt;/time&gt;
-&lt;/div&gt;
-
-&lt;!-- 3 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;start&quot;&gt;
-	&lt;time&gt;2:45 pm&lt;/time&gt;
-	&lt;time&gt;3:45 pm&lt;/time&gt;
-	&lt;time&gt;3:45 pm&lt;/time&gt;
-	&lt;time&gt;3:45 pm&lt;/time&gt;
-	&lt;time&gt;3:45 pm&lt;/time&gt;
-&lt;/div&gt;
-
-&lt;!-- 4 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;end&quot;&gt;
-	&lt;time&gt;4:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-&lt;/div&gt;
-
-&lt;!-- 5 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;
-	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;Tuesday, March 8th, 2016 at 2:45 pm to 4:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;Tuesday, March 15th, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;
-&lt;/div&gt;
-
-&lt;!-- 6 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot; data-sepatrator-date-time=&quot; from &quot; data-sepatrator-time=&quot; - &quot;&gt;
-	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;Tuesday, March 8th, 2016 from 2:45 pm - 4:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;Tuesday, March 15th, 2016 from 3:45 pm - 5:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 from 3:45 pm - 5:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 from 3:45 pm - 6545 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 from 3:45 pm - 5:45 pm&lt;/time&gt;
-&lt;/div&gt;
+<?php include plugin_dir_path( dirname( __FILE__ ) ) . 'sample/sample-output-dates.php'; ?>
 </pre>
-
-
-
-
 
 	<h3 id="settings-bookmark-templates-photos">Photos</h3>
 
