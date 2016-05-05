@@ -448,19 +448,27 @@ event: {
 	<p>Template code:</p>
 
 <pre>
-&lt;a href=&quot;&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;&lt;/a&gt;
-&lt;a class=&quot;event-map&quot; href=&quot;&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
-&lt;a class=&quot;ticket&quot; href=&quot;&quot; data-link=&quot;ticket_url&quot;&gt;Ticket&lt;/a&gt;
-&lt;a class=&quot;ticket&quot; href=&quot;&quot; data-link=&quot;venue_url&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
+<?php
+$code_sample_template_links = 
+'<a href="" data-link="localist_url" data-field="title"></a>
+<a class="event-map" href="" data-link="map" data-field="location_name"></a>
+<a class="ticket" href="" data-link="ticket_url">Ticket</a>
+<a class="ticket" href="" data-link="venue_url" data-field="location_name"></a>';
+echo htmlentities( $code_sample_template_links );
+?>
 </pre>
 
 	<p>Output:</p>
 
 <pre>
-&lt;a href=&quot;http://calendar.usc.edu/event/usc_tommy_trojan&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;USC Tommy Trojan&lt;/a&gt;
-&lt;a class=&quot;event-map&quot; href=&quot;http://web-app.usc.edu/maps/?b=STU&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;Student Union (STU)&lt;/a&gt;
-&lt;a class=&quot;ticket&quot; href=&quot;http://eventbrite.com/&quot; data-link=&quot;ticket_url&quot;&gt;Ticket&lt;/a&gt;
-&lt;span class=&quot;ticket&quot; data-link=&quot;venue_url&quot; data-field=&quot;location_name&quot;&gt;Student Union (STU)&lt;/span&gt;
+<?php
+$code_sample_output_links = 
+'<a href="http://calendar.usc.edu/event/usc_tommy_trojan" data-link="localist_url" data-field="title">USC Tommy Trojan</a>
+<a class="event-map" href="http://web-app.usc.edu/maps/?b=STU" data-link="map" data-field="location_name">Student Union (STU)</a>
+<a class="ticket" href="http://eventbrite.com/" data-link="ticket_url">Ticket</a>
+<span class="ticket" data-link="venue_url" data-field="location_name">Student Union (STU)</span>';
+echo htmlentities( $code_sample_output_links );
+?>
 </pre>
 
 
@@ -600,7 +608,8 @@ event: {
 	<p>Template code:</p>
 <pre>
 <?php
-$code_sample_template_dates = '
+$code_sample_template_dates = 
+'
 <!-- 1 -->
 <div class="event-dates" data-date-type="date"></div>
 
@@ -624,99 +633,100 @@ echo htmlentities( $code_sample_template_dates );
 
 <pre>
 <?php
-$code_sample_output_dates = '
+$code_sample_output_dates = 
+'
 <!-- 1 -->
 <div class="event-dates" data-date-type="date">
-	<time class="event-date-start" datetime="2020-03-08T10:45:00-08:00">03/08/2020</time>
-	<time class="event-date-start" datetime="2020-03-22T10:45:00-07:00">03/22/2020</time>
-	<time class="event-date-start" datetime="2020-03-29T10:45:00-07:00">03/29/2020</time>
-	<time class="event-date-start" datetime="2020-04-05T10:45:00-07:00">04/05/2020</time>
+    <time class="event-date-start" datetime="2020-03-08T10:45:00-08:00">03/08/2020</time>
+    <time class="event-date-start" datetime="2020-03-22T10:45:00-07:00">03/22/2020</time>
+    <time class="event-date-start" datetime="2020-03-29T10:45:00-07:00">03/29/2020</time>
+    <time class="event-date-start" datetime="2020-04-05T10:45:00-07:00">04/05/2020</time>
 </div>
 
 <!-- 2 -->
 <div class="event-dates" data-date-type="time" date-instance="start">
-	<time class="event-time-start">11:45 am</time>
-	<time class="event-time-start">10:45 am</time>
-	<time class="event-time-start">10:45 am</time>
-	<time class="event-time-start">10:45 am</time>
+    <time class="event-time-start">11:45 am</time>
+    <time class="event-time-start">10:45 am</time>
+    <time class="event-time-start">10:45 am</time>
+    <time class="event-time-start">10:45 am</time>
 </div>
 
 <!-- 3 -->
 <div class="event-dates" data-date-type="time" date-instance="end">
-	<time class="event-time-start">11:45 am</time>
-	<time class="event-time-start">10:45 am</time>
-	<time class="event-time-start">10:45 am</time>
-	<time class="event-time-start">10:45 am</time>
+    <time class="event-time-start">11:45 am</time>
+    <time class="event-time-start">10:45 am</time>
+    <time class="event-time-start">10:45 am</time>
+    <time class="event-time-start">10:45 am</time>
 </div>
 
 <!-- 4 -->
 <div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>">
-	<time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
-		<span class="event-date-start">Sunday, March 8th, 2020</span>
-		<span class="event-separator-datetime"> at </span>
-		<span class="event-time-start">11:45 am</span>
-		<span class="event-sepatrator-time"> to </span>
-		<span class="event-time-end">1:45 pm</span>
-	</time>
-	<br>
-	<time class="event-datetime-start-end" datetime="2020-03-22T10:45:00-07:00">
-		<span class="event-date-start">Sunday, March 22nd, 2020</span>
-		<span class="event-separator-datetime"> at </span>
-		<span class="event-time-start">10:45 am</span>
-		<span class="event-sepatrator-time"> to </span>
-		<span class="event-time-end">12:45 pm</span>
-	</time>
-	<br>
-	<time class="event-datetime-start-end" datetime="2020-03-29T10:45:00-07:00">
-		<span class="event-date-start">Sunday, March 29th, 2020</span>
-		<span class="event-separator-datetime"> at </span>
-		<span class="event-time-start">10:45 am</span>
-		<span class="event-sepatrator-time"> to </span>
-		<span class="event-time-end">12:45 pm</span>
-	</time>
-	<br>
-	<time class="event-datetime-start-end" datetime="2020-04-05T10:45:00-07:00">
-		<span class="event-date-start">Sunday, April 5th, 2020</span>
-		<span class="event-separator-datetime"> at </span>
-		<span class="event-time-start">10:45 am</span>
-		<span class="event-sepatrator-time"> to </span>
-		<span class="event-time-end">12:45 pm</span>
-	</time>
+    <time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
+        <span class="event-date-start">Sunday, March 8th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">11:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">1:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-03-22T10:45:00-07:00">
+        <span class="event-date-start">Sunday, March 22nd, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-03-29T10:45:00-07:00">
+        <span class="event-date-start">Sunday, March 29th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-04-05T10:45:00-07:00">
+        <span class="event-date-start">Sunday, April 5th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
 </div>
 
 <!-- 5 -->
 <div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-sepatrator-date-time=" from " data-sepatrator-time=" - ">
-	<time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
-		<span class="event-date-start">Sunday, March 8th, 2020</span>
-		<span class="event-separator-datetime"> at </span>
-		<span class="event-time-start">11:45 am</span>
-		<span class="event-sepatrator-time"> to </span>
-		<span class="event-time-end">1:45 pm</span>
-	</time>
-	<br>
-	<time class="event-datetime-start-end" datetime="2020-03-22T10:45:00-07:00">
-		<span class="event-date-start">Sunday, March 22nd, 2020</span>
-		<span class="event-separator-datetime"> at </span>
-		<span class="event-time-start">10:45 am</span>
-		<span class="event-sepatrator-time"> to </span>
-		<span class="event-time-end">12:45 pm</span>
-	</time>
-	<br>
-	<time class="event-datetime-start-end" datetime="2020-03-29T10:45:00-07:00">
-		<span class="event-date-start">Sunday, March 29th, 2020</span>
-		<span class="event-separator-datetime"> at </span>
-		<span class="event-time-start">10:45 am</span>
-		<span class="event-sepatrator-time"> to </span>
-		<span class="event-time-end">12:45 pm</span>
-	</time>
-	<br>
-	<time class="event-datetime-start-end" datetime="2020-04-05T10:45:00-07:00">
-		<span class="event-date-start">Sunday, April 5th, 2020</span>
-		<span class="event-separator-datetime"> at </span>
-		<span class="event-time-start">10:45 am</span>
-		<span class="event-sepatrator-time"> to </span>
-		<span class="event-time-end">12:45 pm</span>
-	</time>
+    <time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
+        <span class="event-date-start">Sunday, March 8th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">11:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">1:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-03-22T10:45:00-07:00">
+        <span class="event-date-start">Sunday, March 22nd, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-03-29T10:45:00-07:00">
+        <span class="event-date-start">Sunday, March 29th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-04-05T10:45:00-07:00">
+        <span class="event-date-start">Sunday, April 5th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
 </div>
 '; // end $html
 
@@ -796,31 +806,39 @@ echo htmlentities( $code_sample_output_dates );
 	<h4 id="settings-bookmark-templates-samples-multiple">Multiple Events Template</h4>
 
 <pre>
-&lt;html&gt;
-	&lt;article class=&quot;event-item&quot;&gt;
-		&lt;h1 class=&quot;event-title&quot;&gt;&lt;a href=&quot;&quot; data-link=&quot;detail&quot; data-field=&quot;title&quot;&gt;&lt;/a&gt;&lt;/h1&gt;
-		&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;&lt;/div&gt;
-		&lt;address class=&quot;event-location&quot; data-field=&quot;location_name&quot;&gt;&lt;/address&gt;
-		&lt;img src=&quot;&quot; data-photo=&quot;photo_url&quot; data-format=&quot;medium&quot; /&gt;
-	&lt;/article&gt;
-&lt;/html&gt;
+<?php
+$code_sample_template_multiple =
+'<html>
+    <article class="event-item">
+        <h1 class="event-title"><a href="" data-link="detail" data-field="title"></a></h1>
+        <div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
+        <address class="event-location" data-field="location_name"></address>
+        <img src="" data-photo="photo_url" data-format="medium" />
+    </article>
+</html>';
+echo htmlentities( $code_sample_template_multiple );
+?>
 </pre>
 
 	<h4 id="settings-bookmark-templates-samples-single">Single Event Template</h4>
 
 <pre>
-&lt;html&gt;
-	&lt;article class=&quot;event single&quot;&gt;
-		&lt;h1 class=&quot;event-title&quot; data-field=&quot;title&quot;&gt;&lt;/h1&gt;
-		&lt;img class=&quot;event-image&quot; src=&quot;&quot; data-photo=&quot;photo_url&quot; data-format=&quot;big&quot; /&gt;
-		&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;&lt;/div&gt;
-		&lt;div class=&quot;event-location&quot;&gt;
-			&lt;a class=&quot;event-map&quot; href=&quot;&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
-			&lt;span class=&quot;event-location&quot; data-field=&quot;geo.city&quot;&gt;&lt;/span&gt;
-		&lt;/div&gt;
-		&lt;div data-field=&quot;description&quot;&gt;&lt;/div&gt;
-	&lt;/article&gt;
-&lt;/html&gt;
+<?php
+$code_sample_template_single =
+'<html>
+    <article class="event single">
+        <h1 class="event-title" data-field="title"></h1>
+        <img class="event-image" src="" data-photo="photo_url" data-format="big" />
+        <div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
+        <div class="event-location">
+            <a class="event-map" href="" data-link="map" data-field="location_name"></a>
+            <span class="event-location" data-field="geo.city"></span>
+        </div>
+        <div data-field="description"></div>
+    </article>
+</html>';
+echo htmlentities( $code_sample_template_single );
+?>
 </pre>
 
 
