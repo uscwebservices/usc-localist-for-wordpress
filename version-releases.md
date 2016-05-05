@@ -2,7 +2,7 @@ USC Localist for WordPress
 ==========================
 
 
-## 1.1.9
+## 1.2.0
 
 - add span tag classes around template items with data-date-type="datetime-start-end"
 
