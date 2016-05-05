@@ -183,7 +183,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 					case 'date':
 						
 						$date = date( $format_date, $converted_date );
-						return '<time class="event-' . $date_type . '-' . $date_instance . ' " datetime="' . $event_instance[$date_instance] . '">' . $date . '</time>';
+						return '<time class="event-' . $date_type . '-' . $date_instance . '" datetime="' . $event_instance[$date_instance] . '">' . $date . '</time>';
 
 						break;
 					
@@ -209,15 +209,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						if ( isset( $event_instance['end'] ) ) {
 							
 							$time_end_format = date( $format_time, strtotime( $event_instance['end'] ) );
-							$time_end = $separator_time . $time_end_format;
+							$time_end = '<span class="event-sepatrator-time">' . $separator_time . '</span>'
+								. '<span class="event-time-end">' . $time_end_format . '</span>';
 
 						}
 
 						return '<time class="event-' . $date_type . '" datetime="' . $event_instance[$date_instance] . '">'
-							. '<span class="event-date">' . $date . '</span>'
-							. $separator_date_time 
+							. '<span class="event-date-start">' . $date . '</span>'
+							. '<span class="event-separator-datetime">' . $separator_date_time . '</span>'
 							. '<span class="event-time-start">' . $time_start . '</span>'
-							. '<span class="event-time-end">' . $time_end . '</span>'
+							. $time_end
 							. '</time>';
 						
 						break;
@@ -232,7 +233,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						
 						return '<time class="event-' . $date_type . '-' . $date_instance . '" datetime="' . $event_instance[$date_instance] . '">'
 							. '<span class="event-date">' . $date . '</span>'
-							. $separator_date_time
+							. '<span class="event-separator-datetime">' . $separator_date_time . '</span>'
 							. '<span class="event-time">' . $time . '</span>'
 							. '</time>';
 						

@@ -170,7 +170,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 					if ( $date_start != $date_end ) {
 
-						$output .= '<time class="event-date-range-start" datetime="'. $api_data['first_date'] .'">' . $date_start . '</time>' . $options['separator_range'] . '<time class="event-date-range-end" datetime="'. $api_data['last_date'] . '">' . $date_end . '</time>';
+						$output .= '<time class="event-date-range-start" datetime="'. $api_data['first_date'] .'">' . $date_start . '</time>'
+							. '<span class="event-separator-range">' . $options['separator_range'] . '</span>'
+							. '<time class="event-date-range-end" datetime="'. $api_data['last_date'] . '">' . $date_end . '</time>';
 
 						$field->innertext = $output;
 					}
