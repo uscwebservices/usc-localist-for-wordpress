@@ -61,7 +61,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			// require the paginate class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-paginate.php';
 
-			// retrun the API configurations
+			// return the API configurations
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}

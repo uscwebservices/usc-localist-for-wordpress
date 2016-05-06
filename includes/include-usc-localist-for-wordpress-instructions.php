@@ -159,7 +159,7 @@
 
 	<h2 id="settings-bookmark-custom-shortcode-api-options">Custom Shortcode API options</h2>
 
-	<p>In addion to the attributes from the <a href="http://www.localist.com/doc/api">Localist API</a>, the following custom attributes can be used.</p>
+	<p>In addition to the attributes from the <a href="http://www.localist.com/doc/api">Localist API</a>, the following custom attributes can be used.</p>
 
 	<table class="widefat">
 		<thead>
@@ -255,7 +255,7 @@
 				<td><code> ... </code></td>
 				<td>false</td>
 				<td>
-					The separator used betwen first, last and the offset page start/end. 
+					The separator used between first, last and the offset page start/end. 
 					<br>Example: 1 ... 10 <strong>11</strong> 12 ... 95
 				</td>
 			</tr>
@@ -274,7 +274,7 @@
 				<td>
 					<code>events-single.html</code>
 				</td>
-				<td>Enter the <code>slug</code> of the posty type <a href="edit.php?post_type=event-template">Event Templates</a> to use for the structure of the returned API data for a single event.  Defaults to <a href="#settings-bookmark-templates-samples-single">single view</a>.</td>
+				<td>Enter the <code>slug</code> of the post type <a href="edit.php?post_type=event-template">Event Templates</a> to use for the structure of the returned API data for a single event.  Defaults to <a href="#settings-bookmark-templates-samples-single">single view</a>.</td>
 			</tr>
 			<tr>
 				<td><code>message_no_events</code></td>
@@ -288,7 +288,7 @@
 		</tbody>
 	</table>
 
-	<p id="note-cache"><strong><sup>1</sup>Note:</strong> Setting a value for <code>cache</code> means that the database will store a transient object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may overtask the database writing transients unnecessarily.  Object cache is separate from page cache.  If a page cache is set to a time less than the <code>cache</code>, it may take the page cache time plus the object cache time to refresh the data displayed.</p>
+	<p id="note-cache"><strong><sup>1</sup>Note:</strong> Setting a value for <code>cache</code> means that the database will store a transient object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may over task the database writing transients unnecessarily.  Object cache is separate from page cache.  If a page cache is set to a time less than the <code>cache</code>, it may take the page cache time plus the object cache time to refresh the data displayed.</p>
 
 	<p id="note-date-range"><strong><sup>2</sup>Note:</strong> The shortcode attribute <code>date-range</code> will only show on multiple events list.  Single event details will list all instances of dates after current date.</p>
 
@@ -334,7 +334,7 @@
 
 		<p><code>[localist-calendar get="events" is_events_page="true"]</code></p>
 
-	<p>If you leave the dropdown blank, the event links will go to the event detail page on the <a href="https://calendar.usc.edu">USC Calendar</a>.</p>
+	<p>If you leave the drop down blank, the event links will go to the event detail page on the <a href="https://calendar.usc.edu">USC Calendar</a>.</p>
 
 
 	<h2 id="settings-bookmark-templates">Templates</h2>
@@ -423,7 +423,7 @@ event: {
 	
 	<p id="note-link"><strong><sup>1</sup>Note:</strong> If linking to a <code>string</code> mapped node and there is no link returned, the anchor <code>&lt;a&gt;</code> tag will be changed to a <code>&lt;span&gt;</code> tag and the <code>href</code> attribute removed.</p>
 
-	<p id="note-link-map"><strong><sup>2</sup>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  If there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fallback to the following nodes for information:</p>
+	<p id="note-link-map"><strong><sup>2</sup>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  If there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fall back to the following nodes for information:</p>
 
 	<ol>
 		<li>USC Maps: 3 letter code in (parenthesis) from <code>location_name</code></li>
@@ -728,7 +728,7 @@ $code_sample_output_dates =
         <span class="event-time-end">12:45 pm</span>
     </time>
 </div>
-'; // end $html
+';
 
 echo htmlentities( $code_sample_output_dates );
 ?>

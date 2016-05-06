@@ -43,7 +43,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// require the error messaging class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-errors.php';
 
-			// retrun the API configurations
+			// return the API configurations
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}
@@ -120,7 +120,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					// add the event id but convert any integers to strings
 					$api_url .= '/' . strval( $api_event_id );
 
-					// we are setting the api url by inclusion of the api_event_id so we assume we have a sigle event - let's manually set the api type to single event for output
+					// we are setting the api url by inclusion of the api_event_id so we assume we have a single event - let's manually set the api type to single event for output
 					$api_type = 'event';
 
 				}
@@ -336,7 +336,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				// check that the key is allowed per api type
 				if ( array_key_exists( $key['relationship'], $allowed_array_keys ) ) {
 
-					// get the value of the paramter
+					// get the value of the parameter
 					$parameter_value = get_query_var( $key['name'], false );
 
 					// check if we have a value
@@ -362,7 +362,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 * Parameters as String
 		 * ====================
 		 * 
-		 * Convert Paramaters to URL string for passing to Localist API.
+		 * Convert Parameters to URL string for passing to Localist API.
 		 * 
 		 * @since 1.0.0
 		 * 
@@ -543,7 +543,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					// set a new date object for this $key
 					$date = new USC_Localist_For_Wordpress_Dates;
 
-					// check if we have a valide date (bool)
+					// check if we have a valid date (bool)
 					if ( $date->valid_date( $value ) ) {
 						
 						// good date format, so return it
@@ -599,7 +599,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 					} 
 
-					// we dont have a valid number, so let's not return bad options
+					// we do not have a valid number, so let's not return bad options
 					else {
 						
 						return false;
@@ -607,7 +607,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 				}
 
-				// if the value doesn't need valiation, just return the value
+				// if the value doesn't need validation, just return the value
 				else {
 					
 					return $value;

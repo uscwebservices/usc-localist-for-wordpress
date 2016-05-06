@@ -96,19 +96,19 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'is_events_page' => '', // optional: indicate single events to display on the shortcode page
 						
 						// custom values: templates
-						'template_multiple' => '', // opttional: slug name from templates custom post type - multiple events
-						'template_single' => '', // opttional: slug name from templates custom post type - single events
+						'template_multiple' => '', // optional: slug name from templates custom post type - multiple events
+						'template_single' => '', // optional: slug name from templates custom post type - single events
 						
 						// custom values: pagination
 						'paginate' => '', // optional: show pagination on multi-events (next, numeric)
 						'paginate_offset' => '', // optional: define the amount of numbers to the left and right of current page
-						'paginate_numeric_separator' => '', // optional: define the separator to use between first [separator] current [separtor] last
+						'paginate_numeric_separator' => '', // optional: define the separator to use between first [separator] current [separator] last
 						'paginate_label_next' => '', // optional: define the text for the 'next' label in pagination
 						'paginate_label_previous' => '', // optional: define the text for the 'next' label in pagination
 						'paginate_label_first' => '', // optional: define the text for the 'first' label in pagination
 						'paginate_label_last' => '', // optional: define the text for the 'last' label in pagination
 
-						// cusom values: messages
+						// custom values: messages
 						'message_no_events' => '', // optional: the message to display if there are no events
 
 						// localist values
@@ -174,7 +174,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 							'event_id'
 						),
 
-						// API parameters that need to be date forma YYYY-MM-DD
+						// API parameters that need to be date format YYYY-MM-DD
 						'dates' => array(
 							'end',
 							'start',

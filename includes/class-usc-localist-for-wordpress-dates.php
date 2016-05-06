@@ -34,7 +34,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
-			// retrun the API configurations
+			// return the API configurations
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}
@@ -115,7 +115,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 * Date as HTML
 		 * ============
 		 *
-		 * Pass a single event instance and send back HTML in approriate <time> format.
+		 * Pass a single event instance and send back HTML in appropriate <time> format.
 		 * 
 		 * @param 	array	$event_instance 	single event instance
 		 * @param 	array 	$options        	options for output 

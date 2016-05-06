@@ -84,7 +84,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// require the api class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-events.php';
 
-			// retrun the API configurations
+			// return the API configurations
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 			$this->plugin_shortcode_calendar = $this->config['plugin']['shortcode']['calendar'];
@@ -218,7 +218,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				// details page from shortcode options
 				$shortcode_details_page = $attr_all['details_page'];
 
-				// detials page from global options
+				// details page from global options
 				$options_details_page_id = get_option('usc_lfwp_events_detail_page');
 				$options_details_page_uri = get_page_uri( $options_details_page_id );
 
@@ -399,7 +399,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 			/**
-			 * Specificaly set event_id if declared in the shortcode.
+			 * Specifically set event_id if declared in the shortcode.
 			 *
 			 * This must come after checking the url parameters.
 			 */
@@ -495,7 +495,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 							// add the api url as a comment in the output for any debugging
 							echo '<!-- ' . $api_output['api']['url'] . ' -->';
 
-							// ouput the html
+							// output the html
 							echo $output;
 
 							// return the shortcode cleaned object

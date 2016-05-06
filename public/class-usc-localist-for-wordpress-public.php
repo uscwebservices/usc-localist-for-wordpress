@@ -101,7 +101,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Public' ) ) {
 			
 			$parameters = $this->config['url']['parameters'];
 
-			// loop throught the available parameters from the config and add them
+			// loop through the available parameters from the config and add them
 			foreach ( $parameters as $value ) {
 				
 				// add the 'name' value to the allowed url parameter types
