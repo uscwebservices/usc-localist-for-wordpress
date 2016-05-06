@@ -144,6 +144,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			// check defaults
 			$date_check = true;
 
+			// check if is single event
 			$is_single = ( $options['api']['type'] == 'event') ? true : false;
 
 			// check for single events
@@ -177,6 +178,24 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			// do not show events before today
 			if ( isset( $event_instance[$date_instance] ) && $date_check  ) {
 
+				// datetime separator outputs
+				if ( empty( $separator_date_time ) || 'false' == $separator_date_time ) {
+					$separator_date_time_output = '';
+				}
+
+				else {
+					$separator_date_time_output = '<span class="event-separator-datetime">' . $separator_date_time . '</span>';
+				}
+
+				// time separator outputs
+				if ( empty( $separator_time ) || 'false' == $separator_time ) {
+					$separator_time_output = '';
+				} 
+
+				else {
+					$separator_time_output = '<span class="event-separator-time">' . $separator_time . '</span>';
+				}
+
 				// use the date type selected
 				switch ( $date_type ) {
 					
@@ -209,14 +228,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						if ( isset( $event_instance['end'] ) ) {
 							
 							$time_end_format = date( $format_time, strtotime( $event_instance['end'] ) );
-							$time_end = '<span class="event-sepatrator-time">' . $separator_time . '</span>'
-								. '<span class="event-time-end">' . $time_end_format . '</span>';
+							$time_end = $separator_time_output . '<span class="event-time-end">' . $time_end_format . '</span>';
 
 						}
 
 						return '<time class="event-' . $date_type . '" datetime="' . $event_instance[$date_instance] . '">'
 							. '<span class="event-date-start">' . $date . '</span>'
-							. '<span class="event-separator-datetime">' . $separator_date_time . '</span>'
+							. $separator_date_time_output
 							. '<span class="event-time-start">' . $time_start . '</span>'
 							. $time_end
 							. '</time>';
@@ -233,7 +251,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						
 						return '<time class="event-' . $date_type . '-' . $date_instance . '" datetime="' . $event_instance[$date_instance] . '">'
 							. '<span class="event-date">' . $date . '</span>'
-							. '<span class="event-separator-datetime">' . $separator_date_time . '</span>'
+							. $separator_date_time_output
 							. '<span class="event-time">' . $time . '</span>'
 							. '</time>';
 						
