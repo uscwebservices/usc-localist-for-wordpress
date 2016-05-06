@@ -130,6 +130,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			// set event mapping
 			$event_instance = $event_instance['event_instance'];
 
+			// defaults
+			$date_check = true;
+
 			// set option defaults if not passed
 			$date_type = isset( $options['date_type'] ) ? $options['date_type'] : 'date';
 			$date_instance = isset( $options['date_instance'] ) ? $options['date_instance'] : 'start';
@@ -140,11 +143,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 
 			// convert the string to a date
 			$converted_date = strtotime( $event_instance[$date_instance] );
-
-			// check defaults
-			$date_check = true;
-
-			// check if is single event
+			
+			// set var to check if is single event
 			$is_single = ( $options['api']['type'] == 'event') ? true : false;
 
 			// check for single events
@@ -228,7 +228,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						if ( isset( $event_instance['end'] ) ) {
 							
 							$time_end_format = date( $format_time, strtotime( $event_instance['end'] ) );
-							$time_end = $separator_time_output . '<span class="event-time-end">' . $time_end_format . '</span>';
+							$time_end_output = $separator_time_output . '<span class="event-time-end">' . $time_end_format . '</span>';
 
 						}
 
@@ -236,7 +236,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 							. '<span class="event-date-start">' . $date . '</span>'
 							. $separator_date_time_output
 							. '<span class="event-time-start">' . $time_start . '</span>'
-							. $time_end
+							. $time_end_output
 							. '</time>';
 						
 						break;
