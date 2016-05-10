@@ -60,7 +60,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 			// set defaults if values not passed
 			$paginate_type 				= isset ( $options['paginate_type'] ) ? $options['paginate_type'] : 'next';
 
-			// check if pagintate type is next
+			// check if paginate type is next
 			$is_next = ( $paginate_type == 'next' ) ? true : false;
 
 			// check if paginate type is numeric
@@ -163,7 +163,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 				// start the object collection
 				ob_start();
 
-				// ouput the html
+				// output the html
 				echo $output;
 
 				// return the clean object

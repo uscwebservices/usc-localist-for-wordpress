@@ -159,7 +159,7 @@
 
 	<h2 id="settings-bookmark-custom-shortcode-api-options">Custom Shortcode API options</h2>
 
-	<p>In addion to the attributes from the <a href="http://www.localist.com/doc/api">Localist API</a>, the following custom attributes can be used.</p>
+	<p>In addition to the attributes from the <a href="http://www.localist.com/doc/api">Localist API</a>, the following custom attributes can be used.</p>
 
 	<table class="widefat">
 		<thead>
@@ -255,7 +255,7 @@
 				<td><code> ... </code></td>
 				<td>false</td>
 				<td>
-					The separator used betwen first, last and the offset page start/end. 
+					The separator used between first, last and the offset page start/end. 
 					<br>Example: 1 ... 10 <strong>11</strong> 12 ... 95
 				</td>
 			</tr>
@@ -274,7 +274,7 @@
 				<td>
 					<code>events-single.html</code>
 				</td>
-				<td>Enter the <code>slug</code> of the posty type <a href="edit.php?post_type=event-template">Event Templates</a> to use for the structure of the returned API data for a single event.  Defaults to <a href="#settings-bookmark-templates-samples-single">single view</a>.</td>
+				<td>Enter the <code>slug</code> of the post type <a href="edit.php?post_type=event-template">Event Templates</a> to use for the structure of the returned API data for a single event.  Defaults to <a href="#settings-bookmark-templates-samples-single">single view</a>.</td>
 			</tr>
 			<tr>
 				<td><code>message_no_events</code></td>
@@ -288,7 +288,7 @@
 		</tbody>
 	</table>
 
-	<p id="note-cache"><strong><sup>1</sup>Note:</strong> Setting a value for <code>cache</code> means that the database will store a transient object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may overtask the database writing transients unnecessarily.  Object cache is separate from page cache.  If a page cache is set to a time less than the <code>cache</code>, it may take the page cache time plus the object cache time to refresh the data displayed.</p>
+	<p id="note-cache"><strong><sup>1</sup>Note:</strong> Setting a value for <code>cache</code> means that the database will store a transient object value of returned data.  The recommended minimum for this should be 900 (15 minutes).  Do not set numbers less than a minute as this may over task the database writing transients unnecessarily.  Object cache is separate from page cache.  If a page cache is set to a time less than the <code>cache</code>, it may take the page cache time plus the object cache time to refresh the data displayed.</p>
 
 	<p id="note-date-range"><strong><sup>2</sup>Note:</strong> The shortcode attribute <code>date-range</code> will only show on multiple events list.  Single event details will list all instances of dates after current date.</p>
 
@@ -319,6 +319,8 @@
 
 	<p><strong>Note:</strong> Date ranges will display on multiple event lists only.  Single event details iterate through the dates.  If set to <code>no</code>, the multiple display will show the single date of the current instance returned.</p>
 
+	<p><strong>Note:</strong> Please reference <a href="#settings-bookmark-templates-dates">Templates &gt; Dates</a> for setting a custom value for the range separator.</p>
+
 
 	<h3 id="settings-bookmark-customizer-event-details-page">Event Details Page</h3>
 
@@ -332,7 +334,7 @@
 
 		<p><code>[localist-calendar get="events" is_events_page="true"]</code></p>
 
-	<p>If you leave the dropdown blank, the event links will go to the event detail page on the <a href="https://calendar.usc.edu">USC Calendar</a>.</p>
+	<p>If you leave the drop down blank, the event links will go to the event detail page on the <a href="https://calendar.usc.edu">USC Calendar</a>.</p>
 
 
 	<h2 id="settings-bookmark-templates">Templates</h2>
@@ -421,7 +423,7 @@ event: {
 	
 	<p id="note-link"><strong><sup>1</sup>Note:</strong> If linking to a <code>string</code> mapped node and there is no link returned, the anchor <code>&lt;a&gt;</code> tag will be changed to a <code>&lt;span&gt;</code> tag and the <code>href</code> attribute removed.</p>
 
-	<p id="note-link-map"><strong><sup>2</sup>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  If there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fallback to the following nodes for information:</p>
+	<p id="note-link-map"><strong><sup>2</sup>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  If there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fall back to the following nodes for information:</p>
 
 	<ol>
 		<li>USC Maps: 3 letter code in (parenthesis) from <code>location_name</code></li>
@@ -446,19 +448,27 @@ event: {
 	<p>Template code:</p>
 
 <pre>
-&lt;a href=&quot;&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;&lt;/a&gt;
-&lt;a class=&quot;event-map&quot; href=&quot;&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
-&lt;a class=&quot;ticket&quot; href=&quot;&quot; data-link=&quot;ticket_url&quot;&gt;Ticket&lt;/a&gt;
-&lt;a class=&quot;ticket&quot; href=&quot;&quot; data-link=&quot;venue_url&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
+<?php
+$code_sample_template_links = 
+'<a href="" data-link="localist_url" data-field="title"></a>
+<a class="event-map" href="" data-link="map" data-field="location_name"></a>
+<a class="ticket" href="" data-link="ticket_url">Ticket</a>
+<a class="ticket" href="" data-link="venue_url" data-field="location_name"></a>';
+echo htmlentities( $code_sample_template_links );
+?>
 </pre>
 
 	<p>Output:</p>
 
 <pre>
-&lt;a href=&quot;http://calendar.usc.edu/event/usc_tommy_trojan&quot; data-link=&quot;localist_url&quot; data-field=&quot;title&quot;&gt;USC Tommy Trojan&lt;/a&gt;
-&lt;a class=&quot;event-map&quot; href=&quot;http://web-app.usc.edu/maps/?b=STU&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;Student Union (STU)&lt;/a&gt;
-&lt;a class=&quot;ticket&quot; href=&quot;http://eventbrite.com/&quot; data-link=&quot;ticket_url&quot;&gt;Ticket&lt;/a&gt;
-&lt;span class=&quot;ticket&quot; data-link=&quot;venue_url&quot; data-field=&quot;location_name&quot;&gt;Student Union (STU)&lt;/span&gt;
+<?php
+$code_sample_output_links = 
+'<a href="http://calendar.usc.edu/event/usc_tommy_trojan" data-link="localist_url" data-field="title">USC Tommy Trojan</a>
+<a class="event-map" href="http://web-app.usc.edu/maps/?b=STU" data-link="map" data-field="location_name">Student Union (STU)</a>
+<a class="ticket" href="http://eventbrite.com/" data-link="ticket_url">Ticket</a>
+<span class="ticket" data-link="venue_url" data-field="location_name">Student Union (STU)</span>';
+echo htmlentities( $code_sample_output_links );
+?>
 </pre>
 
 
@@ -530,6 +540,13 @@ event: {
 				<td>Set the date output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
 			</tr>
 			<tr>
+				<td><code>data-separator-range</code></td>
+				<td>string</td>
+				<td></td>
+				<td><code> - </code></td>
+				<td>Set the separator for multiple events using the <a href="#settings-bookmark-customizer-event-dates-range">range option</a>.</td>
+			</tr>
+			<tr>
 				<td><code>data-separator-date-time</code></td>
 				<td>string</td>
 				<td></td>
@@ -557,31 +574,31 @@ event: {
 
 <pre>
 event: {
-	first_date: "2016-02-02",
-	last_date: "2016-04-05",
+	first_date: "2020-02-02",
+	last_date: "2020-04-05",
 	event_instances: [
 		{
 			event_instance: {
-				start: "2016-03-08T10:45:00-08:00",
-				end: "2016-03-08T12:45:00-08:00"
+				start: "2020-03-08T10:45:00-08:00",
+				end: "2020-03-08T12:45:00-08:00"
 			}
 		},
 		{
 			event_instance: {
-				start: "2016-03-22T10:45:00-07:00",
-				end: "2016-03-22T12:45:00-07:00"
+				start: "2020-03-22T10:45:00-07:00",
+				end: "2020-03-22T12:45:00-07:00"
 			}
 		},
 		{
 			event_instance: {
-				start: "2016-03-29T10:45:00-07:00",
-				end: "2016-03-29T12:45:00-07:00"
+				start: "2020-03-29T10:45:00-07:00",
+				end: "2020-03-29T12:45:00-07:00"
 			}
 		},
 		{
 			event_instance: {
-				start: "2016-04-05T10:45:00-07:00",
-				end: "2016-04-05T12:45:00-07:00"
+				start: "2020-04-05T10:45:00-07:00",
+				end: "2020-04-05T12:45:00-07:00"
 			}
 		}
 	]
@@ -590,74 +607,132 @@ event: {
 	
 	<p>Template code:</p>
 <pre>
-&lt;!-- 1 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;date&quot;&gt;&lt;/div&gt;
+<?php
+$code_sample_template_dates = 
+'
+<!-- 1 -->
+<div class="event-dates" data-date-type="date"></div>
 
-&lt;!-- 3 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;start&quot;&gt;&lt;/div&gt;
+<!-- 2 -->
+<div class="event-dates" data-date-type="time" date-instance="start"></div>
 
-&lt;!-- 4 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;end&quot;&gt;
+<!-- 3 -->
+<div class="event-dates" data-date-type="time" date-instance="end">
 
-&lt;!-- 5 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;&lt;/div&gt;
+<!-- 4 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
 
-&lt;!-- 6 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot; data-sepatrator-date-time=&quot; from &quot; data-sepatrator-time=&quot; - &quot;&gt;&lt;/div&gt;
+<!-- 5 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-sepatrator-date-time=" from " data-sepatrator-time=" - "></div>
+';
+echo htmlentities( $code_sample_template_dates );
+?>
 </pre>
 
 	<p>Output:</p>
 
 <pre>
-&lt;!-- 1 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;date&quot;&gt;
-	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;03/08/2016&lt;/time&gt;
-	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;03/15/2016&lt;/time&gt;
-	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;03/22/2016&lt;/time&gt;
-	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;03/29/2016&lt;/time&gt;
-	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;04/05/2016&lt;/time&gt;
-&lt;/div&gt;
+<?php
+$code_sample_output_dates = 
+'
+<!-- 1 -->
+<div class="event-dates" data-date-type="date">
+    <time class="event-date-start" datetime="2020-03-08T10:45:00-08:00">03/08/2020</time>
+    <time class="event-date-start" datetime="2020-03-22T10:45:00-07:00">03/22/2020</time>
+    <time class="event-date-start" datetime="2020-03-29T10:45:00-07:00">03/29/2020</time>
+    <time class="event-date-start" datetime="2020-04-05T10:45:00-07:00">04/05/2020</time>
+</div>
 
-&lt;!-- 3 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;start&quot;&gt;
-	&lt;time&gt;2:45 pm&lt;/time&gt;
-	&lt;time&gt;3:45 pm&lt;/time&gt;
-	&lt;time&gt;3:45 pm&lt;/time&gt;
-	&lt;time&gt;3:45 pm&lt;/time&gt;
-	&lt;time&gt;3:45 pm&lt;/time&gt;
-&lt;/div&gt;
+<!-- 2 -->
+<div class="event-dates" data-date-type="time" date-instance="start">
+    <time class="event-time-start">11:45 am</time>
+    <time class="event-time-start">10:45 am</time>
+    <time class="event-time-start">10:45 am</time>
+    <time class="event-time-start">10:45 am</time>
+</div>
 
-&lt;!-- 4 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;time&quot; date-instance=&quot;end&quot;&gt;
-	&lt;time&gt;4:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-	&lt;time&gt;5:45 pm&lt;/time&gt;
-&lt;/div&gt;
+<!-- 3 -->
+<div class="event-dates" data-date-type="time" date-instance="end">
+    <time class="event-time-start">11:45 am</time>
+    <time class="event-time-start">10:45 am</time>
+    <time class="event-time-start">10:45 am</time>
+    <time class="event-time-start">10:45 am</time>
+</div>
 
-&lt;!-- 5 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;
-	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;Tuesday, March 8th, 2016 at 2:45 pm to 4:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;Tuesday, March 15th, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 at 3:45 pm to 5:45 pm&lt;/time&gt;
-&lt;/div&gt;
+<!-- 4 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>">
+    <time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
+        <span class="event-date-start">Sunday, March 8th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">11:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">1:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-03-22T10:45:00-07:00">
+        <span class="event-date-start">Sunday, March 22nd, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-03-29T10:45:00-07:00">
+        <span class="event-date-start">Sunday, March 29th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-04-05T10:45:00-07:00">
+        <span class="event-date-start">Sunday, April 5th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
+</div>
 
-&lt;!-- 6 --&gt;
-&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot; data-sepatrator-date-time=&quot; from &quot; data-sepatrator-time=&quot; - &quot;&gt;
-	&lt;time datetime=&quot;2016-03-08T10:45:00-08:00&quot;&gt;Tuesday, March 8th, 2016 from 2:45 pm - 4:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-15T10:45:00-07:00&quot;&gt;Tuesday, March 15th, 2016 from 3:45 pm - 5:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-22T10:45:00-07:00&quot;&gt;Tuesday, March 22nd, 2016 from 3:45 pm - 5:45 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-03-29T10:45:00-07:00&quot;&gt;Tuesday, March 29th, 2016 from 3:45 pm - 6545 pm&lt;/time&gt;&lt;br&gt;
-	&lt;time datetime=&quot;2016-04-05T10:45:00-07:00&quot;&gt;Tuesday, April 5th, 2016 from 3:45 pm - 5:45 pm&lt;/time&gt;
-&lt;/div&gt;
+<!-- 5 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-sepatrator-date-time=" from " data-sepatrator-time=" - ">
+    <time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
+        <span class="event-date-start">Sunday, March 8th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">11:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">1:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-03-22T10:45:00-07:00">
+        <span class="event-date-start">Sunday, March 22nd, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-03-29T10:45:00-07:00">
+        <span class="event-date-start">Sunday, March 29th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
+    <br>
+    <time class="event-datetime-start-end" datetime="2020-04-05T10:45:00-07:00">
+        <span class="event-date-start">Sunday, April 5th, 2020</span>
+        <span class="event-separator-datetime"> at </span>
+        <span class="event-time-start">10:45 am</span>
+        <span class="event-sepatrator-time"> to </span>
+        <span class="event-time-end">12:45 pm</span>
+    </time>
+</div>
+';
+
+echo htmlentities( $code_sample_output_dates );
+?>
 </pre>
-
-
-
-
 
 	<h3 id="settings-bookmark-templates-photos">Photos</h3>
 
@@ -731,31 +806,39 @@ event: {
 	<h4 id="settings-bookmark-templates-samples-multiple">Multiple Events Template</h4>
 
 <pre>
-&lt;html&gt;
-	&lt;article class=&quot;event-item&quot;&gt;
-		&lt;h1 class=&quot;event-title&quot;&gt;&lt;a href=&quot;&quot; data-link=&quot;detail&quot; data-field=&quot;title&quot;&gt;&lt;/a&gt;&lt;/h1&gt;
-		&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;&lt;/div&gt;
-		&lt;address class=&quot;event-location&quot; data-field=&quot;location_name&quot;&gt;&lt;/address&gt;
-		&lt;img src=&quot;&quot; data-photo=&quot;photo_url&quot; data-format=&quot;medium&quot; /&gt;
-	&lt;/article&gt;
-&lt;/html&gt;
+<?php
+$code_sample_template_multiple =
+'<html>
+    <article class="event-item">
+        <h1 class="event-title"><a href="" data-link="detail" data-field="title"></a></h1>
+        <div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
+        <address class="event-location" data-field="location_name"></address>
+        <img src="" data-photo="photo_url" data-format="medium" />
+    </article>
+</html>';
+echo htmlentities( $code_sample_template_multiple );
+?>
 </pre>
 
 	<h4 id="settings-bookmark-templates-samples-single">Single Event Template</h4>
 
 <pre>
-&lt;html&gt;
-	&lt;article class=&quot;event single&quot;&gt;
-		&lt;h1 class=&quot;event-title&quot; data-field=&quot;title&quot;&gt;&lt;/h1&gt;
-		&lt;img class=&quot;event-image&quot; src=&quot;&quot; data-photo=&quot;photo_url&quot; data-format=&quot;big&quot; /&gt;
-		&lt;div class=&quot;event-dates&quot; data-date-type=&quot;datetime-start-end&quot; data-format-date=&quot;l, F jS, Y&quot; data-separator=&quot;&lt;br&gt;&quot;&gt;&lt;/div&gt;
-		&lt;div class=&quot;event-location&quot;&gt;
-			&lt;a class=&quot;event-map&quot; href=&quot;&quot; data-link=&quot;map&quot; data-field=&quot;location_name&quot;&gt;&lt;/a&gt;
-			&lt;span class=&quot;event-location&quot; data-field=&quot;geo.city&quot;&gt;&lt;/span&gt;
-		&lt;/div&gt;
-		&lt;div data-field=&quot;description&quot;&gt;&lt;/div&gt;
-	&lt;/article&gt;
-&lt;/html&gt;
+<?php
+$code_sample_template_single =
+'<html>
+    <article class="event single">
+        <h1 class="event-title" data-field="title"></h1>
+        <img class="event-image" src="" data-photo="photo_url" data-format="big" />
+        <div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
+        <div class="event-location">
+            <a class="event-map" href="" data-link="map" data-field="location_name"></a>
+            <span class="event-location" data-field="geo.city"></span>
+        </div>
+        <div data-field="description"></div>
+    </article>
+</html>';
+echo htmlentities( $code_sample_template_single );
+?>
 </pre>
 
 

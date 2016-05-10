@@ -34,7 +34,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			// require the config class for API variables
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
-			// retrun the API configurations
+			// return the API configurations
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}
@@ -115,7 +115,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 * Date as HTML
 		 * ============
 		 *
-		 * Pass a single event instance and send back HTML in approriate <time> format.
+		 * Pass a single event instance and send back HTML in appropriate <time> format.
 		 * 
 		 * @param 	array	$event_instance 	single event instance
 		 * @param 	array 	$options        	options for output 
@@ -130,6 +130,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			// set event mapping
 			$event_instance = $event_instance['event_instance'];
 
+			// defaults
+			$date_check = true;
+
 			// set option defaults if not passed
 			$date_type = isset( $options['date_type'] ) ? $options['date_type'] : 'date';
 			$date_instance = isset( $options['date_instance'] ) ? $options['date_instance'] : 'start';
@@ -140,10 +143,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 
 			// convert the string to a date
 			$converted_date = strtotime( $event_instance[$date_instance] );
-
-			// check defaults
-			$date_check = true;
-
+			
+			// set var to check if is single event
 			$is_single = ( $options['api']['type'] == 'event') ? true : false;
 
 			// check for single events
@@ -177,20 +178,38 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			// do not show events before today
 			if ( isset( $event_instance[$date_instance] ) && $date_check  ) {
 
+				// datetime separator outputs
+				if ( empty( $separator_date_time ) || 'false' == $separator_date_time ) {
+					$separator_date_time_output = '';
+				}
+
+				else {
+					$separator_date_time_output = '<span class="event-separator-datetime">' . $separator_date_time . '</span>';
+				}
+
+				// time separator outputs
+				if ( empty( $separator_time ) || 'false' == $separator_time ) {
+					$separator_time_output = '';
+				} 
+
+				else {
+					$separator_time_output = '<span class="event-separator-time">' . $separator_time . '</span>';
+				}
+
 				// use the date type selected
 				switch ( $date_type ) {
 					
 					case 'date':
 						
 						$date = date( $format_date, $converted_date );
-						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . '</time>';
+						return '<time class="event-' . $date_type . '-' . $date_instance . '" datetime="' . $event_instance[$date_instance] . '">' . $date . '</time>';
 
 						break;
 					
 					case 'time':
 						
 						$time = date( $format_time, $converted_date );
-						return '<time>' . $time . '</time>';
+						return '<time class="event-' . $date_type . '-' . $date_instance . '">' . $time . '</time>';
 
 						break;
 					
@@ -199,25 +218,42 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						// default output options
 						$time_end_output = '';
 
+						// convert date to date format
 						$date = date( $format_date, $converted_date );
+
+						// convert start time to time format
 						$time_start = date( $format_time, strtotime( $event_instance['start'] ) );
 						
+						// check if there is an end time 
 						if ( isset( $event_instance['end'] ) ) {
 							
-							$time_end = date( $format_time, strtotime( $event_instance['end'] ) );
-							$time_end_output = $separator_time . $time_end;
+							$time_end_format = date( $format_time, strtotime( $event_instance['end'] ) );
+							$time_end_output = $separator_time_output . '<span class="event-time-end">' . $time_end_format . '</span>';
 
 						}
 
-						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . $separator_date_time . $time_start . $time_end_output . '</time>';
+						return '<time class="event-' . $date_type . '" datetime="' . $event_instance[$date_instance] . '">'
+							. '<span class="event-date-start">' . $date . '</span>'
+							. $separator_date_time_output
+							. '<span class="event-time-start">' . $time_start . '</span>'
+							. $time_end_output
+							. '</time>';
 						
 						break;
 
 					default:
 						
+						// convert date to date format
 						$date = date( $format_date, $converted_date );
+
+						// convert time to time format
 						$time = date( $format_time, $converted_date );
-						return '<time datetime="' . $event_instance[$date_instance] . '">' . $date . $separator_date_time . $time . '</time>';
+						
+						return '<time class="event-' . $date_type . '-' . $date_instance . '" datetime="' . $event_instance[$date_instance] . '">'
+							. '<span class="event-date">' . $date . '</span>'
+							. $separator_date_time_output
+							. '<span class="event-time">' . $time . '</span>'
+							. '</time>';
 						
 						break;
 				}

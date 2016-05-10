@@ -99,7 +99,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * 
 		 * @param 	object 	$template 	the template object
 		 * @param 	array 	$api_data 	the json array of the api data to use
-		 * @param 	array 	$options 	the options of the api call passed for any call specifi functions
+		 * @param 	array 	$options 	the options of the api call passed for any call specific functions
 		 * @return 	 					the output of matching node values as the inner text of the template item
 		 */
 		public function data_datetime( $template, $api_data, $options ) {
@@ -112,6 +112,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			// set variable if we have a single event
 			$is_single = ( $options['api']['type'] == 'event' ) ? true : false;
+
+			// get the separator
+			$separator_date_time = isset ( $options['separator_range'] ) ? $options['separator_range'] : $config['default']['separator']['range'];
 
 			// loop through the data fields found
 			foreach ( $fields as $field ) {
@@ -146,9 +149,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// time separator
 				$options['separator_time'] = isset( $field->{'data-separator-time'} ) ? $field->{'data-separator-time'} : $config['default']['separator']['time'];
+
+				// range separator
+				$options['separator_range'] = isset( $field->{'data-separator-range'} ) ? $field->{'data-separator-range'} : $config['default']['separator']['range'];
 				
 				// separator to use between instances output
-				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : null;
+				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : $config['default']['separator']['default'];
 
 				// date ranges
 				$date_range = isset( $options['template_options']['date_range'] ) ? $options['template_options']['date_range'] : false;
@@ -156,7 +162,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				$date_start = date( $options['format_date'], strtotime( $api_data['first_date'] ) );
 				$date_end = date( $options['format_date'], strtotime( $api_data['last_date'] ) );
 
-				// return the date range if set and not on sigle event
+				// return the date range if set and not on single event
 				if ( ! $is_single && $date_range && ( $date_start != $date_end ) ) {
 					
 					$date_start = date( $options['format_date'], strtotime( $api_data['first_date'] ) );
@@ -164,7 +170,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 					if ( $date_start != $date_end ) {
 
-						$output .= '<time datetime="'. $api_data['first_date'] .'">' . $date_start . '</time> - <time datetime="'. $api_data['last_date'] . '">' . $date_end . '</time>';
+						$output .= '<time class="event-date-range-start" datetime="'. $api_data['first_date'] .'">' . $date_start . '</time>'
+							. '<span class="event-separator-range">' . $options['separator_range'] . '</span>'
+							. '<time class="event-date-range-end" datetime="'. $api_data['last_date'] . '">' . $date_end . '</time>';
 
 						$field->innertext = $output;
 					}
@@ -180,7 +188,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 					$event_instances_amount = count( $event_instances );
 					
-					// defaults for determing number in loop
+					// defaults for determining number in loop
 					$i= 1;
 
 					foreach ( $event_instances as $event_instance ) {
@@ -494,7 +502,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			// if the template location is at http
 			if ( strpos( $template_path, 'http' ) === 0 ) {
 				
-				// check that we have a vaild url
+				// check that we have a valid url
 				$valid_template = $this->valid_url( $template_path );
 
 				if ( $valid_template ) {
@@ -531,7 +539,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					'post_status' => 'publish'
 				) );
 
-				// fallback to default path 
+				// fall back to default path 
 				if( ! $template_post ) {
 
 					$html = $default_template;
@@ -564,7 +572,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Map Link
 		 * ========
 		 *
-		 * Return a link to USC Maps for HSC or UPC, fallback to address in google mapse or return false.
+		 * Return a link to USC Maps for HSC or UPC, fall back to address in google maps or return false.
 		 * 
 		 * @param  string 	$location_name 	location name in three letter campus location
 		 * @param  string 	$address 		address node for use with google maps

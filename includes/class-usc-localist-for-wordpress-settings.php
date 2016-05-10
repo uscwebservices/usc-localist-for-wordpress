@@ -45,7 +45,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Settings') ) {
 		private $options;
 
 		/**
-		 * Initalize the class and its properties
+		 * Initialize the class and its properties
 		 */
 		public function __construct( $plugin_name, $plugin_version, $plugin_tag ) {
 			

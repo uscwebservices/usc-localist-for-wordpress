@@ -186,6 +186,9 @@ if ( ! class_exists('USC_Localist_For_Wordpress') ) {
 		}
 
 		/**
+		 * Define Public Hooks
+		 * ===================
+		 * 
 		 * Register all of the hooks related to the public-facing functionality
 		 * of the plugin.
 		 *

@@ -1,6 +1,14 @@
 USC Localist for WordPress
 ==========================
 
+
+## 1.2.0
+
+- add span tag classes around template items with separators, date, time and datetime-start-end options
+- add date range separator template option with 'data-separator-range': default ' - '
+- bugfix for null end time output
+
+
 ## 1.1.8
 
 - add <p class="no-events-message"> tag wrapper to no events messaging.

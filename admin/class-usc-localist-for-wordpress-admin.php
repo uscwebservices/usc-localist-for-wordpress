@@ -148,7 +148,7 @@ class USC_Localist_For_Wordpress_Admin {
 	 */
 	public static function customize_events_detail_page( $wp_customize, $plugin_tag ) {
         
-		// dropdown of pages
+		// drop down of pages
 		$wp_customize->add_setting( 'usc_lfwp_events_detail_page', array(
 			'default'		=> 'Events',
 			'type'			=> 'option'
