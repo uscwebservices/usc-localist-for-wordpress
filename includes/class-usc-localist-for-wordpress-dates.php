@@ -188,7 +188,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 				}
 
 				else {
-					$separator_date_time_output = '<span class="event-separator-datetime">' . $separator_date_time . '</span>';
+					$separator_date_time_output = '<span class="event-separator-datetime">' . $separator_date_time_single . '</span>';
 				}
 
 				// has an end date
