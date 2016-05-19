@@ -29,7 +29,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 			'testing' => array(
 				'enabled' => false, // set to true to use local events.json data
 				'json' => array(
-					'single' => '/sample/event.json',
+					'single' => '/sample/event-settings-sample-date.json',
 					'multiple' => '/sample/events.json'
 				)
 			),
@@ -41,7 +41,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 				'format_time' => 'g:i a',
 				'separator' => array(
 					'default' => null,
-					'date_time' => ' at ',
+					'date_time_single' => ' at ',
+					'date_time_multiple' => ' from ',
 					'time' => ' to ',
 					'range' => ' - '
 				),
@@ -236,32 +237,32 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'event_id' => '', // added so 'is_events_page' can check for url parameter
 
 						// localist values
+						'all_custom_fields' => '',
 						'bounds' => '',
 						'campus_id' => '',
+						'created_after' => '',
+						'created_before' => '',
+						'days' => '',
+						'direction' => '',
+						'distinct' => '',
+						'end' => '',
+						'exclude_type' => '',
+						'featured' => '',
 						'group_id' => '',
+						'include_attendance' => '',
+						'keyword' => '',
+						'match' => '',
 						'near' => '',
+						'page' => '',
+						'pp' => '',
+						'require_all' => '',
+						'sponsored' => '',
+						'sort' => '',
+						'start' => '',
+						'type' => '',
 						'units' => '',
 						'venue_id' => '',
 						'within' => '',
-						'days' => '',
-						'end' => '',
-						'start' => '',
-						'page' => '',
-						'pp' => '',
-						'created_after' => '',
-						'created_before' => '',
-						'exclude_type' => '',
-						'featured' => '',
-						'keyword' => '',
-						'match' => '',
-						'require_all' => '',
-						'sponsored' => '',
-						'type' => '',
-						'all_custom_fields' => '',
-						'direction' => '',
-						'distinct' => '',
-						'include_attendance' => '',
-						'sort' => ''
 					),
 					'allowed_array' => array(
 						'type',

@@ -178,6 +178,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				}
 
 			/**
+			 * Get page specified page number
+			 */
+				
+				// get the paginate last label
+				$page = $attr_all['page'];
+
+				if ( ! empty( $page ) ) {
+
+					$api_url['page'] = $page;
+
+				}
+
+			/**
 			 * Get template option: multiple
 			 */
 				
@@ -442,7 +455,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				} else {
 
 					// no errors
-					$api_url['options'] = $parameters_string['parameters'];
+					$api_url['options'] = $parameters_string['string'];
+					$api_url['parameters'] = $parameters_string['parameters'];
 
 				}
 
