@@ -611,7 +611,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			}
 
 			// set the link to google map based on geo location
-			else if ( ! empty( $geo['street'] ) || ! empty( $geo['city'] ) || ! empty( $geo['state'] ) ) ) {
+			else if ( ! empty( $geo['street'] ) || ! empty( $geo['city'] ) || ! empty( $geo['state'] ) ) {
 
 				// reset base to google maps
 				$map_link = $google_maps;
@@ -628,7 +628,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			}
 
 			// set the link to google map based on latitude/longitude
-			else if ( ! empty( $geo['latitude'] ) && ! empty( $geo['longitude'] ) ) ) {
+			else if ( ! empty( $geo['latitude'] ) && ! empty( $geo['longitude'] )  ) {
 
 				$map_link = $google_maps . $geo['latitude'] . ',' . $geo['longitude'];
 
