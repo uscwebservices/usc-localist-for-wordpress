@@ -551,7 +551,14 @@ echo htmlentities( $code_sample_output_links );
 				<td>string</td>
 				<td></td>
 				<td><code> at </code></td>
-				<td>Set the separator for instances using <code>data-date-instance="datetime-start-end"</code> between the date and time output.</td>
+				<td>Set the separator for instances using <code>data-date-instance="datetime-start-end"</code> between the date and time output for event instances with only a start time.</td>
+			</tr>
+			<tr>
+				<td><code>data-separator-date-time-multiple</code></td>
+				<td>string</td>
+				<td></td>
+				<td><code> from </code></td>
+				<td>Set the separator for instances using <code>data-date-instance="datetime-start-end"</code> between the date and time output for event instances with a start and end time.</td>
 			</tr>
 			<tr>
 				<td><code>data-separator-time</code></td>
@@ -580,13 +587,11 @@ event: {
 		{
 			event_instance: {
 				start: "2020-03-08T10:45:00-08:00",
-				end: "2020-03-08T12:45:00-08:00"
 			}
 		},
 		{
 			event_instance: {
 				start: "2020-03-22T10:45:00-07:00",
-				end: "2020-03-22T12:45:00-07:00"
 			}
 		},
 		{
@@ -623,7 +628,7 @@ $code_sample_template_dates =
 <div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
 
 <!-- 5 -->
-<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-sepatrator-date-time=" from " data-sepatrator-time=" - "></div>
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-separator-date-time=" beginning at " data-separator-date-time-multiple=" starting at " data-separator-time=" until "></div>
 ';
 echo htmlentities( $code_sample_template_dates );
 ?>
@@ -665,66 +670,58 @@ $code_sample_output_dates =
         <span class="event-date-start">Sunday, March 8th, 2020</span>
         <span class="event-separator-datetime"> at </span>
         <span class="event-time-start">11:45 am</span>
-        <span class="event-sepatrator-time"> to </span>
-        <span class="event-time-end">1:45 pm</span>
     </time>
     <br>
     <time class="event-datetime-start-end" datetime="2020-03-22T10:45:00-07:00">
         <span class="event-date-start">Sunday, March 22nd, 2020</span>
         <span class="event-separator-datetime"> at </span>
         <span class="event-time-start">10:45 am</span>
-        <span class="event-sepatrator-time"> to </span>
-        <span class="event-time-end">12:45 pm</span>
     </time>
     <br>
     <time class="event-datetime-start-end" datetime="2020-03-29T10:45:00-07:00">
         <span class="event-date-start">Sunday, March 29th, 2020</span>
-        <span class="event-separator-datetime"> at </span>
+        <span class="event-separator-datetime"> from </span>
         <span class="event-time-start">10:45 am</span>
-        <span class="event-sepatrator-time"> to </span>
+        <span class="event-separator-time"> to </span>
         <span class="event-time-end">12:45 pm</span>
     </time>
     <br>
     <time class="event-datetime-start-end" datetime="2020-04-05T10:45:00-07:00">
         <span class="event-date-start">Sunday, April 5th, 2020</span>
-        <span class="event-separator-datetime"> at </span>
+        <span class="event-separator-datetime"> from </span>
         <span class="event-time-start">10:45 am</span>
-        <span class="event-sepatrator-time"> to </span>
+        <span class="event-separator-time"> to </span>
         <span class="event-time-end">12:45 pm</span>
     </time>
 </div>
 
 <!-- 5 -->
-<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-sepatrator-date-time=" from " data-sepatrator-time=" - ">
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-separator-date-time=" beginning at " data-separator-date-time-multiple=" starting at " data-separator-time=" until ">
     <time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
         <span class="event-date-start">Sunday, March 8th, 2020</span>
-        <span class="event-separator-datetime"> at </span>
+        <span class="event-separator-datetime"> beginning at </span>
         <span class="event-time-start">11:45 am</span>
-        <span class="event-sepatrator-time"> to </span>
-        <span class="event-time-end">1:45 pm</span>
     </time>
     <br>
     <time class="event-datetime-start-end" datetime="2020-03-22T10:45:00-07:00">
         <span class="event-date-start">Sunday, March 22nd, 2020</span>
-        <span class="event-separator-datetime"> at </span>
+        <span class="event-separator-datetime"> beginning at </span>
         <span class="event-time-start">10:45 am</span>
-        <span class="event-sepatrator-time"> to </span>
-        <span class="event-time-end">12:45 pm</span>
     </time>
     <br>
     <time class="event-datetime-start-end" datetime="2020-03-29T10:45:00-07:00">
         <span class="event-date-start">Sunday, March 29th, 2020</span>
-        <span class="event-separator-datetime"> at </span>
+        <span class="event-separator-datetime"> starting at </span>
         <span class="event-time-start">10:45 am</span>
-        <span class="event-sepatrator-time"> to </span>
+        <span class="event-separator-time"> until </span>
         <span class="event-time-end">12:45 pm</span>
     </time>
     <br>
     <time class="event-datetime-start-end" datetime="2020-04-05T10:45:00-07:00">
         <span class="event-date-start">Sunday, April 5th, 2020</span>
-        <span class="event-separator-datetime"> at </span>
+        <span class="event-separator-datetime"> starting at </span>
         <span class="event-time-start">10:45 am</span>
-        <span class="event-sepatrator-time"> to </span>
+        <span class="event-separator-time"> until </span>
         <span class="event-time-end">12:45 pm</span>
     </time>
 </div>

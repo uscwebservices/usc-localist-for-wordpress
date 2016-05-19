@@ -132,13 +132,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 
 			// defaults
 			$date_check = true;
+			$has_end_date = false;
 
 			// set option defaults if not passed
 			$date_type = isset( $options['date_type'] ) ? $options['date_type'] : 'date';
 			$date_instance = isset( $options['date_instance'] ) ? $options['date_instance'] : 'start';
 			$format_date = isset( $options['format_date'] ) ? $options['format_date'] : $config['default']['format_date'];
 			$format_time = isset( $options['format_time'] ) ? $options['format_time'] : $config['default']['format_time'];
-			$separator_date_time = isset ( $options['separator_date_time'] ) ? $options['separator_date_time'] : $config['default']['separator']['date_time'];
+			$separator_date_time_single = isset ( $options['separator_date_time_single'] ) ? $options['separator_date_time_single'] : $config['default']['separator']['date_time_single'];
+			$separator_date_time_multiple = isset ( $options['separator_date_time_multiple'] ) ? $options['separator_date_time_multiple'] : $config['default']['separator']['date_time_multiple'];
 			$separator_time = isset ( $options['separator_time'] ) ? $options['separator_time'] : $config['default']['separator']['time'];
 
 			// convert the string to a date
@@ -157,6 +159,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 				if ( isset( $event_instance['end'] ) ) {
 
 					$date_event = new DateTime( $event_instance['end'] );
+
+					$has_end_date = true;
 
 				}
 
@@ -179,13 +183,45 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			if ( isset( $event_instance[$date_instance] ) && $date_check  ) {
 
 				// datetime separator outputs
-				if ( empty( $separator_date_time ) || 'false' == $separator_date_time ) {
+				if ( empty( $separator_date_time_single ) || 'false' == $separator_date_time_single ) {
 					$separator_date_time_output = '';
 				}
 
 				else {
-					$separator_date_time_output = '<span class="event-separator-datetime">' . $separator_date_time . '</span>';
+					$separator_date_time_output = '<span class="event-separator-datetime">' . $separator_date_time_single . '</span>';
 				}
+
+				// has an end date
+				if ( $has_end_date ) { 
+					
+					if ( empty( $separator_date_time_multiple ) || 'false' == $separator_date_time_multiple ) {
+
+						$separator_date_time_output = '';
+
+					} else {
+
+						$separator_date_time_output = '<span class="event-separator-datetime">' . $separator_date_time_multiple . '</span>';
+
+					}
+
+				} 
+
+				// start date only
+				else {
+
+					if ( empty( $separator_date_time_single ) || 'false' == $separator_date_time_single ) {
+
+						$separator_date_time_output = '';
+
+					} else {
+
+						$separator_date_time_output = '<span class="event-separator-datetime">' . $separator_date_time_single . '</span>';
+
+					}
+
+				}
+
+				//////
 
 				// time separator outputs
 				if ( empty( $separator_time ) || 'false' == $separator_time ) {

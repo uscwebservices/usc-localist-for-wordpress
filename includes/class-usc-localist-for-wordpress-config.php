@@ -29,7 +29,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 			'testing' => array(
 				'enabled' => false, // set to true to use local events.json data
 				'json' => array(
-					'single' => '/sample/event.json',
+					'single' => '/sample/event-settings-sample-date.json',
 					'multiple' => '/sample/events.json'
 				)
 			),
@@ -41,7 +41,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 				'format_time' => 'g:i a',
 				'separator' => array(
 					'default' => null,
-					'date_time' => ' at ',
+					'date_time_single' => ' at ',
+					'date_time_multiple' => ' from ',
 					'time' => ' to ',
 					'range' => ' - '
 				),

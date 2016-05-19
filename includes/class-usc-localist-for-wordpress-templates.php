@@ -144,8 +144,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// data format for times
 				$options['format_time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : $config['default']['format_time'];
 
-				// date and time separator
-				$options['separator_date_time'] = isset( $field->{'data-separator-date-time'} ) ? $field->{'data-separator-date-time'} : $config['default']['separator']['date_time'];
+				// date and time separator for events only with start date
+				$options['separator_date_time_single'] = isset( $field->{'data-separator-date-time'} ) ? $field->{'data-separator-date-time'} : $config['default']['separator']['date_time_single'];
+
+				// date and time separator for events with start and end dates
+				$options['separator_date_time_multiple'] = isset( $field->{'data-separator-date-time-multiple'} ) ? $field->{'data-separator-date-time-multiple'} : $config['default']['separator']['date_time_multiple'];
 
 				// time separator
 				$options['separator_time'] = isset( $field->{'data-separator-time'} ) ? $field->{'data-separator-time'} : $config['default']['separator']['time'];
