@@ -1,6 +1,10 @@
 USC Localist for WordPress
 ==========================
 
+## 1.2.2
+
+- Bug: fix for template output error
+
 
 ## 1.2.1
 
