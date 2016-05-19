@@ -86,9 +86,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_event_id			= isset ( $params['event_id'] ) ? $params['event_id'] : '';
 			$api_cache 				= isset ( $params['cache'] ) ? $params['cache'] : $config['default']['cache'];
 			$api_options 			= isset ( $params['options'] ) ? $params['options'] : '';
-			$api_page_number		= isset ( $params['page'] ) ? $params['page'] : 1; // default to first page of results
+			$api_page_number		= isset ( $params['page'] ) ? $params['page'] : '1'; // default to first page of results
 			$api_timeout			= isset ( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
-			
+
 			// set the default arguments
 			$args = array(
 			    'timeout'		=> $api_timeout,
@@ -381,7 +381,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$allowed_array = $config['api_options'][$api_type]['allowed_array'];
 
 			// set the default output and string constructor
-			$output = $string = array();
+			$output = $string = $parameter = array();
 
 			// set error message object
 			$error_messages = new USC_Localist_For_Wordpress_Errors;
@@ -411,6 +411,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 							// add single key boolean values as 'key=bool_value'
 							$string[] .= urlencode( $key ) . '=' . var_export($value, true);
 
+							// add single key boolean as parameter
+							$parameter[urlencode( $key )] = var_export($value, true);
+
 						} else {
 
 							// convert any comma delimited $value to an array
@@ -433,6 +436,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 										// add multiple values as 'key[]=sub_value'
 										$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
 
+										// add multiple values as key = sub_value to paremters
+										$parameter[urlencode( $key )] = urlencode( $sub_value );
+
 									}
 								}
 
@@ -440,6 +446,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 								// add single key values as 'key=value'
 								$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
+
+								// add single key values as 'key=value' to parameter
+								$parameter[urlencode( $key )] = urlencode( $value[0] );
 
 							}
 
@@ -452,9 +461,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				// combine any errors and set a message value
 				$output['errors'] = join( '<br>', $error_messages->get_messages() );
 
+				// return the full list of parameters
+				$output['parameters'] = $parameter;
+
 				// combine any strings and set a url string value
-				$output['parameters'] = join( '&', $string );
-				
+				$output['string'] = join( '&', $string );
 
 				// return the output
 				return $output;
