@@ -41,7 +41,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 				'format_time' => 'g:i a',
 				'separator' => array(
 					'default' => null,
-					'date_time' => ' at ',
+					'date_time_single' => ' at ',
+					'date_time_multiple' => ' from ',
 					'time' => ' to ',
 					'range' => ' - '
 				),
