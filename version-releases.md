@@ -2,6 +2,12 @@ USC Localist for WordPress
 ==========================
 
 
+## 1.2.1
+
+- Added data-separator-date-time-multiple separator for start/end with data-separator-date-time for start
+- Bug: 'page' shortcode parameter now sets api to that page but allows override with pagination
+
+
 ## 1.2.0
 
 - add span tag classes around template items with separators, date, time and datetime-start-end options
@@ -59,13 +65,13 @@ USC Localist for WordPress
 
 ## 1.0.2 
 
-Bug: Deactivation bug fix.
+- Bug: Deactivation bug fix.
 
 ## 1.0.1 
 
-User documentation updates on _Settings_ menu.
+- User documentation updates on _Settings_ menu.
 
 ## 1.0.0
 
-Initial Plugin Release
+- Initial Plugin Release
 
