@@ -6,6 +6,7 @@ USC Localist for WordPress
 
 - Added data-separator-date-time-multiple separator for start/end with data-separator-date-time for start
 - Bug: 'page' shortcode parameter now sets api to that page but allows override with pagination
+- Bug: fix for checking geo variables enclosures
 
 
 ## 1.2.0
