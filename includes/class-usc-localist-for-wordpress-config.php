@@ -29,7 +29,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 			'testing' => array(
 				'enabled' => false, // set to true to use local events.json data
 				'json' => array(
-					'single' => '/sample/event.json',
+					'single' => '/sample/event-settings-sample-date.json',
 					'multiple' => '/sample/events.json'
 				)
 			),
