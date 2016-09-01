@@ -2,7 +2,7 @@
 
 /**
  * Class: USC Localist for WordPress Loader
- * 
+ *
  * Register all actions and filters for the plugin.
  *
  * Maintain a list of all hooks that are registered throughout
@@ -120,7 +120,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Loader' ) ) {
 				'component'     => $component,
 				'callback'      => $callback,
 				'priority'      => $priority,
-				'accepted_args' => $accepted_args
+				'accepted_args' => $accepted_args,
 			);
 
 			return $hooks;
