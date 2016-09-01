@@ -2,7 +2,7 @@
 
 /**
  * Class: USC Localist for WordPress Deactivator
- * 
+ *
  * Fired during plugin activation.
  *
  * This class defines all code necessary to run during the plugin's deactivation.
@@ -27,7 +27,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Deactivator' ) ) {
 		public static function deactivate() {
 
 			// Our post type will be automatically removed, so no need to unregister it
-	 
+
 		    // Clear the permalinks to remove our post type's rules
 		    flush_rewrite_rules();
 
