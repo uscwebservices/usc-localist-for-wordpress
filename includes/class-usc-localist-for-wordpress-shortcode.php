@@ -122,9 +122,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// get all api options
 			$attr_all = shortcode_atts( $config['api_options']['all']['allowed'], $params, $this->plugin_shortcode_calendar );
 
-			/**
-			 * Get type
-			 */
+			/* ------------------------------
+				Get type
+			------------------------------ */
 
 			// store the api type as a variable
 			$api_type = $attr_all['get'];
@@ -140,9 +140,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// set the get type for api url and options
 			$api_url['api']['type'] = $api_type;
 
-			/**
-			 * Get flag for event inline in page
-			 */
+			/* --------------------------------------------------
+				Get flag for event inline in page
+			-------------------------------------------------- */
 
 			// set variable
 			$api_is_events_page = $api_data->convert_to_bool( $attr_all['is_events_page'] );
@@ -158,9 +158,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get cache
-			 */
+			/* --------------------------------------------------
+				Get cache
+			-------------------------------------------------- */
 
 			// set transient cache expiration (in seconds)
 			$api_cache = $attr_all['cache'];
@@ -176,9 +176,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get page specified page number
-			 */
+			/* --------------------------------------------------
+				Get page specified page number
+			--------------------------------------------------*/
 
 			// get the paginate last label
 			$page = $attr_all['page'];
@@ -189,9 +189,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get template option: multiple
-			 */
+			/* --------------------------------------------------
+				Get template option: multiple
+			-------------------------------------------------- */
 
 			// set template path option: multiple
 			$template_path_multi = $attr_all['template_multiple'];
@@ -206,9 +206,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// set the template slug
 			$template_options['template_multiple'] = $template_path_multi;
 
-			/**
-			 * Get template option: single
-			 */
+			/* --------------------------------------------------
+				Get template option: single
+			-------------------------------------------------- */
 
 			// set template path option: single
 			$template_path_single = $attr_all['template_single'];
@@ -223,9 +223,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// set the template slug
 			$template_options['template_single'] = $template_path_single;
 
-			/**
-			 * Get event details page option
-			 */
+			/* --------------------------------------------------
+				Get event details page option
+			-------------------------------------------------- */
 
 			// details page from shortcode options
 			$shortcode_dtl_page = $attr_all['details_page'];
@@ -259,48 +259,49 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get date range option
-			 */
-
-			// date range from shortcode options
-			$shortcode_date_range = $attr_all['date_range'];
+			/* --------------------------------------------------
+				Get date range option
+			-------------------------------------------------- */
 
 			// date range from global options
 			$options_date_range = get_option( 'usc_lfwp_date_range' );
 
+			// default value
+			$date_range = $options_date_range;
+
+			// date range from shortcode options
+			$shortcode_date_range = $attr_all['date_range'];
+
 			if ( ! empty( $shortcode_date_range ) ) {
 
 				$date_range = $api_data->validate_key_value( 'date_range', $shortcode_date_range );
-
-			} elseif ( $options_date_range ) {
-
-				$date_range = $options_date_range;
 
 			}
 
 			// set the date_range option
 			$template_options['date_range'] = $date_range;
 
-			/**
-			 * Get No Events Message
-			 */
+			/* --------------------------------------------------
+				Get No Events Message
+			-------------------------------------------------- */
+
+			// default message
+			$msg_none = $config['default']['messages']['no_events'];
 
 			// get the message for no events
-			$message_no_events = $attr_all['message_no_events'];
+			$shortcode_msg_none = $attr_all['message_no_events'];
 
-			// Default message setting.
-			$template_options['message_no_events'] = $config['default']['messages']['no_events'];
+			if ( ! empty( $shortcode_msg_none ) ) {
 
-			if ( ! empty( $message_no_events ) ) {
-
-				$template_options['message_no_events'] = $message_no_events;
+				$msg_none = $shortcode_msg_none;
 
 			}
 
-			/**
-			 * Get pagination setting
-			 */
+			$template_options['message_no_events'] = $msg_none;
+
+			/* --------------------------------------------------
+				Get pagination setting
+			-------------------------------------------------- */
 
 			// get the paginate option if it exists
 			$paginate_options['paginate'] = isset( $attr_all['paginate'] ) ? true : false ;
@@ -312,9 +313,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get paginate offset
-			 */
+			/* --------------------------------------------------
+				Get paginate offset
+			-------------------------------------------------- */
 
 			// get the paginate offset number
 			$paginate_offset = $attr_all['paginate_offset'];
@@ -325,9 +326,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get paginate numeric separator
-			 */
+			/* --------------------------------------------------
+				Get paginate numeric separator
+			-------------------------------------------------- */
 
 			// get the paginate numeric separator
 			$paginate_numeric_sep = $attr_all['paginate_numeric_separator'];
@@ -338,9 +339,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get paginate label next
-			 */
+			/* --------------------------------------------------
+				Get paginate label next
+			-------------------------------------------------- */
 
 			// get the paginate next label
 			$paginate_label_next = $attr_all['paginate_label_next'];
@@ -351,9 +352,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get paginate label previous
-			 */
+			/* --------------------------------------------------
+				Get paginate label previous
+			-------------------------------------------------- */
 
 			// get the paginate previous label
 			$paginate_label_prev = $attr_all['paginate_label_previous'];
@@ -364,9 +365,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get paginate label first
-			 */
+			/* --------------------------------------------------
+				Get paginate label first
+			-------------------------------------------------- */
 
 			// get the paginate first label
 			$paginate_label_first = $attr_all['paginate_label_first'];
@@ -377,9 +378,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get paginate label last
-			 */
+			/* --------------------------------------------------
+				Get paginate label last
+			-------------------------------------------------- */
 
 			// get the paginate last label
 			$paginate_label_last = $attr_all['paginate_label_last'];
@@ -390,9 +391,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get url parameters and attach to the api query
-			 */
+			/* --------------------------------------------------
+				Get url parameters and attach to the api query
+			-------------------------------------------------- */
 
 			$url_parameters = $api_data->get_custom_query_variables( $api_type );
 
@@ -401,13 +402,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$api_url[ $key ] = $value;
 			}
 
-			/**
-			 * Specifically set event_id if declared in the shortcode.
-			 *
-			 * This must come after checking the url parameters.
-			 */
+			/* --------------------------------------------------
+				Specifically set event_id if declared in the shortcode.
 
-				$api_event_id = $attr_all['event_id'];
+				This must come after checking the url parameters.
+			-------------------------------------------------- */
+
+			$api_event_id = $attr_all['event_id'];
 
 			if ( ! empty( $api_event_id ) ) {
 
@@ -415,16 +416,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get allowed api attributes
-			 */
+			/* --------------------------------------------------
+				Get allowed api attributes
+			-------------------------------------------------- */
 
 			// get the available api options (based on type) from the shortcode
 			$api_attr = shortcode_atts( $config['api_options'][ $api_type ]['allowed'], $params, $this->plugin_shortcode_calendar );
 
-			/**
-			 * Build the api url string for any options
-			 */
+			/* --------------------------------------------------
+				Build the api url string for any options
+			-------------------------------------------------- */
 
 			// get the matching api options by get type
 			$parameters_string = $api_data->parameters_as_string( $api_attr, $api_type );
@@ -442,7 +443,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				$errors = true;
 				return $parameters_string['errors'];
 
-			} else {
+			}
+
+			if ( empty( $parameters_string['errors'] ) ) {
 
 				// no errors
 				$api_url['options'] = $parameters_string['string'];
@@ -450,9 +453,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 			}
 
-			/**
-			 * Get the api data if no errors are present
-			 */
+			/* --------------------------------------------------
+				Get the api data if no errors are present
+			-------------------------------------------------- */
 
 			if ( ! $errors ) {
 
@@ -465,8 +468,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 				// add the paginate options
 				$api_output['paginate_options'] = $paginate_options;
 
+				// return the errors if any were found
+				if ( isset( $api_output['errors'] ) && ! empty( $api_output['errors'] ) ) {
+
+					return $api_output['errors'];
+
+				}
+
 				// check if we have no errors in returned api data
-				if ( ! isset( $api_output['errors'] ) || null === $api_output['errors'] ) {
+				if ( ! isset( $api_output['errors'] ) || empty( $api_output['errors'] ) ) {
 
 					// check if we have data
 					if ( isset( $api_output['api']['data'] ) ) {
@@ -507,9 +517,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 					}
 				}
-
-				return $api_output['errors'];
-
 			}
 
 		}
