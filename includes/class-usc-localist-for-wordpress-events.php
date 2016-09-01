@@ -96,7 +96,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			if ( isset( $events['events'] ) ) {
 				$events = $events['events'];
 			}
-var_dump($events);
+
 			// check that we have actual events returned
 			if ( count( $events ) === 0 ) {
 
