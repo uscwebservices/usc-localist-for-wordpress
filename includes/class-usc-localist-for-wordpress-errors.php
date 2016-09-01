@@ -2,7 +2,7 @@
 
 /**
  * Class: USC Localist for WordPress Errors
- * 
+ *
  * Error messaging handling for functions and classes.
  *
  * Stores error messages as an array of the object and
@@ -15,7 +15,7 @@
  */
 
 if ( ! class_exists( 'USC_Localist_For_Wordpress_Errors' ) ) {
-	
+
 	class USC_Localist_For_Wordpress_Errors {
 
 		/**
@@ -29,7 +29,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Errors' ) ) {
 		 * =========
 		 *
 		 * @since 1.0.0
-		 * 
+		 *
 		 * Constructor to run when the class is called.
 		 */
 		public function __construct() {
