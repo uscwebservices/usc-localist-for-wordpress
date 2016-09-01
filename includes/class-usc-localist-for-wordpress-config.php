@@ -11,16 +11,16 @@
  * @author 		USC Web Services <webhelp@usc.edu>
  */
 
-if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
-	
+if ( ! class_exists( 'USC_Localist_For_Wordpress_Config' ) ) {
+
 	class USC_Localist_For_Wordpress_Config {
 
 		/**
 		 * Configuration settings for the plugin.
 		 *
-		 * Defines urls for localist and allowed api attributes by 
+		 * Defines urls for localist and allowed api attributes by
 		 * types and validation methods.
-		 * 
+		 *
 		 * @since 1.0.0
 		 * @var array
 		 */
@@ -30,8 +30,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 				'enabled' => false, // set to true to use local events.json data
 				'json' => array(
 					'single' => '/sample/event-settings-sample-date.json',
-					'multiple' => '/sample/events.json'
-				)
+					'multiple' => '/sample/events.json',
+				),
 			),
 			'default' => array(
 				'cache' => HOUR_IN_SECONDS, // in seconds
@@ -44,21 +44,21 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 					'date_time_single' => ' at ',
 					'date_time_multiple' => ' from ',
 					'time' => ' to ',
-					'range' => ' - '
+					'range' => ' - ',
 				),
 				'messages' => array(
-					'no_events' => 'No scheduled events.'
+					'no_events' => 'No scheduled events.',
 				),
 				'class' => array(
-					'no_events' => 'no-events-message'
-				)
+					'no_events' => 'no-events-message',
+				),
 			),
 			'plugin' => array(
 				'name' => 'USC Localist for Wordpress',
 				'version' => USC_LFWP__VERSION,
 				'tag' => 'usc-localist-for-wordpress',
 				'shortcode' => array(
-					'calendar' => 'localist-calendar'
+					'calendar' => 'localist-calendar',
 				),
 			),
 			'url' => array(
@@ -68,24 +68,24 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 					// add custom url parameters and map their relationship (will validate against relationship item settings)
 					'page' => array(
 						'name' => 'page', // use wp default of 'page' for nice url
-						'relationship' => 'page'
+						'relationship' => 'page',
 					),
 					'event-id' => array(
 						'name' => 'event-id',
-						'relationship' => 'event_id'
-					)
+						'relationship' => 'event_id',
+					),
 				),
 			),
 			'api_options' => array(
-				
+
 				// all allowed API url parameters
 				// note: 'get' is custom to the type of GET API we will perform
 				'all' => array(
 					'allowed' => array(
-						
+
 						// custom values: API type
 						'get' => '', // API GET type: [events,event,organizations,groups,search]
-						
+
 						// custom values: cache
 						'cache' => '', // Transient cache timeout setting
 
@@ -93,13 +93,13 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'date_range' => '', // optional: show date range for multiple date events
 
 						// custom values: event details link
-						'details_page'=>'', // optional: relative path to event detail
+						'details_page' => '', // optional: relative path to event detail
 						'is_events_page' => '', // optional: indicate single events to display on the shortcode page
-						
+
 						// custom values: templates
 						'template_multiple' => '', // optional: slug name from templates custom post type - multiple events
 						'template_single' => '', // optional: slug name from templates custom post type - single events
-						
+
 						// custom values: pagination
 						'paginate' => '', // optional: show pagination on multi-events (next, numeric)
 						'paginate_offset' => '', // optional: define the amount of numbers to the left and right of current page
@@ -157,7 +157,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 
 					// all API parameters that need validation
 					'validation' => array(
-						
+
 						// API parameters that need to be numbers
 						'numbers' => array(
 							'cache',
@@ -172,7 +172,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 							'exclude_type',
 							'type',
 							'event_instances_id',
-							'event_id'
+							'event_id',
 						),
 
 						// API parameters that need to be date format YYYY-MM-DD
@@ -181,7 +181,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 							'start',
 							'created_after',
 							'created_before',
-							'dates'
+							'dates',
 						),
 
 						// API parameters that need to be boolean
@@ -198,8 +198,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 							'all_custom_fields',
 							'include_attendance',
 							'include_attendees',
-							'include_activity'
-						)
+							'include_activity',
+						),
 					),
 				),
 
@@ -208,26 +208,26 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 					'allowed' => array(
 						'organization_id' => '', // id of organization
 						'page' => '', // page number
-						'pp' => '' // number of items per page (max 100)
+						'pp' => '', // number of items per page (max 100)
 					),
-					'allowed_array' => false
+					'allowed_array' => false,
 				),
 
 				// API parameters for GET 'communities'
 				'communities' => array(
 					'allowed' => array(
 						'organization_id' => '',
-						'communities_id' => ''
+						'communities_id' => '',
 					),
-					'allowed_array' => false
+					'allowed_array' => false,
 				),
 
 				// API parameters for GET 'search'
 				'search' => array(
 					'allowed' => array(
-						'search' => ''
+						'search' => '',
 					),
-					'allowed_array' => false
+					'allowed_array' => false,
 				),
 
 				// API parameters for GET 'events'
@@ -268,8 +268,8 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'type',
 						'keyword',
 						'group_id',
-						'exclude_type'
-					)
+						'exclude_type',
+					),
 				),
 
 				// API parameters for GET 'event'
@@ -279,13 +279,13 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Config') ) {
 						'all_custom_fields' => '',
 						'include_activity' => '',
 						'include_attendance' => '',
-						'include_attendees' => ''
+						'include_attendees' => '',
 					),
-					'allowed_array' => false
-				)
-			)
+					'allowed_array' => false,
+				),
+			),
 		);
 
 	}
-	
+
 }
