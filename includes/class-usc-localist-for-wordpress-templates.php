@@ -2,8 +2,8 @@
 
 /**
  * Class: USC Localist for WordPress Template
- * 
- * A class to handle parsing output of API data using 
+ *
+ * A class to handle parsing output of API data using
  * custom templates stored as post types.  Post types
  * are enabled in USC_Localist_For_Wordpress_Admin
  *
@@ -34,14 +34,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * =========
 		 *
 		 * @since 1.0.0
-		 * 
+		 *
 		 * Constructor to run when the class is called.
 		 */
 		public function __construct( $api_data ) {
 
 			// get the template path opton
 			$this->api_data = $api_data;
-			
+
 			// load the dependencies
 			$this->load_dependencies();
 
@@ -53,7 +53,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		/**
 		 * Load Dependencies
 		 * =================
-		 * 
+		 *
 		 * Load the required dependencies for this class.
 		 *
 		 * @since    1.0.0
@@ -76,12 +76,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * @return [type]      [description]
 		 */
 		function valid_url( $url ) {
-			
+
 			$headers = @get_headers( $url );
-			$httpStatus = intval( substr( $headers[0], 9, 3 ) );
-			
-			if ( $httpStatus<400 ) {
-				
+			$http_status = intval( substr( $headers[0], 9, 3 ) );
+
+			if ( $http_status < 400 ) {
+
 				return true;
 
 			}
@@ -94,9 +94,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Data Datetime
 		 * =============
 		 *
-		 * Get Template items with attribute data-datetime and set the inner text with the value of 
+		 * Get Template items with attribute data-datetime and set the inner text with the value of
 		 * the mapped nodes.
-		 * 
+		 *
 		 * @param 	object 	$template 	the template object
 		 * @param 	array 	$api_data 	the json array of the api data to use
 		 * @param 	array 	$options 	the options of the api call passed for any call specific functions
@@ -108,23 +108,20 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			$config = $this->config;
 
 			// find all data fields
-			$fields = $template->find('*[data-date-type]');
+			$fields = $template->find( '*[data-date-type]' );
 
 			// set variable if we have a single event
-			$is_single = ( $options['api']['type'] == 'event' ) ? true : false;
-
-			// get the separator
-			$separator_date_time = isset ( $options['separator_range'] ) ? $options['separator_range'] : $config['default']['separator']['range'];
+			$is_single = ( 'event' === $options['api']['type'] ) ? true : false;
 
 			// loop through the data fields found
 			foreach ( $fields as $field ) {
 
 				// set variables for data-fields and output
-				$field_value = $output = '';
-				
+				$output = '';
+
 				// date types (date, time, datetime)
 				if ( $is_single ) {
-					
+
 					$options['date_type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'datetime';
 
 				}
@@ -134,7 +131,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					$options['date_type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'date';
 
 				}
-				
+
 				// specific date instance to use (start, end, datetime-start-end)
 				$options['date_instance'] = isset( $field->{'data-date-instance'} ) ? $field->{'data-date-instance'} : 'start';
 
@@ -155,7 +152,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// range separator
 				$options['separator_range'] = isset( $field->{'data-separator-range'} ) ? $field->{'data-separator-range'} : $config['default']['separator']['range'];
-				
+
 				// separator to use between instances output
 				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : $config['default']['separator']['default'];
 
@@ -166,12 +163,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				$date_end = date( $options['format_date'], strtotime( $api_data['last_date'] ) );
 
 				// return the date range if set and not on single event
-				if ( ! $is_single && $date_range && ( $date_start != $date_end ) ) {
-					
+				if ( ! $is_single && $date_range && ( $date_start !== $date_end ) ) {
+
 					$date_start = date( $options['format_date'], strtotime( $api_data['first_date'] ) );
 					$date_end = date( $options['format_date'], strtotime( $api_data['last_date'] ) );
 
-					if ( $date_start != $date_end ) {
+					if ( $date_start !== $date_end ) {
 
 						$output .= '<time class="event-date-range-start" datetime="'. $api_data['first_date'] .'">' . $date_start . '</time>'
 							. '<span class="event-separator-range">' . $options['separator_range'] . '</span>'
@@ -179,20 +176,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 						$field->innertext = $output;
 					}
-
 				}
-
 				// no date range
 				else {
-
-				
 					// get the event instance(s)
 					$event_instances = $api_data['event_instances'];
 
-					$event_instances_amount = count( $event_instances );
-					
+					$event_instances_amt = count( $event_instances );
+
 					// defaults for determining number in loop
-					$i= 1;
+					$i = 1;
 
 					foreach ( $event_instances as $event_instance ) {
 
@@ -200,19 +193,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 						$date_functions = new USC_Localist_For_Wordpress_Dates;
 
 						$date_output = $date_functions->date_as_html( $event_instance, $options );
-						
+
 						if ( $date_output ) {
 
 							// get the formatted date/time element
 							$output .= $date_output;
 
 							// add the separator if set
-							if ( isset( $separator ) && $i < $event_instances_amount ) {
+							if ( isset( $separator ) && $i < $event_instances_amt ) {
 
 								$output .= $separator;
 
 							}
-
 						}
 
 						// attach the formatted date/time element to the field
@@ -222,9 +214,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 						$i++;
 
 					}
-
 				}
-
 			}
 
 		}
@@ -234,7 +224,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * =================
 		 *
 		 * Process the individual data-field value from the data_fields and data_link function loops.
-		 * 
+		 *
 		 * @param  object	$field 		the data field to be processed
 		 * @param  array 	$api_data 	the json array of the api data to use
 		 * @return string				the output of matching node values as the inner text of the template item
@@ -243,7 +233,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			// set variables for data-fields
 			$field_value = '';
-			
+
 			// get the data-field
 			$data_field = $field->{'data-field'};
 
@@ -259,7 +249,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			// add field value as innertext of the node
 			else {
-				
+
 				return $field_value;
 
 			}
@@ -270,9 +260,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Data Fields
 		 * ===========
 		 *
-		 * Get Template items with attribute data-field and set the inner text with the value of 
+		 * Get Template items with attribute data-field and set the inner text with the value of
 		 * the mapped node.
-		 * 
+		 *
 		 * @param 	object 	$template 	the template object
 		 * @param 	array 	$api_data 	the json array of the api data to use
 		 * @param 	array 	$options 	the options of the api call passed for any call specific functions
@@ -281,7 +271,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		public function data_fields( $template, $api_data, $options ) {
 
 			// find all data fields
-			$fields = $template->find('*[data-field]');
+			$fields = $template->find( '*[data-field]' );
 
 			// loop through the data fields found
 			foreach ( $fields as $field ) {
@@ -303,7 +293,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Simple HTML DOM has a recursive issue and this function helps set items.
 		 *
 		 * @since 1.1.7
-		 * 
+		 *
 		 * @param  object 	$link 	the single html node object
 		 * @return object 		 	sets the html node object attributes
 		 */
@@ -326,7 +316,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Simple HTML DOM has a recursive issue and this function helps set items.
 		 *
 		 * @since 1.1.7
-		 * 
+		 *
 		 * @param  object 	$link 	the single html node object
 		 * @param  string 	$url 	the url to set the a tag href
 		 * @return object 		 	sets the html node object attributes
@@ -346,7 +336,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * ==========
 		 *
 		 * Loop through all instances that have data attribute 'data-link'
-		 * 
+		 *
 		 * @param 	object 	$template 	the template object from get_template
 		 * @param 	array 	$api_data 	the single api type array of data to map the link value
 		 * @param 	array 	$options 	the options passed from the api
@@ -358,7 +348,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			$details_page = $options['template_options']['details_page'];
 
 			// find all data links
-			$links = $template->find('*[data-link]');
+			$links = $template->find( '*[data-link]' );
 
 			// loop through the links
 			foreach ( $links as $link ) {
@@ -367,10 +357,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				$data_link = $link->{'data-link'};
 
 				// check if we have a link to a map
-				if ( 'map' == $data_link ) {
-					
+				if ( 'map' === $data_link ) {
+
 					$url = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
-					
+
 					// set the href using map_link function
 					if ( ! empty( $url ) ) {
 
@@ -382,10 +372,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 					}
 
-				} 
+				}
 
 				// check if we have a link to the details page
-				else if ( 'detail' == $data_link ) {
+				else if ( 'detail' === $data_link ) {
 
 					// check if we have a set details page link
 					if ( ! empty( $details_page ) ) {
@@ -401,7 +391,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					else {
 
 						$this->data_link_reset( $link, $api_data['localist_url'] );
-					
+
 					}
 
 				}
@@ -416,7 +406,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 						$this->data_link_null( $link );
 
 					}
-					
+
 					// we have a link
 					else {
 
@@ -437,7 +427,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Get all instances with attribute 'data-photo' and attach the value as a source.
 		 * The size can be modified by using 'data-format' attribute and setting the value to:
 		 * 	- tiny, small, medium, big, big_300
-		 * 
+		 *
 		 * @param 	object 	$template 	the template object from get_template
 		 * @param 	array 	$api_data 	the single api type array of data to get the value
 		 * @param 	array 	$options 	the options passed from the api
@@ -446,7 +436,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		public function data_photos( $template, $api_data, $options ) {
 
 			// find all data photo items
-			$photos = $template->find('*[data-photo]');
+			$photos = $template->find( '*[data-photo]' );
 
 			// loop through the data photos found
 			foreach ( $photos as $photo ) {
@@ -454,12 +444,12 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// get the photo value
 				$photo_value = $api_data[$photo->{'data-photo'}];
 
-				// format 
+				// format
 				$data_format = isset( $photo->{'data-format'} ) ? $photo->{'data-format'} : false;
 
 				// check if we have an overwriting image size preference: tiny, small, medium, big, big_300
 				if ( $data_format ) {
-					
+
 					$photo_value = str_replace( '/huge/', '/' . $data_format . '/', $photo_value );
 
 				}
@@ -474,45 +464,42 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Get Template
 		 * ============
 		 *
-		 * Get the template based on the 
+		 * Get the template based on the passed parameter.
 		 *
 		 * @since 	1.0.0
 		 */
 		public function get_template( $api_data ) {
-			
+
 			// multiple items template path
-			$template_path_multiple = $api_data['template_options']['template_multiple'];
+			$template_path_multi = $api_data['template_options']['template_multiple'];
 
 			// single items template path
 			$template_path_single = $api_data['template_options']['template_single'];
 
+			// Get the mulitple events template as the default.
+			$template_path = $template_path_multi;
+
 			// if we have a single template path value and the api type is a single event
-			if ( '' != $template_path_single && 'event' == $api_data['api']['type'] ) {
+			if ( '' !== $template_path_single && 'event' === $api_data['api']['type'] ) {
 
 				$template_path = $template_path_single;
 
-			} else {
-
-				$template_path = $template_path_multiple;
-
 			}
-
-
 
 			// default template path
 			$default_template = plugin_dir_path( dirname( __FILE__ ) ) . '/templates/' . $template_path;
 
 			// if the template location is at http
 			if ( strpos( $template_path, 'http' ) === 0 ) {
-				
+
 				// check that we have a valid url
 				$valid_template = $this->valid_url( $template_path );
 
 				if ( $valid_template ) {
-				
+
 					$html = file_get_contents( $template_path );
 
-					return file_get_html($html);
+					return file_get_html( $html );
 
 				}
 
@@ -522,14 +509,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				}
 
-			} 
+			}
 
 			// if the template is in the templates directory as file
-			else if ( strpos( $template_path, '.html' ) ) {
+			elseif ( strpos( $template_path, '.html' ) ) {
 
 				return file_get_html( $default_template );
 
-			} 
+			}
 
 			// else let's use the custom post type
 			else {
@@ -542,33 +529,33 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					'post_status' => 'publish'
 				) );
 
-				// fall back to default path 
-				if( ! $template_post ) {
+				// fall back to default path
+				if ( ! $template_post ) {
 
 					$html = $default_template;
 
 				} else {
-					
+
 					$html = $template_post[0]->post_content;
 
 				}
-			
+
 				// if we have valid html returned
 				if ( ! empty( $html ) ) {
-					
+
 					if ( ! strpos( '<html>', ' ' . $html ) ) {
-						
+
 						$html = '<html>' . $html . '</html>';
 
 					}
-					
-					return str_get_html($html);
+
+					return str_get_html( $html );
 
 				}
 
 			}
-			
-			
+
+
 		}
 
 		/**
@@ -576,7 +563,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * ========
 		 *
 		 * Return a link to USC Maps for HSC or UPC, fall back to address in google maps or return false.
-		 * 
+		 *
 		 * @param  string 	$location_name 	location name in three letter campus location
 		 * @param  string 	$address 		address node for use with google maps
 		 * @return string 					returns link value or boolean false
@@ -584,7 +571,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * @since 1.0.0
 		 */
 		public function map_link( $location_name, $address, $geo ) {
-			
+
 			// config setting
 			$config = $this->config;
 
@@ -605,7 +592,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				$map_link .= '?b=' . $matches[1];
 
-				// add the HSC tag if the map code is found 
+				// add the HSC tag if the map code is found
 				$map_link = preg_replace( '/\?b=('.$hsc.')/', '?b=$1#hsc', $map_link );
 
 			}
@@ -618,7 +605,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// add the street if it exists
 				$map_link .= ( ! empty ( $geo['street'] ) ) ? urlencode( $geo['street'] . ', ' ) : '';
-				
+
 				// add the city if it exists
 				$map_link .= ( ! empty ( $geo['city'] ) ) ? urlencode( $geo['city'] . ', ' ) : '';
 
@@ -642,7 +629,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			}
 
 			// set the link to a google map based on address
-			else if ( ! empty( $address ) ){
+			else if ( ! empty( $address ) ) {
 
 				$map_link = 'https://www.google.com/maps/place/' . urlencode( $address );
 
@@ -667,7 +654,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Parses a dot syntax string into an associative array.
 		 *
 		 * some.data.type becomes $api_data['some']['data']['type']
-		 * 
+		 *
 		 * @param 	array 	$api_data 		single item array of api data node (i.e. - event)
 		 * @param 	string 	$data_field 	the data field to check against
 		 * @return 	assoc array path 		the p
@@ -675,19 +662,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		public function string_node( $api_data, $data_field ) {
 
 			// multiple node data field
-			if ( strpos ( $data_field, '.' ) ) {
+			if ( strpos( $data_field, '.' ) ) {
 
 				// convert dot path to array
-				$paths = explode('.', $data_field);
+				$paths = explode( '.', $data_field );
 
 				// set node to add array items as $event[node1][node2]
 				$node =& $api_data;
 
 				// loop through the array items
-				foreach ($paths as $path) {
-					
-					// check if the item exists 
-					if (array_key_exists($path, $node) ) {
+				foreach ( $paths as $path ) {
+
+					// check if the item exists
+					if ( array_key_exists( $path, $node ) ) {
 
 						$node =& $node[$path];
 
