@@ -8,10 +8,10 @@
  * @subpackage Usc_Localist_For_Wordpress/includes
  * @author	 USC Web Services <webhelp@usc.edu>
  */
-if ( ! class_exists('USC_Localist_For_Wordpress_Settings') ) {
-	
+if ( ! class_exists( 'USC_Localist_For_Wordpress_Settings' ) ) {
+
 	class USC_Localist_For_Wordpress_Settings {
-		
+
 		/**
 		 * The ID of this plugin.
 		 *
@@ -48,7 +48,7 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Settings') ) {
 		 * Initialize the class and its properties
 		 */
 		public function __construct( $plugin_name, $plugin_version, $plugin_tag ) {
-			
+
 			$this->plugin_name = $plugin_name;
 			$this->plugin_version = $plugin_version;
 			$this->plugin_tag = $plugin_tag;
@@ -58,13 +58,13 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Settings') ) {
 		/**
 		 * Load Dependencies
 		 * =================
-		 * 
+		 *
 		 * Load the required dependencies for this plugin.
 		 *
 		 * @since    1.0.0
 		 * @access   private
 		 */
-		private function load_dependencies() {
+		public function load_dependencies() {
 
 			// require the json class
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/include-usc-localist-for-wordpress-instructions.php';
@@ -102,9 +102,9 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Settings') ) {
 		public function create_admin_page() {
 			// Set class property
 			$this->options = get_option( 'usc_lfwp_name' );
-			
+
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/include-usc-localist-for-wordpress-instructions.php';
-			
+
 		}
 
 		/**
@@ -112,29 +112,29 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Settings') ) {
 		 * =======================
 		 *
 		 * Removes the Rich text editor based on post_type.
-		 * 
-		 * @return [type] [description]
-		 * 
+		 *
+		 * @return bool  Output of whether post type is 'event-template'.
+		 *
 		 * @since 1.1.7
 		 */
 		public function remove_richedit_option() {
-			
+
 			global $post;
 
-			if ( 'event-template' === $post->post_type ) {
-				
-				return false;
+			$output = true;
 
-			} else {
-				
-				return true;
+			if ( 'event-template' === $post->post_type ) {
+
+				$output = false;
 
 			}
+
+			return $output;
 
 		}
 
 
-		
+
 	}
 
 }
