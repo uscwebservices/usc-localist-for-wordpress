@@ -2,7 +2,7 @@
 
 /**
  * Class: USC Localist for WordPress Events
- * 
+ *
  * A class to handle events displaying.  Accepts JSON array
  * and checks template options for output format.
  *
@@ -27,7 +27,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 * =========
 		 *
 		 * @since 1.0.0
-		 * 
+		 *
 		 * Constructor to run when the class is called.
 		 */
 		public function __construct( $api_data ) {
@@ -41,7 +41,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		/**
 		 * Load Dependencies
 		 * =================
-		 * 
+		 *
 		 * Load the required dependencies for this class.
 		 *
 		 * @since    1.0.0
@@ -78,7 +78,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 
 			// get the default config file
 			$config = $this->config;
-			
+
 			// set default output
 			$output = '';
 
@@ -96,18 +96,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 			if ( isset( $events['events'] ) ) {
 				$events = $events['events'];
 			}
-
+var_dump($events);
 			// check that we have actual events returned
-			if ( count( $events ) == 0 ) {
+			if ( count( $events ) === 0 ) {
 
 				$output .= '<p class="' . $config['default']['class']['no_events'] . '">';
 				$output .= $api_data['template_options']['message_no_events'];
 				$output .= '</p>';
 
-			} 
+			}
 
 			// we have events
-			else {
+			if ( count( $events ) !== 0 ) {
 
 				// loop through the events
 				foreach ( $events as $single ) {
@@ -119,7 +119,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 					if ( isset( $single['event'] ) ) {
 						$event = $single['event'];
 					}
-					
+
 					// get the data fields, pass the template, api data and options
 					$template_data->data_fields( $template, $event, $api_data );
 
@@ -136,8 +136,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 					$template_output = $template->save();
 
 					// set the value to display in the output
-					$output .= str_replace( array( '<html>', '</html>'), array( '', '' ), $template_output );	
-					
+					$output .= str_replace( array( '<html>', '</html>' ), array( '', '' ), $template_output );
+
 				}
 
 				// clear the template to prevent memory leak
@@ -148,20 +148,18 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				$option_paginate = $this->api_data['paginate_options']['paginate'];
 
 				// only run pagination if true and on multiple events api
-				if ( $option_paginate && $api_data['api']['type'] == 'events' ) {
-					
+				if ( $option_paginate && 'events' === $api_data['api']['type'] ) {
+
 					$paginate = new USC_Localist_For_Wordpress_Paginate();
 
 					$output .= $paginate->get_pagination( $api_data );
 
-
 				}
-
 			}
 
 			// return the output for the event(s)
 			return $output;
-			
+
 		}
 
 	}
