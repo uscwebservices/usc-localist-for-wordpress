@@ -1,8 +1,10 @@
 <?php
 /**
- *	USC Localist for WordPress Plugin Class.
+ * USC Localist for WordPress Plugin Class.
  *
- * @package usc-localist-for-wordpress
+ * @package    Usc_Localist_For_Wordpress
+ * @subpackage Usc_Localist_For_Wordpress/admin
+ * @author     USC Web Services <webhelp@usc.edu>
  */
 
 /**
@@ -11,9 +13,7 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Usc_Localist_For_Wordpress
- * @subpackage Usc_Localist_For_Wordpress/admin
- * @author     USC Web Services <webhelp@usc.edu>
+ * @since    1.0.0
  */
 class USC_Localist_For_Wordpress_Admin {
 
