@@ -1,18 +1,21 @@
 <?php
-
 /**
- * Class: USC Localist for WordPress Activator
- * 
- * Fired during plugin activation
+ * USC Localist for WordPress Plugin Class.
  *
- * @since 		1.0.0
- * @package 	Usc_Localist_For_Wordpress
- * @subpackage 	Usc_Localist_For_Wordpress/includes
- * @author 		USC Web Services <webhelp@usc.edu>
+ * @package    Usc_Localist_For_Wordpress
+ * @subpackage Usc_Localist_For_Wordpress/admin
+ * @author     USC Web Services <webhelp@usc.edu>
  */
 
 if ( ! class_exists( 'USC_Localist_For_Wordpress_Activator' ) ) {
 
+	/**
+	 * Class: USC Localist for WordPress Activator
+	 *
+	 * Fired during plugin activation
+	 *
+	 * @since 		1.0.0
+	 */
 	class USC_Localist_For_Wordpress_Activator {
 
 		/**
@@ -27,9 +30,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Activator' ) ) {
 		 */
 		public static function activate() {
 
-			// flush the permalink structure
+			// Flush the permalink structure.
 			flush_rewrite_rules();
-			
+
 		}
 
 	}
