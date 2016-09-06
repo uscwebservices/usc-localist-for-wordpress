@@ -337,68 +337,61 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// Get the data link attribute.
 				$data_link = $link->{'data-link'};
 
-				// Check if we have a link to a map.
-				if ( 'map' === $data_link ) {
+				switch ( $data_link ) {
 
-					$url = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
+					case 'map':
 
-					// Set the href using map_link function.
-					if ( ! empty( $url ) ) {
+						$url = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
 
-						$this->data_link_reset( $link, $url );
+						// set the href using map_link function
+						if ( ! empty( $url ) ) {
 
-					}
+							$this->data_link_reset( $link, $url );
 
-					// Reset the link if no $url.
-					if ( empty( $url ) ) {
+						} else {
 
-						$this->data_link_null( $link );
+							$this->data_link_null( $link );
 
-					}
+						}
 
-					return;
+						break;
+
+					case 'detail':
+
+						// check if we have a set details page link
+						if ( ! empty( $details_page ) ) {
+
+							// attach the api_data url parameter to the link
+							$url = $details_page . '?event-id=' . $api_data['id'];
+
+							$this->data_link_reset( $link, $url );
+
+						}
+
+						// default: link to the localist details page
+						else {
+
+							$this->data_link_reset( $link, $api_data['localist_url'] );
+
+						}
+
+					default:
+
+						if ( empty( $api_data[ $data_link ] ) ) {
+
+							$this->data_link_null( $link );
+
+						}
+
+						// we have a link
+						else {
+
+							$this->data_link_reset( $link, $api_data[$data_link] );
+
+						}
+
+						break;
 				}
-
-				if ( 'detail' === $data_link ) { // Check if we have a link to the details page.
-
-					// Check if we have a set details page link.
-					if ( ! empty( $details_page ) ) {
-
-						// Attach the api_data url parameter to the link.
-						$url = $details_page . '?event-id=' . $api_data['id'];
-
-						$this->data_link_reset( $link, $url );
-
-					}
-
-					// Default: link to the localist details page.
-					if ( empty( $details_page ) ) {
-
-						$this->data_link_reset( $link, $api_data['localist_url'] );
-
-					}
-
-					return;
-				}
-
-				/**
-				 * Default to use data link with node mapping.
-				 */
-
-				// If the link node has no value.
-				if ( empty( $api_data[ $data_link ] ) ) {
-
-					$this->data_link_null( $link );
-
-					return;
-
-				}
-
-				// We have a regular link.
-				$this->data_link_reset( $link, $api_data[ $data_link ] );
-
-				return;
-
 			}
 
 		}
@@ -479,13 +472,14 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				}
 
-				else {
+				if ( ! $valid_template ) {
 
 					return file_get_html( $default_template );
 
 				}
+			}
 
-			} elseif ( strpos( $template_path, '.html' ) ) {
+			if ( strpos( $template_path, '.html' ) ) {
 
 				// If the template is in the templates directory as file.
 				return file_get_html( $default_template );
