@@ -323,7 +323,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * @param 	array  $options 	The options passed from the api.
 		 * @return 	void 				Sets the links output to the $template object.
 		 */
-		public function data_links2( $template, $api_data, $options ) {
+		public function data_links( $template, $api_data, $options ) {
 
 			// Defaults.
 			$details_page = $options['template_options']['details_page'];
@@ -337,67 +337,63 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// Get the data link attribute.
 				$data_link = $link->{'data-link'};
 
-				switch ( $data_link ) {
+				// Check if we have a link to a map.
+				if ( 'map' === $data_link ) {
 
-					case 'map':
+					$url = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
 
-						$url = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
+					// Set the href using map_link function.
+					if ( ! empty( $url ) ) {
 
-						// No $url, change the link to null.
-						if ( empty( $url ) ) {
+						$this->data_link_reset( $link, $url );
 
-							$this->data_link_null( $link );
+						return;
 
-						}
+					}
 
-						// We have a $url, set the href using map_link function.
-						if ( ! empty( $url ) ) {
-
-							$this->data_link_reset( $link, $url );
-
-						}
-
-						break;
-
-					case 'detail':
-
-						// Check if we have a set details page link.
-						if ( ! empty( $details_page ) ) {
-
-							// Attach the api_data url parameter to the link.
-							$url = $details_page . '?event-id=' . $api_data['id'];
-
-							$this->data_link_reset( $link, $url );
-
-						}
-
-						// Default: link to the localist details page.
-						if ( empty( $details_page ) ) {
-
-							$this->data_link_reset( $link, $api_data['localist_url'] );
-
-						}
-
-						break;
-
-					default:
-
-						// If empty data link, change link to null.
-						if ( empty( $api_data[ $data_link ] ) ) {
-
-							$this->data_link_null( $link );
-
-						}
-
-						// We have a link so let's set it.
-						if ( ! empty( $api_data[ $data_link ] ) ) {
-
-							$this->data_link_reset( $link, $api_data[ $data_link ] );
-
-						}
-
-						break;
+					$this->data_link_null( $link );
+					return;
 				}
+
+				// Check if we have a link to the details page.
+				if ( 'detail' === $data_link ) {
+
+					// Check if we have a set details page link.
+					if ( ! empty( $details_page ) ) {
+
+						// Attach the api_data url parameter to the link.
+						$url = $details_page . '?event-id=' . $api_data['id'];
+
+						$this->data_link_reset( $link, $url );
+
+						return;
+
+					}
+
+					// Default: link to the localist details page.
+					$this->data_link_reset( $link, $api_data['localist_url'] );
+
+					return;
+
+				}
+
+				/**
+				 * Data links with node mapping.
+				 */
+
+				// If the link node has no value.
+				if ( empty( $api_data[ $data_link ] ) ) {
+
+					$this->data_link_null( $link );
+
+					return;
+				}
+
+				// Default: We have a link so let's use it.
+				$this->data_link_reset( $link, $api_data[ $data_link ] );
+
+				return;
+
 			}
 
 		}
