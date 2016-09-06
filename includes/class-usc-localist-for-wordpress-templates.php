@@ -323,7 +323,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * @param 	array  $options 	The options passed from the api.
 		 * @return 	void 				Sets the links output to the $template object.
 		 */
-		public function data_links( $template, $api_data, $options ) {
+		public function data_links2( $template, $api_data, $options ) {
 
 			// Defaults.
 			$details_page = $options['template_options']['details_page'];
@@ -343,14 +343,17 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 						$url = $this->map_link( $api_data['location_name'], $api_data['address'], $api_data['geo'] );
 
-						// set the href using map_link function
+						// No $url, change the link to null.
+						if ( empty( $url ) ) {
+
+							$this->data_link_null( $link );
+
+						}
+
+						// We have a $url, set the href using map_link function.
 						if ( ! empty( $url ) ) {
 
 							$this->data_link_reset( $link, $url );
-
-						} else {
-
-							$this->data_link_null( $link );
 
 						}
 
@@ -358,35 +361,38 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 					case 'detail':
 
-						// check if we have a set details page link
+						// Check if we have a set details page link.
 						if ( ! empty( $details_page ) ) {
 
-							// attach the api_data url parameter to the link
+							// Attach the api_data url parameter to the link.
 							$url = $details_page . '?event-id=' . $api_data['id'];
 
 							$this->data_link_reset( $link, $url );
 
 						}
 
-						// default: link to the localist details page
-						else {
+						// Default: link to the localist details page.
+						if ( empty( $details_page ) ) {
 
 							$this->data_link_reset( $link, $api_data['localist_url'] );
 
 						}
 
+						break;
+
 					default:
 
+						// If empty data link, change link to null.
 						if ( empty( $api_data[ $data_link ] ) ) {
 
 							$this->data_link_null( $link );
 
 						}
 
-						// we have a link
-						else {
+						// We have a link so let's set it.
+						if ( ! empty( $api_data[ $data_link ] ) ) {
 
-							$this->data_link_reset( $link, $api_data[$data_link] );
+							$this->data_link_reset( $link, $api_data[ $data_link ] );
 
 						}
 
