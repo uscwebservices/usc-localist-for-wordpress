@@ -107,8 +107,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 * Pass a single event instance and send back HTML in appropriate <time> format.
 		 *
 		 * @param 	array $event_instance 	Single event instance.
-		 * @param 	array $options			Options for output.
-		 *								 		[date-type, date-instance, format-date, format-time]
+		 * @param 	array $options			Options for output [date-type, date-instance, format-date, format-time].
 		 * @return 	string 						html string using <time> format
 		 */
 		public function date_as_html( $event_instance, $options ) {
