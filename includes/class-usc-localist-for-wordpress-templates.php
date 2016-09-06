@@ -438,6 +438,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * Get the template based on the passed parameter.
 		 *
 		 * @since 	1.0.0
+		 *
+		 * @param array $api_data 	The single api type array of data to get the value.
 		 */
 		public function get_template( $api_data ) {
 
@@ -466,19 +468,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// Check that we have a valid url.
 				$valid_template = $this->valid_url( $template_path );
 
-				if ( $valid_template ) {
-
-					$html = file_get_contents( $template_path );
-
-					return file_get_html( $html );
-
-				}
-
 				if ( ! $valid_template ) {
 
 					return file_get_html( $default_template );
 
 				}
+
+				$html = file_get_contents( $template_path );
+
+				return file_get_html( $html );
 			}
 
 			if ( strpos( $template_path, '.html' ) ) {
@@ -488,40 +486,39 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 			}
 
-			// Else let's use the custom post type.
-			else {
+			/**
+			 * Default: Use the custom post type.
+			 */
 
-				// Get the post by slug name.
-				$template_post = get_posts( array(
-					'name' => $template_path,
-					'posts_per_page' => 1,
-					'post_type' => 'event-template',
-					'post_status' => 'publish',
-				) );
+			// Set $html to the default template.
+			$html = $default_template;
 
-				// Fall back to default path.
-				if ( ! $template_post ) {
+			// Get the post by slug name.
+			$template_post = get_posts( array(
+				'name' => $template_path,
+				'posts_per_page' => 1,
+				'post_type' => 'event-template',
+				'post_status' => 'publish',
+			) );
 
-					$html = $default_template;
+			if ( $template_post ) {
 
-				} else {
+				// We have a CPT Template, reset $html to it's content.
+				$html = $template_post[0]->post_content;
 
-					$html = $template_post[0]->post_content;
+			}
 
-				}
+			// If we have valid html returned.
+			if ( ! empty( $html ) ) {
 
-				// If we have valid html returned.
-				if ( ! empty( $html ) ) {
+				if ( ! strpos( '<html>', ' ' . $html ) ) {
 
-					if ( ! strpos( '<html>', ' ' . $html ) ) {
-
-						$html = '<html>' . $html . '</html>';
-
-					}
-
-					return str_get_html( $html );
+					$html = '<html>' . $html . '</html>';
 
 				}
+
+				return str_get_html( $html );
+
 			}
 
 		}
