@@ -50,7 +50,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Loader' ) ) {
 		protected $shortcodes;
 
 		/**
-		 * Initialize the collections used to maintain the actions and filters.
+		 * Constructor to initialize the collections used to maintain the actions and filters.
 		 *
 		 * @since    1.0.0
 		 */
