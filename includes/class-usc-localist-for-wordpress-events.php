@@ -1,34 +1,37 @@
 <?php
-
 /**
- * Class: USC Localist for WordPress Events
+ * USC Localist for WordPress Plugin Class.
  *
- * A class to handle events displaying.  Accepts JSON array
- * and checks template options for output format.
- *
- * @since 		1.0.0
- * @package 	Usc_Localist_For_Wordpress
- * @subpackage 	Usc_Localist_For_Wordpress/includes
- * @author 		USC Web Services <webhelp@usc.edu>
+ * @package	Usc_Localist_For_Wordpress
+ * @subpackage Usc_Localist_For_Wordpress/includes
+ * @author	 USC Web Services <webhelp@usc.edu>
  */
 
 if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 
+	/**
+	 * Class: USC Localist for WordPress Events
+	 *
+	 * A class to handle events displaying.  Accepts JSON array
+	 * and checks template options for output format.
+	 *
+	 * @since 1.0.0
+	 */
 	class USC_Localist_For_Wordpress_Events {
 
 		/**
 		 * The array API data and options.
+		 *
 		 * @var array
 		 */
 		protected $api_data;
 
 		/**
-		 * Construct
-		 * =========
+		 * Constructor to run when the class is called.
 		 *
 		 * @since 1.0.0
 		 *
-		 * Constructor to run when the class is called.
+		 * @param array $api_data   Array of the API data to use in this class.
 		 */
 		public function __construct( $api_data ) {
 
@@ -39,9 +42,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		}
 
 		/**
-		 * Load Dependencies
-		 * =================
-		 *
 		 * Load the required dependencies for this class.
 		 *
 		 * @since    1.0.0
@@ -49,55 +49,52 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 		 */
 		private function load_dependencies() {
 
-			// require the config class for API variables
+			// Require the config class for API variables.
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
-			// require the config class for API variables
+			// Require the config class for API variables.
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-templates.php';
 
-			// require the date class for date and time functions
+			// Require the date class for date and time functions.
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-dates.php';
 
-			// require the paginate class
+			// Require the paginate class.
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-paginate.php';
 
-			// return the API configurations
+			// Return the API configurations.
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}
 
 		/**
-		 * Get Events
-		 * ==========
-		 *
 		 * Get the template, apply to the event(s) and output.
 		 *
 		 * @since 	1.0.0
 		 */
 		public function get_events() {
 
-			// get the default config file
+			// Get the default config file.
 			$config = $this->config;
 
-			// set default output
+			// Set default output.
 			$output = '';
 
-			// get the template from the api_data
+			// Get the template from the api_data.
 			$template_data = new USC_Localist_For_Wordpress_Templates( $this->api_data );
 			$template = $template_data->get_template( $this->api_data );
 
-			// local scope of api_data
+			// Local scope of api_data.
 			$api_data = $this->api_data;
 
-			// get the events from the class api data (single event)
+			// Get the events from the class api data (single event).
 			$events = $this->api_data['api']['data'];
 
-			// if we have 'events' (multiple events), map to that node
+			// If we have 'events' (multiple events), map to that node.
 			if ( isset( $events['events'] ) ) {
 				$events = $events['events'];
 			}
 
-			// check that we have actual events returned
+			// Check that we have actual events returned.
 			if ( count( $events ) === 0 ) {
 
 				$output .= '<p class="' . $config['default']['class']['no_events'] . '">';
@@ -106,48 +103,48 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 
 			}
 
-			// we have events
+			// We have events.
 			if ( count( $events ) !== 0 ) {
 
-				// loop through the events
+				// Loop through the events.
 				foreach ( $events as $single ) {
 
-					// get to the single event node
+					// Get to the single event node.
 					$event = $single;
 
-					// if we have sub 'event' (multiple events), map to that node
+					// If we have sub 'event' (multiple events), map to that node.
 					if ( isset( $single['event'] ) ) {
 						$event = $single['event'];
 					}
 
-					// get the data fields, pass the template, api data and options
+					// Get the data fields, pass the template, api data and options.
 					$template_data->data_fields( $template, $event, $api_data );
 
-					// get the data datetime, pass the template, api data and options
+					// Get the data datetime, pass the template, api data and options.
 					$template_data->data_datetime( $template, $event, $api_data );
 
-					// get the data links, pass the template, api data and options
+					// Get the data links, pass the template, api data and options.
 					$template_data->data_links( $template, $event, $api_data );
 
-					// get the data links, pass the template, api data and options
+					// Get the data links, pass the template, api data and options.
 					$template_data->data_photos( $template, $event, $api_data );
 
-					// save the template
+					// Save the template.
 					$template_output = $template->save();
 
-					// set the value to display in the output
+					// Set the value to display in the output.
 					$output .= str_replace( array( '<html>', '</html>' ), array( '', '' ), $template_output );
 
 				}
 
-				// clear the template to prevent memory leak
+				// Clear the template to prevent memory leak.
 				$template->clear();
 				unset( $template );
 
-				// get the paginate setting
+				// Get the paginate setting.
 				$option_paginate = $this->api_data['paginate_options']['paginate'];
 
-				// only run pagination if true and on multiple events api
+				// Only run pagination if true and on multiple events api.
 				if ( $option_paginate && 'events' === $api_data['api']['type'] ) {
 
 					$paginate = new USC_Localist_For_Wordpress_Paginate();
@@ -157,7 +154,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 				}
 			}
 
-			// return the output for the event(s)
+			// Return the output for the event(s).
 			return $output;
 
 		}
