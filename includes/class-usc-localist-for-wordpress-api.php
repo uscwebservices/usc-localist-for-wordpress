@@ -1,4 +1,9 @@
 <?php
+/**
+ *	USC Localist for WordPress Plugin Class.
+ *
+ * @package usc-localist-for-wordpress
+ */
 
 /**
  * Class: USC Localist for WordPress API
@@ -6,6 +11,7 @@
  * Get JSON from API
  *
  * since 		1.0.0
+ *
  * @package 	Usc_Localist_For_Wordpress
  * @subpackage 	Usc_Localist_For_Wordpress/includes
  * @author 		USC Web Services <webhelp@usc.edu>
@@ -68,16 +74,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 			global $wp_version;
 
-			// get the default config file
+			// Get the default config file.
 			$config = $this->config;
 
-			// default variables
+			// Default variables.
 			$output = array();
 
-			// set error message object
+			// Set error message object.
 			$error_messages = new USC_Localist_For_Wordpress_Errors;
 
-			// default parameters.
+			// Default parameters.
 			$api_base_url 			= isset( $params['url'] ) ? $params['url'] : $config['url']['base'];
 			$api_type 				= isset( $params['api']['type'] ) ? $params['api']['type'] : '';
 			$api_events_page		= isset( $params['is_events_page'] ) ? $params['is_events_page'] : false;
@@ -87,7 +93,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$api_page_number		= isset( $params['page'] ) ? $params['page'] : '1'; // default to first page of results.
 			$api_timeout			= isset( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
 
-			// set the default arguments.
+			// Set the default arguments.
 			$args = array(
 			    'timeout'		=> $api_timeout,
 			    'redirection'	=> 5,
@@ -110,47 +116,46 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// check if we have a single event or if it is an events page with event id.
 			if ( 'event' === $api_type || ( $api_events_page && '' !== $api_event_id ) ) {
 
-				// set the type to events for api structure
+				// Set the type to events for api structure.
 				$api_url .= 'events';
 
 				if ( '' !== $api_event_id ) {
 
-					// add the event id but convert any integers to strings.
+					// Add the event id but convert any integers to strings.
 					$api_url .= '/' . strval( $api_event_id );
 
-					// we are setting the api url by inclusion of the api_event_id so we assume we have a single event - let's manually set the api type to single event for output.
+					// We are setting the api url by inclusion of the api_event_id so we assume we have a single event - let's manually set the api type to single event for output.
 					$api_type = 'event';
 
 				}
 			} else {
 
-				// api type and add options and page number
-
+				// API type and add options and page number.
 				$api_url .= $api_type;
 
-				// add query string initiator for api options or page number
+				// Add query string initiator for api options or page number.
 				if ( '' !== $api_options || '' !== $api_page_number ) {
 
 					$api_url .= '?';
 
 				}
 
-				// add api options
+				// Add API options.
 				if ( '' !== $api_options ) {
 
 					$api_url .= $api_options;
 
 				}
 
-				// add page number
+				// Add page number.
 				if ( '' !== $api_page_number ) {
 
-					// if we have api options, add ampersand joiner
+					// If we have api options, add ampersand joiner.
 					if ( '' !== $api_options ) {
 						$api_url .= '&';
 					}
 
-					// add the page number parameter
+					// Add the page number parameter.
 					$api_url .= 'page=' . $api_page_number;
 
 				}
@@ -175,84 +180,100 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			/**
 			 * Data Options Output
 			 *
-			 * Add output data options for future calls (pagination)
+			 * Add output data options for future calls (pagination).
 			 */
 
-			// add the api type to the output
+			// Add the api type to the output.
 			$output['api']['type'] = $api_type;
 
-			// add the api options to the output
+			// Add the api options to the output.
 			$output['api']['options'] = $api_options;
 
-			// add the event id to the output
+			// Add the event id to the output.
 			$output['api']['event_id'] = $api_event_id;
 
-			// add the current page number to the output
+			// Add the current page number to the output.
 			$output['api']['page_current'] = $api_page_number;
 
-			// add the api url used to the output
+			// Add the api url used to the output.
 			$output['api']['url'] = $api_url;
 
 			/**
 			 * Transient Check
 			 */
 
-			// transient name using parameter values.
+			// Transient name using parameter values.
 			$transient_name = '';
 			foreach ( $params['parameters'] as $key => $value ) {
 
 				if ( is_array( $value ) ) {
-					foreach ($value as $key => $value) {
-						$transient_name .= $value . '_';
+					/**
+					 * We have an array for the value.
+					 * Loop through and add the value to the transient_name.
+					 *
+					 * @var  string
+					 */
+					foreach ( $value as $key => $value ) {
+
+						$transient_name .= $value;
+
 					}
 				} else {
-					$transient_name .= $value . '_';
+
+					// Not an arrar - add single value to the transient_name.
+					$transient_name .= $value;
+
 				}
 			}
 
-			// get the transient by name
+			// Get the transient by name.
 			$transient = get_transient( $transient_name );
 
-			// First let's check if we have a transient for this API call
+			// First let's check if we have a transient for this API call.
 			if ( ! empty( $transient ) ) {
 
-				// We have a transient, no need to make an API call
+				// We have a transient, no need to make an API call.
 				$output['api']['data'] = $transient;
 
 			}
 
 			if ( empty( $transient ) ) {
 
-				// We do not have a transient stored - let's get the API
+				/**
+				 * We do not have a transient stored - let's get the API.
+				 */
 
-				// get the remote data
+				// Get the remote data.
 				$response = wp_safe_remote_get( $api_url, $args );
 
-				// check if there is a wordpress error
+				// Check if there is a wordpress error.
 				if ( is_wp_error( $response ) ) {
 
-					// return WP error messages
+					// Return WP error messages.
 					$error_messages->add_message( 'WP Error: ' . $response->get_error_message() );
 
-				} elseif ( $response['response']['code'] >= 400 ) { // check if there is an HTTP error 400 and above
+				} elseif ( $response['response']['code'] >= 400 ) {
+					/**
+					 * Check if there is an HTTP error 400 and above.
+					 */
 
-					// return the error response code and message
+					// Return the error response code and message.
 					$error_messages->add_message( 'Calendar API Error. The shortcode parameters used have returned: ' . $response['response']['code'] . ' - ' . $response['response']['message'] );
 
-					// if we have a response from localist, let's provide if for better troubleshooting
+					// If we have a response from localist, let's provide if for better troubleshooting.
 					if ( '' !== $response['body'] ) {
 
-						// convert response message to json data as an array
+						// Convert response message to json data as an array.
 						$localist_response = json_decode( $response['body'], true );
 
-						// return localist error response
+						// Return localist error response.
 						if ( isset( $localist_response['error'] ) ) {
 
 							$error_messages->add_message( 'Localist Error: ' . $localist_response['error'] );
 
 						}
 
-						// return localist success response but with error message in body
+						// Return localist success response but with error message in body.
 						if ( ! isset( $localist_response['error'] ) ) {
 
 							$error_messages->add_message( 'Localist Error: ' . $response['body'] );
@@ -260,48 +281,47 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 						}
 					}
 
-					// add a link to the API URL called to help troubleshoot any issues
+					// Add a link to the API URL called to help troubleshoot any issues.
 					$error_messages->add_message( '<a target="_blank" href="' . $api_url . '">API URL</a>' );
 
 				}
 
-				// let's assume no wp errors and no 400+ errors so we must have data
+				// Let's assume no wp errors and no 400+ errors so we must have data.
 				if ( ! is_wp_error( $response ) && $response['response']['code'] < 400 ) {
 
-					// but just in case, let's make sure we have actual data
+					// But just in case, let's make sure we have actual data.
 					if ( '' !== $response['body'] ) {
 
-						// encode the json data and set to TRUE for array
+						// Encode the json data and set to TRUE for array.
 						$output['api']['data'] = json_decode( $response['body'], true );
 
 					}
 
-					// we still don't have valid data so let's let the user know
-
 					if ( '' === $response['body'] ) {
 
+						// We still don't have valid data so let's let the user know.
 						$error_messages->add_message( 'Hmm... The API Call was successful but no data was returned.  Here is the API call for verification: <a href="' . $api_url . '">' . $api_url . '</a>' );
 
 					}
 				}
 
-				// combine any errors and set a message value
+				// Combine any errors and set a message value.
 				$output['errors'] = join( '<br>', $error_messages->get_messages() );
 
-				// if we don't have any errors, set the transient
+				// If we don't have any errors, set the transient.
 				if ( ! isset( $output['errors'] ) || '' === $output['errors'] ) {
 
-					// let's store the data as a transient using the cache attribute
+					// Let's store the data as a transient using the cache attribute.
 					if ( '' !== $api_cache  && 0 !== $api_cache && '0' !== $api_cache && isset( $output['api']['data'] ) ) {
 
-						// let's set a transient for the API call
+						// Let's set a transient for the API call.
 						set_transient( $transient_name, $output['api']['data'], $api_cache );
 
 					}
 				}
 			}
 
-			// return the output data
+			// Return the output data.
 			return $output;
 
 		}
@@ -314,38 +334,39 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return array 			associative array of keys and values
+		 * @param  string $api_type		The API type to call - default 'events'.
+		 * @return array 				Associative array of keys and values.
 		 */
 		public function get_custom_query_variables( $api_type = 'events' ) {
 
-			// set a default value to capture url values
+			// Set a default value to capture url values.
 			$values = array();
 
-			// set json api for function helpers
+			// Set json api for function helpers.
 			$api_data = $this;
 
-			// get the allowed values for the api type
+			// Get the allowed values for the api type.
 			$allowed_array_keys = $this->config['api_options'][ $api_type ]['allowed'];
 
-			// get the default config file
+			// Get the default config file.
 			$parameters = $this->config['url']['parameters'];
 
-			// loop through the available parameters from the config file
+			// Loop through the available parameters from the config file.
 			foreach ( $parameters as $key ) {
 
-				// check that the key is allowed per api type
+				// Check that the key is allowed per api type.
 				if ( array_key_exists( $key['relationship'], $allowed_array_keys ) ) {
 
-					// get the value of the parameter
+					// Get the value of the parameter.
 					$parameter_value = get_query_var( $key['name'], false );
 
-					// check if we have a value
+					// Check if we have a value.
 					if ( $parameter_value ) {
 
-						// validate the value
+						// Validate the value.
 						$parameter_value = $api_data->validate_key_value( $key['relationship'], $parameter_value );
 
-						// add the value as an associative array item
+						// Add the value as an associative array item.
 						$values[ $key['relationship'] ] = $parameter_value;
 
 					}
@@ -362,32 +383,30 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 *
 		 * Convert Parameters to URL string for passing to Localist API.
 		 *
-		 * @since 1.0.0
+		 * @since 	1.0.0
 		 *
-		 * @param 	string 	api_type 	The type of API call to get
-		 * 								[organizations, communities, events, places, departments, photos]
-		 * 								[default: events]
-		 * @param 	array 	params 		The array of parameters to return
-		 * @return 	array
+		 * @param 	array  $params		An array of values to process into a string.
+		 * @param	string $api_type	The allowed array set from the config settings ['api_optons'].
+		 * @return 	string 				String value of $key=$value concatenated from $params.
 		 */
 		public function parameters_as_string( $params, $api_type = 'all' ) {
 
-			//get the default config file
+			// Get the default config file.
 			$config = $this->config;
 
-			// get the allowed array values for the api type
+			// Get the allowed array values for the api type.
 			$allowed_array = $config['api_options'][ $api_type ]['allowed_array'];
 
-			// set the default output and string constructor
+			// Set the default output and string constructor.
 			$output = $string = $parameter = array();
 
-			// set error message object
+			// Set error message object.
 			$error_messages = new USC_Localist_For_Wordpress_Errors;
 
-			// set json api for function helpers
+			// Set json api for function helpers.
 			$api_data = $this;
 
-			// if we do not have an array, end the process
+			// If we do not have an array, end the process.
 			if ( ! is_array( $params ) ) {
 
 				return false;
@@ -396,59 +415,59 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 			if ( is_array( $params ) ) {
 
-				// loop through the parameters
+				// Loop through the parameters.
 				foreach ( $params as $key => $value ) {
 
-					// check that we have a valid value that isn't null, blank, or empty array
+					// Check that we have a valid value that isn't null, blank, or empty array.
 					if ( null !== $value && '' !== $value && ! empty( $value ) ) {
 
-						// get valid value for the key value
+						// Get valid value for the key value.
 						$value = $api_data->validate_key_value( $key, $value );
 
-						// check that we don't have a boolean
+						// Check that we don't have a boolean.
 						if ( is_bool( $value ) ) {
 
-							// add single key boolean values as 'key=bool_value'
+							// Add single key boolean values as 'key=bool_value'.
 							$string[] .= urlencode( $key ) . '=' . var_export( $value, true );
 
-							// add single key boolean as parameter
+							// Add single key boolean as parameter.
 							$parameter[ urlencode( $key ) ] = var_export( $value, true );
 
 						}
 
 						if ( ! is_bool( $value ) ) {
 
-							// convert any comma delimited $value to an array
+							// Convert any comma delimited $value to an array.
 							$value = explode( ',', $value );
 
-							// if the $value is an array
+							// If the $value is an array.
 							if ( count( $value ) > 1 ) {
 
-								// check that the $value is allowed as an array
+								// Check that the $value is allowed as an array.
 								if ( ! in_array( $key, $allowed_array, true ) ) {
 
-									// let the user know they are attempting an array where one is not allowed
+									// Let the user know they are attempting an array where one is not allowed.
 									$error_messages->add_message( 'Multiple values not allowed for "' . $key . '" with get "' . $api_type . '".' );
 
 								} else {
 
-									// loop through sub values
+									// Loop through sub values.
 									foreach ( $value as $sub_value ) {
 
-										// add multiple values as 'key[]=sub_value'
+										// Add multiple values as 'key[]=sub_value'.
 										$string[] .= urlencode( $key ) . '[]=' . urlencode( $sub_value );
 
-										// add multiple values as key = sub_value to paremters
+										// Add multiple values as key = sub_value to paremters.
 										$parameter[ urlencode( $key ) ][] = urlencode( $sub_value );
 
 									}
 								}
 							} else {
 
-								// add single key values as 'key=value'
+								// Add single key values as 'key=value'.
 								$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
 
-								// add single key values as 'key=value' to parameter
+								// Add single key values as 'key=value' to parameter.
 								$parameter[ urlencode( $key ) ] = urlencode( $value[0] );
 
 							}
@@ -456,16 +475,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					}
 				}
 
-				// combine any errors and set a message value
+				// Combine any errors and set a message value.
 				$output['errors'] = join( '<br>', $error_messages->get_messages() );
 
-				// return the full list of parameters
+				// Return the full list of parameters.
 				$output['parameters'] = $parameter;
 
-				// combine any strings and set a url string value
+				// Combine any strings and set a url string value.
 				$output['string'] = join( '&', $string );
 
-				// return the output
+				// Return the output.
 				return $output;
 
 			}
@@ -479,20 +498,20 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 * Converts bool or strings to valid bool value.
 		 *
 		 * @since 	1.0.0
-		 * @param 	string 	$var 	string
+		 * @param 	string $var 	String/Bool value to convert to bool value.
 		 * @return 	bool
 		 */
 		function convert_to_bool( $var ) {
 
-			// if we have a valid bool already, return it
+			// If we have a valid bool already, return it.
 			if ( ! is_string( $var ) ) {
 				return (bool) $var;
 			}
 
-			// switch cases for types of strings
+			// Switch cases for types of strings.
 			switch ( strtolower( $var ) ) {
 
-				// true strings
+				// True strings passed to conver to 'true'.
 				case '1':
 				case 'true':
 				case 'on':
@@ -519,95 +538,96 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 * If the value does not match one of the associated keys, it just
 		 * returns the original value.
 		 *
-		 * @param 	string 	$key 		key to check against date/number options
-		 * @param 	string 	$value 		value to check if date or number
+		 * @param 	string $key 		key to check against date/number options.
+		 * @param 	string $value 		value to check if date or number.
 		 * @return 	string 		 		returns validated value if date/number or
 		 * 								original value
 		 */
 		public function validate_key_value( $key, $value ) {
 
-			// get the default config file
+			// Get the default config file.
 			$config = $this->config;
 
 			$date_array = $config['api_options']['all']['validation']['dates'];
 			$number_array = $config['api_options']['all']['validation']['numbers'];
 			$boolean_array = $config['api_options']['all']['validation']['boolean'];
 
-			// check that we don't have an empty value
+			// Check that we don't have an empty value.
 			if ( ! is_null( $value ) ) {
 
-				// check if the value of the key supposed to be a boolean
+				// Check if the value of the key supposed to be a boolean.
 				if ( in_array( $key, $boolean_array, true ) ) {
 
-					// convert the value to a valid bool
+					// Convert the value to a valid bool.
 					$value = $this->convert_to_bool( $value );
 
 					return $value;
 
 				} elseif ( in_array( $key, $date_array, true ) ) {
 
-					// check if the value of the key is supposed to be in a date format
+					/**
+					 *  CheckS if the value of the key is supposed to be in a date format.
+					 */
 
-					// set a new date object for this $key
+					// Set a new date object for this $key.
 					$date = new USC_Localist_For_Wordpress_Dates;
 
-					// check if we have a valid date (bool)
+					// Check if we have a valid date (bool).
 					if ( $date->valid_date( $value ) ) {
 
-						// good date format, so return it
+						// Good date format, so return it.
 						return $value;
 
 					}
 
-					// else fix the date format
+					// Else fix the date format.
 					return $date->fix_date( $value );
 
 				} elseif ( in_array( $key, $number_array, true ) ) {
 
-					// check if the key is supposed to be in a number format
+					// Check if the key is supposed to be in a number format.
 
-					// if we have a number
+					// If we have a number.
 					if ( is_numeric( $value ) ) {
 
-						// convert any non-whole integer values
+						// Convert any non-whole integer values.
 						return intval( $value );
 
 					} elseif ( is_string( $value ) ) {
 
-						// else do we have a string
+						// Else do we have a string.
 
-						// set default to re-attach valid numbers
+						// Set default to re-attach valid numbers.
 						$number_string = array();
 
-						// if we have a string of numbers (array), check each one
+						// If we have a string of numbers (array), check each one.
 						$value_string = explode( ',', $value );
 
-						// if we have more than one in the exploded array
+						// If we have more than one in the exploded array.
 						if ( count( $value_string ) > 1 ) {
 
-							// loop through the values
+							// Loop through the values.
 							foreach ( $value_string as $number ) {
 
-								// convert any non-whole integer or string values
+								// Convert any non-whole integer or string values.
 								$number_string[] = intval( $number );
 
 							}
 
-							// combine $number_string array back to a string format
+							// Combine $number_string array back to a string format.
 							return join( ',', $number_string );
 
 						}
 
-						// else
+						// Else, default 'false'.
 						return false;
 					}
 
-					// else  we do not have a valid number, so let's not return bad options
+					// Else  we do not have a valid number, so let's not return bad options.
 					return false;
 				} else {
 
-					// if the value doesn't need validation, just return the value
-
+					// If the value doesn't need validation, just return the value.
 					return $value;
 
 				}
