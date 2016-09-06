@@ -1,4 +1,11 @@
 <?php
+/**
+ * USC Localist for WordPress Plugin Class.
+ *
+ * @package    Usc_Localist_For_Wordpress
+ * @subpackage Usc_Localist_For_Wordpress/admin
+ * @author     USC Web Services <webhelp@usc.edu>
+ */
 
 /**
  * Plugin Name:       USC Localist for WordPress
@@ -13,40 +20,42 @@
  * Domain Path:       /languages
  */
 
-// block direct requests
+// Block direct requests.
 defined( 'ABSPATH' ) or die( 'sorry, no tampering' );
 
-// match the Plugin version.
+// Match the Plugin version.
 define( 'USC_LFWP__VERSION', '1.2.2' );
 
-// set a global variable for the path to the plugin
+// Set a global variable for the path to the plugin.
 define( 'USC_LFWP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
-// set timezone to Los Angeles for strtotime functions
-date_default_timezone_set('America/Los_Angeles');
+// Set timezone to Los Angeles for strtotime functions.
+date_default_timezone_set( 'America/Los_Angeles' );
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-usc-localist-for-wordpress-activator.php
  */
-function activate_USC_Localist_For_Wordpress() {
+function activate_usc_localist_for_wordpress() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-usc-localist-for-wordpress-activator.php';
-	USC_Localist_For_Wordpress_Activator::activate();
+	$plugin = new USC_Localist_For_Wordpress_Activator;
+	$plugin->activate();
 }
 
-register_activation_hook( __FILE__, 'activate_USC_Localist_For_Wordpress' );
+register_activation_hook( __FILE__, 'activate_usc_localist_for_wordpress' );
 
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-usc-localist-for-wordpress-deactivator.php
  */
-function deactivate_USC_Localist_For_Wordpress() {
+function deactivate_usc_localist_for_wordpress() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-usc-localist-for-wordpress-deactivator.php';
-	USC_Localist_For_Wordpress_Deactivator::deactivate();
+	$plugin = new USC_Localist_For_Wordpress_Deactivator;
+	$plugin->deactivate();
 }
 
-register_deactivation_hook( __FILE__, 'deactivate_USC_Localist_For_Wordpress' );
+register_deactivation_hook( __FILE__, 'deactivate_usc_localist_for_wordpress' );
 
 
 /**
@@ -65,12 +74,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-usc-localist-for-wordpress
  *
  * @since    1.0.0
  */
-function run_USC_Localist_For_Wordpress() {
+function run_usc_localist_for_wordpress() {
 
 	$plugin = new USC_Localist_For_Wordpress();
 	$plugin->run();
 
 }
-run_USC_Localist_For_Wordpress();
-
-?>
+run_usc_localist_for_wordpress();
