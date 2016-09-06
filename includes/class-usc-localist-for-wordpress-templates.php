@@ -321,7 +321,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * @param 	object $template 	The template object from get_template.
 		 * @param 	array  $api_data 	The single api type array of data to map the link value.
 		 * @param 	array  $options 	The options passed from the api.
-		 * @return 	void 				returns the links output to the $template object.
+		 * @return 	void 				Sets the links output to the $template object.
 		 */
 		public function data_links( $template, $api_data, $options ) {
 
@@ -347,16 +347,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 						$this->data_link_reset( $link, $url );
 
-					} else {
+					}
+
+					// Reset the link if no $url.
+					if ( empty( $url ) ) {
 
 						$this->data_link_null( $link );
 
 					}
 
+					return;
 				}
 
-				// Check if we have a link to the details page.
-				else if ( 'detail' === $data_link ) {
+				if ( 'detail' === $data_link ) { // Check if we have a link to the details page.
 
 					// Check if we have a set details page link.
 					if ( ! empty( $details_page ) ) {
@@ -369,33 +372,32 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					}
 
 					// Default: link to the localist details page.
-					else {
+					if ( empty( $details_page ) ) {
 
 						$this->data_link_reset( $link, $api_data['localist_url'] );
 
 					}
 
+					return;
 				}
 
-				// Default to use data link with node mapping.
-				else {
+				/**
+				 * Default to use data link with node mapping.
+				 */
 
-					// If the link node has no value.
+				// If the link node has no value.
+				if ( empty( $api_data[ $data_link ] ) ) {
 
-					if ( empty( $api_data[$data_link] ) ) {
+					$this->data_link_null( $link );
 
-						$this->data_link_null( $link );
-
-					}
-
-					// We have a link.
-					else {
-
-						$this->data_link_reset( $link, $api_data[$data_link] );
-
-					}
+					return;
 
 				}
+
+				// We have a regular link.
+				$this->data_link_reset( $link, $api_data[ $data_link ] );
+
+				return;
 
 			}
 
