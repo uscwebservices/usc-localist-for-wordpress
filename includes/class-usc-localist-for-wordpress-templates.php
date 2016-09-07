@@ -104,12 +104,29 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 * @param   bool   $urlencode 	Bool if return value should pass through urlencode.
 		 * @return  string 				Return value.
 		 */
-		public function check_empty_value( $check, $true, $false, $urlencode = true ) {
+		public function check_empty_value( $check, $true, $false, $urlencode ) {
+
 			$value = ! empty( $check ) ? $true : $false;
 
 			if ( $urlencode ) {
 				$value = urlencode( $value );
 			}
+
+			return $value;
+		}
+
+		/**
+		 * Check if a value is set and return $true or $false values.
+		 *
+		 * @since   1.3.0
+		 * @param   string $check 		Value to check.
+		 * @param   string $true 		Value to return if $check not empty.
+		 * @param   string $false 		Value to return if $check empty.
+		 * @return  string 				Return value.
+		 */
+		public function check_isset_value( $check, $true, $false ) {
+
+			$value = isset( $check ) ? $true : $false;
 
 			return $value;
 		}
