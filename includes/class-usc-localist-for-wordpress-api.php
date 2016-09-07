@@ -3,22 +3,19 @@
  *	USC Localist for WordPress Plugin Class.
  *
  * @package usc-localist-for-wordpress
- */
-
-/**
- * Class: USC Localist for WordPress API
- *
- * Get JSON from API
- *
- * since 		1.0.0
- *
- * @package 	Usc_Localist_For_Wordpress
  * @subpackage 	Usc_Localist_For_Wordpress/includes
  * @author 		USC Web Services <webhelp@usc.edu>
  */
 
 if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
+	/**
+	 * Class: USC Localist for WordPress API
+	 *
+	 * Get JSON from API
+	 *
+	 * @since 		1.0.0
+	 */
 	class USC_Localist_For_Wordpress_API {
 
 		/**
