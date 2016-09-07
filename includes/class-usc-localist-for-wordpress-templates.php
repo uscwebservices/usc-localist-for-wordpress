@@ -95,6 +95,26 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
+		 * Check if a value is empty and return $true or $false values and pass through $urlencode option.
+		 *
+		 * @since   1.3.0
+		 * @param   string $check 		Value to check.
+		 * @param   string $true 		Value to return if $check not empty.
+		 * @param   string $false 		Value to return if $check empty.
+		 * @param   bool   $urlencode 	Bool if return value should pass through urlencode.
+		 * @return  string 				Return value.
+		 */
+		public function check_empty_value( $check, $true, $false, $urlencode = true ) {
+			$value = ! empty( $check ) ? $true : $false;
+
+			if ( $urlencode ) {
+				$value = urlencode( $value );
+			}
+
+			return $value;
+		}
+
+		/**
 		 * Get Template items with attribute data-datetime and set the inner text with the value of the mapped nodes.
 		 *
 		 * @param 	object $template 	The template object.
@@ -517,9 +537,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		}
 
 		/**
-		 * Map Link
-		 * ========
-		 *
 		 * Return a link to USC Maps for HSC or UPC, fall back to address in google maps or return false.
 		 *
 		 * @since 1.0.0
@@ -537,11 +554,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			// Array of HSC locations.
 			$hsc = 'BMT|BCC|CCC|CHP|CLB|CPT|CRL|CSA|CSB|CSC|DEI|DOH|EDM|EFC|EMP|HCC|HCT|HMR|HRA|HSV|IRD|KAM|LRA|LRB|MCH|MOL|MMR|NML|NOR|NRT|NTT|PAV|PGD|PGF|PGT|PGV|PHH|PMB|PSC|RMR|RSC|SRH|SSB|TOW|TRC|UNH|VBB|VWB|WOH|ZNI';
 
-			// Get the map code for patterns matching (ABC).
+			// Get the map code for patterns matching (ABC), assign $matches to results found.
 			preg_match( '/\(([A-Z]{3})\)/' , $location_name, $matches );
 
 			// Attach the map code to the map base link.
-			$map_link = 'http://web-app.usc.edu/maps/';
+			$usc_map_link = 'http://web-app.usc.edu/maps/';
 
 			// Google maps base link.
 			$google_maps = $config['url']['google_maps'];
@@ -549,60 +566,66 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			// If we have a map code, attach it.
 			if ( $matches ) {
 
-				$map_link .= '?b=' . $matches[1];
+				// Set.
+				$map_link = $usc_map_link . '?b=' . $matches[1];
 
 				// Add the HSC tag if the map code is found.
 				$map_link = preg_replace( '/\?b=(' . $hsc . ')/', '?b=$1#hsc', $map_link );
 
+				return $map_link;
+
 			}
 
-			// Set the link to google map based on geo location.
-			else if ( ! empty( $geo['street'] ) || ! empty( $geo['city'] ) || ! empty( $geo['state'] ) ) {
+			if ( ! empty( $geo['street'] ) || ! empty( $geo['city'] ) || ! empty( $geo['state'] ) ) {
+
+				/**
+				 * Set the link to google map based on geo location.
+				 */
 
 				// Reset base to google maps.
 				$map_link = $google_maps;
 
 				// Add the street if it exists.
-				$map_link .= ( ! empty( $geo['street'] ) ) ? urlencode( $geo['street'] . ', ' ) : '';
+				$map_link .= $this->check_empty_value( $geo['street'], $geo['street'] . ', ', '', true );
 
 				// Add the city if it exists.
-				$map_link .= ( ! empty( $geo['city'] ) ) ? urlencode( $geo['city'] . ', ' ) : '';
+				$map_link .= $this->check_empty_value( $geo['city'], $geo['city'] . ', ', '', true );
 
 				// Add the state if it exists.
-				$map_link .= ( ! empty( $geo['state'] ) ) ? urlencode( $geo['state'] ) : '';
+				$map_link .= $this->check_empty_value( $geo['state'], $geo['state'], '', true );
+
+				return $map_link;
 
 			}
 
-			// Set the link to google map based on latitude/longitude.
-			else if ( ! empty( $geo['latitude'] ) && ! empty( $geo['longitude'] )  ) {
+			if ( ! empty( $geo['latitude'] ) && ! empty( $geo['longitude'] )  ) {
 
+				// Set the link to google map based on latitude/longitude.
 				$map_link = $google_maps . $geo['latitude'] . ',' . $geo['longitude'];
 
-			}
-
-			// Attach the location name as a query.
-			else if ( ! empty( $location_name ) ) {
-
-				$map_link .= '?q=' . $location_name;
+				return $map_link;
 
 			}
 
-			// Set the link to a google map based on address.
-			else if ( ! empty( $address ) ) {
+			if ( ! empty( $location_name ) ) {
 
+				// Attach the location name as a query.
+				$map_link = $usc_map_link . '?q=' . $location_name;
+
+				return $map_link;
+
+			}
+
+			if ( ! empty( $address ) ) {
+
+				// Set the link to a google map based on address.
 				$map_link = 'https://www.google.com/maps/place/' . urlencode( $address );
 
+				return $map_link;
 			}
 
-			// We don't have any locations available.
-			else {
-
-				$map_link = '';
-
-			}
-
-			// Return the constructed map link.
-			return $map_link;
+			// Default.
+			return '';
 
 		}
 
@@ -614,9 +637,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 *
 		 * some.data.type becomes $api_data['some']['data']['type']
 		 *
-		 * @param 	array 	$api_data 		single item array of api data node (i.e. - event)
-		 * @param 	string 	$data_field 	the data field to check against
-		 * @return 	assoc array path 		the p
+		 * @param 	array  $api_data 	Single item array of api data node (i.e. - event).
+		 * @param 	string $data_field 	The data field to check against.
+		 * @return 	array 				An array (or single) value of converted dot syntax.
 		 */
 		public function string_node( $api_data, $data_field ) {
 
@@ -645,7 +668,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			}
 
 			// Single node data field.
-			else if ( isset( $api_data[ $data_field ] ) ) {
+			elseif ( isset( $api_data[ $data_field ] ) ) {
 
 				$field_value = $api_data[ $data_field ];
 			}
