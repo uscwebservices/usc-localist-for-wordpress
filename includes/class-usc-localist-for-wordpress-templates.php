@@ -504,6 +504,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				return file_get_html( $html );
 			}
 
+			// If the template is an HTML file
 			if ( strpos( $template_path, '.html' ) ) {
 
 				// If the template is in the templates directory as file.
@@ -530,6 +531,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// We have a CPT Template, reset $html to it's content.
 				$html = $template_post[0]->post_content;
+
+			}
+
+			// Add missing custom post type template message.
+			if ( empty( $template_post ) ) {
+
+				$html = 'Custom template \'' . $template_path . '\' not found.<br>';
 
 			}
 
