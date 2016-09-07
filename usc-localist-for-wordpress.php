@@ -10,7 +10,7 @@
  * Plugin Name:       USC Localist for WordPress
  * Plugin URI:        https://bitbucket.org/uscwebservices/usc-localist-for-wordpress
  * Description:       Localist API Shortcodes for WordPress
- * Version:           1.2.2
+ * Version:           1.3.0
  * Author:            USC Web Services
  * Author URI:        http://itservices.usc.edu/webservices/
  * License:           MIT
