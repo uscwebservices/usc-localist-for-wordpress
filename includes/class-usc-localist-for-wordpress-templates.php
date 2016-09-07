@@ -670,28 +670,24 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					// Check if the item exists.
 					if ( array_key_exists( $path, $node ) ) {
 
-						$node =& $node[$path];
+						$node =& $node[ $path ];
 
 					}
 				}
 
-				$field_value = $node;
+				return $node;
 
-			} elseif ( isset( $api_data[ $data_field ] ) ) {
+			}
+
+			if ( isset( $api_data[ $data_field ] ) ) {
 
 				// Single node data field.
-				$field_value = $api_data[ $data_field ];
+				return $api_data[ $data_field ];
 
 			}
 
 			// We have nothing so return false.
-			else {
-
-				 return false;
-
-			}
-
-			return $field_value;
+			return false;
 
 		}
 
