@@ -126,9 +126,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 */
 		public function check_isset_value( $check, $true, $false ) {
 
-			$value = isset( $check ) ? $true : $false;
+			// Check if the value is set but also doesn't equal false.
+			if ( isset( $check ) && false !== $check ) {
 
-			return $value;
+				// Return the true value.
+				return $true;
+
+			}
+
+			// Return the false [default] value.
+			return $false;
 		}
 
 		/**
@@ -159,42 +166,42 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// Date types (date, time, datetime).
 				if ( $is_single ) {
 
-					$options['date_type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'datetime';
+					$options['date_type'] = $this->check_isset_value( $field->{'data-date-type'}, $field->{'data-date-type'}, 'datetime' );
 
 				}
 
 				if ( ! $is_single ) {
 
-					$options['date_type'] = isset( $field->{'data-date-type'} ) ? $field->{'data-date-type'} : 'date';
+					$options['date_type'] = $this->check_isset_value( $field->{'data-date-type'}, $field->{'data-date-type'}, 'date' );
 
 				}
 
 				// Specific date instance to use (start, end, datetime-start-end).
-				$options['date_instance'] = isset( $field->{'data-date-instance'} ) ? $field->{'data-date-instance'} : 'start';
+				$options['date_instance'] = $this->check_isset_value( $field->{'data-date-instance'}, $field->{'data-date-instance'}, 'start' );
 
 				// Data format for dates.
-				$options['format_date'] = isset( $field->{'data-format-date'} ) ? $field->{'data-format-date'} : $config['default']['format_date'];
+				$options['format_date'] = $this->check_isset_value( $field->{'data-format-date'}, $field->{'data-format-date'}, $config['default']['format_date'] );
 
 				// Data format for times.
-				$options['format_time'] = isset( $field->{'data-format-time'} ) ? $field->{'data-format-time'} : $config['default']['format_time'];
+				$options['format_time'] = $this->check_isset_value( $field->{'data-format-time'}, $field->{'data-format-time'}, $config['default']['format_time'] );
 
 				// Date and time separator for events only with start date.
-				$options['separator_date_time_single'] = isset( $field->{'data-separator-date-time'} ) ? $field->{'data-separator-date-time'} : $config['default']['separator']['date_time_single'];
+				$options['separator_date_time_single'] = $this->check_isset_value( $field->{'data-separator-date-time'}, $field->{'data-separator-date-time'}, $config['default']['separator']['date_time_single'] );
 
 				// Date and time separator for events with start and end dates.
-				$options['separator_date_time_multiple'] = isset( $field->{'data-separator-date-time-multiple'} ) ? $field->{'data-separator-date-time-multiple'} : $config['default']['separator']['date_time_multiple'];
+				$options['separator_date_time_multiple'] = $this->check_isset_value( $field->{'data-separator-date-time-multiple'}, $field->{'data-separator-date-time-multiple'}, $config['default']['separator']['date_time_multiple'] );
 
 				// Time separator.
-				$options['separator_time'] = isset( $field->{'data-separator-time'} ) ? $field->{'data-separator-time'} : $config['default']['separator']['time'];
+				$options['separator_time'] = $this->check_isset_value( $field->{'data-separator-time'}, $field->{'data-separator-time'}, $config['default']['separator']['time'] );
 
 				// Range separator.
-				$options['separator_range'] = isset( $field->{'data-separator-range'} ) ? $field->{'data-separator-range'} : $config['default']['separator']['range'];
+				$options['separator_range'] = $this->check_isset_value( $field->{'data-separator-range'}, $field->{'data-separator-range'}, $config['default']['separator']['range'] );
 
 				// Separator to use between instances output.
-				$separator = isset( $field->{'data-separator'} ) ? $field->{'data-separator'} : $config['default']['separator']['default'];
+				$separator = $this->check_isset_value( $field->{'data-separator'}, $field->{'data-separator'}, $config['default']['separator']['default'] );
 
 				// Date ranges.
-				$date_range = isset( $options['template_options']['date_range'] ) ? $options['template_options']['date_range'] : false;
+				$date_range = $this->check_isset_value( $options['template_options']['date_range'], $options['template_options']['date_range'], false );
 
 				$date_start = date( $options['format_date'], strtotime( $api_data['first_date'] ) );
 				$date_end = date( $options['format_date'], strtotime( $api_data['last_date'] ) );
