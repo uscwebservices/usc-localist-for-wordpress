@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * The Settings Instructions.
  *
@@ -8,7 +8,7 @@
  */
 ?>
 <style type="text/css">
-	
+
 	/* headings */
 	.usc_lfwp_wrap h1 { font-size: 2.5rem; }
 	.usc_lfwp_wrap h2 { font-size: 2.25rem; }
@@ -16,7 +16,7 @@
 	.usc_lfwp_wrap h4 { font-size: 1.3rem; }
 	.usc_lfwp_wrap h5 { font-size: 1.0rem; }
 	.usc_lfwp_wrap h6 { font-size: 0.7rem; }
-	
+
 	/* code style */
 	.usc_lfwp_wrap pre {
 		padding: 1rem;
@@ -40,7 +40,7 @@
 
 </style>
 <div class="usc_lfwp_wrap">
-	
+
 	<h1 id="settings-bookmark-usc-localist-for-wordpress">USC Localist for WordPress</h1>
 
 	<ul>
@@ -86,14 +86,14 @@
 			</ul>
 		</li>
 	</ul>
-	
+
 	<h2 id="settings-bookmark-plugin-usage">Plugin Usage</h2>
 
 	<p>This is a WordPress Plugin that uses the shortcode <code>[localist-calendar]</code> to get events from the <a href="https://calendar.usc.edu">USC Calendar</a>.</p>
 
 
 	<h2 id="settings-bookmark-shortcode-api-options">Shortcode API Options</h2>
-	
+
 	<p>Below are the attributes available from the Localist API. Please reference the <a href="http://www.localist.com/doc/api">Localist API Documents</a> for full documentation of currently supported options.</p>
 
 	<p><a class="button button-primary" href="http://www.localist.com/doc/api">See Localist API Documents</a></p>
@@ -245,7 +245,7 @@
 				<td></td>
 				<td><code>3</code></td>
 				<td>
-					The amount of numbers to show before and after the current page. 
+					The amount of numbers to show before and after the current page.
 					<br>Example using <code>3</code>: 1...10 <strong>11</strong> 12...95
 				</td>
 			</tr>
@@ -255,7 +255,7 @@
 				<td><code> ... </code></td>
 				<td>false</td>
 				<td>
-					The separator used between first, last and the offset page start/end. 
+					The separator used between first, last and the offset page start/end.
 					<br>Example: 1 ... 10 <strong>11</strong> 12 ... 95
 				</td>
 			</tr>
@@ -297,7 +297,7 @@
 	<h2 id="settings-bookmark-customizer">Customizer</h2>
 
 	<p>This plugin uses the WordPress <a href="/wp-admin/customize.php">Customizer</a> to set global calendar settings for the following items.</p>
-	
+
 	<h3 id="settings-bookmark-customizer-event-dates-range">Dates Range</h3>
 
 	<p>Display multiple dates as a range on multiple events list.</p>
@@ -367,7 +367,7 @@
 	</table>
 
 	<p>Sample:</p>
-	
+
 <pre>
 event: {
 	title: "Reshaping Tradition: Contemporary Ceramics from East Asia",
@@ -420,7 +420,7 @@ event: {
 			</tr>
 		</tbody>
 	</table>
-	
+
 	<p id="note-link"><strong><sup>1</sup>Note:</strong> If linking to a <code>string</code> mapped node and there is no link returned, the anchor <code>&lt;a&gt;</code> tag will be changed to a <code>&lt;span&gt;</code> tag and the <code>href</code> attribute removed.</p>
 
 	<p id="note-link-map"><strong><sup>2</sup>Note:</strong> The <code>data-link="map"</code> function will set the link to the three letter code at the end of the location name. Leavey Library (LVL) will link to the UPC map for <em>LVL</em>.  Any three letter codes for HSC will link to the HSC map.  If there is no three letter code, the link will go to the UPC maps with a query parameter of the <code>location_name</code>.  The link will fall back to the following nodes for information:</p>
@@ -444,12 +444,12 @@ event: {
 	venue_url: ""
 }
 </pre>
-	
+
 	<p>Template code:</p>
 
 <pre>
 <?php
-$code_sample_template_links = 
+$code_sample_template_links =
 '<a href="" data-link="localist_url" data-field="title"></a>
 <a class="event-map" href="" data-link="map" data-field="location_name"></a>
 <a class="ticket" href="" data-link="ticket_url">Ticket</a>
@@ -462,7 +462,7 @@ echo htmlentities( $code_sample_template_links );
 
 <pre>
 <?php
-$code_sample_output_links = 
+$code_sample_output_links =
 '<a href="http://calendar.usc.edu/event/usc_tommy_trojan" data-link="localist_url" data-field="title">USC Tommy Trojan</a>
 <a class="event-map" href="http://web-app.usc.edu/maps/?b=STU" data-link="map" data-field="location_name">Student Union (STU)</a>
 <a class="ticket" href="http://eventbrite.com/" data-link="ticket_url">Ticket</a>
@@ -503,14 +503,14 @@ echo htmlentities( $code_sample_output_links );
 			</tr>
 			<tr>
 				<td>
-					<code>datetime</code>
+					<code>datetime-start-end</code>
 				</td>
 				<td></td>
 				<td>Returns the date and time of the selection. Use with <code>data-format-date</code> and <code>data-format-time</code>.</td>
 			</tr>
 			<tr>
-				<td rowspan="3"><code>data-date-instance</code></td>
-				<td rowspan="3">string</td>
+				<td rowspan="2"><code>data-date-instance</code></td>
+				<td rowspan="2">string</td>
 				<td><code>start</code></td>
 				<td><code>start</code></td>
 				<td>Use the <code>start</code> of the event instance for the date/time output.</td>
@@ -519,11 +519,6 @@ echo htmlentities( $code_sample_output_links );
 				<td><code>end</code></td>
 				<td></td>
 				<td>Use the <code>end</code> of the event instance for the date/time output.</td>
-			</tr>
-			<tr>
-				<td><code>datetime-start-end</code></td>
-				<td></td>
-				<td>Uses the <code>start</code> and <code>end</code> of the event instance for the date/time output. Uses <code>data-format-date</code> and <code>data-format-time</code>.</td>
 			</tr>
 			<tr>
 				<td><code>data-format-time</code></td>
@@ -609,11 +604,11 @@ event: {
 	]
 }
 </pre>
-	
+
 	<p>Template code:</p>
 <pre>
 <?php
-$code_sample_template_dates = 
+$code_sample_template_dates =
 '
 <!-- 1 -->
 <div class="event-dates" data-date-type="date"></div>
@@ -638,7 +633,7 @@ echo htmlentities( $code_sample_template_dates );
 
 <pre>
 <?php
-$code_sample_output_dates = 
+$code_sample_output_dates =
 '
 <!-- 1 -->
 <div class="event-dates" data-date-type="date">
@@ -893,4 +888,3 @@ echo htmlentities( $code_sample_template_single );
 	<p>Please see the <a href="http://www.localist.com/doc/api">Localist API</a> for the latest information.</p>
 
 	<p><a class="button button-primary" href="http://www.localist.com/doc/api">Latest Localist API Documentation</a></p>
-
