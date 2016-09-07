@@ -165,15 +165,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				// Date types (date, time, datetime).
 				if ( $is_single ) {
-
 					$options['date_type'] = $this->check_isset_value( $field->{'data-date-type'}, $field->{'data-date-type'}, 'datetime' );
-
 				}
 
 				if ( ! $is_single ) {
-
 					$options['date_type'] = $this->check_isset_value( $field->{'data-date-type'}, $field->{'data-date-type'}, 'date' );
-
 				}
 
 				// Specific date instance to use (start, end, datetime-start-end).
@@ -213,11 +209,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					$date_end = date( $options['format_date'], strtotime( $api_data['last_date'] ) );
 
 					if ( $date_start !== $date_end ) {
-
 						$output .= '<time class="event-date-range-start" datetime="' . $api_data['first_date'] . '">' . $date_start . '</time>';
 						$output .= '<span class="event-separator-range">' . $options['separator_range'] . '</span>';
 						$output .= '<time class="event-date-range-end" datetime="' . $api_data['last_date'] . '">' . $date_end . '</time>';
-
 						$field->innertext = $output;
 					}
 				}
@@ -227,7 +221,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 					// Get the event instance(s).
 					$event_instances = $api_data['event_instances'];
-
 					$event_instances_amt = count( $event_instances );
 
 					// Defaults for determining number in loop.
@@ -237,7 +230,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 						// New date class object.
 						$date_functions = new USC_Localist_For_Wordpress_Dates;
-
 						$date_output = $date_functions->date_as_html( $event_instance, $options );
 
 						if ( $date_output ) {
@@ -247,9 +239,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 							// Add the separator if set.
 							if ( isset( $separator ) && $i < $event_instances_amt ) {
-
 								$output .= $separator;
-
 							}
 						}
 
@@ -258,11 +248,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 						// Increase the number for event instances.
 						$i++;
-
 					}
 				}
 			}
-
 		}
 
 		/**
@@ -689,12 +677,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 				$field_value = $node;
 
-			}
+			} elseif ( isset( $api_data[ $data_field ] ) ) {
 
-			// Single node data field.
-			elseif ( isset( $api_data[ $data_field ] ) ) {
-
+				// Single node data field.
 				$field_value = $api_data[ $data_field ];
+
 			}
 
 			// We have nothing so return false.
