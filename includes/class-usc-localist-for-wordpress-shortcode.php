@@ -57,9 +57,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 		 * Tag identifier used by shortcode generator for the calendar.
 		 *
 		 * @access protected
-		 * @var string $plugin_shortcode_calendar
+		 * @var string $plugin_shortcode_cal
 		 */
-		protected $plugin_shortcode_calendar;
+		protected $plugin_shortcode_cal;
 
 		/**
 		 * Constructor to run when the class is called.

@@ -56,7 +56,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $plugin_shortcode_calendar;
+		protected $plugin_shortcode_cal;
 
 		/**
 		 * Tag identifier used by the settings page.
