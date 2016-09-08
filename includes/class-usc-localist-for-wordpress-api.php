@@ -35,9 +35,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 */
 		public function __construct() {
 
-			// Get the version of wordpress.
-			global $wp_version;
-
 			// Require the config class for API variables.
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-config.php';
 
@@ -69,6 +66,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 */
 		function get_api( $params ) {
 
+			// Get the version of wordpress.
 			global $wp_version;
 
 			// Get the default config file.
@@ -403,13 +401,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// Set json api for function helpers.
 			$api_data = $this;
 
-			// If we do not have an array, end the process.
-			if ( ! is_array( $params ) ) {
-
-				return false;
-
-			}
-
+			// Check that we have an array of parmeters.
 			if ( is_array( $params ) ) {
 
 				// Loop through the parameters.
@@ -486,6 +478,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 			}
 
+			// Default: We don't have an array of values.
+			return false;
+
 		}
 
 		/**
@@ -549,7 +544,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			$number_array = $config['api_options']['all']['validation']['numbers'];
 			$boolean_array = $config['api_options']['all']['validation']['boolean'];
 
-			// Check that we don't have an empty value.
+			// Check that we don't have a null value.
 			if ( ! is_null( $value ) ) {
 
 				// Check if the value of the key supposed to be a boolean.
@@ -560,29 +555,21 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 					return $value;
 
-				} elseif ( in_array( $key, $date_array, true ) ) {
+				}
 
-					/**
-					 *  CheckS if the value of the key is supposed to be in a date format.
-					 */
+				// Checks if the value of the key is supposed to be in a date format.
+				if ( in_array( $key, $date_array, true ) ) {
 
 					// Set a new date object for this $key.
 					$date = new USC_Localist_For_Wordpress_Dates;
 
-					// Check if we have a valid date (bool).
-					if ( $date->valid_date( $value ) ) {
-
-						// Good date format, so return it.
-						return $value;
-
-					}
-
 					// Else fix the date format.
 					return $date->fix_date( $value );
 
-				} elseif ( in_array( $key, $number_array, true ) ) {
+				}
 
-					// Check if the key is supposed to be in a number format.
+				// Check if the key is supposed to be in a number format.
+				if ( in_array( $key, $number_array, true ) ) {
 
 					// If we have a number.
 					if ( is_numeric( $value ) ) {
@@ -590,9 +577,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 						// Convert any non-whole integer values.
 						return intval( $value );
 
-					} elseif ( is_string( $value ) ) {
+					}
 
-						// Else do we have a string.
+					// We have a a string value.
+					if ( is_string( $value ) ) {
 
 						// Set default to re-attach valid numbers.
 						$number_string = array();
@@ -615,19 +603,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 							return join( ',', $number_string );
 
 						}
-
-						// Else, default 'false'.
-						return false;
 					}
 
-					// Else  we do not have a valid number, so let's not return bad options.
+					// We do not have an int or string, so let's not return bad options.
 					return false;
-				} else {
-
-					// If the value doesn't need validation, just return the value.
-					return $value;
 
 				}
+
+				// If the value doesn't need validation, just return the value.
+				return $value;
 			}
 		}
 	}
