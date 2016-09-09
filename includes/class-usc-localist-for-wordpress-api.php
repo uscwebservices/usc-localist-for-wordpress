@@ -432,13 +432,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 							// If the $value is an array.
 							if ( count( $value ) > 1 ) {
 
-								// Check that the $value is allowed as an array.
+								// Check if the $value is not allowed.
 								if ( ! in_array( $key, $allowed_array, true ) ) {
 
 									// Let the user know they are attempting an array where one is not allowed.
 									$error_messages->add_message( 'Multiple values not allowed for "' . $key . '" with get "' . $api_type . '".' );
 
-								} else {
+								}
+
+								// Check if the $value is allowed.
+								if ( in_array( $key, $allowed_array, true ) ) {
 
 									// Loop through sub values.
 									foreach ( $value as $sub_value ) {
@@ -451,7 +454,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 									}
 								}
-							} else {
+							}
+
+							// If we have a single value.
+							if ( count( $value ) <= 1 ) {
 
 								// Add single key values as 'key=value'.
 								$string[] .= urlencode( $key ) . '=' . urlencode( $value[0] );
