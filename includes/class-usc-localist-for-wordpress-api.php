@@ -407,8 +407,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				// Loop through the parameters.
 				foreach ( $params as $key => $value ) {
 
-					// Check that we have a valid value that isn't null, blank, or empty array.
-					if ( null !== $value && '' !== $value && ! empty( $value ) ) {
+					// Check that we have a valid value that isn't null or empty array.
+					if ( null !== $value && ! empty( $value ) ) {
 
 						// Get valid value for the key value.
 						$value = $api_data->validate_key_value( $key, $value );
@@ -417,10 +417,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 						if ( is_bool( $value ) ) {
 
 							// Add single key boolean values as 'key=bool_value'.
-							$string[] .= urlencode( $key ) . '=' . var_export( $value, true );
+							$string[] .= urlencode( $key ) . '=' . $this->bool_to_string( $value );
 
 							// Add single key boolean as parameter.
-							$parameter[ urlencode( $key ) ] = var_export( $value, true );
+							$parameter[ urlencode( $key ) ] = $this->bool_to_string( $value );
 
 						}
 
@@ -499,7 +499,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 		 * @param 	string $var 	String/Bool value to convert to bool value.
 		 * @return 	bool
 		 */
-		function convert_to_bool( $var ) {
+		public function convert_to_bool( $var ) {
 
 			// If we have a valid bool already, return it.
 			if ( ! is_string( $var ) ) {
@@ -521,6 +521,20 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					return false;
 
 			}
+
+		}
+
+		/**
+		 * Convert a bool to an equivalent string.
+		 *
+		 * @since   1.3.0
+		 *
+		 * @param   bool $var 	Bool value to convert.
+		 * @return  string 		String value of bool.
+		 */
+		public function bool_to_string( $var ) {
+
+			return $var ? 'true' : 'false';
 
 		}
 
