@@ -70,6 +70,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Settings' ) ) {
 			$this->plugin_version = $plugin_version;
 			$this->plugin_tag = $plugin_tag;
 
+			$this->load_dependencies();
+
 		}
 
 		/**
@@ -80,8 +82,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Settings' ) ) {
 		 */
 		public function load_dependencies() {
 
-			// Require the json class.
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/include-usc-localist-for-wordpress-instructions.php';
+			/**
+			 * Add any Class dependencies on construct.
+			 */
 
 		}
 
@@ -112,7 +115,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Settings' ) ) {
 			// Set class property.
 			$this->options = get_option( 'usc_lfwp_name' );
 
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/include-usc-localist-for-wordpress-instructions.php';
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'instructions/instructions-usc-localist-for-wordpress-main.php';
 
 		}
 

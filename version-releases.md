@@ -7,6 +7,7 @@ USC Localist for WordPress
 - WordPress Coding Standards applied (Note: some cyclomatic complexity reductions still needed).
 - Remove errant option for `datetime-start-end` as option to `data-date-instance` under `dates` section in instructions.
 - If custom template post type is not found, an error message is displayed.
+- Tabbed navigation for instructions settings page.
 
 
 ## 1.2.2
