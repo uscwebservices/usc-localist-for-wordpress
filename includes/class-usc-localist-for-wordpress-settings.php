@@ -1,17 +1,25 @@
 <?php
 /**
- * The Settings Page of the plugin.
- *
- * Creates a settings page for the plugin for any stored options and instructions for usage.
+ * USC Localist for WordPress Plugin Class.
  *
  * @package	Usc_Localist_For_Wordpress
  * @subpackage Usc_Localist_For_Wordpress/includes
  * @author	 USC Web Services <webhelp@usc.edu>
  */
-if ( ! class_exists('USC_Localist_For_Wordpress_Settings') ) {
-	
+
+if ( ! class_exists( 'USC_Localist_For_Wordpress_Settings' ) ) {
+
+	/**
+	 * The Settings Page of the plugin.
+	 *
+	 * Creates a settings page for the plugin for any stored options and instructions for usage.
+	 *
+	 * @package	Usc_Localist_For_Wordpress
+	 * @subpackage Usc_Localist_For_Wordpress/includes
+	 * @author	 USC Web Services <webhelp@usc.edu>
+	 */
 	class USC_Localist_For_Wordpress_Settings {
-		
+
 		/**
 		 * The ID of this plugin.
 		 *
@@ -40,41 +48,47 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Settings') ) {
 		protected $plugin_tag;
 
 		/**
-		 * Holds the values to be used in the fields callbacks
+		 * Holds the values to be used in the fields callbacks.
+		 *
+		 * @since    1.0.0
+		 * @access   private
+		 * @var      array    $options    The options values used in the fields callback.
 		 */
 		private $options;
 
 		/**
-		 * Initialize the class and its properties
+		 * Constructor to initialize the class and its properties.
+		 *
+		 * @since  1.0.0
+		 * @param  string $plugin_name     The plugin name.
+		 * @param  string $plugin_version  The plugin version.
+		 * @param  string $plugin_tag      The plugin tag.
 		 */
 		public function __construct( $plugin_name, $plugin_version, $plugin_tag ) {
-			
+
 			$this->plugin_name = $plugin_name;
 			$this->plugin_version = $plugin_version;
 			$this->plugin_tag = $plugin_tag;
 
+			$this->load_dependencies();
+
 		}
 
 		/**
-		 * Load Dependencies
-		 * =================
-		 * 
 		 * Load the required dependencies for this plugin.
 		 *
 		 * @since    1.0.0
 		 * @access   private
 		 */
-		private function load_dependencies() {
+		public function load_dependencies() {
 
-			// require the json class
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/include-usc-localist-for-wordpress-instructions.php';
+			/**
+			 * Add any Class dependencies on construct.
+			 */
 
 		}
 
 		/**
-		 * Add Plugin Options Page
-		 * =======================
-		 *
 		 * Add the plugin options page under 'Settings' menu.
 		 *
 		 * @since 	1.0.0
@@ -92,49 +106,44 @@ if ( ! class_exists('USC_Localist_For_Wordpress_Settings') ) {
 		}
 
 		/**
-		 * Create Admin Page
-		 * =================
-		 *
-		 * Plugin Options page callback
+		 * Create the Admin Page for the plugin options.
 		 *
 		 * @since   1.0.0
 		 */
 		public function create_admin_page() {
-			// Set class property
+
+			// Set class property.
 			$this->options = get_option( 'usc_lfwp_name' );
-			
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/include-usc-localist-for-wordpress-instructions.php';
-			
+
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'instructions/instructions-usc-localist-for-wordpress-main.php';
+
 		}
 
 		/**
-		 * Remove Rich Text Editor
-		 * =======================
-		 *
 		 * Removes the Rich text editor based on post_type.
-		 * 
-		 * @return [type] [description]
-		 * 
+		 *
 		 * @since 1.1.7
+		 *
+		 * @return bool  Output of whether post type is 'event-template'.
 		 */
 		public function remove_richedit_option() {
-			
+
 			global $post;
 
-			if ( 'event-template' === $post->post_type ) {
-				
-				return false;
+			$output = true;
 
-			} else {
-				
-				return true;
+			if ( 'event-template' === $post->post_type ) {
+
+				$output = false;
 
 			}
+
+			return $output;
 
 		}
 
 
-		
+
 	}
 
 }

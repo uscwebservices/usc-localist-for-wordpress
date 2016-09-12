@@ -1,13 +1,19 @@
 <?php
 /**
+ * USC Localist for WordPress Plugin Class.
+ *
+ * @package    Usc_Localist_For_Wordpress
+ * @subpackage Usc_Localist_For_Wordpress/admin
+ * @author     USC Web Services <webhelp@usc.edu>
+ */
+
+/**
  * The admin-specific functionality of the plugin.
  *
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Usc_Localist_For_Wordpress
- * @subpackage Usc_Localist_For_Wordpress/admin
- * @author     USC Web Services <webhelp@usc.edu>
+ * @since    1.0.0
  */
 class USC_Localist_For_Wordpress_Admin {
 
@@ -30,26 +36,16 @@ class USC_Localist_For_Wordpress_Admin {
 	protected $plugin_version;
 
 	/**
-	 * The tag of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $plugin_tag    The current version of this plugin.
-	 */
-	protected $plugin_tag;
-
-	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @since	1.0.0
+	 * @param	string $plugin_name		The name of this plugin.
+	 * @param	string $plugin_version	The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $plugin_version, $plugin_tag ) {
+	public function __construct( $plugin_name, $plugin_version ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->plugin_version = $plugin_version;
-		$this->plugin_tag = $plugin_tag;
 
 	}
 
@@ -62,13 +58,13 @@ class USC_Localist_For_Wordpress_Admin {
 	 * @since 	1.0.0
 	 */
 	public function activate_init() {
-		
-		// register the custom post types
+
+		// Register the custom post types.
 		$this->custom_post_types();
 
-		// let's get the permalinks to work with any custom post types
+		// Let's get the permalinks to work with any custom post types.
 		flush_rewrite_rules();
-		
+
 	}
 
 	/**
@@ -78,12 +74,14 @@ class USC_Localist_For_Wordpress_Admin {
 	 * Activate any settings the should run during the admin setup with 'customize_register' hook.
 	 *
 	 * @since 	1.0.0
+	 *
+	 * @param object $wp_customize 	Customizer object used to load settings.
 	 */
 	public function activate_customize_register( $wp_customize ) {
 
-		$this->customize_section_events( $wp_customize, $this->plugin_tag );
-		$this->customize_events_detail_page( $wp_customize, $this->plugin_tag );
-		$this->customize_events_date_range( $wp_customize, $this->plugin_tag );
+		$this->customize_section_events( $wp_customize, 'usc-localist-for-wordpress' );
+		$this->customize_events_detail_page( $wp_customize, 'usc-localist-for-wordpress' );
+		$this->customize_events_date_range( $wp_customize, 'usc-localist-for-wordpress' );
 
 	}
 
@@ -96,12 +94,14 @@ class USC_Localist_For_Wordpress_Admin {
 	 * The action hook is set in class USC_Localist_For_Wordpress::define_admin_hooks
 	 *
 	 * @since 	1.0.0
+	 *
+	 * @param object $wp_customize 	Customizer object used to load settings.
 	 */
-	public static function customize_section_events( $wp_customize, $plugin_tag ) {
+	public static function customize_section_events( $wp_customize ) {
 
-		// localist events sections
+		// Localist events sections.
 		$wp_customize->add_section( 'customize_section_events', array(
-			'title'			=> __( 'Localist Calendar Options', $plugin_tag ),
+			'title'			=> __( 'Localist Calendar Options', 'usc-localist-for-wordpress' ),
 			'priority'		=> 130,
 		) );
 
@@ -114,27 +114,28 @@ class USC_Localist_For_Wordpress_Admin {
 	 * Add option to have global setting for multiple dates returned as range.
 	 *
 	 * @since 	1.0.0
+	 *
+	 * @param object $wp_customize 	Customizer object used to load settings.
 	 */
-	public static function customize_events_date_range( $wp_customize, $plugin_tag ) {
+	public static function customize_events_date_range( $wp_customize ) {
 
-		// radio controls
+		// Radio controls.
 		$wp_customize->add_setting( 'usc_lfwp_date_range', array(
 			'default'		=> false,
-			'type'			=> 'option'
+			'type'			=> 'option',
 		) );
 
 		$wp_customize->add_control( 'usc_lfwp_date_range', array(
-			'label'			=> 'Dates Range',
+			'label'			=> __( 'Dates Range', 'usc-localist-for-wordpress' ),
 			'section'		=> 'customize_section_events',
 			'type'			=> 'radio',
 			'description'	=> 'Display multiple dates as a Range',
-			'choices'		=> array( 
+			'choices'		=> array(
 				true => 'Yes [first - last instance]: 1/1/16 - 6/1/16',
-				false => 'No [current instance]: 2/2/16'
+				false => 'No [current instance]: 2/2/16',
 			),
-			'priority'		=> 1
+			'priority'		=> 1,
 		) );
-
 
 	}
 
@@ -145,21 +146,23 @@ class USC_Localist_For_Wordpress_Admin {
 	 * Set up Customizer options to store settings for the events detail page (if selected).
 	 *
 	 * @since 	1.0.0
+	 *
+	 * @param object $wp_customize 	Customizer object used to load settings.
 	 */
-	public static function customize_events_detail_page( $wp_customize, $plugin_tag ) {
-        
-		// drop down of pages
+	public static function customize_events_detail_page( $wp_customize ) {
+
+		// Drop down of pages.
 		$wp_customize->add_setting( 'usc_lfwp_events_detail_page', array(
 			'default'		=> 'Events',
-			'type'			=> 'option'
+			'type'			=> 'option',
 		) );
 
 		$wp_customize->add_control( 'usc_lfwp_events_detail_page', array(
-			'label'			=> __( 'Event Details Page', $plugin_tag ),
+			'label'			=> __( 'Event Details Page', 'usc-localist-for-wordpress' ),
 			'section' 		=> 'customize_section_events',
 			'type'			=> 'dropdown-pages',
-			'description' 	=> __( 'Choose a page where the events link to an event details page.<br><br>  On the selected page below, you must use the shortcode: <br><code>[localist-calendar get="event"]</code><br><br>Or, to display events and the event detail with one shortcode:<br><br><code>[localist-calendar get="events" is_events_page="true"]</code><br><br> If you leave this blank, the event links will go to the event detail page on the <a href="http://calendar.usc.edu" target="_blank">USC Calendar</a>', $plugin_tag ),
-			'priority'		=> 2
+			'description' 	=> __( 'Choose a page where the events link to an event details page.<br><br>  On the selected page below, you must use the shortcode: <br><code>[localist-calendar get="event"]</code><br><br>Or, to display events and the event detail with one shortcode:<br><br><code>[localist-calendar get="events" is_events_page="true"]</code><br><br> If you leave this blank, the event links will go to the event detail page on the <a href="http://calendar.usc.edu" target="_blank">USC Calendar</a>', 'usc-localist-for-wordpress' ),
+			'priority'		=> 2,
 		) );
 
 	}
@@ -192,7 +195,12 @@ class USC_Localist_For_Wordpress_Admin {
 			'label'               => 'event-template',
 			'description'         => __( 'Template for displaying Localist events', '' ),
 			'labels'              => $labels,
-			'supports' 			  => array('title','editor','page-attributes','revisions'),
+			'supports' 			  => array(
+				'title',
+				'editor',
+				'page-attributes',
+				'revisions',
+			),
 			'hierarchical'        => false,
 			'public'              => false,
 			'query_var' 		  => true,
@@ -207,15 +215,15 @@ class USC_Localist_For_Wordpress_Admin {
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,
 			'capability_type'     => 'page',
-			'rewrite' => array(	
-				'slug' 			=> 'event-template',	
+			'rewrite' => array(
+				'slug' 			=> 'event-template',
 				'with_front'	=> false,
-				'hierarchical' 	=> false
-				)
+				'hierarchical' 	=> false,
+			),
 		);
 
 		register_post_type( 'event-template', $args );
 	}
-	
+
 
 }

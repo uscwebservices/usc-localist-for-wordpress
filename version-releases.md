@@ -1,6 +1,15 @@
 USC Localist for WordPress
 ==========================
 
+## 1.3.0
+
+- Bug fix: Transient cache string reduced in length to prevent timeout value from being dropped and storing never expiring transient values.
+- WordPress Coding Standards applied (Note: some cyclomatic complexity reductions still needed).
+- Remove errant option for `datetime-start-end` as option to `data-date-instance` under `dates` section in instructions.
+- If custom template post type is not found, an error message is displayed.
+- Tabbed navigation for instructions settings page.
+
+
 ## 1.2.2
 
 - Bug: fix for template output error
@@ -36,7 +45,7 @@ USC Localist for WordPress
 	2. Google Maps: Street, City, State
 	3. Google Maps: Latitude, Longitude
 	4. USC Maps (UPC with query)
-	5. Google Maps: Address 
+	5. Google Maps: Address
 
 ## 1.1.6
 
@@ -50,11 +59,11 @@ USC Localist for WordPress
 
 - Note about setting cache to '0'
 
-## 1.1.3 
+## 1.1.3
 
 - Spelling fix for 'calendar' in documentation.
 
-## 1.1.2 
+## 1.1.2
 
 - Pagination fix for lists with 2 results.
 
@@ -68,15 +77,14 @@ USC Localist for WordPress
 - Return event data as ob_get_clean instead of echo
 - Events list default as <article> structure
 
-## 1.0.2 
+## 1.0.2
 
 - Bug: Deactivation bug fix.
 
-## 1.0.1 
+## 1.0.1
 
 - User documentation updates on _Settings_ menu.
 
 ## 1.0.0
 
 - Initial Plugin Release
-
