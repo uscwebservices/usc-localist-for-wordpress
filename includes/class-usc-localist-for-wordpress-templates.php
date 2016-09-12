@@ -504,7 +504,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				return file_get_html( $html );
 			}
 
-			// If the template is an HTML file
+			// If the template is an HTML file.
 			if ( strpos( $template_path, '.html' ) ) {
 
 				// If the template is in the templates directory as file.
