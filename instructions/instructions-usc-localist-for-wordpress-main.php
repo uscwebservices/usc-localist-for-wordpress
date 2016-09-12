@@ -7,17 +7,27 @@
  * @author	 USC Web Services <webhelp@usc.edu>
  */
 
-
+/**
+ * Get the url parameter 'tab'.
+ *
+ * @since   1.3.0
+ * @return  string  Value of 'tab' url parameter (default 'api_options').
+ */
 function usc_lfwp_active_tab() {
-	return $_GET[ 'tab' ];
+	return isset( $_GET['tab'] ) ? $_GET['tab'] : 'api_options';
 }
 
+/**
+ * Echo active tab class if 'tab' url parameter equals $tab_name.
+ *
+ * @since   1.3.0
+ * @param   string $tab_name  URL parameter to check if matched.
+ * @return  void              Nav tab acive class (default: '').
+ */
 function usc_lfwp_active_tab_class( $tab_name ) {
-	echo usc_lfwp_active_tab() == $tab_name ? 'nav-tab-active' : '';
+	echo usc_lfwp_active_tab() === $tab_name ? 'nav-tab-active' : '';
 }
 
-var_dump( $_GET[ 'tab' ] );
-var_dump( get_query_var( 'tab' ) );
 ?>
 <style type="text/css">
 
@@ -56,13 +66,13 @@ var_dump( get_query_var( 'tab' ) );
 	<h1 id="settings-bookmark-usc-localist-for-wordpress">USC Localist for WordPress</h1>
 
 	<div class="nav-tab-wrapper">
-		<a href="?page=usc-localist-for-wordpress-admin&tab=api_options" class="nav-tab <?php usc_lfwp_active_tab_class('api_options'); ?>">Shortcode Options</a>
-		<a href="?page=usc-localist-for-wordpress-admin&tab=templates" class="nav-tab <?php usc_lfwp_active_tab_class('templates'); ?>">Templates</a>
-		<a href="?page=usc-localist-for-wordpress-admin&tab=data" class="nav-tab <?php usc_lfwp_active_tab_class('data'); ?>">Data</a>
-		<a href="?page=usc-localist-for-wordpress-admin&tab=links" class="nav-tab <?php usc_lfwp_active_tab_class('links'); ?>">Links</a>
-		<a href="?page=usc-localist-for-wordpress-admin&tab=dates" class="nav-tab <?php usc_lfwp_active_tab_class('dates'); ?>">Dates</a>
-		<a href="?page=usc-localist-for-wordpress-admin&tab=photos" class="nav-tab <?php usc_lfwp_active_tab_class('photos'); ?>">Photos</a>
-		<a href="?page=usc-localist-for-wordpress-admin&tab=notes" class="nav-tab <?php usc_lfwp_active_tab_class('notes'); ?>">Admin Notes</a>
+		<a href="?page=usc-localist-for-wordpress-admin&tab=api_options" class="nav-tab <?php usc_lfwp_active_tab_class( 'api_options' ); ?>">Shortcode Options</a>
+		<a href="?page=usc-localist-for-wordpress-admin&tab=templates" class="nav-tab <?php usc_lfwp_active_tab_class( 'templates' ); ?>">Templates</a>
+		<a href="?page=usc-localist-for-wordpress-admin&tab=data" class="nav-tab <?php usc_lfwp_active_tab_class( 'data' ); ?>">Data</a>
+		<a href="?page=usc-localist-for-wordpress-admin&tab=links" class="nav-tab <?php usc_lfwp_active_tab_class( 'links' ); ?>">Links</a>
+		<a href="?page=usc-localist-for-wordpress-admin&tab=dates" class="nav-tab <?php usc_lfwp_active_tab_class( 'dates' ); ?>">Dates</a>
+		<a href="?page=usc-localist-for-wordpress-admin&tab=photos" class="nav-tab <?php usc_lfwp_active_tab_class( 'photos' ); ?>">Photos</a>
+		<a href="?page=usc-localist-for-wordpress-admin&tab=notes" class="nav-tab <?php usc_lfwp_active_tab_class( 'notes' ); ?>">Admin Notes</a>
 	</div>
 
 <?php
