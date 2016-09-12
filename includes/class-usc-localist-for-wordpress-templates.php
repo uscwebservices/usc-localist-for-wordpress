@@ -81,10 +81,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 */
 		function valid_url( $url ) {
 
-			$headers = @get_headers( $url );
+			$headers = get_headers( $url );
 			$http_status = intval( substr( $headers[0], 9, 3 ) );
 
-			if ( $http_status < 400 ) {
+			if ( $http_status < 300 ) {
 
 				return true;
 
@@ -468,6 +468,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 		 */
 		public function get_template( $api_data ) {
 
+			// Default template path.
+			$default_template = plugin_dir_path( dirname( __FILE__ ) ) . $this->config['default']['templates']['multiple'];
+
 			// Multiple items template path.
 			$template_path_multi = $api_data['template_options']['template_multiple'];
 
@@ -480,12 +483,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			// If we have a single template path value and the api type is a single event.
 			if ( '' !== $template_path_single && 'event' === $api_data['api']['type'] ) {
 
+				// Set the template to the user supplied event.
 				$template_path = $template_path_single;
 
-			}
+				// Set the default template to the single event template.
+				$default_template = plugin_dir_path( dirname( __FILE__ ) ) . $this->config['default']['templates']['single'];
 
-			// Default template path.
-			$default_template = plugin_dir_path( dirname( __FILE__ ) ) . '/templates/' . $template_path;
+			}
 
 			// If the template location is at http.
 			if ( strpos( $template_path, 'http' ) === 0 ) {
@@ -493,6 +497,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 				// Check that we have a valid url.
 				$valid_template = $this->valid_url( $template_path );
 
+				// Check if we have a valid user passed template.
 				if ( ! $valid_template ) {
 
 					return file_get_html( $default_template );
