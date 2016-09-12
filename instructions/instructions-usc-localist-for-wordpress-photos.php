@@ -6,6 +6,7 @@
  * @subpackage Usc<em>Localist</em>For_Wordpress/instructions
  * @author	 USC Web Services <webhelp@usc.edu>
  */
+
 ?>
 
 <h3 id="templates-photos">Template: Photos</h3>
