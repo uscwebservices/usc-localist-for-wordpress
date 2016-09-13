@@ -3,7 +3,9 @@ USC Localist for WordPress
 
 ## 1.3.0
 
-- Bug fix: Transient cache string reduced in length to prevent timeout value from being dropped and storing never expiring transient values.
+- Bug fixes
+	- Transient cache string reduced in length to prevent timeout value from being dropped and storing never expiring transient values.
+	- Template path to external URL support with fallback to defaults if response code is 300 or greater.
 - WordPress Coding Standards applied (Note: some cyclomatic complexity reductions still needed).
 - Remove errant option for `datetime-start-end` as option to `data-date-instance` under `dates` section in instructions.
 - If custom template post type is not found, an error message is displayed.

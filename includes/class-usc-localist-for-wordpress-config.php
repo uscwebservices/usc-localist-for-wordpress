@@ -55,6 +55,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Config' ) ) {
 				'class' => array(
 					'no_events' => 'no-events-message',
 				),
+				'templates' => array(
+					'single' => '/templates/events-single.html',
+					'multiple' => '/templates/events-list.html',
+				),
 			),
 			'plugin' => array(
 				'name' => 'USC Localist for Wordpress',
