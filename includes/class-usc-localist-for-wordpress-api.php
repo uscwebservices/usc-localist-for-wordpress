@@ -75,6 +75,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// Default variables.
 			$output = array();
 
+			// Default transient name.
+			$transient_name = '';
+
 			// Set error message object.
 			$error_messages = new USC_Localist_For_Wordpress_Errors;
 
@@ -90,20 +93,20 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 			// Set the default arguments.
 			$args = array(
-			    'timeout'		=> $api_timeout,
-			    'redirection'	=> 5,
-			    'httpversion'	=> '1.0',
-			    'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' ),
-			    'blocking'		=> true,
-			    'headers'		=> array(),
-			    'cookies'		=> array(),
-			    'body'			=> null,
-			    'compress'		=> false,
-			    'decompress'	=> true,
-			    'sslverify'		=> true, // set to false if site is trusted.
-			    'stream'		=> false,
-			    'filename'		=> null,
-		    );
+				'timeout'		=> $api_timeout,
+				'redirection'	=> 5,
+				'httpversion'	=> '1.0',
+				'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' ),
+				'blocking'		=> true,
+				'headers'		=> array(),
+				'cookies'		=> array(),
+				'body'			=> null,
+				'compress'		=> false,
+				'decompress'	=> true,
+				'sslverify'		=> true, // set to false if site is trusted.
+				'stream'		=> false,
+				'filename'		=> null,
+			);
 
 			// set var for constructed api url.
 			$api_url = $api_base_url;
@@ -121,6 +124,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 					// We are setting the api url by inclusion of the api_event_id so we assume we have a single event - let's manually set the api type to single event for output.
 					$api_type = 'event';
+
+					$transient_name = 'localist_single_' . $api_event_id;
 
 				}
 			} else {
@@ -153,6 +158,32 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					// Add the page number parameter.
 					$api_url .= 'page=' . $api_page_number;
 
+					// Prepend the page number to the transient.
+					$transient_name .= $api_page_number;
+
+				}
+
+				// Build transient name using parameter values.
+				foreach ( $params['parameters'] as $key => $value ) {
+
+					if ( is_array( $value ) ) {
+						/**
+						 * We have an array for the value.
+						 * Loop through and add the value to the transient_name.
+						 *
+						 * @var  string
+						 */
+						foreach ( $value as $key => $value ) {
+
+							$transient_name .= $value;
+
+						}
+					} else {
+
+						// Not an arrar - add single value to the transient_name.
+						$transient_name .= $value;
+
+					}
 				}
 			}
 
@@ -196,30 +227,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			/**
 			 * Transient Check
 			 */
-
-			// Transient name using parameter values.
-			$transient_name = '';
-			foreach ( $params['parameters'] as $key => $value ) {
-
-				if ( is_array( $value ) ) {
-					/**
-					 * We have an array for the value.
-					 * Loop through and add the value to the transient_name.
-					 *
-					 * @var  string
-					 */
-					foreach ( $value as $key => $value ) {
-
-						$transient_name .= $value;
-
-					}
-				} else {
-
-					// Not an arrar - add single value to the transient_name.
-					$transient_name .= $value;
-
-				}
-			}
 
 			// Get the transient by name.
 			$transient = get_transient( $transient_name );
