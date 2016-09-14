@@ -185,7 +185,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 					}
 				}
-
 			}
 
 			/**
