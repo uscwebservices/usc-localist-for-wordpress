@@ -1,6 +1,11 @@
 USC Localist for WordPress
 ==========================
 
+## 1.3.1
+
+- Bug fix: transient name build on subsequent pages and individual event ID.
+
+
 ## 1.3.0
 
 - Bug fixes
