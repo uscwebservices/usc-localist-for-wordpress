@@ -71,6 +71,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Public' ) ) {
 				// Require the api class.
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-api.php';
 
+			// Require the widget Class.
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-widget.php';
+
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
 
 		}
@@ -113,6 +116,10 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Public' ) ) {
 			// Return the $vars added.
 			return $vars;
 
+		}
+
+		public function add_widget() {
+			register_widget( 'USC_Localist_For_Wordpress_Widget' );
 		}
 
 	}

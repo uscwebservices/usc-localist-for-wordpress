@@ -213,8 +213,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress' ) ) {
 			// Add shortcodes.
 			$this->loader->add_shortcode( $this->plugin_shortcode_calendar, $plugin_shortcode, 'events_shortcode' );
 
+			// Add widget.
+			$this->loader->add_action( 'widgets_init', $plugin_public, 'add_widget' );
+
 		}
 
 
 	}
-}
+} // End if().
