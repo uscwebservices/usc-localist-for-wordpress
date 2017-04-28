@@ -2,8 +2,8 @@
 /**
  * Settings Instructions: Data
  *
- * @package	Usc<em>Localist</em>For_Wordpress
- * @subpackage Usc<em>Localist</em>For_Wordpress/instructions
+ * @package	USC Localist For_Wordpress
+ * @subpackage USC Localist For_Wordpress/instructions
  * @author	 USC Web Services <webhelp@usc.edu>
  */
 
