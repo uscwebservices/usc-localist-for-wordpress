@@ -65,7 +65,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Widget' ) ) {
 		 * @param array $instance Previously saved values from database.
 		 */
 		public function form( $instance ) {
-			$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'New title', 'usc-localist-for-wordpress' );
+			$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Events Calendar', 'usc-localist-for-wordpress' );
 			$shortcode = ! empty( $instance['shortcode'] ) ? $instance['shortcode'] : esc_html__( 'Enter shortcode', 'usc-localist-for-wordpress' );
 			?>
 			<p>
