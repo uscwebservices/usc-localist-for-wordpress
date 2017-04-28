@@ -53,8 +53,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Public' ) ) {
 		}
 
 		/**
-		 * Load Dependencies
-		 *
 		 * Load the required dependencies for this class.
 		 *
 		 * @since    1.0.0
@@ -71,7 +69,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Public' ) ) {
 				// Require the api class.
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-api.php';
 
-			// Require the widget Class.
+			// Require the widget class.
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-usc-localist-for-wordpress-widget.php';
 
 			$this->config = USC_Localist_For_Wordpress_Config::$config;
@@ -80,8 +78,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Public' ) ) {
 
 
 		/**
-		 * Activate
-		 *
 		 * Activate any functions that should run during the admin setup.
 		 *
 		 * @since 	1.0.0
@@ -94,8 +90,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Public' ) ) {
 		}
 
 		/**
-		 * Add Query Variables Filter
-		 *
 		 * Add the allowed URL query variables as an object from the allowed varibles stored in the config settings.
 		 *
 		 * @since 1.0.0
@@ -118,6 +112,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Public' ) ) {
 
 		}
 
+		/**
+		 * Add Calendar Widget.
+		 *
+		 * @since 1.4.0
+		 */
 		public function add_widget() {
 			register_widget( 'USC_Localist_For_Wordpress_Widget' );
 		}
