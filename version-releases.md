@@ -1,6 +1,13 @@
 USC Localist for WordPress
 ==========================
 
+
+## 1.4.0
+
+- Localist Calendar Widget:
+  - Runs shortcode option through text area.
+
+
 ## 1.3.1
 
 - Bug fix: transient name build on subsequent pages and individual event ID.
