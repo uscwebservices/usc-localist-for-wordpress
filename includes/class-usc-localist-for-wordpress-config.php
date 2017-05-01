@@ -246,7 +246,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Config' ) ) {
 					'allowed' => array(
 						// Custom value.
 						'event_id' => '', // Added so 'is_events_page' can check for url parameter.
-						'is_widget' => '', // Added to check if widget output.
 
 						// Localist values.
 						'all_custom_fields' => '',
