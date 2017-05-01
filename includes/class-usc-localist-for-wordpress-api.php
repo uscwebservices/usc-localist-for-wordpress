@@ -84,12 +84,20 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 			// Default parameters.
 			$api_base_url 			= isset( $params['url'] ) ? $params['url'] : $config['url']['base'];
 			$api_type 				= isset( $params['api']['type'] ) ? $params['api']['type'] : '';
+			$api_is_widget			= isset( $params['api']['is_widget'] ) ? $params['api']['is_widget'] : false;
 			$api_events_page		= isset( $params['is_events_page'] ) ? $params['is_events_page'] : false;
 			$api_event_id			= isset( $params['event_id'] ) ? $params['event_id'] : '';
 			$api_cache 				= isset( $params['cache'] ) ? $params['cache'] : $config['default']['cache'];
 			$api_options 			= isset( $params['options'] ) ? $params['options'] : '';
 			$api_page_number		= isset( $params['page'] ) ? $params['page'] : '1'; // default to first page of results.
 			$api_timeout			= isset( $params['timeout'] ) ? $params['timeout'] : $config['default']['api_timeout'];
+
+			// Widget options set to eliminate event page parameters passed.
+			if ( $api_is_widget ) {
+				$api_events_page = false;
+				$api_page_number = '';
+
+			}
 
 			// Set the default arguments.
 			$args = array(
@@ -185,7 +193,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 					}
 				}
-			}
+			} // End if().
 
 			/**
 			 * REMOVE: Local Testing
@@ -286,7 +294,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					// Add a link to the API URL called to help troubleshoot any issues.
 					$error_messages->add_message( '<a target="_blank" href="' . $api_url . '">API URL</a>' );
 
-				}
+				} // End if().
 
 				// Let's assume no wp errors and no 400+ errors so we must have data.
 				if ( ! is_wp_error( $response ) && $response['response']['code'] < 400 ) {
@@ -321,7 +329,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 
 					}
 				}
-			}
+			} // End if().
 
 			// Return the output data.
 			return $output;
@@ -473,9 +481,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 								$parameter[ urlencode( $key ) ] = urlencode( $value[0] );
 
 							}
-						}
-					}
-				}
+						} // End if().
+					} // End if().
+				} // End foreach().
 
 				// Combine any errors and set a message value.
 				$output['errors'] = join( '<br>', $error_messages->get_messages() );
@@ -489,7 +497,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				// Return the output.
 				return $output;
 
-			}
+			} // End if().
 
 			// Default: We don't have an array of values.
 			return false;
@@ -635,11 +643,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 					// We do not have an int or string, so let's not return bad options.
 					return false;
 
-				}
+				} // End if().
 
 				// If the value doesn't need validation, just return the value.
 				return $value;
-			}
+			} // End if().
 		}
 	}
-}
+} // End if().
