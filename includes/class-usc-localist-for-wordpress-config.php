@@ -93,6 +93,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Config' ) ) {
 						// Custom values: API type.
 						'get' => '', // API GET type: [events,event,organizations,groups,search].
 
+						// Custom values: Widget option.
+						'is_widget' => '',  // Optional: indicate use within widget.
+
 						// Custom values: cache.
 						'cache' => '', // Transient cache timeout setting.
 
@@ -195,6 +198,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Config' ) ) {
 						'boolean' => array(
 							// Custom values.
 							'is_events_page',
+							'is_widget',
 							'date_range',
 
 							// Localist values.
@@ -242,6 +246,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Config' ) ) {
 					'allowed' => array(
 						// Custom value.
 						'event_id' => '', // Added so 'is_events_page' can check for url parameter.
+						'is_widget' => '', // Added to check if widget output.
 
 						// Localist values.
 						'all_custom_fields' => '',
