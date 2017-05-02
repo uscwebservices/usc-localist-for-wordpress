@@ -250,7 +250,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 						$i++;
 					}
 				}
-			}
+			} // End foreach().
 		}
 
 		/**
@@ -275,6 +275,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			if ( is_array( $field_value ) ) {
 
 				return 'data-field: "' . $data_field . '" is an array. Please reference the help section for different data types.';
+
+				// TODO handle array values.
 
 			}
 
@@ -418,8 +420,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 						}
 
 						break;
-				}
-			}
+				}  // End switch().
+			} // End foreach().
 
 		}
 
@@ -707,4 +709,4 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 
 	}
 
-}
+} // End if().
