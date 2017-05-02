@@ -80,6 +80,23 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Widget' ) ) {
 		}
 
 		/**
+		 * Adds 'is_widget' shortcode option to all widget instances.
+		 *
+		 * @since  1.4.0
+		 * @param  string $value  Shortcode values passed for adding widget check.
+		 * @return string         Shortcode with 'is_widget' option.
+		 */
+		public function add_widget_shortcode( $value ) {
+			$output = ( ! empty( $value ) ) ? strip_tags( $value ) : '';
+
+			if ( '' !== $value ) {
+				$value = str_replace( ']', ' is_widget="true"]', $value );
+			}
+
+			return $value;
+		}
+
+		/**
 		 * Sanitize widget form values as they are saved.
 		 *
 		 * @see WP_Widget::update()
@@ -92,7 +109,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Widget' ) ) {
 		public function update( $new_instance, $old_instance ) {
 			$instance = array();
 			$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
-			$instance['shortcode'] = ( ! empty( $new_instance['shortcode'] ) ) ? strip_tags( $new_instance['shortcode'] ) : '';
+			// $instance['shortcode'] = ( ! empty( $new_instance['shortcode'] ) ) ? strip_tags( $new_instance['shortcode'] ) : '';
+			$instance['shortcode'] = $this->add_widget_shortcode( $new_instance['shortcode'] );
 
 			return $instance;
 		}
