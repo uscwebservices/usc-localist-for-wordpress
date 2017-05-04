@@ -57,29 +57,26 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 		 */
 		public function get_pagination( $api_data ) {
 
-			// Map to the page option returned in the api.
-			$api_page = $api_data['api']['data']['page'];
-
-			$options = $api_data['paginate_options'];
-
-			// Set defaults if values not passed.
-			$paginate_type 				= isset( $options['paginate_type'] ) ? $options['paginate_type'] : 'next';
-
-			// Check if paginate type is next.
-			$is_next = ( 'next' === $paginate_type ) ? true : false;
-
-			// Check if paginate type is numeric.
-			$is_numeric = ( 'numeric' === $paginate_type ) ? true : false;
-
-			$paginate_offset 			= isset( $options['paginate_offset'] ) ? $options['paginate_offset'] : 3;
-			$paginate_numeric_sep 		= isset( $options['paginate_numeric_separator'] ) ? $options['paginate_numeric_separator'] : ' ... ';
-			$paginate_label_next 		= isset( $options['paginate_label_next'] ) ? $options['paginate_label_next'] : ( ( $is_next ) ? 'Next' : null );
-			$paginate_label_prev 		= isset( $options['paginate_label_previous'] ) ? $options['paginate_label_previous'] : ( ( $is_next ) ? 'Previous' : null );
-			$paginate_label_first 		= isset( $options['paginate_label_first'] ) ? $options['paginate_label_first'] : null;
-			$paginate_label_last	 	= isset( $options['paginate_label_last'] ) ? $options['paginate_label_last'] : null;
-
 			// Check that the page variable is set.
-			if ( isset( $api_page ) ) {
+			if ( isset( $api_data['api']['data']['page'] ) ) {
+
+				$options = $api_data['paginate_options'];
+
+				// Set defaults if values not passed.
+				$paginate_type 				= isset( $options['paginate_type'] ) ? $options['paginate_type'] : 'next';
+
+				// Check if paginate type is next.
+				$is_next = ( 'next' === $paginate_type ) ? true : false;
+
+				// Check if paginate type is numeric.
+				$is_numeric = ( 'numeric' === $paginate_type ) ? true : false;
+
+				$paginate_offset 			= isset( $options['paginate_offset'] ) ? $options['paginate_offset'] : 3;
+				$paginate_numeric_sep 		= isset( $options['paginate_numeric_separator'] ) ? $options['paginate_numeric_separator'] : ' ... ';
+				$paginate_label_next 		= isset( $options['paginate_label_next'] ) ? $options['paginate_label_next'] : ( ( $is_next ) ? 'Next' : null );
+				$paginate_label_prev 		= isset( $options['paginate_label_previous'] ) ? $options['paginate_label_previous'] : ( ( $is_next ) ? 'Previous' : null );
+				$paginate_label_first 		= isset( $options['paginate_label_first'] ) ? $options['paginate_label_first'] : null;
+				$paginate_label_last	 	= isset( $options['paginate_label_last'] ) ? $options['paginate_label_last'] : null;
 
 				global $post_id;
 
@@ -88,7 +85,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 
 				// Get current and total pages.
 				$page_uri = get_page_uri( $post_id );
-				$page_total = $api_page['total'];
+				$page_total = $api_data['api']['data']['page']['total'];
 				$page_current = $api_data['api']['page_current'];
 
 				// Check for first and last pages out of total available.
@@ -146,7 +143,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 
 						}
 					}
-				}
+				} // End if().
 
 				// Add 'next' label to event pages that are not the last.
 				if ( ! $is_last_page && ! is_null( $paginate_label_next ) ) {
@@ -170,7 +167,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 
 				// Return the clean object.
 				return ob_get_clean();
-			}
+			} // End if().
 
 			// We don't have a pagination options.
 			return false;
@@ -179,4 +176,4 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 
 	}
 
-}
+} // End if().
