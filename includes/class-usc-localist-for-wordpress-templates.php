@@ -274,9 +274,16 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			// Check that we do not have an array for a field value.
 			if ( is_array( $field_value ) ) {
 
-				return 'data-field: "' . $data_field . '" is an array. Please reference the help section for different data types.';
+				$output = array();
+				foreach ( $field_value as $key => $value ) {
+					if ( is_array( $value ) ) {
+						return 'data-field: "' . $data_field . '" is a nested array. Please reference the help section for different data types.';
+					}
 
-				// TODO handle array values.
+					$output[] = $value;
+				}
+
+				$field_value = implode( ', ', $output );
 
 			}
 
