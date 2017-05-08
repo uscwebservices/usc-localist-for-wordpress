@@ -22,10 +22,14 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td><code>data-field</code></td>
+			<td rowspan="2"><code>data-field</code></td>
+			<td rowspan="2">string, array</td>
 			<td>string</td>
-			<td></td>
-			<td>The dot syntax mapping to the API for the desired value.</td>
+			<td>The dot syntax mapping to the API for the desired value as a string.</td>
+		</tr>
+		<tr>
+			<td>array</td>
+			<td>The dot syntax mapping to the API for the desired value as a single array returned as comma delimitted string.</td>
 		</tr>
 	</tbody>
 </table>
@@ -34,21 +38,31 @@
 
 <pre>
 event: {
-title: "Reshaping Tradition: Contemporary Ceramics from East Asia",
-geo: {
-	street: "46 North Los Robles Avenue",
-	city: "Pasadena",
-	state: "CA",
-	country: "US",
-	zip: "91101"
-}
+	title: "Reshaping Tradition: Contemporary Ceramics from East Asia",
+	geo: {
+		street: "46 North Los Robles Avenue",
+		city: "Pasadena",
+		state: "CA",
+		country: "US",
+		zip: "91101"
+	},
+	keywords: [
+		"keyword1",
+		"keyword2"
+	]
 }
 </pre>
 
 <h5 id="templates-data-field-template-code">Template Code</h5>
 
-	<pre>&lt;address data-field=&quot;geo.city&quot;&gt;&lt;/address&gt;</pre>
+<pre>
+&lt;address data-field=&quot;geo.city&quot;&gt;&lt;/address&gt;
+&lt;div data-field=&quot;keywords&quot;&gt;&lt;/div&gt;
+</pre>
 
 <h5 id="templates-data-field-template-output">Template Output</h5>
 
-	<pre>&lt;address data-field=&quot;geo.city&quot;&gt;Pasadena&lt;/address&gt;</pre>
+<pre>
+&lt;address data-field=&quot;geo.city&quot;&gt;Pasadena&lt;/address&gt;
+&lt;div data-field=&quot;keywords&quot;&gt;keyword1, keyword2&lt;/div&gt;
+</pre>
