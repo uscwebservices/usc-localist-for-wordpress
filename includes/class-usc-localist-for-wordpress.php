@@ -130,9 +130,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress' ) ) {
 		}
 
 		/**
-		 * Run
-		 * ===
-		 *
 		 * Functions to perform when running the plugin.
 		 *
 		 * @since 	1.0.0
@@ -145,9 +142,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress' ) ) {
 		}
 
 		/**
-		 * Get Loader
-		 * ==========
-		 *
 		 * The reference to the class that orchestrates the hooks with the plugin.
 		 *
 		 * @since     1.0.0
@@ -158,9 +152,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress' ) ) {
 		}
 
 		/**
-		 * Define Admin Hooks
-		 * ==================
-		 *
 		 * Register all of the hooks related to the admin area functionality
 		 * of the plugin.
 		 *
@@ -191,9 +182,6 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress' ) ) {
 		}
 
 		/**
-		 * Define Public Hooks
-		 * ===================
-		 *
 		 * Register all of the hooks related to the public-facing functionality
 		 * of the plugin.
 		 *
@@ -213,8 +201,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress' ) ) {
 			// Add shortcodes.
 			$this->loader->add_shortcode( $this->plugin_shortcode_calendar, $plugin_shortcode, 'events_shortcode' );
 
+			// Add widget.
+			$this->loader->add_action( 'widgets_init', $plugin_public, 'add_widget' );
+
 		}
 
 
 	}
-}
+} // End if().

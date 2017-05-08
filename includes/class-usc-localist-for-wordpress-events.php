@@ -152,7 +152,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 					$output .= $paginate->get_pagination( $api_data );
 
 				}
-			}
+			} // End if().
 
 			// Return the output for the event(s).
 			return $output;
@@ -161,4 +161,4 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Events' ) ) {
 
 	}
 
-}
+} // End if().

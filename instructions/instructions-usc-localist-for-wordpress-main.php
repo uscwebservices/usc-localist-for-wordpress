@@ -2,8 +2,8 @@
 /**
  * Settings Instructions: Main
  *
- * @package	Usc<em>Localist</em>For_Wordpress
- * @subpackage Usc<em>Localist</em>For_Wordpress/instructions
+ * @package	USC Localist For_Wordpress
+ * @subpackage USC Localist For_Wordpress/instructions
  * @author	 USC Web Services <webhelp@usc.edu>
  */
 
@@ -67,6 +67,7 @@ function usc_lfwp_active_tab_class( $tab_name ) {
 
 	<div class="nav-tab-wrapper">
 		<a href="?page=usc-localist-for-wordpress-admin&tab=api_options" class="nav-tab <?php usc_lfwp_active_tab_class( 'api_options' ); ?>">Shortcode Options</a>
+		<a href="?page=usc-localist-for-wordpress-admin&tab=widget" class="nav-tab <?php usc_lfwp_active_tab_class( 'widget' ); ?>">Widget</a>
 		<a href="?page=usc-localist-for-wordpress-admin&tab=templates" class="nav-tab <?php usc_lfwp_active_tab_class( 'templates' ); ?>">Templates</a>
 		<a href="?page=usc-localist-for-wordpress-admin&tab=data" class="nav-tab <?php usc_lfwp_active_tab_class( 'data' ); ?>">Data</a>
 		<a href="?page=usc-localist-for-wordpress-admin&tab=links" class="nav-tab <?php usc_lfwp_active_tab_class( 'links' ); ?>">Links</a>
@@ -79,6 +80,9 @@ function usc_lfwp_active_tab_class( $tab_name ) {
 if ( 'api_options' === usc_lfwp_active_tab() ) {
 	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'instructions/instructions-usc-localist-for-wordpress-api-shortcode.php';
 	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'instructions/instructions-usc-localist-for-wordpress-api-shortcode-custom.php';
+}
+if ( 'widget' === usc_lfwp_active_tab() ) {
+	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'instructions/instructions-usc-localist-for-wordpress-widget.php';
 }
 if ( 'templates' === usc_lfwp_active_tab() ) {
 	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'instructions/instructions-usc-localist-for-wordpress-templates.php';
