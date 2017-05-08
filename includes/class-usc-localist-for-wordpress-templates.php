@@ -271,25 +271,36 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			// Get the value from the string format mapped node.
 			$field_value = $this->string_node( $api_data, $data_field );
 
+			// Link to Data Help Section.
+			$help_section_data_url = esc_url( admin_url( 'options-general.php?page=usc-localist-for-wordpress-admin&tab=data' ) );
+
+			// Error Message.
+			$error_message = 'data-field: "' . $data_field . '" is a nested array. Please use a single array and reference the <a href="' . $help_section_data_url . '">help section</a> for different data types.';
+
 			// Check that we do not have an array for a field value.
 			if ( is_array( $field_value ) ) {
 
-				$output = array();
-				foreach ( $field_value as $key => $value ) {
-					if ( is_array( $value ) ) {
-						return 'data-field: "' . $data_field . '" is a nested array. Please reference the help section for different data types.';
+				if ( ! empty( $field_value ) ) {
+
+					$output = array();
+
+					foreach ( $field_value as $key => $value ) {
+
+						if ( is_array( $value ) ) {
+							return $error_message;
+						}
+
+						$output[] = $value;
 					}
 
-					$output[] = $value;
+					$field_value = implode( ', ', $output );
+				} else {
+					return;
 				}
-
-				$field_value = implode( ', ', $output );
-
 			}
 
 			// Add field value as innertext of the node.
 			return $field_value;
-
 		}
 
 		/**
