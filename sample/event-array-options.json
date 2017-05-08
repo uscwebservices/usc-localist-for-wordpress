@@ -1,1 +1,103 @@
-{"event":{"id":946381,"title":"Roski Annual Student Exhibition","url":"","updated_at":"2017-05-04T09:20:08-07:00","created_at":"2017-04-24T13:26:58-07:00","facebook_id":1124877870956382,"first_date":"2017-04-29","last_date":"2017-05-12","hashtag":"","urlname":"roski_annual_student_exhibition","user_id":243885,"directions":"","allows_reviews":true,"allows_attendance":true,"location":"","room_number":"","location_name":"USC Fisher Museum of Art (HAR)","created_by":243885,"updated_by":228509,"city_id":3,"neighborhood_id":null,"school_id":142,"campus_id":null,"recurring":true,"free":true,"private":false,"verified":true,"rejected":false,"sponsored":false,"venue_id":208859,"ticket_url":"","ticket_cost":"","keywords":["artsforsocialchange"],"tags":[],"description_text":"Roski student artwork will be coming to the Fisher Museum as part of the museum's longest tradition of service to the university. Selected by a panel of Roski faculty, the exhibit will highlight the best that the school of art and design has to offer.\n\nFor more information visit our website: \nhttps://fisher.usc.edu/","photo_id":494706,"detail_views":78,"address":"823 Exposition Boulevard, Los Angeles, CA 90089","description":"<p>Roski student artwork will be coming to the Fisher Museum as part of the museum&#39;s longest tradition of service to the university. Selected by a panel of Roski faculty, the exhibit will highlight the best that the school of art and design has to offer.<br />\r\n<br />\r\nFor more information visit our website:&nbsp;<br />\r\n<a href=\"https://fisher.usc.edu/\" rel=\"nofollow noopener nofollow\" target=\"_blank\">https://fisher.usc.edu/</a></p>\r\n","featured":false,"geo":{"latitude":"34.018344","longitude":"-118.288379","street":"823 Exposition Boulevard","city":"Los Angeles","state":"CA","country":"US","zip":"90007"},"filters":{"event_audience":[{"name":"Students","id":44240},{"name":"Faculty/Staff","id":44513}],"event_campus":[{"name":"University Park Campus","id":44235}],"event_types":[{"name":"Arts","id":43434},{"name":"Exhibit","id":43437},{"name":"Event Highlights","id":45321}]},"custom_fields":{},"localist_url":"https://calendar.usc.edu/event/roski_annual_student_exhibition","localist_ics_url":"https://calendar.usc.edu/event/roski_annual_student_exhibition.ics","photo_url":"https://d3e1o4bcbhmj8g.cloudfront.net/photos/494706/huge/69724c48f3f6c9da58e1c9db32c0df27a56e31fc.jpg","venue_url":"https://calendar.usc.edu/usc_fisher_museum_of_art_har","department_id":7954,"department_name":"Campus Activities","event_instances":[{"event_instance":{"id":2786978,"ranking":0,"event_id":946381,"start":"2017-04-29T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786979,"ranking":0,"event_id":946381,"start":"2017-04-30T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786980,"ranking":0,"event_id":946381,"start":"2017-05-01T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786981,"ranking":0,"event_id":946381,"start":"2017-05-02T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786982,"ranking":0,"event_id":946381,"start":"2017-05-03T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786983,"ranking":0,"event_id":946381,"start":"2017-05-04T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786984,"ranking":0,"event_id":946381,"start":"2017-05-05T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786985,"ranking":0,"event_id":946381,"start":"2017-05-06T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786986,"ranking":0,"event_id":946381,"start":"2017-05-07T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786987,"ranking":0,"event_id":946381,"start":"2017-05-08T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786988,"ranking":0,"event_id":946381,"start":"2017-05-09T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786989,"ranking":0,"event_id":946381,"start":"2017-05-10T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786990,"ranking":0,"event_id":946381,"start":"2017-05-11T00:00:00-07:00","end":null,"all_day":true}},{"event_instance":{"id":2786991,"ranking":0,"event_id":946381,"start":"2017-05-12T00:00:00-07:00","end":null,"all_day":true}}]}}
+{
+	"event":
+	{
+		"id":606807,
+		"title":"Yoga with Fisher @USC",
+		"url":"",
+		"updated_at":"2020-02-24T04:19:47-08:00",
+		"created_at":"2016-01-22T11:04:34-08:00",
+		"facebook_id":null,
+		"first_date":"2020-02-02",
+		"last_date":"2020-04-05",
+		"hashtag":"",
+		"urlname":"yoga_with_fisher_usc_1440",
+		"user_id":236525,
+		"directions":"",
+		"allows_reviews":true,
+		"location":"",
+		"room_number":"Harris Hall",
+		"location_name":"USC Fisher Museum of Art (HAR)",
+		"created_by":236525,
+		"updated_by":229749,
+		"city_id":3,
+		"neighborhood_id":null,
+		"school_id":142,
+		"campus_id":null,
+		"recurring":true,
+		"free":true,
+		"private":false,
+		"verified":true,
+		"rejected":false,
+		"sponsored":false,
+		"venue_id":208859,
+		"ticket_url":"",
+		"ticket_cost":"",
+		"keywords":[],
+		"tags":[
+			"rossierprograms",
+			"rossierldt",
+			"rossierinfo"
+		],
+		"description_text":"Join us in collaboration with Recreational Sports as we host FREE yoga during our Spring 2020 exhibition: Lita Albuquerque 20/20: ACCELERANDO - exhibition runs January 24 - April 10, 2020.\n\nClass is limited to 20 people, so arrive early!\n\nYoga mats are available on a first come, first served basis. Feel free to bring your own mat, block or other materials.\n\n \n\nLita Albuquerque, 20/20: Accelerando\n\nIn 20/20: Accelerando, Albuquerque merges film, sound and performance to tell the story of a 25th century female astronaut who lands on Earth in the year 6,000 BC with a mission to seed interstellar consciousness on the planet. Upon entering Earth’s atmosphere, she forgets her mission: “Where was I? And why was I awakening at this moment, on this planet?”\n\nHer traumatic forgetting, followed by remembrance, dramatizes both who we are and who we may become. A complex gesture of adaptation, 20/20: Accelerando emerges from GenIus Remembered, a narrative text Albuquerque began writing in 2003 and continues to develop. Dynamically transforming and activating the entire museum, Albuquerque fractures her own narrative into impressionistic passages. Arrayed throughout the galleries, her imagery carries the viewer out of the everyday and into a space of wonderment, triggering memory and mystery. Working in close collaboration with the artist Robbie C. Williamson, who also composed original scores for the film and performance, the installations trace complex metaphors of space, loss and community – pillars that have long anchored Albuquerque’s practice.",
+		"photo_id":null,
+		"detail_views":51,
+		"address":"823 Exposition Boulevard, Los Angeles, CA 90089",
+		"description":"<p>Join us in collaboration with Recreational Sports as we host FREE yoga during our Spring 2020 exhibition: Lita Albuquerque 20/20: ACCELERANDO - exhibition runs January 24 - April 10, 2020.</p>\r\n\r\n<p>Class is limited to 20 people, so arrive early!</p>\r\n\r\n<p>Yoga mats are available on a first come, first served basis. Feel free to bring your own mat, block or other materials.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><i>Lita Albuquerque, 20/20: Accelerando</i></p>\r\n\r\n<p>In 20/20: Accelerando, Albuquerque merges film, sound and performance to tell the story of a 25th century female astronaut who lands on Earth in the year 6,000 BC with a mission to seed interstellar consciousness on the planet. Upon entering Earth&rsquo;s atmosphere, she forgets her mission: &ldquo;Where was I? And why was I awakening at this moment, on this planet?&rdquo;</p>\r\n\r\n<p>Her traumatic forgetting, followed by remembrance, dramatizes both who we are and who we may become. A complex gesture of adaptation, 20/20: Accelerando emerges from GenIus Remembered, a narrative text Albuquerque began writing in 2003 and continues to develop. Dynamically transforming and activating the entire museum, Albuquerque fractures her own narrative into impressionistic passages. Arrayed throughout the galleries, her imagery carries the viewer out of the everyday and into a space of wonderment, triggering memory and mystery. Working in close collaboration with the artist Robbie C. Williamson, who also composed original scores for the film and performance, the installations trace complex metaphors of space, loss and community &ndash; pillars that have long anchored Albuquerque&rsquo;s practice.&nbsp;</p>\r\n",
+		"featured":false,
+		"geo":{
+			"latitude":"34.018344",
+			"longitude":"-118.288379",
+			"street":"823 Exposition Boulevard",
+			"city":"Los Angeles",
+			"state":"CA",
+			"country":"US",
+			"zip":"90007"},
+			"filters":{},
+			"custom_fields":{},
+			"localist_url":"http://calendar.usc.edu/event/yoga_with_fisher_usc_1440",
+			"photo_url":"http://images-cf.localist.com/photos/313216/huge/a88073cb940e663f234849f0dac6f6dadf2aadf3.jpg",
+			"venue_url":"http://calendar.usc.edu/usc_fisher_museum_of_art_har",
+			"department_id":7288,
+			"department_name":"Be Well USC",
+			"event_instances": [
+			{
+				"event_instance": {
+					"id": 12345,
+					"ranking": 0,
+					"event_id": 54321,
+					"start": "2020-03-08T10:45:00-08:00",
+					"all_day": false
+				}
+			},
+			{
+				"event_instance": {
+					"id": 12345,
+					"ranking": 0,
+					"event_id": 54321,
+					"start": "2020-03-22T10:45:00-07:00",
+					"all_day": false
+				}
+			},
+			{
+				"event_instance": {
+					"id": 12345,
+					"ranking": 0,
+					"event_id": 54321,
+					"start": "2020-03-29T10:45:00-07:00",
+					"end": "2020-03-29T12:45:00-07:00",
+					"all_day": false
+				}
+			},
+			{
+				"event_instance": {
+					"id": 12345,
+					"ranking": 0,
+					"event_id": 54321,
+					"start": "2020-04-05T10:45:00-07:00",
+					"end": "2020-04-05T12:45:00-07:00",
+					"all_day": false
+				}
+			}
+		]
+	}
+}
