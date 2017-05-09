@@ -32,7 +32,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Config' ) ) {
 			'testing' => array(
 				'enabled' => false, // Set to true to use local events.json data.
 				'json' => array(
-					'single' => '/sample/event-settings-sample-date.json',
+					'single' => '/sample/event-array-options.json',
 					'multiple' => '/sample/events.json',
 				),
 			),
@@ -92,6 +92,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Config' ) ) {
 
 						// Custom values: API type.
 						'get' => '', // API GET type: [events,event,organizations,groups,search].
+
+						// Custom values: Widget option.
+						'is_widget' => '',  // Optional: indicate use within widget.
 
 						// Custom values: cache.
 						'cache' => '', // Transient cache timeout setting.
@@ -195,6 +198,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Config' ) ) {
 						'boolean' => array(
 							// Custom values.
 							'is_events_page',
+							'is_widget',
 							'date_range',
 
 							// Localist values.

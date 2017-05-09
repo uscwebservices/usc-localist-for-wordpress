@@ -152,6 +152,24 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 			// Set the get type for api url and options.
 			$api_url['api']['type'] = $api_type;
 
+			/** ---------------------------------------------------
+				Get widget setting
+			--------------------------------------------------- */
+
+			// Set variable.
+			$api_is_widget = $api_data->convert_to_bool( $attr_all['is_widget'] );
+
+			// Check that we have a valid 'is_widget' value.
+			if ( $api_is_widget ) {
+
+				// Validate the widget value.
+				$api_is_widget = $api_data->validate_key_value( 'is_widget', $api_is_widget );
+
+				// Store the widget number as part of the url array.
+				$api_url['api']['is_widget'] = $api_is_widget;
+
+			}
+
 			/** --------------------------------------------------
 				Get flag for event inline in page
 			--------------------------------------------------- */
@@ -527,9 +545,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 						// Return the shortcode cleaned object.
 						return ob_get_clean();
 
-					}
-				}
-			}
+					} // End if().
+				} // End if().
+			} // End if().
 
 		}
 
@@ -537,4 +555,4 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Shortcode' ) ) {
 
 	}
 
-}
+} // End if().
