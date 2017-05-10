@@ -11,7 +11,7 @@
 
 <h3 id="dates-range">Dates Range</h3>
 
-<p>This plugin uses the WordPress <a href="/wp-admin/customize.php">Customizer</a> to set global calendar settings for the Dates Range, which can be overriden in the shortcode.</p>
+<p>This plugin uses the WordPress <a href="<?php echo esc_url( admin_url( 'customize.php' ) );?>">Customizer</a> to set global calendar settings for the Dates Range, which can be overriden in the shortcode.</p>
 
 <p>In the Customizer under the section <strong>Localist Calendar Options</strong>, choose an option from the <strong>Dates Range</strong> radio buttons.</p>
 
@@ -85,14 +85,14 @@
 			<td>string</td>
 			<td></td>
 			<td><code>g:i a</code></td>
-			<td>Set the time output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
+			<td>Set the time output format using <a href="https://php.net/manual/function.date.php">PHP Date</a>.</td>
 		</tr>
 		<tr>
 			<td><code>data-format-date</code></td>
 			<td>string</td>
 			<td></td>
 			<td><code>m/d/Y</code></td>
-			<td>Set the date output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
+			<td>Set the date output format using <a href="https://php.net/manual/function.date.php">PHP Date</a>.</td>
 		</tr>
 		<tr>
 			<td><code>data-separator-range</code></td>
@@ -136,32 +136,32 @@
 
 <pre>
 event: {
-first_date: "2020-02-02",
-last_date: "2020-04-05",
-event_instances: [
-	{
-		event_instance: {
-			start: "2020-03-08T10:45:00-08:00",
+	first_date: "2020-02-02",
+	last_date: "2020-04-05",
+	event_instances: [
+		{
+			event_instance: {
+				start: "2020-03-08T10:45:00-08:00",
+			}
+		},
+		{
+			event_instance: {
+				start: "2020-03-22T10:45:00-07:00",
+			}
+		},
+		{
+			event_instance: {
+				start: "2020-03-29T10:45:00-07:00",
+				end: "2020-03-29T12:45:00-07:00"
+			}
+		},
+		{
+			event_instance: {
+				start: "2020-04-05T10:45:00-07:00",
+				end: "2020-04-05T12:45:00-07:00"
+			}
 		}
-	},
-	{
-		event_instance: {
-			start: "2020-03-22T10:45:00-07:00",
-		}
-	},
-	{
-		event_instance: {
-			start: "2020-03-29T10:45:00-07:00",
-			end: "2020-03-29T12:45:00-07:00"
-		}
-	},
-	{
-		event_instance: {
-			start: "2020-04-05T10:45:00-07:00",
-			end: "2020-04-05T12:45:00-07:00"
-		}
-	}
-]
+	]
 }
 </pre>
 

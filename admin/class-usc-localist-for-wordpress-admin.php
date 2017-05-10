@@ -161,7 +161,7 @@ class USC_Localist_For_Wordpress_Admin {
 			'label'			=> __( 'Event Details Page', 'usc-localist-for-wordpress' ),
 			'section' 		=> 'customize_section_events',
 			'type'			=> 'dropdown-pages',
-			'description' 	=> __( 'Choose a page where the events link to an event details page.<br><br>  On the selected page below, you must use the shortcode: <br><code>[localist-calendar get="event"]</code><br><br>Or, to display events and the event detail with one shortcode:<br><br><code>[localist-calendar get="events" is_events_page="true"]</code><br><br> If you leave this blank, the event links will go to the event detail page on the <a href="http://calendar.usc.edu" target="_blank">USC Calendar</a>', 'usc-localist-for-wordpress' ),
+			'description' 	=> __( 'Choose a page where the events link to an event details page.<br><br>  On the selected page below, you must use the shortcode: <br><code>[localist-calendar get="event"]</code><br><br>Or, to display events and the event detail with one shortcode:<br><br><code>[localist-calendar get="events" is_events_page="true"]</code><br><br> If you leave this blank, the event links will go to the event detail page on the <a href="https://calendar.usc.edu" target="_blank">USC Calendar</a>', 'usc-localist-for-wordpress' ),
 			'priority'		=> 2,
 		) );
 

@@ -603,7 +603,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 			preg_match( '/\(([A-Z]{3})\)/' , $location_name, $matches );
 
 			// Attach the map code to the map base link.
-			$usc_map_link = 'http://web-app.usc.edu/maps/';
+			$usc_map_link = 'https://web-app.usc.edu/maps/';
 
 			// Google maps base link.
 			$google_maps = $config['url']['google_maps'];

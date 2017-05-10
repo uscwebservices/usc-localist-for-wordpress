@@ -56,6 +56,6 @@
 
 <p>However, since the events for the department 'History' are gathered first and then the filters applied, we would only get 10 events in return and not 50.</p>
 
-<p>Please see the <a href="http://www.localist.com/doc/api">Localist API</a> for the latest information.</p>
+<p>Please see the <a href="https://www.localist.com/doc/api">Localist API</a> for the latest information.</p>
 
-<p><a class="button button-primary" href="http://www.localist.com/doc/api">Latest Localist API Documentation</a></p>
+<p><a class="button button-primary" href="https://www.localist.com/doc/api">Latest Localist API Documentation</a></p>

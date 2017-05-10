@@ -12,9 +12,9 @@
  * Description:       Localist API Shortcodes for WordPress
  * Version:           1.4.0
  * Author:            USC Web Services
- * Author URI:        http://itservices.usc.edu/webservices/
+ * Author URI:        https://itservices.usc.edu/webservices/
  * License:           MIT
- * License URI:       http://opensource.org/licenses/MIT
+ * License URI:       https://opensource.org/licenses/MIT
  * Text Domain:       usc-localist-for-wordpress
  * Domain Path:       /languages
  */

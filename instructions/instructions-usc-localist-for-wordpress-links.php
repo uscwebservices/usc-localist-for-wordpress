@@ -78,11 +78,11 @@
 
 <pre>
 event: {
-title: "USC Tommy Trojan",
-localist_url: "http://calendar.usc.edu/event/usc_tommy_trojan",
-location_name: "Student Union (STU)",
-ticket_url: "http://eventbrite.com/",
-venue_url: ""
+	title: "USC Tommy Trojan",
+	localist_url: "https://calendar.usc.edu/event/usc_tommy_trojan",
+	location_name: "Student Union (STU)",
+	ticket_url: "https://eventbrite.com/",
+	venue_url: ""
 }
 </pre>
 
@@ -108,9 +108,9 @@ echo esc_html__(
 <?php
 echo esc_html__(
 	'
-	<a href="http://calendar.usc.edu/event/usc_tommy_trojan" data-link="localist_url" data-field="title">USC Tommy Trojan</a>
-	<a class="event-map" href="http://web-app.usc.edu/maps/?b=STU" data-link="map" data-field="location_name">Student Union (STU)</a>
-	<a class="ticket" href="http://eventbrite.com/" data-link="ticket_url">Ticket</a>
+	<a href="https://calendar.usc.edu/event/usc_tommy_trojan" data-link="localist_url" data-field="title">USC Tommy Trojan</a>
+	<a class="event-map" href="https://web-app.usc.edu/maps/?b=STU" data-link="map" data-field="location_name">Student Union (STU)</a>
+	<a class="ticket" href="https://eventbrite.com/" data-link="ticket_url">Ticket</a>
 	<span class="ticket" data-link="venue_url" data-field="location_name">Student Union (STU)</span>
 	'
 );
