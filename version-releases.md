@@ -6,6 +6,7 @@ USC Localist for WordPress
 
 - Localist Calendar Widget:
   - Runs shortcode option through text area.
+- `data-field` allow simple array output as comma delimited string.
 
 
 __Bug:__
