@@ -60,7 +60,7 @@
 			<td>string</td>
 			<td></td>
 			<td>false</td>
-			<td>Enter the link to the events detail page. Global setting available in the <a href="<?php echo esc_url( admin_url( 'customize.php' ) );?>">Customizer</a> options. Please see <code>is_events_page</code>.</td>
+			<td>Enter the link to the events detail page. Global setting available in the <a href="<?php echo esc_url( add_query_arg( array( 'autofocus[control]' => 'usc_lfwp_events_detail_page' ), admin_url( 'customize.php' ) ) ); ?>">Customizer</a> options. Please see <code>is_events_page</code>.</td>
 		</tr>
 		<tr>
 			<td><code>is_events_page</code></td>

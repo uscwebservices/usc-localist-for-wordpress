@@ -170,20 +170,20 @@ event: {
 <?php
 echo esc_html__(
 	'
-	<!-- 1 -->
-	<div class="event-dates" data-date-type="date"></div>
+<!-- 1 -->
+<div class="event-dates" data-date-type="date"></div>
 
-	<!-- 2 -->
-	<div class="event-dates" data-date-type="time" date-instance="start"></div>
+<!-- 2 -->
+<div class="event-dates" data-date-type="time" date-instance="start"></div>
 
-	<!-- 3 -->
-	<div class="event-dates" data-date-type="time" date-instance="end">
+<!-- 3 -->
+<div class="event-dates" data-date-type="time" date-instance="end">
 
-	<!-- 4 -->
-	<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
+<!-- 4 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
 
-	<!-- 5 -->
-	<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-separator-date-time=" beginning at " data-separator-date-time-multiple=" starting at " data-separator-time=" until "></div>
+<!-- 5 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-separator-date-time=" beginning at " data-separator-date-time-multiple=" starting at " data-separator-time=" until "></div>
 	'
 );
 ?>
@@ -195,32 +195,32 @@ echo esc_html__(
 <?php
 echo esc_html__(
 	'
-	<!-- 1 -->
-	<div class="event-dates" data-date-type="date">
+<!-- 1 -->
+<div class="event-dates" data-date-type="date">
 	<time class="event-date-start" datetime="2020-03-08T10:45:00-08:00">03/08/2020</time>
 	<time class="event-date-start" datetime="2020-03-22T10:45:00-07:00">03/22/2020</time>
 	<time class="event-date-start" datetime="2020-03-29T10:45:00-07:00">03/29/2020</time>
 	<time class="event-date-start" datetime="2020-04-05T10:45:00-07:00">04/05/2020</time>
-	</div>
+</div>
 
-	<!-- 2 -->
-	<div class="event-dates" data-date-type="time" date-instance="start">
+<!-- 2 -->
+<div class="event-dates" data-date-type="time" date-instance="start">
 	<time class="event-time-start">11:45 am</time>
 	<time class="event-time-start">10:45 am</time>
 	<time class="event-time-start">10:45 am</time>
 	<time class="event-time-start">10:45 am</time>
-	</div>
+</div>
 
-	<!-- 3 -->
-	<div class="event-dates" data-date-type="time" date-instance="end">
+<!-- 3 -->
+<div class="event-dates" data-date-type="time" date-instance="end">
 	<time class="event-time-start">11:45 am</time>
 	<time class="event-time-start">10:45 am</time>
 	<time class="event-time-start">10:45 am</time>
 	<time class="event-time-start">10:45 am</time>
-	</div>
+</div>
 
-	<!-- 4 -->
-	<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>">
+<!-- 4 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>">
 	<time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
 		<span class="event-date-start">Sunday, March 8th, 2020</span>
 		<span class="event-separator-datetime"> at </span>
@@ -248,10 +248,10 @@ echo esc_html__(
 		<span class="event-separator-time"> to </span>
 		<span class="event-time-end">12:45 pm</span>
 	</time>
-	</div>
+</div>
 
-	<!-- 5 -->
-	<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-separator-date-time=" beginning at " data-separator-date-time-multiple=" starting at " data-separator-time=" until ">
+<!-- 5 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-separator-date-time=" beginning at " data-separator-date-time-multiple=" starting at " data-separator-time=" until ">
 	<time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
 		<span class="event-date-start">Sunday, March 8th, 2020</span>
 		<span class="event-separator-datetime"> beginning at </span>
@@ -279,7 +279,7 @@ echo esc_html__(
 		<span class="event-separator-time"> until </span>
 		<span class="event-time-end">12:45 pm</span>
 	</time>
-	</div>
+</div>
 	')
 ?>
 </pre>
