@@ -8,39 +8,55 @@ USC Localist for WordPress
   - Runs shortcode option through text area.
 
 
+__Bug:__
+
+- HTTPS link updates.
+
+
 ## 1.3.1
 
-- Bug fix: transient name build on subsequent pages and individual event ID.
+- __Bug:__
+
+  - Transient name build on subsequent pages and individual event ID.
 
 
 ## 1.3.0
 
-- Bug fixes
-	- Transient cache string reduced in length to prevent timeout value from being dropped and storing never expiring transient values.
-	- Template path to external URL support with fallback to defaults if response code is 300 or greater.
 - WordPress Coding Standards applied (Note: some cyclomatic complexity reductions still needed).
 - Remove errant option for `datetime-start-end` as option to `data-date-instance` under `dates` section in instructions.
 - If custom template post type is not found, an error message is displayed.
 - Tabbed navigation for instructions settings page.
 
+__Bug:__
+
+	- Transient cache string reduced in length to prevent timeout value from being dropped and storing never expiring transient values.
+	- Template path to external URL support with fallback to defaults if response code is 300 or greater.
+
 
 ## 1.2.2
 
-- Bug: fix for template output error
+- __Bug:__
+
+  - Fix for template output error
 
 
 ## 1.2.1
 
 - Added data-separator-date-time-multiple separator for start/end with data-separator-date-time for start
-- Bug: 'page' shortcode parameter now sets api to that page but allows override with pagination
-- Bug: fix for checking geo variables enclosures
+
+__Bug:__
+
+  - 'page' shortcode parameter now sets api to that page but allows override with pagination
+  - Fix for checking geo variables enclosures
 
 
 ## 1.2.0
 
 - add span tag classes around template items with separators, date, time and datetime-start-end options
 - add date range separator template option with 'data-separator-range': default ' - '
-- bugfix for null end time output
+
+__Bug:__
+  - Fix for null end time output
 
 
 ## 1.1.8
@@ -93,7 +109,9 @@ USC Localist for WordPress
 
 ## 1.0.2
 
-- Bug: Deactivation bug fix.
+__Bug:__
+
+  - Deactivation bug fix.
 
 ## 1.0.1
 

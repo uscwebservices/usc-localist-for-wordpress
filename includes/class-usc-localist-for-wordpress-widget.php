@@ -69,6 +69,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Widget' ) ) {
 			$shortcode = ! empty( $instance['shortcode'] ) ? $instance['shortcode'] : esc_html__( 'Enter shortcode', 'usc-localist-for-wordpress' );
 			?>
 			<p>
+				<a href="<?php echo esc_url( admin_url( 'options-general.php?page=usc-localist-for-wordpress-admin' ) );?>"><?php esc_html_e( 'See instructions for use', 'usc-localist-for-wordpress' ); ?></a>
+			</p>
+			<p>
 				<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'usc-localist-for-wordpress' ); ?></label>
 				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 			</p>

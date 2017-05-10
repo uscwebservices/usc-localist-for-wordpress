@@ -11,7 +11,7 @@
 
 <h3 id="templates-links-event-details-page">Event Details Page</h3>
 
-<p>This plugin uses the WordPress <a href="/wp-admin/customize.php">Customizer</a> to set global calendar settings for the Events Details Page, which can be overriden in the shortcode.</p>
+<p>This plugin uses the WordPress <a href="<?php echo esc_url( add_query_arg( array( 'autofocus[control]' => 'usc_lfwp_events_detail_page' ), admin_url( 'customize.php' ) ) ); ?>">Customizer</a> to set global calendar settings for the Events Details Page, which can be overriden in the shortcode.</p>
 
 <h4 id="templates-links-event-details-page-separate">Separate Event Details Page</h4>
 
@@ -78,11 +78,11 @@
 
 <pre>
 event: {
-title: "USC Tommy Trojan",
-localist_url: "http://calendar.usc.edu/event/usc_tommy_trojan",
-location_name: "Student Union (STU)",
-ticket_url: "http://eventbrite.com/",
-venue_url: ""
+	title: "USC Tommy Trojan",
+	localist_url: "https://calendar.usc.edu/event/usc_tommy_trojan",
+	location_name: "Student Union (STU)",
+	ticket_url: "https://eventbrite.com/",
+	venue_url: ""
 }
 </pre>
 
@@ -92,10 +92,10 @@ venue_url: ""
 <?php
 echo esc_html__(
 	'
-	<a href="" data-link="localist_url" data-field="title"></a>
-	<a class="event-map" href="" data-link="map" data-field="location_name"></a>
-	<a class="ticket" href="" data-link="ticket_url">Ticket</a>
-	<a class="ticket" href="" data-link="venue_url" data-field="location_name"></a>
+<a href="" data-link="localist_url" data-field="title"></a>
+<a class="event-map" href="" data-link="map" data-field="location_name"></a>
+<a class="ticket" href="" data-link="ticket_url">Ticket</a>
+<a class="ticket" href="" data-link="venue_url" data-field="location_name"></a>
 	'
 );
 
@@ -108,10 +108,10 @@ echo esc_html__(
 <?php
 echo esc_html__(
 	'
-	<a href="http://calendar.usc.edu/event/usc_tommy_trojan" data-link="localist_url" data-field="title">USC Tommy Trojan</a>
-	<a class="event-map" href="http://web-app.usc.edu/maps/?b=STU" data-link="map" data-field="location_name">Student Union (STU)</a>
-	<a class="ticket" href="http://eventbrite.com/" data-link="ticket_url">Ticket</a>
-	<span class="ticket" data-link="venue_url" data-field="location_name">Student Union (STU)</span>
+<a href="https://calendar.usc.edu/event/usc_tommy_trojan" data-link="localist_url" data-field="title">USC Tommy Trojan</a>
+<a class="event-map" href="https://web-app.usc.edu/maps/?b=STU" data-link="map" data-field="location_name">Student Union (STU)</a>
+<a class="ticket" href="https://eventbrite.com/" data-link="ticket_url">Ticket</a>
+<span class="ticket" data-link="venue_url" data-field="location_name">Student Union (STU)</span>
 	'
 );
 ?>

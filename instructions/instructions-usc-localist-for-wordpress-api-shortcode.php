@@ -12,9 +12,9 @@
 
 <p>This is a WordPress Plugin that uses the shortcode <code>[localist-calendar]</code> to get events from the <a href="https://calendar.usc.edu">USC Calendar</a>.</p>
 
-<p>Below are the attributes available from the Localist API. Please reference the <a href="http://www.localist.com/doc/api">Localist API Documents</a> for full documentation of currently supported options.</p>
+<p>Below are the attributes available from the Localist API. Please reference the <a href="https://www.localist.com/doc/api">Localist API Documents</a> for full documentation of currently supported options.</p>
 
-<p><a class="button button-primary" href="http://www.localist.com/doc/api">See Localist API Documents</a></p>
+<p><a class="button button-primary" href="https://www.localist.com/doc/api">See Localist API Documents</a></p>
 
 <table class="widefat">
 	<thead>

@@ -10,7 +10,7 @@
 ?>
 <h3 id="settings-bookmark-custom-shortcode-api-options">Custom Shortcode API options</h3>
 
-<p>In addition to the attributes from the <a href="http://www.localist.com/doc/api">Localist API</a>, the following custom attributes can be used.</p>
+<p>In addition to the attributes from the <a href="https://www.localist.com/doc/api">Localist API</a>, the following custom attributes can be used.</p>
 
 <table class="widefat">
 	<thead>
@@ -60,7 +60,7 @@
 			<td>string</td>
 			<td></td>
 			<td>false</td>
-			<td>Enter the link to the events detail page. Global setting available in the <a href="#settings-bookmark-customizer">Customizer</a> options. Please see <code>is_events_page</code>.</td>
+			<td>Enter the link to the events detail page. Global setting available in the <a href="<?php echo esc_url( add_query_arg( array( 'autofocus[control]' => 'usc_lfwp_events_detail_page' ), admin_url( 'customize.php' ) ) ); ?>">Customizer</a> options. Please see <code>is_events_page</code>.</td>
 		</tr>
 		<tr>
 			<td><code>is_events_page</code></td>
@@ -116,7 +116,7 @@
 			<td>
 				<code>events-list.html</code>
 			</td>
-			<td>The <code>slug</code> of the post type <a href="edit.php?post_type=event-template">Event Templates</a> to use for the structure of the returned API data for a list of events.  Defaults to <a href="#settings-bookmark-templates-samples-multiple">list view</a>.</td>
+			<td>The <code>slug</code> of the post type <a href="<?php esc_url( admin_url( 'edit.php?post_type=event-template' ) );?>">Event Templates</a> to use for the structure of the returned API data for a list of events.  Defaults to <a href="<?php echo esc_url( admin_url( 'options-general.php?page=usc-localist-for-wordpress-admin&tab=templates#templates-samples-multiple' ) );?>">list view</a>.</td>
 		</tr>
 		<tr>
 			<td><code>template_single</code></td>
@@ -125,7 +125,7 @@
 			<td>
 				<code>events-single.html</code>
 			</td>
-			<td>Enter the <code>slug</code> of the post type <a href="edit.php?post_type=event-template">Event Templates</a> to use for the structure of the returned API data for a single event.  Defaults to <a href="#settings-bookmark-templates-samples-single">single view</a>.</td>
+			<td>Enter the <code>slug</code> of the post type <a href="<?php esc_url( admin_url( 'edit.php?post_type=event-template' ) );?>">Event Templates</a> to use for the structure of the returned API data for a single event.  Defaults to <a href="<?php echo esc_url( admin_url( 'options-general.php?page=usc-localist-for-wordpress-admin&tab=templates#templates-samples-single' ) );?>">single view</a>.</td>
 		</tr>
 		<tr>
 			<td><code>message_no_events</code></td>

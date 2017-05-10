@@ -11,7 +11,7 @@
 
 <h3 id="dates-range">Dates Range</h3>
 
-<p>This plugin uses the WordPress <a href="/wp-admin/customize.php">Customizer</a> to set global calendar settings for the Dates Range, which can be overriden in the shortcode.</p>
+<p>This plugin uses the WordPress <a href="<?php echo esc_url( admin_url( 'customize.php' ) );?>">Customizer</a> to set global calendar settings for the Dates Range, which can be overriden in the shortcode.</p>
 
 <p>In the Customizer under the section <strong>Localist Calendar Options</strong>, choose an option from the <strong>Dates Range</strong> radio buttons.</p>
 
@@ -85,14 +85,14 @@
 			<td>string</td>
 			<td></td>
 			<td><code>g:i a</code></td>
-			<td>Set the time output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
+			<td>Set the time output format using <a href="https://php.net/manual/function.date.php">PHP Date</a>.</td>
 		</tr>
 		<tr>
 			<td><code>data-format-date</code></td>
 			<td>string</td>
 			<td></td>
 			<td><code>m/d/Y</code></td>
-			<td>Set the date output format using <a href="http://php.net/manual/function.date.php">PHP Date</a>.</td>
+			<td>Set the date output format using <a href="https://php.net/manual/function.date.php">PHP Date</a>.</td>
 		</tr>
 		<tr>
 			<td><code>data-separator-range</code></td>
@@ -136,32 +136,32 @@
 
 <pre>
 event: {
-first_date: "2020-02-02",
-last_date: "2020-04-05",
-event_instances: [
-	{
-		event_instance: {
-			start: "2020-03-08T10:45:00-08:00",
+	first_date: "2020-02-02",
+	last_date: "2020-04-05",
+	event_instances: [
+		{
+			event_instance: {
+				start: "2020-03-08T10:45:00-08:00",
+			}
+		},
+		{
+			event_instance: {
+				start: "2020-03-22T10:45:00-07:00",
+			}
+		},
+		{
+			event_instance: {
+				start: "2020-03-29T10:45:00-07:00",
+				end: "2020-03-29T12:45:00-07:00"
+			}
+		},
+		{
+			event_instance: {
+				start: "2020-04-05T10:45:00-07:00",
+				end: "2020-04-05T12:45:00-07:00"
+			}
 		}
-	},
-	{
-		event_instance: {
-			start: "2020-03-22T10:45:00-07:00",
-		}
-	},
-	{
-		event_instance: {
-			start: "2020-03-29T10:45:00-07:00",
-			end: "2020-03-29T12:45:00-07:00"
-		}
-	},
-	{
-		event_instance: {
-			start: "2020-04-05T10:45:00-07:00",
-			end: "2020-04-05T12:45:00-07:00"
-		}
-	}
-]
+	]
 }
 </pre>
 
@@ -170,20 +170,20 @@ event_instances: [
 <?php
 echo esc_html__(
 	'
-	<!-- 1 -->
-	<div class="event-dates" data-date-type="date"></div>
+<!-- 1 -->
+<div class="event-dates" data-date-type="date"></div>
 
-	<!-- 2 -->
-	<div class="event-dates" data-date-type="time" date-instance="start"></div>
+<!-- 2 -->
+<div class="event-dates" data-date-type="time" date-instance="start"></div>
 
-	<!-- 3 -->
-	<div class="event-dates" data-date-type="time" date-instance="end">
+<!-- 3 -->
+<div class="event-dates" data-date-type="time" date-instance="end">
 
-	<!-- 4 -->
-	<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
+<!-- 4 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>"></div>
 
-	<!-- 5 -->
-	<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-separator-date-time=" beginning at " data-separator-date-time-multiple=" starting at " data-separator-time=" until "></div>
+<!-- 5 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-separator-date-time=" beginning at " data-separator-date-time-multiple=" starting at " data-separator-time=" until "></div>
 	'
 );
 ?>
@@ -195,32 +195,32 @@ echo esc_html__(
 <?php
 echo esc_html__(
 	'
-	<!-- 1 -->
-	<div class="event-dates" data-date-type="date">
+<!-- 1 -->
+<div class="event-dates" data-date-type="date">
 	<time class="event-date-start" datetime="2020-03-08T10:45:00-08:00">03/08/2020</time>
 	<time class="event-date-start" datetime="2020-03-22T10:45:00-07:00">03/22/2020</time>
 	<time class="event-date-start" datetime="2020-03-29T10:45:00-07:00">03/29/2020</time>
 	<time class="event-date-start" datetime="2020-04-05T10:45:00-07:00">04/05/2020</time>
-	</div>
+</div>
 
-	<!-- 2 -->
-	<div class="event-dates" data-date-type="time" date-instance="start">
+<!-- 2 -->
+<div class="event-dates" data-date-type="time" date-instance="start">
 	<time class="event-time-start">11:45 am</time>
 	<time class="event-time-start">10:45 am</time>
 	<time class="event-time-start">10:45 am</time>
 	<time class="event-time-start">10:45 am</time>
-	</div>
+</div>
 
-	<!-- 3 -->
-	<div class="event-dates" data-date-type="time" date-instance="end">
+<!-- 3 -->
+<div class="event-dates" data-date-type="time" date-instance="end">
 	<time class="event-time-start">11:45 am</time>
 	<time class="event-time-start">10:45 am</time>
 	<time class="event-time-start">10:45 am</time>
 	<time class="event-time-start">10:45 am</time>
-	</div>
+</div>
 
-	<!-- 4 -->
-	<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>">
+<!-- 4 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>">
 	<time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
 		<span class="event-date-start">Sunday, March 8th, 2020</span>
 		<span class="event-separator-datetime"> at </span>
@@ -248,10 +248,10 @@ echo esc_html__(
 		<span class="event-separator-time"> to </span>
 		<span class="event-time-end">12:45 pm</span>
 	</time>
-	</div>
+</div>
 
-	<!-- 5 -->
-	<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-separator-date-time=" beginning at " data-separator-date-time-multiple=" starting at " data-separator-time=" until ">
+<!-- 5 -->
+<div class="event-dates" data-date-type="datetime-start-end" data-format-date="l, F jS, Y" data-separator="<br>" data-separator-date-time=" beginning at " data-separator-date-time-multiple=" starting at " data-separator-time=" until ">
 	<time class="event-datetime-start-end" datetime="2020-03-08T10:45:00-08:00">
 		<span class="event-date-start">Sunday, March 8th, 2020</span>
 		<span class="event-separator-datetime"> beginning at </span>
@@ -279,7 +279,7 @@ echo esc_html__(
 		<span class="event-separator-time"> until </span>
 		<span class="event-time-end">12:45 pm</span>
 	</time>
-	</div>
+</div>
 	')
 ?>
 </pre>
