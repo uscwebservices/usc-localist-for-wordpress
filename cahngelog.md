@@ -2,6 +2,15 @@ USC Localist for WordPress
 ==========================
 
 
+## 1.4.1
+
+- Version Releases changed to `changelog.md`.
+
+__Bug:__
+
+- Pagination bug setting values to `intval` for comparison check.
+
+
 ## 1.4.0
 
 - Localist Calendar Widget:
@@ -16,7 +25,7 @@ __Bug:__
 
 ## 1.3.1
 
-- __Bug:__
+__Bug:__
 
   - Transient name build on subsequent pages and individual event ID.
 
