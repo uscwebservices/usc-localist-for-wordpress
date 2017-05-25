@@ -85,11 +85,11 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Paginate' ) ) {
 
 				// Get current and total pages.
 				$page_uri = get_page_uri( $post_id );
-				$page_total = $api_data['api']['data']['page']['total'];
-				$page_current = $api_data['api']['page_current'];
+				$page_total = intval( $api_data['api']['data']['page']['total'] );
+				$page_current = intval( $api_data['api']['page_current'] );
 
 				// Check for first and last pages out of total available.
-				$is_last_page = ( intval( $page_total ) === $page_current ) ? true : false;
+				$is_last_page = ( $page_total === $page_current ) ? true : false;
 				$is_first_page = ( 1 === $page_current ) ? true : false;
 
 				// Add 'first' label to event pages that are not the first and have a label set.
