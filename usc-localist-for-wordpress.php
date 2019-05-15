@@ -10,7 +10,7 @@
  * Plugin Name:       USC Localist for WordPress
  * Plugin URI:        https://github.com/uscwebservices/usc-localist-for-wordpress
  * Description:       Localist API Shortcodes for WordPress
- * Version:           1.4.1
+ * Version:           1.4.2
  * Author:            USC Web Services
  * Author URI:        https://itservices.usc.edu/webservices/
  * License:           MIT
@@ -20,7 +20,7 @@
  */
 
 // Block direct requests.
-defined( 'ABSPATH' ) or die( 'sorry, no tampering' );
+defined( 'ABSPATH' ) || die( 'sorry, no tampering' );
 
 // Match the Plugin version.
 define( 'USC_LFWP__VERSION', '1.4.0' );
@@ -37,7 +37,7 @@ date_default_timezone_set( 'America/Los_Angeles' );
  */
 function activate_usc_localist_for_wordpress() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-usc-localist-for-wordpress-activator.php';
-	$plugin = new USC_Localist_For_Wordpress_Activator;
+	$plugin = new USC_Localist_For_Wordpress_Activator();
 	$plugin->activate();
 }
 
@@ -50,7 +50,7 @@ register_activation_hook( __FILE__, 'activate_usc_localist_for_wordpress' );
  */
 function deactivate_usc_localist_for_wordpress() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-usc-localist-for-wordpress-deactivator.php';
-	$plugin = new USC_Localist_For_Wordpress_Deactivator;
+	$plugin = new USC_Localist_For_Wordpress_Deactivator();
 	$plugin->deactivate();
 }
 
