@@ -1,6 +1,11 @@
 USC Localist for WordPress
 ==========================
 
+## 1.4.2
+
+__Bug:__
+
+- Simple HTML DOM upgraded to version 1.8.1 which fixes template error in PHP 7.2
 
 ## 1.4.1
 
@@ -9,7 +14,6 @@ USC Localist for WordPress
 __Bug:__
 
 - Pagination bug setting values to `intval` for comparison check.
-
 
 ## 1.4.0
 
@@ -22,13 +26,11 @@ __Bug:__
 
 - HTTPS link updates.
 
-
 ## 1.3.1
 
 __Bug:__
 
-  - Transient name build on subsequent pages and individual event ID.
-
+- Transient name build on subsequent pages and individual event ID.
 
 ## 1.3.0
 
