@@ -1,15 +1,15 @@
 {
-  "name": "uscwebservices/usc-localist-for-wordpress",
-  "description": "WordPress Plugin that uses a short code to get events from calendar.usc.edu",
-  "type": "wordpress-plugin",
-  "require": {
-    "composer/installers": "^1.0"
-  },
-  "license": "GPL-3.0+",
-  "authors": [
-    {
-      "name": "Jason Cauwels",
-      "email": "cauwels@usc.edu"
-    }
-  ]
+	"name": "uscwebservices/usc-localist-for-wordpress",
+	"description": "WordPress Plugin that uses a short code to get events from calendar.usc.edu",
+	"type": "wordpress-plugin",
+	"require": {
+		"composer/installers": "^1.0"
+	},
+	"license": "GPL-3.0+",
+	"authors": [
+		{
+			"name": "Jason Cauwels",
+			"email": "cauwels@usc.edu"
+		}
+	]
 }
