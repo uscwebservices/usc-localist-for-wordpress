@@ -1,6 +1,11 @@
 USC Localist for WordPress
 ==========================
 
+
+## 1.4.3
+
+- Add composer support.
+
 ## 1.4.2
 
 __Bug:__
