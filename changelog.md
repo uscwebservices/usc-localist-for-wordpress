@@ -1,6 +1,11 @@
 USC Localist for WordPress
 ==========================
 
+## 1.4.4
+
+__Bug:__
+
+- Remove `date_default_timezone_set` for WP 5.3~
 
 ## 1.4.3
 
