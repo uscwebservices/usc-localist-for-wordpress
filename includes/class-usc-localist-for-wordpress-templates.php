@@ -229,7 +229,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Templates' ) ) {
 					foreach ( $event_instances as $event_instance ) {
 
 						// New date class object.
-						$date_functions = new USC_Localist_For_Wordpress_Dates;
+						$date_functions = new USC_Localist_For_WordPress_Dates;
 						$date_output = $date_functions->date_as_html( $event_instance, $options );
 
 						if ( $date_output ) {
