@@ -596,7 +596,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_API' ) ) {
 				if ( in_array( $key, $date_array, true ) ) {
 
 					// Set a new date object for this $key.
-					$date = new USC_Localist_For_Wordpress_Dates;
+					$date = new USC_Localist_For_WordPress_Dates;
 
 					// Else fix the date format.
 					return $date->fix_date( $value );

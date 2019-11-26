@@ -1,11 +1,18 @@
 USC Localist for WordPress
 ==========================
 
+## 1.4.5
+
+- Class updates for proper `WordPress` naming.
+- Imporoved date/time handling for timezone support.
+  - Make references to `date_fix` method.
+  - Add `set_PST` method to convert all date/time to `America/Los_Angeles`
+
 ## 1.4.4
 
 __Bug:__
 
-- Remove `date_default_timezone_set` for WP 5.3~
+- Remove `date_default_timezone_set` for WP 5.3
 
 ## 1.4.3
 
