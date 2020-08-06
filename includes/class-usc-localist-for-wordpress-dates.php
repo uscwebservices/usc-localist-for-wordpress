@@ -7,7 +7,7 @@
  * @author     USC Web Services <webhelp@usc.edu>
  */
 
-if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
+if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 
 	/**
 	 * Class: USC Localist for WordPress Dates
@@ -16,7 +16,7 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 	 *
 	 * @since 		1.0.0
 	 */
-	class USC_Localist_For_Wordpress_Dates {
+	class USC_Localist_For_WordPress_Dates {
 
 		/**
 		 * Error message array.
@@ -60,6 +60,15 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		}
 
 		/**
+		 * Set timezone to PST
+		 *
+		 * @return object DateTimeZone set to PST
+		 */
+		public function set_PST() {
+			return new DateTimeZone( 'America/Los_Angeles' );
+		}
+
+		/**
 		 * Change a valid date format to a specified format.
 		 *
 		 * @param 	string $date 	Valid date.
@@ -68,8 +77,8 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 		 */
 		public function fix_date( $date, $format = 'Y-m-d' ) {
 
-			// Change the $date to $format and return.
-			$date_format = date( $format, strtotime( $date ) );
+			// Change the $date to $format with PST timezone and return.
+			$date_format = wp_date( $format, strtotime( $date ), $this->set_PST() );
 			return $date_format;
 
 		}
@@ -123,16 +132,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 			$has_end_date = false;
 
 			// Set option defaults if not passed.
-			$date_type = isset( $options['date_type'] ) ? $options['date_type'] : 'date';
-			$date_instance = isset( $options['date_instance'] ) ? $options['date_instance'] : 'start';
-			$format_date = isset( $options['format_date'] ) ? $options['format_date'] : $config['default']['format_date'];
-			$format_time = isset( $options['format_time'] ) ? $options['format_time'] : $config['default']['format_time'];
+			$date_type            = isset( $options['date_type'] ) ? $options['date_type'] : 'date';
+			$date_instance        = isset( $options['date_instance'] ) ? $options['date_instance'] : 'start';
+			$format_date          = isset( $options['format_date'] ) ? $options['format_date'] : $config['default']['format_date'];
+			$format_time          = isset( $options['format_time'] ) ? $options['format_time'] : $config['default']['format_time'];
 			$sep_date_time_single = isset( $options['separator_date_time_single'] ) ? $options['separator_date_time_single'] : $config['default']['separator']['date_time_single'];
-			$sep_date_time_multi = isset( $options['separator_date_time_multiple'] ) ? $options['separator_date_time_multiple'] : $config['default']['separator']['date_time_multiple'];
-			$separator_time = isset( $options['separator_time'] ) ? $options['separator_time'] : $config['default']['separator']['time'];
+			$sep_date_time_multi  = isset( $options['separator_date_time_multiple'] ) ? $options['separator_date_time_multiple'] : $config['default']['separator']['date_time_multiple'];
+			$separator_time       = isset( $options['separator_time'] ) ? $options['separator_time'] : $config['default']['separator']['time'];
 
 			// Convert the string to a date.
-			$converted_date = strtotime( $event_instance[ $date_instance ] );
+			$converted_date = $this->fix_date( $event_instance[ $date_instance ], $format_date );
+
+			// Convert the string to a time.
+			$converted_time = $this->fix_date( $event_instance[ $date_instance ], $format_time );
 
 			// Check for single events.
 			if ( 'event' === $options['api']['type'] ) {
@@ -214,15 +226,13 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 
 					case 'date':
 
-						$date = date( $format_date, $converted_date );
-						return '<time class="event-' . $date_type . '-' . $date_instance . '" datetime="' . $event_instance[ $date_instance ] . '">' . $date . '</time>';
+						return '<time class="event-' . $date_type . '-' . $date_instance . '" datetime="' . $event_instance[ $date_instance ] . '">' . $converted_date . '</time>';
 
 						break;
 
 					case 'time':
 
-						$time = date( $format_time, $converted_date );
-						return '<time class="event-' . $date_type . '-' . $date_instance . '">' . $time . '</time>';
+						return '<time class="event-' . $date_type . '-' . $date_instance . '">' . $converted_time . '</time>';
 
 						break;
 
@@ -231,22 +241,19 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						// Default output options.
 						$time_end_output = '';
 
-						// Convert date to date format.
-						$date = date( $format_date, $converted_date );
-
 						// Convert start time to time format.
-						$time_start = date( $format_time, strtotime( $event_instance['start'] ) );
+						$time_start = $this->fix_date( $event_instance['start'], $format_time );
 
 						// Check if there is an end time.
 						if ( isset( $event_instance['end'] ) ) {
 
-							$time_end_format = date( $format_time, strtotime( $event_instance['end'] ) );
+							$time_end_format = $this->fix_date( $event_instance['end'], $format_time );
 							$time_end_output = $sep_time_output . '<span class="event-time-end">' . $time_end_format . '</span>';
 
 						}
 
 						return '<time class="event-' . $date_type . '" datetime="' . $event_instance[ $date_instance ] . '">'
-							. '<span class="event-date-start">' . $date . '</span>'
+							. '<span class="event-date-start">' . $converted_date . '</span>'
 							. $sep_date_time_output
 							. '<span class="event-time-start">' . $time_start . '</span>'
 							. $time_end_output
@@ -263,9 +270,9 @@ if ( ! class_exists( 'USC_Localist_For_Wordpress_Dates' ) ) {
 						$time = date( $format_time, $converted_date );
 
 						return '<time class="event-' . $date_type . '-' . $date_instance . '" datetime="' . $event_instance[ $date_instance ] . '">'
-							. '<span class="event-date">' . $date . '</span>'
+							. '<span class="event-date">' . $converted_date . '</span>'
 							. $sep_date_time_output
-							. '<span class="event-time">' . $time . '</span>'
+							. '<span class="event-time">' . $converted_time . '</span>'
 							. '</time>';
 
 						break;
