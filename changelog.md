@@ -1,6 +1,13 @@
 USC Localist for WordPress
 ==========================
 
+## 1.4.6
+
+- Changes for Class `USC_Localist_For_WordPress_Dates`
+    - allow UTC format for `fix_date` method
+    - deprecate `set_PST()` method
+- Use `utc` for API call
+
 ## 1.4.5
 
 - Class updates for proper `WordPress` naming.
