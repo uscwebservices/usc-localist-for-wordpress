@@ -80,7 +80,7 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 		 * @return 	string 			Date in specified $format.
 		 */
 		public function fix_date( $date, $utc = false, $format = 'Y-m-d' ) {
-			$format = 'Y-m-d G:i a';
+
 			// Change the $date to $format with timezone set in admin and return.
 			$date_format = wp_date( $format, strtotime( $date ) ); // works events only
 
