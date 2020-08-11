@@ -62,7 +62,8 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 		/**
 		 * Set timezone to PST
 		 *
-		 * @return object DateTimeZone set to PST
+		 * @deprecated		1.4.6
+		 * @return object 	DateTimeZone set to PST
 		 */
 		public function set_PST() {
 			return new DateTimeZone( 'America/Los_Angeles' );
@@ -71,14 +72,22 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 		/**
 		 * Change a valid date format to a specified format.
 		 *
+		 * @since 	1.0.0
+		 * @since 	1.4.6 			Removed PST specific and added UTC option
 		 * @param 	string $date 	Valid date.
+		 * @param	bool   $utc 	Set date to UTC or not
 		 * @param 	string $format 	Format which to change the date.
 		 * @return 	string 			Date in specified $format.
 		 */
-		public function fix_date( $date, $format = 'Y-m-d' ) {
+		public function fix_date( $date, $utc = false, $format = 'Y-m-d' ) {
 
-			// Change the $date to $format with PST timezone and return.
-			$date_format = wp_date( $format, strtotime( $date ), $this->set_PST() );
+			// Change the $date to $format with timezone set in admin and return.
+			$date_format = wp_date( $format, strtotime( $date ) ); // works events only
+
+			// Sometimes we need UTC time, like calling the API we don't want a conversion of 'today' to be a different date.
+			if ( true === $utc ) {
+				$date_format = wp_date( $format, strtotime( $date ), 'UTC' );
+			}
 			return $date_format;
 
 		}
@@ -141,10 +150,10 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 			$separator_time       = isset( $options['separator_time'] ) ? $options['separator_time'] : $config['default']['separator']['time'];
 
 			// Convert the string to a date.
-			$converted_date = $this->fix_date( $event_instance[ $date_instance ], $format_date );
+			$converted_date = $this->fix_date( $event_instance[ $date_instance ], false, $format_date );
 
 			// Convert the string to a time.
-			$converted_time = $this->fix_date( $event_instance[ $date_instance ], $format_time );
+			$converted_time = $this->fix_date( $event_instance[ $date_instance ], false, $format_time );
 
 			// Check for single events.
 			if ( 'event' === $options['api']['type'] ) {
@@ -247,7 +256,7 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 						// Check if there is an end time.
 						if ( isset( $event_instance['end'] ) ) {
 
-							$time_end_format = $this->fix_date( $event_instance['end'], $format_time );
+							$time_end_format = $this->fix_date( $event_instance['end'], false, $format_time );
 							$time_end_output = $sep_time_output . '<span class="event-time-end">' . $time_end_format . '</span>';
 
 						}
