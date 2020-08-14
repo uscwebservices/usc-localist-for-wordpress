@@ -263,7 +263,7 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 						$time_end_output = '';
 
 						// Convert start time to time format.
-						$time_start = $this->fix_date( $event_instance['start'], $format_time );
+						$time_start = $this->fix_date( $event_instance['start'], false, $format_time );
 
 						// Check if there is an end time.
 						if ( isset( $event_instance['end'] ) ) {
