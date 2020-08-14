@@ -70,10 +70,21 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 		}
 
 		/**
+		 * Set timezone to UTC
+		 *
+		 * @deprecated		1.4.7
+		 * @return object 	DateTimeZone set to UTC
+		 */
+		public function set_UTC() {
+			return new DateTimeZone( 'UTC' );
+		}
+
+		/**
 		 * Change a valid date format to a specified format.
 		 *
 		 * @since 	1.0.0
-		 * @since 	1.4.6 			Removed PST specific and added UTC option
+		 * @since 	1.4.6 			Removed PST specific and added UTC option,
+		 * @since	1.4.7			Add set_UTC method for timezone as Date object.
 		 * @param 	string $date 	Valid date.
 		 * @param	bool   $utc 	Set date to UTC or not
 		 * @param 	string $format 	Format which to change the date.
@@ -86,8 +97,9 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 
 			// Sometimes we need UTC time, like calling the API we don't want a conversion of 'today' to be a different date.
 			if ( true === $utc ) {
-				$date_format = wp_date( $format, strtotime( $date ), 'UTC' );
+				$date_format = wp_date( $format, strtotime( $date ), $this->set_UTC() );
 			}
+
 			return $date_format;
 
 		}
@@ -251,7 +263,7 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 						$time_end_output = '';
 
 						// Convert start time to time format.
-						$time_start = $this->fix_date( $event_instance['start'], $format_time );
+						$time_start = $this->fix_date( $event_instance['start'], false, $format_time );
 
 						// Check if there is an end time.
 						if ( isset( $event_instance['end'] ) ) {

@@ -2,7 +2,7 @@
 	"name": "uscwebservices/usc-localist-for-wordpress",
 	"description": "WordPress Plugin that uses a short code to get events from calendar.usc.edu",
 	"type": "wordpress-plugin",
-	"version": "1.4.6",
+	"version": "1.4.7",
 	"require": {
 		"composer/installers": "^1.0"
 	},

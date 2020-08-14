@@ -1,11 +1,17 @@
-USC Localist for WordPress
-==========================
+# USC Localist for WordPress
+
+## 1.4.7
+
+__Bug:__
+
+- Added `set_UTC` method for date/time conversions as `object` and not `string`.
+- Added missing parameter to `datetime-start-end` shortcode option introduced in `1.4.6`.
 
 ## 1.4.6
 
 - Changes for Class `USC_Localist_For_WordPress_Dates`
-    - allow UTC format for `fix_date` method
-    - deprecate `set_PST()` method
+  - allow UTC format for `fix_date` method
+  - deprecate `set_PST()` method
 - Use `utc` for API call
 
 ## 1.4.5
@@ -68,13 +74,11 @@ __Bug:__
 	- Transient cache string reduced in length to prevent timeout value from being dropped and storing never expiring transient values.
 	- Template path to external URL support with fallback to defaults if response code is 300 or greater.
 
-
 ## 1.2.2
 
 - __Bug:__
 
   - Fix for template output error
-
 
 ## 1.2.1
 
@@ -82,9 +86,8 @@ __Bug:__
 
 __Bug:__
 
-  - 'page' shortcode parameter now sets api to that page but allows override with pagination
-  - Fix for checking geo variables enclosures
-
+- 'page' shortcode parameter now sets api to that page but allows override with pagination
+- Fix for checking geo variables enclosures
 
 ## 1.2.0
 
@@ -92,8 +95,8 @@ __Bug:__
 - add date range separator template option with 'data-separator-range': default ' - '
 
 __Bug:__
-  - Fix for null end time output
 
+- Fix for null end time output
 
 ## 1.1.8
 
@@ -147,7 +150,7 @@ __Bug:__
 
 __Bug:__
 
-  - Deactivation bug fix.
+- Deactivation bug fix.
 
 ## 1.0.1
 
