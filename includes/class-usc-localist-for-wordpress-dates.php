@@ -72,7 +72,7 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 		/**
 		 * Set timezone to UTC
 		 *
-		 * @deprecated		1.4.7
+		 * @since		1.4.7
 		 * @return object 	DateTimeZone set to UTC
 		 */
 		public function set_UTC() {
