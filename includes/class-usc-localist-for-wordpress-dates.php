@@ -285,10 +285,10 @@ if ( ! class_exists( 'USC_Localist_For_WordPress_Dates' ) ) {
 					default:
 
 						// Convert date to date format.
-						$date = date( $format_date, $converted_date );
+						$date = date( $format_date, strtotime( $converted_date ) );
 
 						// Convert time to time format.
-						$time = date( $format_time, $converted_date );
+						$time = date( $format_time, strtotime( $converted_date ) );
 
 						return '<time class="event-' . $date_type . '-' . $date_instance . '" datetime="' . $event_instance[ $date_instance ] . '">'
 							. '<span class="event-date">' . $converted_date . '</span>'
