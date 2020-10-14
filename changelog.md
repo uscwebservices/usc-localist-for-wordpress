@@ -1,5 +1,11 @@
 # USC Localist for WordPress
 
+## 1.4.8
+
+__Bug:__
+
+- #14: PHP bug: converted input to `int` for `date` object.
+
 ## 1.4.7
 
 __Bug:__
